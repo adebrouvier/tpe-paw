@@ -6,12 +6,42 @@ public class BracketNode {
     private BracketNode right;
     private Player player;
     private int seed;
+    private BracketNode brother;
+    private BracketNode parent;
+    private int result;
 
     public BracketNode(int seed){
         this.player = player;
         this.left = null;
         this.right=null;
         this.seed = seed;
+        this.brother = null;
+        this.parent = null;
+        this.result = -1;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    public BracketNode getBrother() {
+        return brother;
+    }
+
+    public void setBrother(BracketNode brother) {
+        this.brother = brother;
+    }
+
+    public BracketNode getParent() {
+        return parent;
+    }
+
+    public void setParent(BracketNode parent) {
+        this.parent = parent;
     }
 
     public int getSeed() {
