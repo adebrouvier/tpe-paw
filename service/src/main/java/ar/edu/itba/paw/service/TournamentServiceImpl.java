@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.interfaces.TournamentService;
+import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
