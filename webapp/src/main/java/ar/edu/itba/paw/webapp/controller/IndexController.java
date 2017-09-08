@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.TournamentService;
+import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
