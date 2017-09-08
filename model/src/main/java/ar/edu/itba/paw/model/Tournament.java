@@ -3,22 +3,21 @@ package ar.edu.itba.paw.model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class Tournament {
     private String name;
     private ArrayList<Player> players; /*If the total number is not a power of 2, it should be filled with BYES*/
-    private int id;
+    private long id;
     private BracketNode bracket;
     private int size;
     private List<BracketNode> rounds; /*This should make the tournament iteration simpler*/
 
-    public Tournament(String name, int id){
-        this.players = new ArrayList<Player>();
+    public Tournament(String name, long id){
+        this.players = new ArrayList<>();
         this.name = name;
         this.id = id;
         this.bracket = new BracketNode(0);
-        this.rounds = new LinkedList<BracketNode>();
+        this.rounds = new LinkedList<>();
     }
 
     public String getName() { return name; }
@@ -37,11 +36,11 @@ public class Tournament {
         this.players = players;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -117,4 +116,22 @@ public class Tournament {
         bracketToString(current.getRight());
     }
 
+    public boolean addPlayer(Player player){
+        return players.add(player);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tournament that = (Tournament) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }

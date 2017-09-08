@@ -1,10 +1,11 @@
 package ar.edu.itba.paw.model;
 
 public class Player {
-    private String name;
-    private int id;
 
-    public Player(String name, int id) {
+    private String name;
+    private long id;
+
+    public Player(String name, long id) {
         this.name = name;
         this.id = id;
     }
@@ -17,11 +18,26 @@ public class Player {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return id == player.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 }
