@@ -20,29 +20,17 @@ public class BracketNode {
         this.result = -1;
     }
 
-    public int getResult() {
-        return result;
-    }
+    public int getResult() { return result; }
 
-    public void setResult(int result) {
-        this.result = result;
-    }
+    public void setResult(int result) { this.result = result; }
 
-    public BracketNode getBrother() {
-        return brother;
-    }
+    public BracketNode getBrother() { return brother; }
 
-    public void setBrother(BracketNode brother) {
-        this.brother = brother;
-    }
+    public void setBrother(BracketNode brother) { this.brother = brother; }
 
-    public BracketNode getParent() {
-        return parent;
-    }
+    public BracketNode getParent() { return parent; }
 
-    public void setParent(BracketNode parent) {
-        this.parent = parent;
-    }
+    public void setParent(BracketNode parent) { this.parent = parent; }
 
     public int getSeed() {
         return seed;

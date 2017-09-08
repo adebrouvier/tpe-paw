@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args){
-        Tournament t = new Tournament();
+        Tournament t = new Tournament("test", 1);
         List<Player> players = new ArrayList<Player>();
         players.add(new Player("Ariel",1));
         players.add(new Player("Escurridizo",2));
@@ -33,12 +33,12 @@ public class Test {
         t.resolve(t.getRounds().get(8));
         t.resolve(t.getRounds().get(10));
         for(int i=players.size();i<players.size()+(players.size()/2);i++){
-            System.out.print("\t"+t.getRounds().get(i).getSeed() + " " + t.getRounds().get(i).getPlayer().getName()+ "\t\t");
+            System.out.print("\t"+t.getRounds().get(i).getResult() + " " + t.getRounds().get(i).getPlayer().getName()+ "\t\t");
         }
         System.out.println();
         System.out.println();
         for(int i=0;i<players.size();i++){
-            System.out.print(t.getRounds().get(i).getSeed() + " " + t.getRounds().get(i).getPlayer().getName()+ " ");
+            System.out.print(t.getRounds().get(i).getResult() + " " + t.getRounds().get(i).getPlayer().getName()+ " ");
             if((i+1)%2==0){
                 System.out.print("|");
             }

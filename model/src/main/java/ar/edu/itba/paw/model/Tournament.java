@@ -6,26 +6,28 @@ import java.util.List;
 import java.util.Queue;
 
 public class Tournament {
+    private String name;
     private ArrayList<Player> players; /*If the total number is not a power of 2, it should be filled with BYES*/
     private int id;
     private BracketNode bracket;
     private int size;
     private List<BracketNode> rounds; /*This should make the tournament iteration simpler*/
 
-    public Tournament(){
+    public Tournament(String name, int id){
         this.players = new ArrayList<Player>();
-        this.id = 1;
+        this.name = name;
+        this.id = id;
         this.bracket = new BracketNode(0);
         this.rounds = new LinkedList<BracketNode>();
     }
 
-    public List<BracketNode> getRounds() {
-        return rounds;
-    }
+    public String getName() { return name; }
 
-    public void setRounds(List<BracketNode> firstRound) {
-        this.rounds = firstRound;
-    }
+    public void setName(String name) { this.name = name; }
+
+    public List<BracketNode> getRounds() { return rounds; }
+
+    public void setRounds(List<BracketNode> firstRound) { this.rounds = firstRound; }
 
     public ArrayList<Player> getPlayers() {
         return players;
