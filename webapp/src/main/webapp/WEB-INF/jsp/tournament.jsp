@@ -7,5 +7,10 @@
     <body>
         <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
         <h2><spring:message code="tournament.id" arguments="${tournament.id}"/></h2>
+        <ul>
+            <c:forEach var="player" items="${tournament.players}">
+                <li><c:out value="${player}" /></li>
+            </c:forEach>
+        </ul>
     </body>
 </html>

@@ -34,10 +34,9 @@ public class PlayerServiceImpl implements PlayerService{
 
         Player player = findById(playerId);
 
-        //TODO: add model logic and persistence
-        //tournament.addPlayer(player);
+        tournament.addPlayer(player);
 
-        return false;
+        return playerDao.addToTournament(playerId,tournamentId);
     }
 
 

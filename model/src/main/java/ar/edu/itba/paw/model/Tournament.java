@@ -120,6 +120,10 @@ public class Tournament {
         return players.add(player);
     }
 
+    public boolean addPlayer(List<Player> players){
+        return this.players.addAll(players);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

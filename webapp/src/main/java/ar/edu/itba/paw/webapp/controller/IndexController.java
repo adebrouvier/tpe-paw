@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class IndexController {
 
     @Autowired
     private TournamentService ts;
+
+    @Autowired
+    private PlayerService ps;
 
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form) {
@@ -27,7 +34,7 @@ public class IndexController {
     }
 
     @RequestMapping("/tournament/{tournamentId}")
-    public ModelAndView greeting(@PathVariable long tournamentId){
+    public ModelAndView tournament(@PathVariable long tournamentId){
         final ModelAndView mav = new ModelAndView("tournament");
         mav.addObject("tournament", ts.findById(tournamentId));
         return mav;
@@ -39,7 +46,27 @@ public class IndexController {
         if (errors.hasErrors()) {
             return index(form);
         }
-        final Tournament t = ts.create(form.getTournamentName(), form.getPlayers());
+        final Tournament t = ts.create(form.getTournamentName());
+        final List<Player> players = parsePlayers(form.getPlayers());
+
+        for (Player player : players){
+            ps.addToTournament(player.getId(),t.getId());
+        }
+
         return new ModelAndView("redirect:/tournament/"+ t.getId());
+    }
+
+    private List<Player> parsePlayers(String players) {
+
+        List<Player> result = new ArrayList<>();
+
+        for (String player : players.split("\n")){
+
+            final Player p = ps.create(player);
+
+            result.add(p);
+        }
+
+        return result;
     }
 }

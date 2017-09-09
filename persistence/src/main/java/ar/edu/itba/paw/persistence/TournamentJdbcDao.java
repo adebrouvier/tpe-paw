@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO Implement tournament persistence
 @Repository
 public class TournamentJdbcDao implements TournamentDao {
 
@@ -31,7 +31,7 @@ public class TournamentJdbcDao implements TournamentDao {
                 .usingGeneratedKeyColumns("tournament_id");
     }
 
-
+    private final static RowMapper<Player> PLAYER_ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
 
     @Override
     public Tournament findById(long id) {
@@ -40,14 +40,22 @@ public class TournamentJdbcDao implements TournamentDao {
         if (list.isEmpty()) {
             return null;
         }
-        return list.get(0);    }
+
+        //TODO load players into tournament
+        final List<Player> players = jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in WHERE tournament_id = ?",PLAYER_ROW_MAPPER,id);
+
+        Tournament t  = list.get(0);
+
+        t.addPlayer(players);
+
+        return t;
+    }
 
     @Override
     public Tournament create(String name) {
-        final Map<String, Object> args = new HashMap<String,Object>();
-        args.put("name", name); // la key es el nombre de la columna
+        final Map<String, Object> args = new HashMap<>();
+        args.put("name", name);
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        //TODO change to long
-        return new Tournament(name,tournamentId.intValue());
+        return new Tournament(name,tournamentId.longValue());
     }
 }
