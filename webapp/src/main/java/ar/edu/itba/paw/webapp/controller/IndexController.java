@@ -60,7 +60,7 @@ public class IndexController {
 
         List<Player> result = new ArrayList<>();
 
-        for (String player : players.split("\n")){
+        for (String player : players.split("\r\n")){
 
             final Player p = ps.create(player);
 
