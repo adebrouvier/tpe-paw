@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS match (
   local_player_score INTEGER,
   visitor_player_score INTEGER,
   next_match_id INTEGER,
-  PRIMARY KEY (match_id, tournament_id)
+  PRIMARY KEY (match_id, tournament_id),
+  FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
 );
-
-ALTER TABLE match add FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id);
