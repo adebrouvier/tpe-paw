@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
@@ -31,7 +32,8 @@ public class TournamentJdbcDao implements TournamentDao {
                 .usingGeneratedKeyColumns("tournament_id");
     }
 
-    private final static RowMapper<Player> PLAYER_ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
+    @Autowired
+    private PlayerDao playerDao;
 
     @Override
     public Tournament findById(long id) {
@@ -41,10 +43,9 @@ public class TournamentJdbcDao implements TournamentDao {
             return null;
         }
 
-        //TODO load players into tournament
-        final List<Player> players = jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in WHERE tournament_id = ?",PLAYER_ROW_MAPPER,id);
-
         Tournament t  = list.get(0);
+
+        final List<Player> players  = playerDao.getTournamentPlayers(id);
 
         t.addPlayer(players);
 

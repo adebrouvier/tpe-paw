@@ -66,4 +66,10 @@ public class PlayerJdbcDao implements PlayerDao{
 
         return numberOfRowsInserted == 1;
     }
+
+    @Override
+    public List<Player> getTournamentPlayers(long tournamentId) {
+        return jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in" +
+                        " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+    }
 }
