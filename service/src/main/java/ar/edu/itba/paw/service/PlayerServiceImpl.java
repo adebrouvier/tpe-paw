@@ -28,7 +28,7 @@ public class PlayerServiceImpl implements PlayerService{
     private TournamentService ts;
 
     @Override
-    public boolean addToTournament(long playerId, long tournamentId) {
+    public boolean addToTournament(long playerId, long tournamentId, int position) {
 
         Tournament tournament = ts.findById(tournamentId);
 
@@ -36,7 +36,7 @@ public class PlayerServiceImpl implements PlayerService{
 
         tournament.addPlayer(player);
 
-        return playerDao.addToTournament(playerId,tournamentId);
+        return playerDao.addToTournament(playerId, tournamentId, position);
     }
 
 

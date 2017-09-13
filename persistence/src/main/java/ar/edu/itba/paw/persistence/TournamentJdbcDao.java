@@ -53,9 +53,11 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public Tournament create(String name) {
+    public Tournament create(String name,int maxParticipants, int cantParticipants) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
+        args.put("maxParticipants", maxParticipants);
+        args.put("cantParticipants", cantParticipants);
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
         return new Tournament(name,tournamentId.longValue());
     }

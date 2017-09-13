@@ -6,6 +6,6 @@ public interface TournamentService {
 
     public Tournament findById(long id);
 
-    public Tournament create(String name);
+    public Tournament create(String name, int maxParticipants, int cantParticipants);
 
 }

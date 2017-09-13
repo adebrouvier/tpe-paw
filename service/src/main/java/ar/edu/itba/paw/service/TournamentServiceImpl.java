@@ -18,7 +18,7 @@ public class TournamentServiceImpl implements TournamentService{
     }
 
     @Override
-    public Tournament create(String name) {
-        return tournamentDao.create(name);
+    public Tournament create(String name, int maxParticipants, int cantParticipants) {
+        return tournamentDao.create(name, maxParticipants, cantParticipants);
     }
 }

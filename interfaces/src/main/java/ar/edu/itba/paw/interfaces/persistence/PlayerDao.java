@@ -10,7 +10,7 @@ public interface PlayerDao {
 
     public Player create(String name);
 
-    public boolean addToTournament(long playerId,long tournamentId);
+    public boolean addToTournament(long playerId,long tournamentId, int position);
 
     public List<Player> getTournamentPlayers(long tournamentId);
 }

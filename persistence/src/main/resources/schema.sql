@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS player (
 CREATE TABLE IF NOT EXISTS participates_in (
   player_id SERIAL REFERENCES player(player_id),
   tournament_id SERIAL REFERENCES tournament(tournament_id),
-  position INTEGER DEFAULT 0;
+  position INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS match (

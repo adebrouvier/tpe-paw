@@ -56,11 +56,12 @@ public class PlayerJdbcDao implements PlayerDao{
     }
 
     @Override
-    public boolean addToTournament(long playerId, long tournamentId) {
+    public boolean addToTournament(long playerId, long tournamentId, int position) {
 
         final Map<String, Object> args = new HashMap<>();
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
+        args.put("position", position);
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 
