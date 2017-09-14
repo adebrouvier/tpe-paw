@@ -5,12 +5,15 @@ import java.util.List;
 
 public class Tournament {
     private String name;
-    private ArrayList<Player> players; /*TODO: If the total number is not a power of 2, it should be filled with BYES*/
-    private long id;
-    private int size;
+    private List<Player> players; /*TODO: If the total number is not a power of 2, it should be filled with BYES*/
+    private List<Match> matches;
 
+    private long id;
+
+    private int size;
     public Tournament(String name, long id){
         this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
     }
@@ -19,12 +22,16 @@ public class Tournament {
 
     public void setName(String name) { this.name = name; }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public List<Match> getMatches() {
+        return matches;
     }
 
     public long getId() {
@@ -50,6 +57,14 @@ public class Tournament {
 
     public boolean addPlayer(List<Player> players){
         return this.players.addAll(players);
+    }
+
+    public boolean addMatch(Match match){
+        return matches.add(match);
+    }
+
+    public boolean addMatch(List<Match> matches){
+        return this.matches.addAll(matches);
     }
 
     @Override

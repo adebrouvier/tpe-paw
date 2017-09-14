@@ -6,30 +6,30 @@ public class Match {
     private long awayPlayerId;
     private int homePlayerScore;
     private int awayPlayerScore;
-    private long matchId;
+    private long id;
     private long nextMatchId;
     private long tournamentId;
 
-    public Match(long homePlayerId, long awayPlayerId, long matchId, long nextMatchId, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
-        this.matchId = matchId;
+        this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
 
-    public Match(int matchId, int nextMatchId, long tournamentId) {
-        this.matchId = matchId;
+    public Match(int id, int nextMatchId, long tournamentId) {
+        this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
 
-    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long matchId, int nextMatchId, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.homePlayerScore = homePlayerScore;
         this.awayPlayerScore = awayPlayerScore;
-        this.matchId = matchId;
+        this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
@@ -50,8 +50,8 @@ public class Match {
         return awayPlayerScore;
     }
 
-    public long getMatchId() {
-        return matchId;
+    public long getId() {
+        return id;
     }
 
     public long getNextMatchId() {
@@ -69,7 +69,19 @@ public class Match {
 
         Match match = (Match) o;
 
-        if (matchId != match.matchId) return false;
+        if (id != match.id) return false;
         return tournamentId == match.tournamentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "homePlayerId=" + homePlayerId +
+                ", awayPlayerId=" + awayPlayerId +
+                ", homePlayerScore=" + homePlayerScore +
+                ", awayPlayerScore=" + awayPlayerScore +
+                ", id=" + id +
+                ", tournamentId=" + tournamentId +
+                '}';
     }
 }

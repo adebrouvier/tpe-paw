@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 public class TournamentServiceImpl implements TournamentService{
 
+    //TODO: check what happens with simultaneous concurrent requests
     private static int bracketCount = 1;
 
     @Autowired

@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class TournamentJdbcDao implements TournamentDao {
     @Autowired
     private PlayerDao playerDao;
 
+    @Autowired
+    private MatchDao matchDao;
+
     @Override
     public Tournament findById(long id) {
         final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE tournament_id = ?",
@@ -46,8 +51,10 @@ public class TournamentJdbcDao implements TournamentDao {
         Tournament t  = list.get(0);
 
         final List<Player> players  = playerDao.getTournamentPlayers(id);
+        final List<Match> matches = matchDao.getTournamentMatches(id);
 
         t.addPlayer(players);
+        t.addMatch(matches);
 
         return t;
     }

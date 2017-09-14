@@ -32,7 +32,7 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match create(final Integer matchId, final Integer nextMatchId, final long tournamentId) {
+    public Match create(final int matchId, final int nextMatchId, final long tournamentId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -47,7 +47,7 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match create(Integer matchId, Integer nextMatchId, long tournamentId, long homePlayerId, long awayPlayerId) {
+    public Match create(int matchId, int nextMatchId, long tournamentId, long homePlayerId, long awayPlayerId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -59,19 +59,19 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match findById(final Integer matchId, final long tournamentId) {
+    public Match findById(final int matchId, final long tournamentId) {
         List<Match> list = jdbcTemplate.query("SELECT * FROM match WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, matchId, tournamentId);
 
         return list.get(0);
     }
 
     @Override
-    public Match addPlayer(final long tournamentId, final long matchId, final long playerId, final Integer type) {
+    public Match addPlayer(final long tournamentId, final int matchId, final long playerId, final int type) {
         List<Match> list;
-        if (type.equals(MatchDao.HOME)) {
+        if (type == MatchDao.HOME) {
             list = jdbcTemplate.query("UPDATE match SET home_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
         }
-        if (type.equals(MatchDao.AWAY)) {
+        if (type == MatchDao.AWAY) {
             list = jdbcTemplate.query("UPDATE match SET away_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
         } else {
             return null;
@@ -83,10 +83,15 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match updateScore(long tournamentId, long matchId, Integer homeScore, Integer awayScore) {
-        List<Match> list = jdbcTemplate.query("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, homeScore, awayScore, matchId, tournamentId);
+    public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
+        jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
+        return findById(matchId,tournamentId);
+    }
 
-        return list.get(0);
+    @Override
+    public List<Match> getTournamentMatches(long tournamentId) {
+        return jdbcTemplate.query("SELECT * FROM match"  +
+                " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
     }
 
 }

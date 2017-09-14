@@ -28,12 +28,12 @@ public class MatchServiceImpl implements MatchService{
     }
 
     @Override
-    public Match addPlayer(long tournamentId, long matchId, long playerId, Integer type) {
+    public Match addPlayer(long tournamentId, int matchId, long playerId, Integer type) {
         return matchDao.addPlayer(tournamentId,matchId,playerId,type);
     }
 
     @Override
-    public Match updateScore(long tournamentId, long matchId, Integer localScore, Integer visitorScore) {
+    public Match updateScore(long tournamentId, int matchId, Integer localScore, Integer visitorScore) {
         return matchDao.updateScore(tournamentId,matchId,localScore,visitorScore);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,13 +29,6 @@ public class IndexController {
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("index");
-        return mav;
-    }
-
-    @RequestMapping("/tournament/{tournamentId}")
-    public ModelAndView tournament(@PathVariable long tournamentId){
-        final ModelAndView mav = new ModelAndView("tournament");
-        mav.addObject("tournament", ts.findById(tournamentId));
         return mav;
     }
 
