@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TournamentService {
 
+    public final int NO_PARENT = 0;
+
     public Tournament findById(long id);
 
     public Tournament create(String name, int maxParticipants, int cantParticipants, List<Player> players);

@@ -2,7 +2,6 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.model.Match;
-import ar.edu.itba.paw.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,12 +21,13 @@ public class MatchJDBCDao implements MatchDao {
     private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<Match> ROW_MAPPER = (rs, rowNum) ->
-            new Match(rs.getLong("local_player_id"), rs.getLong("visitor_player_id"), rs.getInt("local_player_score"), rs.getInt("visitor_player_score"), rs.getInt("match_id"), rs.getInt("next_match_id"), rs.getLong("tournament_id"));
+            new Match(rs.getLong("home_player_id"), rs.getLong("away_player_id"), rs.getInt("home_player_score"), rs.getInt("away_player_score"), rs.getLong("match_id"), rs.getInt("next_match_id"), rs.getLong("tournament_id"));
 
     @Autowired
     public MatchJDBCDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .usingColumns("match_id","tournament_id","next_match_id","home_player_id","away_player_id","home_player_score","away_player_score")
                 .withTableName("match");
     }
 
@@ -35,23 +35,28 @@ public class MatchJDBCDao implements MatchDao {
     public Match create(final Integer matchId, final Integer nextMatchId, final long tournamentId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
-        args.put("tournamet_id", tournamentId);
-        args.put("next_match_id", nextMatchId);
-        jdbcInsert.executeAndReturnKey(args);
+        args.put("tournament_id", tournamentId);
+
+        if (nextMatchId != 0)
+            args.put("next_match_id", nextMatchId);
+        else
+            args.put("next_match_id", null);
+
+        jdbcInsert.execute(args);
         return new Match(matchId, nextMatchId, tournamentId);
     }
 
     @Override
-    public Match create(Integer matchId, Integer nextMatchId, long tournamentId, long localPlayerId, long visitorPlayerId) {
+    public Match create(Integer matchId, Integer nextMatchId, long tournamentId, long homePlayerId, long awayPlayerId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
-        args.put("tournamet_id", tournamentId);
+        args.put("tournament_id", tournamentId);
         args.put("next_match_id", nextMatchId);
-        args.put("local_player_id", localPlayerId);
-        args.put("visitor_player_id", visitorPlayerId);
-        jdbcInsert.executeAndReturnKey(args);
-        return new Match(localPlayerId, visitorPlayerId, matchId, nextMatchId, tournamentId);    }
-
+        args.put("home_player_id", homePlayerId);
+        args.put("away_player_id", awayPlayerId);
+        jdbcInsert.execute(args);
+        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, tournamentId);
+    }
 
     @Override
     public Match findById(final Integer matchId, final long tournamentId) {
@@ -63,23 +68,23 @@ public class MatchJDBCDao implements MatchDao {
     @Override
     public Match addPlayer(final long tournamentId, final long matchId, final long playerId, final Integer type) {
         List<Match> list;
-        if(type.equals(MatchDao.LOCAL)) {
-            list = jdbcTemplate.query("UPDATE match SET local_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
+        if (type.equals(MatchDao.HOME)) {
+            list = jdbcTemplate.query("UPDATE match SET home_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
         }
-        if(type.equals(MatchDao.VISITOR)) {
-            list = jdbcTemplate.query("UPDATE match SET visitor_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
+        if (type.equals(MatchDao.AWAY)) {
+            list = jdbcTemplate.query("UPDATE match SET away_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
         } else {
             return null;
         }
-        if(list.isEmpty()) {
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
     }
 
     @Override
-    public Match updateScore(long tournamentId, long matchId, Integer localScore, Integer visitorScore) {
-        List<Match> list = jdbcTemplate.query("UPDATE match SET local_player_score = ?, visitor_player_score = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, localScore, visitorScore, matchId, tournamentId);
+    public Match updateScore(long tournamentId, long matchId, Integer homeScore, Integer awayScore) {
+        List<Match> list = jdbcTemplate.query("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, homeScore, awayScore, matchId, tournamentId);
 
         return list.get(0);
     }

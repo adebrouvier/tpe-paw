@@ -17,14 +17,13 @@ public class TournamentServiceImpl implements TournamentService{
     private static int bracketCount = 1;
 
     @Autowired
-    TournamentDao tournamentDao;
+    private TournamentDao tournamentDao;
 
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
 
     @Autowired
-    MatchService matchService;
-
+    private MatchService matchService;
 
     @Override
     public Tournament findById(long id) {
@@ -44,17 +43,19 @@ public class TournamentServiceImpl implements TournamentService{
     private void generateBracket(long tournamentId){
         int depth = 1;
         List<Player> players = this.findById(tournamentId).getPlayers();
-        int totalDepth = (int) (Math.log(players.size())/Math.log(2));/*Size should always be a power of 2*/
-        generateBracketRecursive(1,2, 1,0,tournamentId,this.findById(tournamentId).getPlayers(),depth,totalDepth);
+        int totalDepth = (int) (Math.log(players.size())/Math.log(2)) - 1; /* Size should always be a power of 2*/
+        generateBracketRecursive(1,2, 1,TournamentService.NO_PARENT,tournamentId,this.findById(tournamentId).getPlayers(),depth,totalDepth);
     }
 
-    private void generateBracketRecursive(int seedHome, int seedAway, int id , int idPadre, long tournamentId, List<Player> players, int depth, int totalDepth){
-        if(depth>totalDepth){
-            matchService.create(id,idPadre,tournamentId, players.get(seedHome-1).getId(),players.get(seedAway-1).getId());
+    private void generateBracketRecursive(int seedHome, int seedAway, int bracketId , int parentID, long tournamentId, List<Player> players, int depth, int totalDepth){
+        if(depth > totalDepth){
+            matchService.create(bracketId,parentID,tournamentId, players.get(seedHome-1).getId(),players.get(seedAway-1).getId());
             return;
         }
-        matchService.create(id,idPadre,tournamentId);
-        generateBracketRecursive(seedHome, ((int) (Math.pow(2,depth)))-seedHome,++bracketCount,id,tournamentId,players,depth+1, totalDepth);
-        generateBracketRecursive(seedAway, ((int) (Math.pow(2,depth)))-seedAway,++bracketCount,id,tournamentId,players,depth+1, totalDepth);
+
+        matchService.create(bracketId,parentID,tournamentId);
+
+        generateBracketRecursive(seedHome, ((int) (Math.pow(2,depth+1)))-seedHome,++bracketCount,bracketId,tournamentId,players,depth+1, totalDepth);
+        generateBracketRecursive(seedAway, ((int) (Math.pow(2,depth+1)))-seedAway,++bracketCount,bracketId,tournamentId,players,depth+1, totalDepth);
     }
 }

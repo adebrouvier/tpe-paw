@@ -1,91 +1,75 @@
 package ar.edu.itba.paw.model;
 
-import com.sun.org.apache.bcel.internal.generic.LNEG;
-
-/**
- * Created by marcos on 09/09/17.
- */
 public class Match {
 
-    private Long localPlayerId;
-    private Long visitorPlayerId;
-    private Integer localPlayerScore;
-    private Integer visitorPlayerScore;
-    private Integer matchId;
-    private Integer nextMatchId;
-    private Long tournamentId;
+    private long homePlayerId;
+    private long awayPlayerId;
+    private int homePlayerScore;
+    private int awayPlayerScore;
+    private long matchId;
+    private long nextMatchId;
+    private long tournamentId;
 
-    public Match(Long localPlayerId, Long visitorPlayerId, Integer matchId, Integer nextMatchId, Long tournamentId) {
-        this.localPlayerId = localPlayerId;
-        this.visitorPlayerId = visitorPlayerId;
+    public Match(long homePlayerId, long awayPlayerId, long matchId, long nextMatchId, long tournamentId) {
+        this.homePlayerId = homePlayerId;
+        this.awayPlayerId = awayPlayerId;
         this.matchId = matchId;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
 
-    public Match(Integer matchId, Integer nextMatchId, Long tournamentId) {
+    public Match(int matchId, int nextMatchId, long tournamentId) {
         this.matchId = matchId;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
 
-    public Match(Long localPlayerId, Long visitorPlayerId, Integer localPlayerScore, Integer visitorPlayerScore, Integer matchId, Integer nextMatchId, Long tournamentId) {
-        this.localPlayerId = localPlayerId;
-        this.visitorPlayerId = visitorPlayerId;
-        this.localPlayerScore = localPlayerScore;
-        this.visitorPlayerScore = visitorPlayerScore;
+    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long matchId, int nextMatchId, long tournamentId) {
+        this.homePlayerId = homePlayerId;
+        this.awayPlayerId = awayPlayerId;
+        this.homePlayerScore = homePlayerScore;
+        this.awayPlayerScore = awayPlayerScore;
         this.matchId = matchId;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
     }
 
-    public Long getLocalPlayerId() {
-        return localPlayerId;
+    public long getHomePlayerId() {
+        return homePlayerId;
     }
 
-    public Long getVisitorPlayerId() {
-        return visitorPlayerId;
+    public long getAwayPlayerId() {
+        return awayPlayerId;
     }
 
-    public Integer getLocalPlayerScore() {
-        return localPlayerScore;
+    public int getHomePlayerScore() {
+        return homePlayerScore;
     }
 
-    public Integer getVisitorPlayerScore() {
-        return visitorPlayerScore;
+    public int getAwayPlayerScore() {
+        return awayPlayerScore;
     }
 
-    public Integer getMatchId() {
+    public long getMatchId() {
         return matchId;
     }
 
-    public Integer getNextMatchId() {
+    public long getNextMatchId() {
         return nextMatchId;
     }
 
-    public Long getTournamentId() {
+    public long getTournamentId() {
         return tournamentId;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Match other = (Match) obj;
-        if (matchId == null) {
-            if (other.matchId != null)
-                return false;
-        } else if (!matchId.equals(other.matchId))
-            return false;
-        if (tournamentId == null) {
-            if (other.tournamentId != null)
-                return false;
-        } else if (!tournamentId.equals(other.tournamentId))
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Match match = (Match) o;
+
+        if (matchId != match.matchId) return false;
+        return tournamentId == match.tournamentId;
     }
 }

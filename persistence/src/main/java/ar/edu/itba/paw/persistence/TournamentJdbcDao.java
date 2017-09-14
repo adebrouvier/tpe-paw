@@ -56,8 +56,8 @@ public class TournamentJdbcDao implements TournamentDao {
     public Tournament create(String name,int maxParticipants, int cantParticipants) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
-        args.put("maxParticipants", maxParticipants);
-        args.put("cantParticipants", cantParticipants);
+        args.put("max_participants", maxParticipants);
+        args.put("cant_participants", cantParticipants);
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
         return new Tournament(name,tournamentId.longValue());
     }
