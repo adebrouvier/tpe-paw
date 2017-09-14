@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,11 @@ public class TournamentPageController {
     @RequestMapping("/tournament/{tournamentId}")
     public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId){
         final ModelAndView mav = new ModelAndView("tournament");
-        mav.addObject("tournament", ts.findById(tournamentId));
+        final Tournament t = ts.findById(tournamentId);
+        if (t == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        mav.addObject("tournament", t);
         return mav;
     }
 

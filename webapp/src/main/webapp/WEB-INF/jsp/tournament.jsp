@@ -5,15 +5,12 @@
     <head>
         <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>" />
         <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
+        <link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     </head>
     <body>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="<c:url value="/"/>" class="brand-logo center">Logo</a>
-            </div>
-        </nav>
+        <c:import var="navbar" url="header.jsp"/>
+        ${navbar}
         <div class="container">
             <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
             <h2><spring:message code="tournament.id" arguments="${tournament.id}"/></h2>
@@ -46,7 +43,7 @@
                 </c:forEach>
             </ul>
         </div>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     </body>
 </html>
