@@ -9,22 +9,25 @@ public class Match {
     private long id;
     private long nextMatchId;
     private long tournamentId;
+    private boolean isNextMatchHome;
 
-    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,boolean isNextMatchHome, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
+        this.isNextMatchHome = isNextMatchHome;
     }
 
-    public Match(int id, int nextMatchId, long tournamentId) {
+    public Match(int id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
+        this.isNextMatchHome = isNextMatchHome;
     }
 
-    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.homePlayerScore = homePlayerScore;
@@ -32,7 +35,10 @@ public class Match {
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
+        this.isNextMatchHome = isNextMatchHome;
     }
+
+    public boolean isNextMatchHome() { return isNextMatchHome; }
 
     public long getHomePlayerId() {
         return homePlayerId;
@@ -82,6 +88,7 @@ public class Match {
                 ", awayPlayerScore=" + awayPlayerScore +
                 ", id=" + id +
                 ", tournamentId=" + tournamentId +
+                ", nextMatchHome=" + isNextMatchHome +
                 '}';
     }
 }

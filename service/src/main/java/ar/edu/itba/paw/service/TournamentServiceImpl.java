@@ -45,17 +45,17 @@ public class TournamentServiceImpl implements TournamentService{
         int depth = 1;
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size())/Math.log(2)) ; /* Size should always be a power of 2*/
-        generateBracketRecursive(1,2, 1,TournamentService.NO_PARENT,tournamentId,this.findById(tournamentId).getPlayers(),depth+1,totalDepth);
+        generateBracketRecursive(1,2, 1,TournamentService.NO_PARENT,false,tournamentId,this.findById(tournamentId).getPlayers(),depth+1,totalDepth);
     }
 
-    private void generateBracketRecursive(int seedHome, int seedAway, int bracketId , int parentID, long tournamentId, List<Player> players, int depth, int totalDepth){
+    private void generateBracketRecursive(int seedHome, int seedAway, int bracketId , int parentID,boolean isNextMatchHome, long tournamentId, List<Player> players, int depth, int totalDepth){
         if(depth > totalDepth){
-            matchService.create(bracketId,parentID,tournamentId, players.get(seedHome-1).getId(),players.get(seedAway-1).getId());
+            matchService.create(bracketId,parentID,isNextMatchHome,tournamentId, players.get(seedHome-1).getId(),players.get(seedAway-1).getId());
             return;
         }
 
-        matchService.create(bracketId,parentID,tournamentId);
-        generateBracketRecursive(seedHome, ((int) (Math.pow(2,depth)))-seedHome+1,++bracketCount,bracketId,tournamentId,players,depth+1, totalDepth);
-        generateBracketRecursive(seedAway, ((int) (Math.pow(2,depth)))-seedAway+1,++bracketCount,bracketId,tournamentId,players,depth+1, totalDepth);
+        matchService.create(bracketId,parentID,isNextMatchHome,tournamentId);
+        generateBracketRecursive(seedHome, ((int) (Math.pow(2,depth)))-seedHome+1,++bracketCount,bracketId,true,tournamentId,players,depth+1, totalDepth);
+        generateBracketRecursive(seedAway, ((int) (Math.pow(2,depth)))-seedAway+1,++bracketCount,bracketId,false,tournamentId,players,depth+1, totalDepth);
     }
 }

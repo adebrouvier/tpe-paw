@@ -13,27 +13,27 @@ public class MatchServiceImpl implements MatchService{
     MatchDao matchDao;
 
     @Override
-    public Match create(Integer matchId, Integer nextMatchId, long tournamentId) {
-        return matchDao.create(matchId,nextMatchId,tournamentId);
+    public Match create(int matchId, int nextMatchId,boolean isNextHome, long tournamentId) {
+        return matchDao.create(matchId,nextMatchId,isNextHome,tournamentId);
     }
 
     @Override
-    public Match create(Integer matchId, Integer nextMatchId, long tournamentId, long localPlayerId, long visitorPlayerId) {
-        return matchDao.create(matchId,nextMatchId,tournamentId,localPlayerId,visitorPlayerId);
+    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long localPlayerId, long visitorPlayerId) {
+        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId,localPlayerId,visitorPlayerId);
     }
 
     @Override
-    public Match findById(Integer id, long tournamentId) {
+    public Match findById(int id, long tournamentId) {
         return matchDao.findById(id,tournamentId);
     }
 
     @Override
-    public Match addPlayer(long tournamentId, int matchId, long playerId, Integer type) {
+    public Match addPlayer(long tournamentId, int matchId, long playerId, int type) {
         return matchDao.addPlayer(tournamentId,matchId,playerId,type);
     }
 
     @Override
-    public Match updateScore(long tournamentId, int matchId, Integer localScore, Integer visitorScore) {
+    public Match updateScore(long tournamentId, int matchId,int localScore, int visitorScore) {
         return matchDao.updateScore(tournamentId,matchId,localScore,visitorScore);
     }
 }
