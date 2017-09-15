@@ -15,14 +15,26 @@
             <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
             <h2><spring:message code="tournament.id" arguments="${tournament.id}"/></h2>
             <ul>
-                <c:forEach var="player" items="${tournament.players}">
-                    <li><c:out value="${player}" /></li>
-                </c:forEach>
+                <table class="highlight">
+                    <thead>
+                    <tr>
+                        <th><spring:message code="table.players"/></th>
+                        <th><spring:message code="table.id"/></th>
+                    </tr>
+                    </thead>
+                        <c:forEach var="player" items="${tournament.players}">
+                    <tbody>
+                    <tr>
+                        <td><c:out value="${player.name}"/></td>
+                        <td><c:out value="${player.id}"/></td>
+                    </tbody>
+                        </c:forEach>
+                </table>
             </ul>
             <ul>
                 <c:forEach var="match" items="${tournament.matches}">
-                    <li><c:out value="${match}" /></li>
                     <c:if test="${match.homePlayerId != 0 && match.awayPlayerId != 0}">
+                        <li><c:out value="${match}" /></li>
                         <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                         <form:form modelAttribute="matchForm" action="${postPath}" method="post">
                             <div>
@@ -36,7 +48,9 @@
                                 <form:errors path="awayResult" cssClass="formError" element="p"/>
                             </div>
                             <div>
-                                <input type="submit" value="Update"/>
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Update
+                                    <i class="material-icons right">update</i>
+                                </button>
                             </div>
                         </form:form>
                     </c:if>
