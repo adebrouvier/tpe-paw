@@ -4,6 +4,8 @@ public class Match {
 
     private long homePlayerId;
     private long awayPlayerId;
+    private Player homePlayer;
+    private Player awayPlayer;
     private int homePlayerScore;
     private int awayPlayerScore;
     private long id;
@@ -66,6 +68,22 @@ public class Match {
 
     public long getTournamentId() {
         return tournamentId;
+    }
+
+    public Player getHomePlayer() {
+        return homePlayer;
+    }
+
+    public void setHomePlayer(Player homePlayer) {
+        this.homePlayer = homePlayer;
+    }
+
+    public Player getAwayPlayer() {
+        return awayPlayer;
+    }
+
+    public void setAwayPlayer(Player awayPlayer) {
+        this.awayPlayer = awayPlayer;
     }
 
     @Override

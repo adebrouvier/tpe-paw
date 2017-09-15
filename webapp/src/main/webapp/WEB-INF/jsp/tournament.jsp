@@ -33,27 +33,33 @@
             </ul>
             <ul>
                 <c:forEach var="match" items="${tournament.matches}">
-                    <c:if test="${match.homePlayerId != 0 && match.awayPlayerId != 0}">
-                        <li><c:out value="${match}" /></li>
-                        <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
-                        <form:form modelAttribute="matchForm" action="${postPath}" method="post">
-                            <div>
-                                <form:label path="homeResult">Home: </form:label>
-                                <form:input type="number" path="homeResult" value="${match.homePlayerScore}"/>
-                                <form:errors path="homeResult" cssClass="formError" element="p"/>
+                    <li>
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title"><spring:message code="match.id" arguments="${match.id}"/></span>
+                            <c:if test="${match.homePlayerId != 0 && match.awayPlayerId != 0}">
+                                <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
+                                <form:form modelAttribute="matchForm" action="${postPath}" method="post">
+                                    <div class="input-field inline">
+                                        <form:label path="homeResult"><c:out value="${match.homePlayer.name}" />: </form:label>
+                                        <form:input type="number" path="homeResult" value="${match.homePlayerScore}"/>
+                                        <form:errors path="homeResult" cssClass="formError" element="p"/>
+                                    </div>
+                                    <div class="input-field inline">
+                                        <form:label path="awayResult"><c:out value="${match.awayPlayer.name}" />: </form:label>
+                                        <form:input type="number" path="awayResult" value="${match.awayPlayerScore}"/>
+                                        <form:errors path="awayResult" cssClass="formError" element="p"/>
+                                    </div>
+                                    <div>
+                                        <button class="btn waves-effect waves-light" type="submit" name="action">Update
+                                            <i class="material-icons right">update</i>
+                                        </button>
+                                    </div>
+                                </form:form>
+                            </c:if>
                             </div>
-                            <div>
-                                <form:label path="awayResult">Away: </form:label>
-                                <form:input type="number" path="awayResult" value="${match.awayPlayerScore}"/>
-                                <form:errors path="awayResult" cssClass="formError" element="p"/>
-                            </div>
-                            <div>
-                                <button class="btn waves-effect waves-light" type="submit" name="action">Update
-                                    <i class="material-icons right">update</i>
-                                </button>
-                            </div>
-                        </form:form>
-                    </c:if>
+                        </div>
+                    </li>
                 </c:forEach>
             </ul>
         </div>

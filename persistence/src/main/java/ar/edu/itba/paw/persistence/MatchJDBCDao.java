@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
+import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.model.Match;
+import ar.edu.itba.paw.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -60,11 +62,23 @@ public class MatchJDBCDao implements MatchDao {
         return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId,isNextMatchHome, tournamentId);
     }
 
+    @Autowired
+    PlayerDao playerDao;
+
     @Override
     public Match findById(final int matchId, final long tournamentId) {
         List<Match> list = jdbcTemplate.query("SELECT * FROM match WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, matchId, tournamentId);
 
-        return list.get(0);
+        Match m = list.get(0);
+
+        if ( m != null){
+            Player homePlayer = playerDao.findById(m.getHomePlayerId());
+            Player awayPlayer = playerDao.findById(m.getAwayPlayerId());
+            m.setHomePlayer(homePlayer);
+            m.setAwayPlayer(awayPlayer);
+        }
+
+        return m;
     }
 
     @Override
@@ -104,8 +118,18 @@ public class MatchJDBCDao implements MatchDao {
 
     @Override
     public List<Match> getTournamentMatches(long tournamentId) {
-        return jdbcTemplate.query("SELECT * FROM match"  +
+        List<Match> matches = jdbcTemplate.query("SELECT * FROM match"  +
                 " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+
+        //TODO ask if is okay to do this
+        for (Match m : matches){
+            Player homePlayer = playerDao.findById(m.getHomePlayerId());
+            Player awayPlayer = playerDao.findById(m.getAwayPlayerId());
+            m.setHomePlayer(homePlayer);
+            m.setAwayPlayer(awayPlayer);
+        }
+
+        return matches;
     }
 
 }
