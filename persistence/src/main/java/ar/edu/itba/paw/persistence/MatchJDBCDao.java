@@ -103,15 +103,18 @@ public class MatchJDBCDao implements MatchDao {
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
         Match match = findById(matchId, tournamentId);
         long winnerId;
-        if(homeScore > awayScore){
-            winnerId = match.getHomePlayerId();
-        }else{
-            winnerId = match.getAwayPlayerId();
-        }
-        if(match.isNextMatchHome()){
-            jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
-        }else{
-            jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
+
+        if (match.getNextMatchId() != 0) { /* If there is a next round match */
+            if (homeScore > awayScore) {
+                winnerId = match.getHomePlayerId();
+            } else {
+                winnerId = match.getAwayPlayerId();
+            }
+            if (match.isNextMatchHome()) {
+                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
+            } else {
+                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
+            }
         }
         return findById(matchId,tournamentId);
     }
