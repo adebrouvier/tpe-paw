@@ -7,14 +7,14 @@
         <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>" />
         <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
         <link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
+        <title>${tournament.name}</title>
     </head>
     <body>
         <c:import var="navbar" url="header.jsp"/>
         ${navbar}
         <div class="container">
             <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
-            <h2><spring:message code="tournament.id" arguments="${tournament.id}"/></h2>
-            <ul>
+            <div>
                 <table class="highlight">
                     <thead>
                     <tr>
@@ -30,14 +30,13 @@
                     </tbody>
                         </c:forEach>
                 </table>
-            </ul>
+            </div>
             <ul>
                 <c:forEach var="match" items="${tournament.matches}">
                     <li>
                         <div class="card">
                             <div class="card-content">
                                 <span class="card-title"><spring:message code="match.id" arguments="${match.id}"/></span>
-                            <c:if test="${match.homePlayerId != 0 && match.awayPlayerId != 0}">
                                 <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                                 <form:form modelAttribute="matchForm" action="${postPath}" method="post">
                                     <div class="input-field inline">
@@ -51,12 +50,12 @@
                                         <form:errors path="awayResult" cssClass="formError" element="p"/>
                                     </div>
                                     <div>
-                                        <button class="btn waves-effect waves-light" type="submit" name="action">Update
+                                        <button class="btn waves-effect waves-light" type="submit">
+                                            <spring:message code="tournament.update"/>
                                             <i class="material-icons right">update</i>
                                         </button>
                                     </div>
                                 </form:form>
-                            </c:if>
                             </div>
                         </div>
                     </li>
