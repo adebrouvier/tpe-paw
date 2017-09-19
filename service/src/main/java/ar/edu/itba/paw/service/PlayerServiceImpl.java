@@ -12,11 +12,16 @@ import org.springframework.stereotype.Service;
 public class PlayerServiceImpl implements PlayerService{
 
     @Autowired
-    PlayerDao playerDao;
+    private PlayerDao playerDao;
 
     @Override
     public Player findById(long id) {
         return playerDao.findById(id);
+    }
+
+    @Override
+    public long findBySeed(int seed, long tournamentId) {
+        return playerDao.findBySeed(seed,tournamentId);
     }
 
     @Override
@@ -28,7 +33,7 @@ public class PlayerServiceImpl implements PlayerService{
     private TournamentService ts;
 
     @Override
-    public boolean addToTournament(long playerId, long tournamentId, int position) {
+    public boolean addToTournament(long playerId, long tournamentId,int seed) {
 
         Tournament tournament = ts.findById(tournamentId);
 
@@ -36,7 +41,7 @@ public class PlayerServiceImpl implements PlayerService{
 
         tournament.addPlayer(player);
 
-        return playerDao.addToTournament(playerId, tournamentId, position);
+        return playerDao.addToTournament(playerId, tournamentId,seed);
     }
 
 

@@ -32,7 +32,7 @@ public class PlayerJdbcDao implements PlayerDao{
                 .usingGeneratedKeyColumns("player_id");
         participatesInjdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("participates_in")
-                .usingColumns("player_id","tournament_id");
+                .usingColumns("player_id","tournament_id","seed");
     }
 
     @Override
@@ -41,6 +41,25 @@ public class PlayerJdbcDao implements PlayerDao{
                 ROW_MAPPER, id);
         if (list.isEmpty()) {
             return null;
+        }
+        return list.get(0);
+    }
+
+    private final static RowMapper<Long> LONG_MAPPER = (rs, rowNum) -> (rs.getLong("player_id"));
+
+    @Override
+    public long findBySeed(int seed, long tournamentId) {
+
+        //TODO Select the best option
+
+        /*final List<Player> list = jdbcTemplate.query(
+                "SELECT * FROM participates_in WHERE player_id = (SELECT player_id FROM participates_in WHERE seed = ?)",ROW_MAPPER, seed);
+                */
+
+        final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ?",LONG_MAPPER,seed);
+
+        if (list.isEmpty()) {
+            return 0;
         }
         return list.get(0);
     }
@@ -54,12 +73,12 @@ public class PlayerJdbcDao implements PlayerDao{
     }
 
     @Override
-    public boolean addToTournament(long playerId, long tournamentId, int position) {
+    public boolean addToTournament(long playerId, long tournamentId, int seed) {
 
         final Map<String, Object> args = new HashMap<>();
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
-        args.put("position", position);
+        args.put("seed",seed);
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 

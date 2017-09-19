@@ -5,10 +5,8 @@ password varchar(100)
 );*/
 
 CREATE TABLE IF NOT EXISTS tournament (
-tournament_id SERIAL PRIMARY KEY,
-name varchar(100) NOT NULL,
-max_participants INTEGER,
-cant_participants INTEGER DEFAULT 0
+  tournament_id SERIAL PRIMARY KEY,
+  name varchar(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS player (
@@ -19,8 +17,15 @@ CREATE TABLE IF NOT EXISTS player (
 CREATE TABLE IF NOT EXISTS participates_in (
   player_id BIGINT REFERENCES player(player_id),
   tournament_id BIGINT REFERENCES tournament(tournament_id),
-  position INTEGER DEFAULT 0
+  seed INTEGER
 );
+
+INSERT INTO player (player_id,name)
+SELECT -1, 'BYE'
+WHERE
+  NOT EXISTS (
+      SELECT player_id FROM player WHERE player_id = -1
+  );
 
 CREATE TABLE IF NOT EXISTS match (
   match_id BIGINT NOT NULL,

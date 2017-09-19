@@ -63,7 +63,7 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Autowired
-    PlayerDao playerDao;
+    private PlayerDao playerDao;
 
     @Override
     public Match findById(final int matchId, final long tournamentId) {

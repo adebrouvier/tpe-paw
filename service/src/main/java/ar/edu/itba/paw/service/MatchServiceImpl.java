@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class MatchServiceImpl implements MatchService{
 
     @Autowired
-    MatchDao matchDao;
+    private MatchDao matchDao;
 
     @Override
     public Match create(int matchId, int nextMatchId,boolean isNextHome, long tournamentId) {

@@ -39,7 +39,7 @@ public class IndexController {
             return index(form);
         }
         final List<Player> players = parsePlayers(form.getPlayers());
-        final Tournament t = ts.create(form.getTournamentName(),0,0,players);
+        final Tournament t = ts.create(form.getTournamentName(),players);
         return new ModelAndView("redirect:/tournament/"+ t.getId());
     }
 

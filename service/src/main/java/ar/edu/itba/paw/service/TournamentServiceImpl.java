@@ -31,17 +31,30 @@ public class TournamentServiceImpl implements TournamentService{
         return tournamentDao.findById(id);
     }
 
+    private final long BYE_ID = -1;
+
     @Override
-    public Tournament create(String name, int maxParticipants, int cantParticipants, List<Player> players) {
-        Tournament tournament = tournamentDao.create(name, maxParticipants, cantParticipants);
-        for (Player player:players) {
-            playerService.addToTournament(player.getId(),tournament.getId(),0); /*TODO: Remove position*/
+    public Tournament create(String name, List<Player> players) {
+        Tournament tournament = tournamentDao.create(name);
+
+        int i = 0;
+
+        for (; i < players.size(); i++) {
+            playerService.addToTournament(players.get(i).getId(), tournament.getId(),i+1);
         }
-        generateBracket(tournament.getId());
+
+        int power = (int) Math.ceil(Math.log(players.size())/Math.log(2));
+        int byes = (int) (Math.pow(2,power) - players.size());
+
+        for (; i < players.size()+byes; i++){
+            playerService.addToTournament(BYE_ID,tournament.getId(),i+1);
+        }
+
+        generateSingleEliminationBracket(tournament.getId());
         return tournament;
     }
 
-    private void generateBracket(long tournamentId){
+    private void generateSingleEliminationBracket(long tournamentId){
         int depth = 1;
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size())/Math.log(2)) ; /* Size should always be a power of 2*/
@@ -50,7 +63,7 @@ public class TournamentServiceImpl implements TournamentService{
 
     private void generateBracketRecursive(int seedHome, int seedAway, int bracketId , int parentID,boolean isNextMatchHome, long tournamentId, List<Player> players, int depth, int totalDepth){
         if(depth > totalDepth){
-            matchService.create(bracketId,parentID,isNextMatchHome,tournamentId, players.get(seedHome-1).getId(),players.get(seedAway-1).getId());
+            matchService.create(bracketId,parentID,isNextMatchHome,tournamentId, playerService.findBySeed(seedHome,tournamentId),playerService.findBySeed(seedAway,tournamentId));
             return;
         }
 
