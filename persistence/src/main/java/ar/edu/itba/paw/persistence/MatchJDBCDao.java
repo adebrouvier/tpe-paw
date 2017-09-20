@@ -100,16 +100,16 @@ public class MatchJDBCDao implements MatchDao {
 
     @Override
     public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
-        jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
+        jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
         Match match = findById(matchId, tournamentId);
         long winnerId;
 
         if (match.getAwayPlayerId() == -1) { /*Checks if there is a BYE*/
-            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 0 WHERE match_id = ?", matchId);
+            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 0 WHERE match_id = ? AND tournament_id = ?", matchId, tournamentId);
             homeScore = 1;/*TODO: Magic number, maybe there is a cleaner way*/
             awayScore = 0;
         } else if (match.getHomePlayerId() == -1) { /*This should never happen*/
-            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?", matchId);
+            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?  AND tournament_id = ?", matchId,tournamentId);
             homeScore = 0;
             awayScore = 1;
         }
@@ -125,9 +125,9 @@ public class MatchJDBCDao implements MatchDao {
                 winnerId = match.getAwayPlayerId();
             }
             if (match.isNextMatchHome()) {
-                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
+                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
             } else {
-                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
+                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
             }
         }
         return findById(matchId, tournamentId);
