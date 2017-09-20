@@ -23,18 +23,18 @@ public class MatchJDBCDao implements MatchDao {
     private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<Match> ROW_MAPPER = (rs, rowNum) ->
-            new Match(rs.getLong("home_player_id"), rs.getLong("away_player_id"), rs.getInt("home_player_score"), rs.getInt("away_player_score"), rs.getLong("match_id"), rs.getInt("next_match_id"),rs.getBoolean("next_match_home"), rs.getLong("tournament_id"));
+            new Match(rs.getLong("home_player_id"), rs.getLong("away_player_id"), rs.getInt("home_player_score"), rs.getInt("away_player_score"), rs.getLong("match_id"), rs.getInt("next_match_id"), rs.getBoolean("next_match_home"), rs.getLong("tournament_id"));
 
     @Autowired
     public MatchJDBCDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .usingColumns("match_id","tournament_id","next_match_id","home_player_id","away_player_id","home_player_score","away_player_score","next_match_home")
+                .usingColumns("match_id", "tournament_id", "next_match_id", "home_player_id", "away_player_id", "home_player_score", "away_player_score", "next_match_home")
                 .withTableName("match");
     }
 
     @Override
-    public Match create(final int matchId, final int nextMatchId,final boolean isNextMatchHome, final long tournamentId) {
+    public Match create(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -46,11 +46,11 @@ public class MatchJDBCDao implements MatchDao {
 
         args.put("next_match_home", isNextMatchHome);
         jdbcInsert.execute(args);
-        return new Match(matchId, nextMatchId,isNextMatchHome, tournamentId);
+        return new Match(matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
 
     @Override
-    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
+    public Match create(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -59,7 +59,7 @@ public class MatchJDBCDao implements MatchDao {
         args.put("away_player_id", awayPlayerId);
         args.put("next_match_home", isNextMatchHome);
         jdbcInsert.execute(args);
-        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId,isNextMatchHome, tournamentId);
+        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
 
     @Autowired
@@ -71,7 +71,7 @@ public class MatchJDBCDao implements MatchDao {
 
         Match m = list.get(0);
 
-        if ( m != null){
+        if (m != null) {
             Player homePlayer = playerDao.findById(m.getHomePlayerId());
             Player awayPlayer = playerDao.findById(m.getAwayPlayerId());
             m.setHomePlayer(homePlayer);
@@ -99,10 +99,24 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match updateScore(long tournamentId, int matchId,int homeScore, int awayScore) {
+    public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? and tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
         Match match = findById(matchId, tournamentId);
         long winnerId;
+
+        if (match.getAwayPlayerId() == -1) { /*Checks if there is a BYE*/
+            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 0 WHERE match_id = ?", matchId);
+            homeScore = 1;/*TODO: Magic number, maybe there is a cleaner way*/
+            awayScore = 0;
+        } else if (match.getHomePlayerId() == -1) { /*This should never happen*/
+            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?", matchId);
+            homeScore = 0;
+            awayScore = 1;
+        }
+
+        if(homeScore == 0 && awayScore == 0){ /*Should this be checked before?*/
+            return findById(matchId, tournamentId);
+        }
 
         if (match.getNextMatchId() != 0) { /* If there is a next round match */
             if (homeScore > awayScore) {
@@ -116,16 +130,16 @@ public class MatchJDBCDao implements MatchDao {
                 jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ?", winnerId, match.getNextMatchId());
             }
         }
-        return findById(matchId,tournamentId);
+        return findById(matchId, tournamentId);
     }
 
     @Override
     public List<Match> getTournamentMatches(long tournamentId) {
-        List<Match> matches = jdbcTemplate.query("SELECT * FROM match"  +
+        List<Match> matches = jdbcTemplate.query("SELECT * FROM match" +
                 " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
 
         //TODO ask if is okay to do this
-        for (Match m : matches){
+        for (Match m : matches) {
             Player homePlayer = playerDao.findById(m.getHomePlayerId());
             Player awayPlayer = playerDao.findById(m.getAwayPlayerId());
             m.setHomePlayer(homePlayer);
