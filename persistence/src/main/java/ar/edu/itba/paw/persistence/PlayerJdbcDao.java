@@ -56,7 +56,7 @@ public class PlayerJdbcDao implements PlayerDao{
                 "SELECT * FROM participates_in WHERE player_id = (SELECT player_id FROM participates_in WHERE seed = ?)",ROW_MAPPER, seed);
                 */
 
-        final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ?",LONG_MAPPER,seed);
+        final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ? AND tournament_id = ?",LONG_MAPPER,seed,tournamentId);
 
         if (list.isEmpty()) {
             return 0;
