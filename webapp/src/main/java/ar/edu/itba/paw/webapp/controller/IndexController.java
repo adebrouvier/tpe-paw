@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -39,8 +40,8 @@ public class IndexController {
             return index(form);
         }
         final List<Player> players = parsePlayers(form.getPlayers());
-        if(form.isRandomizeSeed()){
-            /*Random Function*/
+        if (form.isRandomizeSeed()) {
+            Collections.shuffle(players);
         }
         final Tournament t = ts.create(form.getTournamentName(),players);
         return new ModelAndView("redirect:/tournament/"+ t.getId());

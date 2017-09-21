@@ -22,6 +22,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
 	<error-page>
 		<error-code>404</error-code>
