@@ -1,0 +1,5 @@
+.tournament-container{
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 500px;
+}

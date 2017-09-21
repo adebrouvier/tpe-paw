@@ -136,7 +136,7 @@ public class MatchJDBCDao implements MatchDao {
     @Override
     public List<Match> getTournamentMatches(long tournamentId) {
         List<Match> matches = jdbcTemplate.query("SELECT * FROM match" +
-                " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+                " WHERE tournament_id = ? ORDER BY match_id DESC", ROW_MAPPER, tournamentId);
 
         //TODO ask if is okay to do this
         for (Match m : matches) {
