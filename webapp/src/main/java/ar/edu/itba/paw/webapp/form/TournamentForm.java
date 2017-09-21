@@ -8,12 +8,18 @@ import javax.validation.constraints.Size;
  */
 public class TournamentForm {
 
-    @Size(min=4 , max=20)
+    @Size(min = 4, max = 20)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String tournamentName;
 
     @Pattern(regexp = "[a-zA-Z0-9\r\n]+")
     private String players;
+
+    private boolean randomizeSeed;
+
+    public boolean isRandomizeSeed() { return randomizeSeed; }
+
+    public void setRandomizeSeed(boolean randomizeSeed) { this.randomizeSeed = randomizeSeed; }
 
     public String getTournamentName() {
         return tournamentName;

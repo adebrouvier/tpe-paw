@@ -39,6 +39,9 @@ public class IndexController {
             return index(form);
         }
         final List<Player> players = parsePlayers(form.getPlayers());
+        if(form.isRandomizeSeed()){
+            /*Random Function*/
+        }
         final Tournament t = ts.create(form.getTournamentName(),players);
         return new ModelAndView("redirect:/tournament/"+ t.getId());
     }
