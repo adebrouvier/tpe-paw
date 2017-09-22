@@ -17,9 +17,9 @@
             <div class="tournament-container">
                 <div class="row valign-wrapper">
                     <c:set var="roundSize" value="${tournament.players.size()/2}"/>
-                    <c:set var="aux" value="1"/>
+                    <c:set var="matchCount" value="1"/>
                     <c:forEach var="match" items="${tournament.matches}">
-                        <c:if test="${aux == 1}">
+                        <c:if test="${matchCount == 1}">
                             <div class="col l3 valign center-align" >
                             <ul>
                         </c:if>
@@ -49,13 +49,13 @@
                                 </div>
                             </div>
                         </li>
-                            <c:if test="${aux == roundSize}">
+                            <c:if test="${matchCount == roundSize}">
                                 </ul>
                                 </div>
-                                <c:set var="aux" value="0"/>
+                                <c:set var="matchCount" value="0"/>
                                 <c:set var="roundSize" value="${roundSize/2}"/>
                             </c:if>
-                        <c:set var="aux" value="${aux+1}"/>
+                        <c:set var="matchCount" value="${matchCount+1}"/>
                     </c:forEach>
                 </div>
             </div>

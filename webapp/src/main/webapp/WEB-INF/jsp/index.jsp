@@ -22,12 +22,14 @@ ${navbar}
             <form:form modelAttribute="tournamentForm" action="${postPath}" method="post">
                 <div class="input-field">
                     <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
-                    <form:input placeholder="Tournament Name" type="text" data-length="20" path="tournamentName" autocomplete="off"/>
+                    <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
+                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="20" path="tournamentName" autocomplete="off"/>
                     <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
                     <form:label path="players"><spring:message code="tournament.create.players"/>:</form:label>
-                    <form:textarea placeholder="Insert one player per line" cssClass="materialize-textarea" type="text"
+                    <spring:message code="tournament.create.players.placeholder" var="playersPlaceholder"/>
+                    <form:textarea placeholder="${playersPlaceholder}" cssClass="materialize-textarea" type="text"
                                    path="players"/>
                     <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
@@ -42,7 +44,7 @@ ${navbar}
                         </p>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
+                    <button class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
             </form:form>
         </div>
     </div>

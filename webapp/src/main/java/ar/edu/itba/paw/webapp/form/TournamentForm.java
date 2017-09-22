@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.webapp.form.validation.PlayerConstraint;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -13,6 +15,7 @@ public class TournamentForm {
     private String tournamentName;
 
     @Pattern(regexp = "[a-zA-Z0-9\r\n]+")
+    @PlayerConstraint
     private String players;
 
     private boolean randomizeSeed;
