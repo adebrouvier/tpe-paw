@@ -10,7 +10,6 @@ public class Tournament {
 
     private long id;
 
-    private int size;
     public Tournament(String name, long id){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
@@ -43,13 +42,8 @@ public class Tournament {
     }
 
     public int getSize() {
-        return size;
+        return players.size();
     }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
 
     public boolean addPlayer(Player player){
         return players.add(player);

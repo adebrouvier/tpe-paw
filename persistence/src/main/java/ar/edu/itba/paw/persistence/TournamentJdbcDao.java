@@ -66,4 +66,25 @@ public class TournamentJdbcDao implements TournamentDao {
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
         return new Tournament(name,tournamentId.longValue());
     }
+
+    @Override
+    public List<Tournament> findAllTournaments() {
+
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament ORDER BY tournament_id DESC",ROW_MAPPER);
+
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        for (Tournament t : list) {
+
+            final List<Player> players = playerDao.getTournamentPlayers(t.getId());
+            final List<Match> matches = matchDao.getTournamentMatches(t.getId());
+
+            t.addPlayer(players);
+            t.addMatch(matches);
+        }
+
+        return list;
+    }
 }

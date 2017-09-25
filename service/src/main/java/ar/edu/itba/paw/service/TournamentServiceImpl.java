@@ -56,6 +56,11 @@ public class TournamentServiceImpl implements TournamentService {
         return tournament;
     }
 
+    @Override
+    public List<Tournament> findAllTournaments() {
+        return tournamentDao.findAllTournaments();
+    }
+
     private void generateSingleEliminationBracket(long tournamentId) {
         int depth = 1;
         List<Player> players = this.findById(tournamentId).getPlayers();

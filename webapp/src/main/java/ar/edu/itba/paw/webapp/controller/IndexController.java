@@ -30,6 +30,7 @@ public class IndexController {
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("tournaments",ts.findAllTournaments());
         return mav;
     }
 
@@ -53,9 +54,12 @@ public class IndexController {
 
         for (String player : players.split("\r\n")){
 
-            final Player p = ps.create(player);
+            if (player.length() > 0) {
 
-            result.add(p);
+                final Player p = ps.create(player);
+
+                result.add(p);
+            }
         }
 
         return result;

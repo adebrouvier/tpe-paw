@@ -13,4 +13,6 @@ public interface TournamentService {
 
     public Tournament create(String name, List<Player> players);
 
+    public List<Tournament> findAllTournaments();
+
 }
