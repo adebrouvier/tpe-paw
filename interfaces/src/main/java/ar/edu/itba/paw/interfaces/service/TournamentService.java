@@ -11,6 +11,6 @@ public interface TournamentService {
 
     public Tournament findById(long id);
 
-    public Tournament create(String name, List<Player> players);
+    public Tournament createSingleEliminationBracket(String name, List<Player> players);
 
 }

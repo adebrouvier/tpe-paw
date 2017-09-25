@@ -43,7 +43,7 @@ public class IndexController {
         if (form.isRandomizeSeed()) {
             Collections.shuffle(players);
         }
-        final Tournament t = ts.create(form.getTournamentName(),players);
+        final Tournament t = ts.createSingleEliminationBracket(form.getTournamentName(),players);
         return new ModelAndView("redirect:/tournament/"+ t.getId());
     }
 

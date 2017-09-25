@@ -13,13 +13,28 @@ public class MatchServiceImpl implements MatchService{
     private MatchDao matchDao;
 
     @Override
-    public Match create(int matchId, int nextMatchId,boolean isNextHome, long tournamentId) {
-        return matchDao.create(matchId,nextMatchId,isNextHome,tournamentId);
+    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
+        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId);
     }
 
     @Override
-    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long localPlayerId, long visitorPlayerId) {
-        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId,localPlayerId,visitorPlayerId);
+    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
+        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId,homePlayerId,awayPlayerId);
+    }
+
+    public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId){
+        return matchDao.createWinnerMatch(matchId,nextMatchId,loserMatchId,isNextMatchHome,tournamentId);
+    }
+
+    @Override
+    public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
+        return matchDao.createWinnerMatch(matchId,nextMatchId,loserMatchId,isNextMatchHome,tournamentId,homePlayerId,awayPlayerId);
+
+    }
+
+    @Override
+    public Match createLoserMatch(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId) {
+        return matchDao.createLoserMatch(matchId,nextMatchId,isNextMatchHome,tournamentId);
     }
 
     @Override

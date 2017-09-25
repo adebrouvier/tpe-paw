@@ -23,7 +23,8 @@ ${navbar}
                 <div class="input-field">
                     <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
                     <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
-                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="20" path="tournamentName" autocomplete="off"/>
+                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="20"
+                                path="tournamentName" autocomplete="off"/>
                     <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
@@ -40,11 +41,26 @@ ${navbar}
                     <div>
                         <p>
                             <form:checkbox path="randomizeSeed" cssClass="filled-in" id="seed-checkbox"/>
-                            <form:label path="randomizeSeed" for="seed-checkbox"><spring:message code="tournament.create.checkbox.seeding"/></form:label>
+                            <form:label path="randomizeSeed" for="seed-checkbox"><spring:message
+                                    code="tournament.create.checkbox.seeding"/></form:label>
                         </p>
                     </div>
                 </div>
-                    <button class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
+                <div class="row">
+                    <div class="col s1">
+                        <!-- Dropdown Trigger -->
+                        <a class='dropdown-button btn' href='#' data-activates='formats'><spring:message
+                                code="tournament.create.format"/> </a>
+
+                        <!-- Dropdown Structure -->
+                        <ul id='formats' class='dropdown-content'>
+                            <li><a href="#!"><spring:message code="tournament.create.singleelimination"/></a></li>
+                            <li><a href="#!"><spring:message code="tournament.create.doubleelimination"/></a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <button class="btn btn-primary" type="submit"><spring:message
+                            code="tournament.create.submit"/></button>
             </form:form>
         </div>
     </div>

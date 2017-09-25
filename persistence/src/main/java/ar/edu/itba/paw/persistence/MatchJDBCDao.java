@@ -62,6 +62,21 @@ public class MatchJDBCDao implements MatchDao {
         return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
 
+    @Override
+    public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId) {
+        return null;
+    }
+
+    @Override
+    public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
+        return null;
+    }
+
+    @Override
+    public Match createLoserMatch(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId) {
+        return null;
+    }
+
     @Autowired
     private PlayerDao playerDao;
 
