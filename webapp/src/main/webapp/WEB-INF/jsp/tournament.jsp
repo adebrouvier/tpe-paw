@@ -36,7 +36,7 @@ ${navbar}
 
                     <span class="match-id-container">
                         <span class="match-id">
-                            <c:out value="${match.id}"></c:out>
+                            <c:out value="${match.id}"/>
                         </span>
                         <span class="triangulo"></span>
                     </span>
@@ -63,7 +63,7 @@ ${navbar}
 
                 </div>
 
-                <div id="modal-${match.id}" class="modal" style="width: 40% !important;">
+                <div id="modal-${match.id}" class="modal" style="width: 25% !important;">
 
                         <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                         <form:form modelAttribute="matchForm" action="${postPath}" method="post">

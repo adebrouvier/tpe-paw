@@ -33,15 +33,16 @@ ${navbar}
                                    path="players"/>
                     <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
+
                 <div>
-                    <p><spring:message code="tournament.create.seeding"/></p>
-                </div>
-                <div class="row">
-                    <div>
-                        <p>
+                    <div class="row">
+                        <div>
+                            <spring:message code="tournament.create.seeding"/>
+                        </div>
+                        <div class="randomize-checkbox">
                             <form:checkbox path="randomizeSeed" cssClass="filled-in" id="seed-checkbox"/>
                             <form:label path="randomizeSeed" for="seed-checkbox"><spring:message code="tournament.create.checkbox.seeding"/></form:label>
-                        </p>
+                        </div>
                     </div>
                 </div>
                     <button class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
