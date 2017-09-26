@@ -1,12 +1,15 @@
 package ar.edu.itba.paw.webapp.form;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 public class MatchForm {
 
+    @Min(value = 0L)
     @Digits(integer = 3,fraction = 0)
     private int homeResult;
 
+    @Min(value = 0L)
     @Digits(integer = 3,fraction = 0)
     private int awayResult;
 

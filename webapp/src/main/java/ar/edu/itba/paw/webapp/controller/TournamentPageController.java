@@ -37,7 +37,7 @@ public class TournamentPageController {
 
     @RequestMapping(value = "/update/{tournamentId}/{matchId}", method = { RequestMethod.POST })
     public ModelAndView updateMatch(@Valid @ModelAttribute("matchForm")
-                               final MatchForm form, @PathVariable long tournamentId, @PathVariable int matchId ,final BindingResult errors) {
+                               final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId) {
         if (errors.hasErrors()) {
             return tournament(form,tournamentId);
         }

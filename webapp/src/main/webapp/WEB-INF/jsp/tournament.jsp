@@ -71,13 +71,13 @@ ${navbar}
                             <div class="input-field inline">
                                 <form:label path="homeResult"><c:out value="${match.homePlayer.name}"/>:
                                 </form:label>
-                                <form:input type="number" path="homeResult" value="${match.homePlayerScore}"/>
+                                <form:input min="0" type="number" path="homeResult" value="${match.homePlayerScore}"/>
                                 <form:errors path="homeResult" cssClass="formError" element="p"/>
                             </div>
                             <div class="input-field inline">
                                 <form:label path="awayResult"><c:out value="${match.awayPlayer.name}"/>:
                                 </form:label>
-                                <form:input type="number" path="awayResult" value="${match.awayPlayerScore}"/>
+                                <form:input min="0" type="number" path="awayResult" value="${match.awayPlayerScore}"/>
                                 <form:errors path="awayResult" cssClass="formError" element="p"/>
                             </div>
                             </div>
