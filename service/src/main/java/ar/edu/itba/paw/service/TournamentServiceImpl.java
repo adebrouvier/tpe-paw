@@ -81,17 +81,4 @@ public class TournamentServiceImpl implements TournamentService {
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2+1, matchId, false, tournamentId, totalPlayers);
         }
     }
-    /*
-    private void generateBracketRecursive(int seedHome, int seedAway, int bracketId, int parentID, boolean isNextMatchHome, long tournamentId, int depth, int totalDepth) {
-        if (depth > totalDepth) {
-            matchService.create(bracketId, parentID, isNextMatchHome, tournamentId, playerService.findBySeed(seedHome, tournamentId), playerService.findBySeed(seedAway, tournamentId));
-            matchService.updateScore(tournamentId,bracketId,0,0); /*TODO: Find out a better solution*/
-       /*     return;
-        }
-
-        matchService.create(bracketId, parentID, isNextMatchHome, tournamentId);
-        matchService.updateScore(tournamentId,bracketId,0,0);
-        generateBracketRecursive(seedHome, ((int) (Math.pow(2, depth))) - seedHome + 1, ++bracketCount, bracketId, true, tournamentId, depth + 1, totalDepth);
-        generateBracketRecursive(seedAway, ((int) (Math.pow(2, depth))) - seedAway + 1, ++bracketCount, bracketId, false, tournamentId, depth + 1, totalDepth);
-    }*/
 }

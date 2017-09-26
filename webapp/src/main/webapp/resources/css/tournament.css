@@ -3,3 +3,139 @@
     overflow-y: scroll;
     height: 500px;
 }
+
+.bracket-container {
+    display: block;
+    clear: left;
+}
+
+.match-right-branch {
+    display: inline;
+    float: left;
+    z-index: 0;
+    position: relative;
+    width: 20px;
+    height: 30px;
+    border-bottom: 2px solid #9e9e9e;
+    border-right: 2px solid #9e9e9e;
+    border-radius: 0px 0px 6px 0px;
+    margin-top: -9px;
+    z-index: 1;
+    position: relative;
+}
+
+
+.match-left-branch {
+    display: inline;
+    float: left;
+    z-index: 0;
+    position: relative;
+    width: 20px;
+    height: 30px;
+    border-top: 2px solid #9e9e9e;
+    border-right: 2px solid #9e9e9e;
+    border-radius: 0px 6px 0px 0px;
+    margin-top: 21px;
+    z-index: 1;
+    position: relative;
+}
+
+
+.bracket {
+    display: block;
+    float:left;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border: 2px solid #9e9e9e;
+    width: 180px;
+    height: 40px;
+    margin-left: -8.5px;
+    box-sizing: content-box;
+}
+
+.bracket:hover {
+    border:2px solid #000000;
+    cursor:hand;
+}
+
+.players-name {
+    display: inline;
+    background-color: #757575;
+    float:left;
+    width: 150px;
+    height: 40px;
+    border-radius: 1px 0px 0px 1px;
+    color: #ffffff;
+}
+
+.local-player-name {
+    padding-left: 2px;
+    display: block;
+    border-bottom: #9e9e9e;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    height: 19px;
+}
+
+.away-player-name {
+    padding-left: 2px;
+    display: block;
+    height: 19px;
+
+}
+
+.players-score {
+    display: inline;
+    float:left;
+    left: 170px;
+    width: 30px;
+    height: 40px;
+}
+.local-player-score {
+    display: block;
+    border-bottom: #9e9e9e;
+    text-align: center;
+    border-bottom-style: solid;
+    height:19px;
+    border-bottom-width: 2px;
+}
+
+.away-player-score {
+    display: block;
+    text-align: center;
+    height: 19px;
+}
+.match-id-container {
+    display: inline;
+    float:left;
+    margin-top: 15px;
+    z-index: 0;
+    position: relative;
+
+}
+.match-id {
+    display: inline;
+    float:left;
+    text-align:center;
+    background-color: #9e9e9e;
+    color: white;
+    padding-left: 2px;
+    padding-right: 3px;
+    font-size: 12px;
+    border-radius: 1px;
+    font-weight: bold;
+
+}
+.triangulo {
+    display: inline;
+    float:left;
+    margin-left:-0.3px;
+    width: 0;
+    height: 0;
+    margin-top: 0.25px;
+    border-top: 6.65px solid transparent;
+    border-left: 8px solid #9e9e9e;
+    border-bottom: 6.65px solid transparent;
+}
