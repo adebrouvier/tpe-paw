@@ -15,13 +15,14 @@
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
-<div class="container">
+<div class="center">
     <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
+</div>
+<div>
     <div class="tournament-container">
         <div class="row">
             <c:set var="roundSize" value="${tournament.players.size()/2}"/>
             <c:set var="matchCount" value="1"/>
-            <c:set var="round" value="1"/>
             <c:set var="margin" value="0"/>
             <c:set var="padding" value="16"/>
             <c:forEach var="match" items="${tournament.matches}">
@@ -62,10 +63,11 @@ ${navbar}
 
                 </div>
 
-                <div id="modal-${match.id}" class="modal">
-                    <div class="modal-content">
+                <div id="modal-${match.id}" class="modal" style="width: 40% !important;">
+
                         <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                         <form:form modelAttribute="matchForm" action="${postPath}" method="post">
+                            <div class="modal-content">
                             <div class="input-field inline">
                                 <form:label path="homeResult"><c:out value="${match.homePlayer.name}"/>:
                                 </form:label>
@@ -78,7 +80,8 @@ ${navbar}
                                 <form:input type="number" path="awayResult" value="${match.awayPlayerScore}"/>
                                 <form:errors path="awayResult" cssClass="formError" element="p"/>
                             </div>
-                            <div>
+                            </div>
+                                <div class="modal-footer">
                                 <c:if test="${match.awayPlayerId == -1}">
                                     <button class="btn waves-effect waves-light disabled" type="submit">
                                         <spring:message code="tournament.update"/>
@@ -94,9 +97,9 @@ ${navbar}
 
                             </div>
                         </form:form>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
+
+
+
                 </div>
 
 
@@ -104,8 +107,8 @@ ${navbar}
                     </div>
                     <c:set var="matchCount" value="0"/>
                     <c:set var="roundSize" value="${roundSize/2}"/>
-                    <c:set var="margin" value="${(44+padding)/2+margin}"/>
-                    <c:set var="padding" value="${(44+padding)+16}"/>
+                    <c:set var="margin" value="${(padding+44)/2+margin}"/>
+                    <c:set var="padding" value="${2*margin+16}"/>
                 </c:if>
                 <c:set var="matchCount" value="${matchCount+1}"/>
             </c:forEach>
