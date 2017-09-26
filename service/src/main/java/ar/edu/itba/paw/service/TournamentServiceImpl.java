@@ -4,7 +4,6 @@ import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
-import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,6 @@ import java.util.List;
 
 @Service
 public class TournamentServiceImpl implements TournamentService {
-
-    /*TODO: check what happens with simultaneous concurrent requests*/
-    private static int bracketCount = 1;
 
     @Autowired
     private TournamentDao tournamentDao;
@@ -31,8 +27,6 @@ public class TournamentServiceImpl implements TournamentService {
     public Tournament findById(long id) {
         return tournamentDao.findById(id);
     }
-
-    private final long BYE_ID = -1;
 
     @Override
     public Tournament create(String name, List<Player> players) {
@@ -57,7 +51,6 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     private void generateSingleEliminationBracket(long tournamentId) {
-        int depth = 1;
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
         generateBracketRecursive(1, 2, 1, TournamentService.NO_PARENT, false, tournamentId, (int)Math.pow(2,totalDepth));
@@ -70,13 +63,11 @@ public class TournamentServiceImpl implements TournamentService {
 
         if(roundPlayers == totalPlayers) {
             matchService.create(matchId, parentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
-            matchService.updateScore(tournamentId,matchId,0,0); /*TODO: Find out a better solution*/
             return;
         }
 
         if(roundPlayers < totalPlayers) {
             matchService.create(matchId, parentId, isNextMatchHome, tournamentId);
-            matchService.updateScore(tournamentId,matchId,0,0);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2+1, matchId, false, tournamentId, totalPlayers);
         }

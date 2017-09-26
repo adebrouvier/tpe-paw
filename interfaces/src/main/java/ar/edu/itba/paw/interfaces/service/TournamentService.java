@@ -9,6 +9,8 @@ public interface TournamentService {
 
     public final int NO_PARENT = 0;
 
+    public final int BYE_ID = -1;
+
     public Tournament findById(long id);
 
     public Tournament create(String name, List<Player> players);

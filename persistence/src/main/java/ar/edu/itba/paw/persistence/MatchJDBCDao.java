@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
+import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,9 @@ public class MatchJDBCDao implements MatchDao {
 
     @Override
     public Match create(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
+
+        int homeScore = 0;
+
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -58,8 +62,16 @@ public class MatchJDBCDao implements MatchDao {
         args.put("home_player_id", homePlayerId);
         args.put("away_player_id", awayPlayerId);
         args.put("next_match_home", isNextMatchHome);
+
+        if (awayPlayerId == -1) { /*Checks if there is a BYE*/
+            homeScore = MatchService.BYE_WIN_SCORE;
+            args.put("home_player_score", homeScore);
+        }
+
+        updateNextMatch(tournamentId,nextMatchId,homeScore,0,homePlayerId,awayPlayerId,isNextMatchHome);
+
         jdbcInsert.execute(args);
-        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, isNextMatchHome, tournamentId);
+        return new Match(homePlayerId, awayPlayerId, homeScore,0, matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
 
     @Autowired
@@ -100,37 +112,43 @@ public class MatchJDBCDao implements MatchDao {
 
     @Override
     public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
-        jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
+
+        //TODO: check ties and defined matches
+
         Match match = findById(matchId, tournamentId);
-        long winnerId;
 
-        if (match.getAwayPlayerId() == -1) { /*Checks if there is a BYE*/
-            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 0 WHERE match_id = ? AND tournament_id = ?", matchId, tournamentId);
-            homeScore = 1;/*TODO: Magic number, maybe there is a cleaner way*/
-            awayScore = 0;
-        } else if (match.getHomePlayerId() == -1) { /*This should never happen*/
-            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?  AND tournament_id = ?", matchId,tournamentId);
-            homeScore = 0;
-            awayScore = 1;
+        if (match == null){
+            return null;
         }
 
-        if(homeScore == 0 && awayScore == 0){ /*Should this be checked before?*/
-            return findById(matchId, tournamentId);
-        }
+        jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
 
-        if (match.getNextMatchId() != 0) { /* If there is a next round match */
-            if (homeScore > awayScore) {
-                winnerId = match.getHomePlayerId();
-            } else {
-                winnerId = match.getAwayPlayerId();
-            }
-            if (match.isNextMatchHome()) {
-                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
-            } else {
-                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
-            }
-        }
+        updateNextMatch(tournamentId,match.getNextMatchId(),homeScore,awayScore,match.getHomePlayerId(),match.getAwayPlayerId(),match.isNextMatchHome());
+
         return findById(matchId, tournamentId);
+    }
+
+    private void updateNextMatch(long tournamentId, long nextMatchId, int homeScore, int awayScore, long homePlayerId, long awayPlayerId, boolean nextMatchHome){
+
+        if (homeScore == awayScore){
+            return;
+        }
+
+        long winnerId = 0;
+
+        if (nextMatchId != 0) { /* If there is a next round match */
+            if (homeScore > awayScore) {
+                winnerId = homePlayerId;
+            } else if (awayScore > homeScore){
+                winnerId = awayPlayerId;
+            }
+            if (!nextMatchHome) { //TODO: remove this workaround
+                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
+            } else {
+                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
+            }
+        }
+
     }
 
     @Override
