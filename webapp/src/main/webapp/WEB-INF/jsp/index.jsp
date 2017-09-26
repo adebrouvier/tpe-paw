@@ -49,6 +49,30 @@ ${navbar}
         </div>
     </div>
 </div>
+<div class="container">
+    <h4 class="center"><spring:message code="index.tournaments"/></h4>
+    <table class="highlight centered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Players</th>
+            <th>Matches</th>
+            <th>Page</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="tournament" items="${tournaments}">
+            <tr>
+                <td>${tournament.name}</td>
+                <td>${tournament.size}</td>
+                <td>${tournament.matches.size()}</td>
+                <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
+
 <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
 <script type="text/javascript"
         src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>

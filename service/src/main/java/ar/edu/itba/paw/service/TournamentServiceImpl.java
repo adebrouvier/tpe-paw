@@ -50,6 +50,11 @@ public class TournamentServiceImpl implements TournamentService {
         return tournament;
     }
 
+    @Override
+    public List<Tournament> findAllTournaments() {
+        return tournamentDao.findAllTournaments();
+    }
+
     private void generateSingleEliminationBracket(long tournamentId) {
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
