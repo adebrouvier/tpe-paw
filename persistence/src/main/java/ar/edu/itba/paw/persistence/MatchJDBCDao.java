@@ -142,7 +142,7 @@ public class MatchJDBCDao implements MatchDao {
             } else if (awayScore > homeScore){
                 winnerId = awayPlayerId;
             }
-            if (!nextMatchHome) { //TODO: remove this workaround
+            if (nextMatchHome) {
                 jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
             } else {
                 jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
@@ -154,7 +154,7 @@ public class MatchJDBCDao implements MatchDao {
     @Override
     public List<Match> getTournamentMatches(long tournamentId) {
         List<Match> matches = jdbcTemplate.query("SELECT * FROM match" +
-                " WHERE tournament_id = ? ORDER BY match_id DESC", ROW_MAPPER, tournamentId);
+                " WHERE tournament_id = ? ORDER BY match_id ASC", ROW_MAPPER, tournamentId);
 
         //TODO ask if is okay to do this
         for (Match m : matches) {

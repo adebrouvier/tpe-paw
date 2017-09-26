@@ -61,15 +61,21 @@ public class TournamentServiceImpl implements TournamentService {
             return;
         }
 
+        if(parentId == TournamentService.NO_PARENT) {
+            matchService.create(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId);
+            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
+            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
+            return;
+        }
         if(roundPlayers == totalPlayers) {
-            matchService.create(matchId, parentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
+            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
             return;
         }
 
         if(roundPlayers < totalPlayers) {
-            matchService.create(matchId, parentId, isNextMatchHome, tournamentId);
-            generateBracketRecursive(seed, roundPlayers*2, matchId*2, matchId, true, tournamentId, totalPlayers);
-            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2+1, matchId, false, tournamentId, totalPlayers);
+            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId);
+            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
+            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
         }
     }
 }
