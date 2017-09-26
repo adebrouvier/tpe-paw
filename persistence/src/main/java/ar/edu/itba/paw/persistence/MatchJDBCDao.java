@@ -64,17 +64,40 @@ public class MatchJDBCDao implements MatchDao {
 
     @Override
     public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId) {
-        return null;
+        final Map<String, Object> args = new HashMap<>();
+        args.put("match_id", matchId);
+        args.put("tournament_id", tournamentId);
+        args.put("next_match_id", nextMatchId);
+        args.put("next_match_home", isNextMatchHome);
+        args.put("next_loser_match_id", loserMatchId);
+        jdbcInsert.execute(args);
+        return new Match(matchId, nextMatchId, loserMatchId, isNextMatchHome, tournamentId);
     }
 
     @Override
     public Match createWinnerMatch(int matchId, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId) {
-        return null;
+        final Map<String, Object> args = new HashMap<>();
+        args.put("match_id", matchId);
+        args.put("tournament_id", tournamentId);
+        args.put("next_match_id", nextMatchId);
+        args.put("next_loser_match_id", loserMatchId);
+        args.put("home_player_id", homePlayerId);
+        args.put("away_player_id", awayPlayerId);
+        args.put("next_match_home", isNextMatchHome);
+        jdbcInsert.execute(args);
+        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, loserMatchId, isNextMatchHome, tournamentId);
     }
 
+    /*Its behaviour is the same as in a SingleBracketElimination Match*/
     @Override
     public Match createLoserMatch(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId) {
-        return null;
+        final Map<String, Object> args = new HashMap<>();
+        args.put("match_id", matchId);
+        args.put("tournament_id", tournamentId);
+        args.put("next_match_id", nextMatchId);
+        args.put("next_match_home", isNextMatchHome);
+        jdbcInsert.execute(args);
+        return new Match(matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
 
     @Autowired
@@ -118,31 +141,43 @@ public class MatchJDBCDao implements MatchDao {
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
         Match match = findById(matchId, tournamentId);
         long winnerId;
+        long loserId;
 
         if (match.getAwayPlayerId() == -1) { /*Checks if there is a BYE*/
             jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 0 WHERE match_id = ? AND tournament_id = ?", matchId, tournamentId);
             homeScore = 1;/*TODO: Magic number, maybe there is a cleaner way*/
             awayScore = 0;
         } else if (match.getHomePlayerId() == -1) { /*This should never happen*/
-            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?  AND tournament_id = ?", matchId,tournamentId);
+            jdbcTemplate.update("UPDATE match SET home_player_score = 1, away_player_score = 1 WHERE match_id = ?  AND tournament_id = ?", matchId, tournamentId);
             homeScore = 0;
             awayScore = 1;
         }
 
-        if(homeScore == 0 && awayScore == 0){ /*Should this be checked before?*/
+        if (homeScore == 0 && awayScore == 0) { /*Should this be checked before?*/
             return findById(matchId, tournamentId);
         }
 
         if (match.getNextMatchId() != 0) { /* If there is a next round match */
             if (homeScore > awayScore) {
                 winnerId = match.getHomePlayerId();
+                loserId = match.getAwayPlayerId();
             } else {
                 winnerId = match.getAwayPlayerId();
+                loserId = match.getHomePlayerId();
             }
             if (match.isNextMatchHome()) {
                 jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
             } else {
                 jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, match.getNextMatchId(), tournamentId);
+            }
+            /*Should we set another "No losers match" value?*/
+            if (match.getLoserMatchId() != 0) {
+                if (match.isNextMatchHome()) {
+                    jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", loserId, match.getLoserMatchId(), tournamentId);
+                }else{
+                    jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", loserId, match.getLoserMatchId(), tournamentId);
+                }
+
             }
         }
         return findById(matchId, tournamentId);

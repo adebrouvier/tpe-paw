@@ -57,7 +57,6 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
 
-
     private void generateDoubleEliminationBracket(long tournamentId) {
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2));
@@ -69,13 +68,13 @@ public class TournamentServiceImpl implements TournamentService {
             return;
         }
         if (roundPlayers == totalPlayers) {
-            matchService.createWinnerMatch(matchId, parentId, loserParentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers - seed + 1, tournamentId));
+            matchService.createWinnerMatch(matchId, parentId, loserParentId + totalPlayers - 1, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers - seed + 1, tournamentId));
             return;
         }
         if (roundPlayers < totalPlayers) {
-            matchService.createLoserMatch(loserMatchId, loserParentId, isNextMatchHome, tournamentId);
-            matchService.createWinnerMatch(matchId, parentId, loserMatchId, isNextMatchHome, tournamentId);
-            matchService.createLoserMatch(loserMatchId + 1, loserMatchId, isNextMatchHome, tournamentId);
+            matchService.createLoserMatch(loserMatchId + totalPlayers - 1, loserParentId, isNextMatchHome, tournamentId);
+            matchService.createWinnerMatch(matchId, parentId, loserMatchId + totalPlayers - 1, isNextMatchHome, tournamentId);
+            matchService.createLoserMatch(loserMatchId + totalPlayers, loserMatchId, isNextMatchHome, tournamentId);
             generateDoubleEliminationBracketRecursive(seed, roundPlayers * 2, matchId * 2, matchId, loserMatchId * 2 + 1, loserMatchId + 1, true, tournamentId, totalPlayers);
             generateDoubleEliminationBracketRecursive(roundPlayers - seed + 1, roundPlayers * 2, matchId * 2 + 1, matchId, loserMatchId * 2 + 3, loserMatchId + 1, false, tournamentId, totalPlayers);
         }

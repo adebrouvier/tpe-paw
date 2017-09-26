@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS match (
   home_player_score INTEGER,
   away_player_score INTEGER,
   next_match_id BIGINT,
+  next_loser_match_id BIGINT,
   next_match_home BOOLEAN,
   UNIQUE (match_id, tournament_id),
   FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)

@@ -10,10 +10,11 @@ public class Match {
     private int awayPlayerScore;
     private long id;
     private long nextMatchId;
+    private long loserMatchId;
     private long tournamentId;
     private boolean isNextMatchHome;
 
-    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId, boolean isNextMatchHome, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.id = id;
@@ -22,14 +23,32 @@ public class Match {
         this.isNextMatchHome = isNextMatchHome;
     }
 
-    public Match(int id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,long loserMatchId ,boolean isNextMatchHome, long tournamentId) {
+        this.homePlayerId = homePlayerId;
+        this.awayPlayerId = awayPlayerId;
+        this.id = id;
+        this.nextMatchId = nextMatchId;
+        this.tournamentId = tournamentId;
+        this.isNextMatchHome = isNextMatchHome;
+        this.loserMatchId = loserMatchId;
+    }
+
+    public Match(int id, int nextMatchId, boolean isNextMatchHome, long tournamentId) {
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
         this.isNextMatchHome = isNextMatchHome;
     }
 
-    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(int id, int nextMatchId, int loserMatchId, boolean isNextMatchHome, long tournamentId) {
+        this.id = id;
+        this.nextMatchId = nextMatchId;
+        this.tournamentId = tournamentId;
+        this.isNextMatchHome = isNextMatchHome;
+        this.loserMatchId = loserMatchId;
+    }
+
+    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId, boolean isNextMatchHome, long tournamentId) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.homePlayerScore = homePlayerScore;
@@ -40,7 +59,9 @@ public class Match {
         this.isNextMatchHome = isNextMatchHome;
     }
 
-    public boolean isNextMatchHome() { return isNextMatchHome; }
+    public boolean isNextMatchHome() {
+        return isNextMatchHome;
+    }
 
     public long getHomePlayerId() {
         return homePlayerId;
@@ -85,6 +106,10 @@ public class Match {
     public void setAwayPlayer(Player awayPlayer) {
         this.awayPlayer = awayPlayer;
     }
+
+    public long getLoserMatchId() { return loserMatchId; }
+
+    public void setLoserMatchId(long loserMatchId) { this.loserMatchId = loserMatchId; }
 
     @Override
     public boolean equals(Object o) {
