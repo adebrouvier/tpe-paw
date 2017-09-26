@@ -50,18 +50,29 @@ ${navbar}
     </div>
 </div>
 <div class="container">
-    <div class="collection">
-        <ul>
-            <li class="collection-item"><h4><spring:message code="index.tournaments"/></h4></li>
+    <h4 class="center"><spring:message code="index.tournaments"/></h4>
+    <table class="highlight centered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Players</th>
+            <th>Matches</th>
+            <th>Page</th>
+        </tr>
+        </thead>
+        <tbody>
         <c:forEach var="tournament" items="${tournaments}">
-            <li class="collection-item">
-                <a href="<c:url value = "/tournament/${tournament.id}"/>">${tournament.name}</a>
-                <span>Players: ${tournament.size}</span>
-            </li>
+            <tr>
+                <td>${tournament.name}</td>
+                <td>${tournament.size}</td>
+                <td>${tournament.matches.size()}</td>
+                <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
+            </tr>
         </c:forEach>
-        </ul>
-    </div>
+        </tbody>
+    </table>
 </div>
+
 <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
 <script type="text/javascript"
         src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
