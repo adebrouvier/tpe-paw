@@ -27,6 +27,14 @@ WHERE
       SELECT player_id FROM player WHERE player_id = -1
   );
 
+INSERT INTO player (player_id,name)
+SELECT -2, 'EMPTY'
+WHERE
+  NOT EXISTS (
+      SELECT player_id FROM player WHERE player_id = -2
+  );
+
+
 CREATE TABLE IF NOT EXISTS match (
   match_id BIGINT NOT NULL,
   tournament_id BIGINT REFERENCES tournament(tournament_id) ON DELETE CASCADE,

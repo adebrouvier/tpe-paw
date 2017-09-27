@@ -46,6 +46,8 @@ public class MatchJDBCDao implements MatchDao {
             args.put("next_match_id", null);
 
         args.put("next_match_home", isNextMatchHome);
+        args.put("home_player_id", -2);
+        args.put("away_player_id", -2);
         jdbcInsert.execute(args);
         return new Match(matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
@@ -89,7 +91,6 @@ public class MatchJDBCDao implements MatchDao {
             m.setHomePlayer(homePlayer);
             m.setAwayPlayer(awayPlayer);
         }
-
         return m;
     }
 
@@ -121,6 +122,10 @@ public class MatchJDBCDao implements MatchDao {
             return null;
         }
 
+        if(match.getHomePlayerId() == -2 || match.getAwayPlayerId() == -2) {
+            return null;
+        }
+
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
 
         updateNextMatch(tournamentId,match.getNextMatchId(),homeScore,awayScore,match.getHomePlayerId(),match.getAwayPlayerId(),match.isNextMatchHome());
@@ -130,6 +135,47 @@ public class MatchJDBCDao implements MatchDao {
 
     private void updateNextMatch(long tournamentId, long nextMatchId, int homeScore, int awayScore, long homePlayerId, long awayPlayerId, boolean nextMatchHome){
 
+        Match match = findById((int)nextMatchId, tournamentId);
+
+        if(match != null) {
+            if(nextMatchHome) {
+                if(match.getHomePlayerId() != -2) {
+                    if(homeScore > awayScore) {
+                        if(match.getHomePlayerId() != homePlayerId) {
+                            jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
+                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                            return;
+                        }
+                    }
+                    if(homeScore < awayScore) {
+                        if(match.getHomePlayerId() != awayPlayerId) {
+                            jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", awayPlayerId, 0, 0, nextMatchId, tournamentId);
+                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                            return;
+                        }
+                    }
+                }
+
+            } else {
+                if(match.getAwayPlayerId() != -2) {
+                    if(homeScore > awayScore) {
+                        if(match.getAwayPlayerId() != homePlayerId) {
+                            jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
+                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                            return;
+                        }
+                    }
+                    if(homeScore < awayScore) {
+                        if(match.getAwayPlayerId() != awayPlayerId) {
+                            jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", awayPlayerId, 0, 0, nextMatchId, tournamentId);
+                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                            return;
+                        }
+                    }
+                }
+
+            }
+        }
         if (homeScore == awayScore){
             return;
         }
@@ -149,6 +195,31 @@ public class MatchJDBCDao implements MatchDao {
             }
         }
 
+    }
+
+    private void updateRecursive(long tournamentId, long matchId, boolean nextMatchHome) {
+
+        if(matchId == 0) {
+            return;
+        }
+
+        Match match = findById((int)matchId, tournamentId);
+        if(match != null) {
+            if(match.getId() != 0) {
+                if(nextMatchHome) {
+                    if(match.getHomePlayerId() != -2) {
+                        jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", -2, 0, 0, matchId, tournamentId);
+                        updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                    }
+                } else {
+                    if(match.getAwayPlayerId() != -2) {
+                        jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", -2, 0, 0, matchId, tournamentId);
+                        updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+                    }
+                }
+            }
+
+        }
     }
 
     @Override
