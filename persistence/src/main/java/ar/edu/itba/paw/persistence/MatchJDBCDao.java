@@ -58,10 +58,15 @@ public class MatchJDBCDao implements MatchDao {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
-        args.put("next_match_id", nextMatchId);
         args.put("home_player_id", homePlayerId);
         args.put("away_player_id", awayPlayerId);
         args.put("next_match_home", isNextMatchHome);
+
+        if (nextMatchId != 0){
+            args.put("next_match_id", nextMatchId);
+        }else{
+            args.put("next_match_id", null);
+        }
 
         if (awayPlayerId == -1) { /*Checks if there is a BYE*/
             homeScore = MatchService.BYE_WIN_SCORE;

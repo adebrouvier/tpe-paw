@@ -67,6 +67,12 @@ public class TournamentServiceImpl implements TournamentService {
         }
 
         if(parentId == TournamentService.NO_PARENT) {
+
+            if (roundPlayers == totalPlayers){ /* Only one match */
+                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
+                return;
+            }
+
             matchService.create(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
