@@ -55,10 +55,10 @@ ${navbar}
     <table class="highlight centered">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Players</th>
-            <th>Matches</th>
-            <th>Page</th>
+            <th><spring:message code="index.tournaments.table.name"/></th>
+            <th><spring:message code="index.tournaments.table.players"/></th>
+            <th><spring:message code="index.tournaments.table.matches"/></th>
+            <th><spring:message code="index.tournaments.table.page"/></th>
         </tr>
         </thead>
         <tbody>

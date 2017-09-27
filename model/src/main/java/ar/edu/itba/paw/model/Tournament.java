@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Tournament {
     private String name;
-    private List<Player> players; /*TODO: If the total number is not a power of 2, it should be filled with BYES*/
+    private List<Player> players;
     private List<Match> matches;
 
     private long id;
