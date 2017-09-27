@@ -67,6 +67,11 @@ public class PlayerJdbcDao implements PlayerDao{
     @Override
     public Player create(String name) {
         final Map<String, Object> args = new HashMap<>();
+
+        if(name.length() > 50) { //TODO ver que no rompe nada
+            return null;
+        }
+
         args.put("name", name);
         final Number playerId = playerjdbcInsert.executeAndReturnKey(args);
         return new Player(name,playerId.longValue());

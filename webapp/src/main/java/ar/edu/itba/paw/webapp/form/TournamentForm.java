@@ -14,7 +14,7 @@ public class TournamentForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String tournamentName;
 
-    @Pattern(regexp = "[a-zA-Z0-9_\r\n]+")
+    @Pattern(regexp = "(([a-zA-Z0-9]{1,50}\r\n)+([a-zA-Z0-9]{1,50})$)|([a-zA-Z0-9]{1,50}\r\n)+")
     @PlayerConstraint
     private String players;
 
