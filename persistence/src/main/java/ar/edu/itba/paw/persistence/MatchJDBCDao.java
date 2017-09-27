@@ -21,6 +21,8 @@ public class MatchJDBCDao implements MatchDao {
 
     private JdbcTemplate jdbcTemplate;
 
+    private static Integer EMPTY = 0;
+
     private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<Match> ROW_MAPPER = (rs, rowNum) ->
@@ -46,8 +48,6 @@ public class MatchJDBCDao implements MatchDao {
             args.put("next_match_id", null);
 
         args.put("next_match_home", isNextMatchHome);
-        args.put("home_player_id", -2);
-        args.put("away_player_id", -2);
         jdbcInsert.execute(args);
         return new Match(matchId, nextMatchId, isNextMatchHome, tournamentId);
     }
@@ -122,7 +122,7 @@ public class MatchJDBCDao implements MatchDao {
             return null;
         }
 
-        if(match.getHomePlayerId() == -2 || match.getAwayPlayerId() == -2) {
+        if(match.getHomePlayerId() == EMPTY || match.getAwayPlayerId() == EMPTY) {
             return null;
         }
 
@@ -144,7 +144,7 @@ public class MatchJDBCDao implements MatchDao {
 
         if(match != null) {
             if(nextMatchHome) {
-                if(match.getHomePlayerId() != -2) {
+                if(match.getHomePlayerId() != EMPTY) {
                     if(homeScore > awayScore) {
                         if(match.getHomePlayerId() != homePlayerId) {
                             jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
@@ -162,7 +162,7 @@ public class MatchJDBCDao implements MatchDao {
                 }
 
             } else {
-                if(match.getAwayPlayerId() != -2) {
+                if(match.getAwayPlayerId() != EMPTY) {
                     if(homeScore > awayScore) {
                         if(match.getAwayPlayerId() != homePlayerId) {
                             jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
@@ -211,13 +211,13 @@ public class MatchJDBCDao implements MatchDao {
         if(match != null) {
             if(match.getId() != 0) {
                 if(nextMatchHome) {
-                    if(match.getHomePlayerId() != -2) {
-                        jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", -2, 0, 0, matchId, tournamentId);
+                    if(match.getHomePlayerId() != 0) {
+                        jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", null, 0, 0, matchId, tournamentId);
                         updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
                     }
                 } else {
-                    if(match.getAwayPlayerId() != -2) {
-                        jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", -2, 0, 0, matchId, tournamentId);
+                    if(match.getAwayPlayerId() != 0) {
+                        jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", null, 0, 0, matchId, tournamentId);
                         updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
                     }
                 }
