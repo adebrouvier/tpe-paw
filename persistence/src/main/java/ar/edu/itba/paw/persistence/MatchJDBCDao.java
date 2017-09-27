@@ -135,6 +135,11 @@ public class MatchJDBCDao implements MatchDao {
 
     private void updateNextMatch(long tournamentId, long nextMatchId, int homeScore, int awayScore, long homePlayerId, long awayPlayerId, boolean nextMatchHome){
 
+
+        if(nextMatchId == 0) {
+            return;
+        }
+
         Match match = findById((int)nextMatchId, tournamentId);
 
         if(match != null) {
@@ -182,17 +187,16 @@ public class MatchJDBCDao implements MatchDao {
 
         long winnerId = 0;
 
-        if (nextMatchId != 0) { /* If there is a next round match */
-            if (homeScore > awayScore) {
-                winnerId = homePlayerId;
-            } else if (awayScore > homeScore){
-                winnerId = awayPlayerId;
-            }
-            if (nextMatchHome) {
-                jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
-            } else {
-                jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
-            }
+
+        if (homeScore > awayScore) {
+            winnerId = homePlayerId;
+        } else if (awayScore > homeScore){
+            winnerId = awayPlayerId;
+        }
+        if (nextMatchHome) {
+            jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
+        } else {
+            jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
         }
 
     }
