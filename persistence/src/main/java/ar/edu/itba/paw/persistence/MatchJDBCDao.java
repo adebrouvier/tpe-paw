@@ -37,7 +37,7 @@ public class MatchJDBCDao implements MatchDao {
     }
 
     @Override
-    public Match create(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId) {
+    public Match createEmpty(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("match_id", matchId);
         args.put("tournament_id", tournamentId);
@@ -97,23 +97,6 @@ public class MatchJDBCDao implements MatchDao {
             m.setAwayPlayer(awayPlayer);
         }
         return m;
-    }
-
-    @Override
-    public Match addPlayer(final long tournamentId, final int matchId, final long playerId, final int type) {
-        List<Match> list;
-        if (type == MatchDao.HOME) {
-            list = jdbcTemplate.query("UPDATE match SET home_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
-        }
-        if (type == MatchDao.AWAY) {
-            list = jdbcTemplate.query("UPDATE match SET away_player_id = ? WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, playerId, matchId, tournamentId);
-        } else {
-            return null;
-        }
-        if (list.isEmpty()) {
-            return null;
-        }
-        return list.get(0);
     }
 
     @Override

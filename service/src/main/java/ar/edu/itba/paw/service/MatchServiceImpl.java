@@ -13,8 +13,8 @@ public class MatchServiceImpl implements MatchService{
     private MatchDao matchDao;
 
     @Override
-    public Match create(int matchId, int nextMatchId,boolean isNextHome, long tournamentId) {
-        return matchDao.create(matchId,nextMatchId,isNextHome,tournamentId);
+    public Match createEmpty(int matchId, int nextMatchId, boolean isNextHome, long tournamentId) {
+        return matchDao.createEmpty(matchId,nextMatchId,isNextHome,tournamentId);
     }
 
     @Override
@@ -25,11 +25,6 @@ public class MatchServiceImpl implements MatchService{
     @Override
     public Match findById(int id, long tournamentId) {
         return matchDao.findById(id,tournamentId);
-    }
-
-    @Override
-    public Match addPlayer(long tournamentId, int matchId, long playerId, int type) {
-        return matchDao.addPlayer(tournamentId,matchId,playerId,type);
     }
 
     @Override

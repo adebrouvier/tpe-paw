@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.webapp.form.validation;
 
-import ar.edu.itba.paw.webapp.form.validation.PlayerConstraint;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

@@ -73,7 +73,7 @@ public class TournamentServiceImpl implements TournamentService {
                 return;
             }
 
-            matchService.create(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId);
+            matchService.createEmpty(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
             return;
@@ -84,7 +84,7 @@ public class TournamentServiceImpl implements TournamentService {
         }
 
         if(roundPlayers < totalPlayers) {
-            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId);
+            matchService.createEmpty(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
         }

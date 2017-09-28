@@ -9,7 +9,6 @@ public class ErrorController {
 
     @RequestMapping("/404")
     public ModelAndView notFoundPage() {
-        final ModelAndView mav = new ModelAndView("404");
-        return mav;
+        return new ModelAndView("404");
     }
 }

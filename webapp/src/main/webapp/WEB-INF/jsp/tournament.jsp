@@ -38,7 +38,7 @@ ${navbar}
                         <span class="match-id">
                             <c:out value="${match.id}"/>
                         </span>
-                        <span class="triangulo"></span>
+                        <span class="triangle"></span>
                     </span>
                     <a class="modal-trigger" href="#modal-${match.id}">
                         <div class="bracket">
