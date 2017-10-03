@@ -68,21 +68,21 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public List<Tournament> findAllTournaments() {
+    public List<Tournament> findFeaturedTournaments() {
 
-        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament ORDER BY tournament_id DESC",ROW_MAPPER);
+        int featured = 10;
+
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament ORDER BY tournament_id DESC LIMIT ?", ROW_MAPPER, featured);
 
         if (list.isEmpty()) {
             return null;
         }
 
         for (Tournament t : list) {
-
-            final List<Player> players = playerDao.getTournamentPlayers(t.getId());
-            final List<Match> matches = matchDao.getTournamentMatches(t.getId());
-
-            t.addPlayer(players);
-            t.addMatch(matches);
+            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ?", Integer.class, t.getId());
+            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ?", Integer.class, t.getId());
+            t.setSize(numberOfPlayers);
+            t.setNumberOfMatches(numberOfMatches);
         }
 
         return list;

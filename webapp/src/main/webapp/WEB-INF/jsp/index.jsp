@@ -66,7 +66,7 @@ ${navbar}
             <tr>
                 <td>${tournament.name}</td>
                 <td>${tournament.size}</td>
-                <td>${tournament.matches.size()}</td>
+                <td>${tournament.numberOfMatches}</td>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
             </tr>
         </c:forEach>

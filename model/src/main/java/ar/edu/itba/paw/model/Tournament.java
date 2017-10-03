@@ -7,6 +7,9 @@ public class Tournament {
     private String name;
     private List<Player> players;
     private List<Match> matches;
+    private int numberOfMatches;
+
+    private int size;
 
     private long id;
 
@@ -42,7 +45,19 @@ public class Tournament {
     }
 
     public int getSize() {
-        return players.size();
+        return size;
+    }
+
+    public void setSize(int size){
+        this.size = size;
+    }
+
+    public int getNumberOfMatches() {
+        return numberOfMatches;
+    }
+
+    public void setNumberOfMatches(int numberOfMatches) {
+        this.numberOfMatches = numberOfMatches;
     }
 
     public boolean addPlayer(Player player){

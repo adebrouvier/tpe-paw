@@ -10,5 +10,5 @@ public interface TournamentDao {
 
     public Tournament create(String name);
 
-    public List<Tournament> findAllTournaments();
+    public List<Tournament> findFeaturedTournaments();
 }

@@ -30,7 +30,7 @@ public class IndexController {
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("tournaments",ts.findAllTournaments());
+        mav.addObject("tournaments",ts.findFeaturedTournaments());
         return mav;
     }
 

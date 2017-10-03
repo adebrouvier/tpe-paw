@@ -51,8 +51,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Tournament> findAllTournaments() {
-        return tournamentDao.findAllTournaments();
+    public List<Tournament> findFeaturedTournaments() {
+        return tournamentDao.findFeaturedTournaments();
     }
 
     private void generateSingleEliminationBracket(long tournamentId) {
