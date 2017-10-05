@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,7 +26,7 @@ public class UserJdbcDaoTest {
 	private static final String PASSWORD = "Password";
 	private static final String USERNAME = "Username";
 	
-	@Autowired
+	@Mock
 	private DataSource ds;
 	
 	@Autowired
