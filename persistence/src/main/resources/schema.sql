@@ -39,3 +39,20 @@ CREATE TABLE IF NOT EXISTS match (
   UNIQUE (match_id, tournament_id),
   FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
 );
+
+CREATE TABLE IF NOT EXISTS ranking (
+  ranking_id SERIAL PRIMARY KEY,
+  name varchar(100) NOT NULL,
+  awarded_points BIGINT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ranking_tournaments (
+  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
+  tournament_id BIGINT REFERENCES tournament(tournament_id)
+);
+
+CREATE TABLE IF NOT EXISTS ranking_players (
+  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
+  name varchar(100) NOT NULL,
+  points BIGINT
+);

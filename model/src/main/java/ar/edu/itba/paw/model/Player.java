@@ -45,4 +45,9 @@ public class Player {
     public String toString() {
         return name + " - " + "Id: " + id;
     }
+
+    public int getStanding(){
+        //TODO
+        return 1;
+    }
 }
