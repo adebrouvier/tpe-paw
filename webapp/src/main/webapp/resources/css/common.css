@@ -1,7 +1,46 @@
+body {
+    background-color: whitesmoke;
+}
+
+nav .nav-wrapper{
+    background-color: #0288d1;
+}
+
 .form-error{
     color: red;
 }
 
-nav .nav-wrapper{
-    background-color: black;
+/* input-field custom colors  */
+/* label color */
+.input-field label {
+    color: #0288d1;
 }
+/* label focus color */
+.input-field input[type=text]:focus + label, .input-field textarea:focus + label, .input-field input[type=number]:focus + label{
+    color: #0288d1;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus, .input-field input[type=number]:focus, .input-field textarea:focus {
+    border-bottom: 1px solid #0288d1 !important;
+    box-shadow: 0 1px 0 0 #0288d1 !important;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #0288d1;
+}
+
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #0288d1 !important;
+    box-shadow: 0 1px 0 0 #0288d1 !important;
+}
+
+.checkbox-versus[type="checkbox"].filled-in:checked + label:after{
+    border: 2px solid #0288d1;
+    background-color: #0288d1;
+}
+
+.page-footer{
+    background-color: #0288d1;
+}
+
