@@ -4,14 +4,20 @@ username varchar(100),
 password varchar(100)
 );*/
 
+CREATE TABLE IF NOT EXISTS game (
+  game_id SERIAL PRIMARY KEY,
+  name varchar(60) UNIQUE NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL
+  name varchar(40) NOT NULL,
+  game_id BIGINT REFERENCES game(game_id)
 );
 
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL
+  name varchar(25) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS participates_in (

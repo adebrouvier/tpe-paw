@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
@@ -27,11 +29,26 @@ public class IndexController {
     @Autowired
     private PlayerService ps;
 
+    @Autowired
+    private GameService gs;
+
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("games", gameToString(gs.getGames()));
         mav.addObject("tournaments",ts.findFeaturedTournaments());
         return mav;
+    }
+
+    private String gameToString(List<Game> list){
+        String arg = new String("{");
+        for(Game game : list) {
+            arg = arg.concat("\"" + game.getName() + "\"" + ": null,");
+        }
+
+        arg = arg.concat("\"other\":null}");
+        return arg;
+
     }
 
     @RequestMapping(value = "/create", method = { RequestMethod.POST })

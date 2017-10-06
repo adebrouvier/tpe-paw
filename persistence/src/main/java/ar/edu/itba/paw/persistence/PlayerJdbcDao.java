@@ -68,7 +68,7 @@ public class PlayerJdbcDao implements PlayerDao{
     public Player create(String name) {
         final Map<String, Object> args = new HashMap<>();
 
-        if(name.length() > 50) { //TODO ver que no rompe nada
+        if(name.length() > 25) { //TODO ver que no rompe nada
             return null;
         }
 

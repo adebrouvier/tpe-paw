@@ -10,6 +10,9 @@
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <title><spring:message code="index.title"/></title>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
 </head>
 <body>
 <c:import var="navbar" url="header.jsp"/>
@@ -23,7 +26,7 @@ ${navbar}
                 <div class="input-field">
                     <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
                     <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
-                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="20" path="tournamentName" autocomplete="off"/>
+                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="40" path="tournamentName" autocomplete="off"/>
                     <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
@@ -33,8 +36,13 @@ ${navbar}
                                    path="players"/>
                     <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
-
-                <div>
+                <div class="input-field">
+                    <div id="autocomplete-games" data-games="<c:out value="${games}"> </c:out>"></div>
+                    <form:label path="game"><spring:message code="tournament.create.game"/>: </form:label>
+                    <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
+                    <form:input placeholder="${gamePlaceholder}" type="text" class="autocomplete" path="game" autocomplete="off"/>
+                    <form:errors path="game" cssClass="form-error" element="p"/>
+                </div>
                     <div class="row">
                         <div>
                             <spring:message code="tournament.create.seeding"/>
@@ -44,8 +52,7 @@ ${navbar}
                             <form:label path="randomizeSeed" for="seed-checkbox"><spring:message code="tournament.create.checkbox.seeding"/></form:label>
                         </div>
                     </div>
-                </div>
-                    <button class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
+                    <button id="" class="btn btn-primary" type="submit"><spring:message code="tournament.create.submit"/></button>
             </form:form>
         </div>
     </div>
@@ -74,8 +81,6 @@ ${navbar}
     </table>
 </div>
 
-<script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
-<script type="text/javascript"
-        src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+
 </body>
 </html>
