@@ -47,7 +47,7 @@ public class Player {
     }
 
     public int getStanding(){
-        //TODO
+        //TODO This should be in tournament, the tournament should have the players standings
         return 1;
     }
 }

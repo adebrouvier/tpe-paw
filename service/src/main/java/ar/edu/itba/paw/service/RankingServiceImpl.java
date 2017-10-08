@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 public class RankingServiceImpl implements RankingService {
 
@@ -19,7 +20,7 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public Ranking create(int pointsAwarded, String name, List<Tournament> tournaments) {
-        return rankingDao.create(pointsAwarded,name,tournaments);
+    public Ranking create(String name, Map<Tournament, Integer> tournaments) {
+        return rankingDao.create(name,tournaments);
     }
 }

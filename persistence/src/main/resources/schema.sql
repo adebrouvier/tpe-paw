@@ -42,13 +42,13 @@ CREATE TABLE IF NOT EXISTS match (
 
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL,
-  awarded_points BIGINT NOT NULL
+  name varchar(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ranking_tournaments (
   ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
-  tournament_id BIGINT REFERENCES tournament(tournament_id)
+  tournament_id BIGINT REFERENCES tournament(tournament_id),
+   awarded_points BIGINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ranking_players (
