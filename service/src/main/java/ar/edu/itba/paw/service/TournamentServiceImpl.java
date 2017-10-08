@@ -69,22 +69,22 @@ public class TournamentServiceImpl implements TournamentService {
         if(parentId == TournamentService.NO_PARENT) {
 
             if (roundPlayers == totalPlayers){ /* Only one match */
-                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
+                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId), 0);
                 return;
             }
 
-            matchService.createEmpty(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId);
+            matchService.createEmpty(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId, 0);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
             return;
         }
         if(roundPlayers == totalPlayers) {
-            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId));
+            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId), 0);
             return;
         }
 
         if(roundPlayers < totalPlayers) {
-            matchService.createEmpty(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId);
+            matchService.createEmpty(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, 0);
             generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
             generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
         }

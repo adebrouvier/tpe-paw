@@ -28,8 +28,8 @@ public class MatchServiceTest {
 
     @Before
     public void setUp() {
-        Mockito.when(matchDao.create(1,2, true, 10, 3,4)).thenReturn(mockMatch());
-        Mockito.when(matchDao.createEmpty(1, 2, true, 10)).thenReturn(mockMatch());
+        Mockito.when(matchDao.create(1,2, true, 10, 3,4,0)).thenReturn(mockMatch());
+        Mockito.when(matchDao.createEmpty(1, 2, true, 10,0)).thenReturn(mockMatch());
         Mockito.when(matchDao.findById(1,10)).thenReturn(mockMatch());
         Mockito.when(matchDao.getTournamentMatches(10)).thenReturn(mockMatches());
         Mockito.when(matchDao.updateScore(10, 1, 1, 0)).thenReturn(mockMatchUpdated());
@@ -37,7 +37,7 @@ public class MatchServiceTest {
 
     @Test
     public void testCreate() {
-        Match match = matchServiceImpl.create(1,2,true,10,3,4);
+        Match match = matchServiceImpl.create(1,2,true,10,3,4,0);
         Assert.assertEquals(1, match.getId());
         Assert.assertEquals(2, match.getNextMatchId());
         Assert.assertEquals(true, match.isNextMatchHome());
@@ -49,11 +49,12 @@ public class MatchServiceTest {
 
     @Test
     public void testCreateEmpty() {
-        Match match = matchServiceImpl.createEmpty(1,2,true,10);
+        Match match = matchServiceImpl.createEmpty(1,2,true,10, 0);
         Assert.assertEquals(1, match.getId());
         Assert.assertEquals(2, match.getNextMatchId());
         Assert.assertEquals(true, match.isNextMatchHome());
         Assert.assertEquals(10, match.getTournamentId());
+        Assert.assertEquals(0, match.getStanding());
     }
 
     @Test
@@ -78,7 +79,7 @@ public class MatchServiceTest {
         Assert.assertEquals(4, match.getAwayPlayerId());
     }
     private Match mockMatch() {
-        return new Match(3, 4, 1, 2, true, 10);
+        return new Match(3, 4, 1, 2, true, 10, 0);
     }
 
     private List<Match> mockMatches() {
@@ -90,7 +91,7 @@ public class MatchServiceTest {
     }
 
     private Match mockMatchUpdated() {
-        Match match =  new Match(3, 4, 1, 2, true, 10);
+        Match match =  new Match(3, 4, 1, 2, true, 10, 0);
         match.setHomePlayerScore(1);
         return match;
     }

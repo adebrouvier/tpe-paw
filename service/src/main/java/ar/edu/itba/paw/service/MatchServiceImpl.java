@@ -13,13 +13,13 @@ public class MatchServiceImpl implements MatchService{
     private MatchDao matchDao;
 
     @Override
-    public Match createEmpty(int matchId, int nextMatchId, boolean isNextHome, long tournamentId) {
-        return matchDao.createEmpty(matchId,nextMatchId,isNextHome,tournamentId);
+    public Match createEmpty(int matchId, int nextMatchId, boolean isNextHome, long tournamentId, int standing) {
+        return matchDao.createEmpty(matchId,nextMatchId,isNextHome,tournamentId, standing);
     }
 
     @Override
-    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long localPlayerId, long visitorPlayerId) {
-        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId,localPlayerId,visitorPlayerId);
+    public Match create(int matchId, int nextMatchId,boolean isNextMatchHome, long tournamentId, long localPlayerId, long visitorPlayerId, int standing) {
+        return matchDao.create(matchId,nextMatchId,isNextMatchHome,tournamentId,localPlayerId,visitorPlayerId, standing);
     }
 
     @Override

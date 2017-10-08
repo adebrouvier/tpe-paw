@@ -12,24 +12,27 @@ public class Match {
     private long nextMatchId;
     private long tournamentId;
     private boolean isNextMatchHome;
+    private int standing;
 
-    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
         this.isNextMatchHome = isNextMatchHome;
+        this.standing = standing;
     }
 
-    public Match(int id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(int id, int nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
         this.id = id;
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
         this.isNextMatchHome = isNextMatchHome;
+        this.standing = standing;
     }
 
-    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId,boolean isNextMatchHome, long tournamentId) {
+    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
         this.homePlayerId = homePlayerId;
         this.awayPlayerId = awayPlayerId;
         this.homePlayerScore = homePlayerScore;
@@ -38,6 +41,7 @@ public class Match {
         this.nextMatchId = nextMatchId;
         this.tournamentId = tournamentId;
         this.isNextMatchHome = isNextMatchHome;
+        this.standing = standing;
     }
 
     public boolean isNextMatchHome() { return isNextMatchHome; }
@@ -80,6 +84,10 @@ public class Match {
 
     public Player getAwayPlayer() {
         return awayPlayer;
+    }
+
+    public int getStanding() {
+        return standing;
     }
 
     public void setAwayPlayer(Player awayPlayer) {

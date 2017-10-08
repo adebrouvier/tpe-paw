@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS player (
 CREATE TABLE IF NOT EXISTS participates_in (
   player_id BIGINT REFERENCES player(player_id),
   tournament_id BIGINT REFERENCES tournament(tournament_id),
-  seed INTEGER
+  seed INTEGER,
+  standing INTEGER
 );
 
 INSERT INTO player (player_id,name)
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS match (
   away_player_id BIGINT REFERENCES player(player_id),
   home_player_score INTEGER DEFAULT 0,
   away_player_score INTEGER DEFAULT 0,
+  standing INTEGER,
   next_match_id BIGINT,
   next_match_home BOOLEAN,
   UNIQUE (match_id, tournament_id),
