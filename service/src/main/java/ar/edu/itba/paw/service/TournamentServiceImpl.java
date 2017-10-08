@@ -47,6 +47,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         generateSingleEliminationBracket(tournament.getId());
         /*TODO:tournament.getMatches() is empty*/
+        tournament = tournamentDao.findById(tournament.getId());
         return tournament;
     }
 

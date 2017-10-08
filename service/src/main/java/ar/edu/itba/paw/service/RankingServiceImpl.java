@@ -5,10 +5,12 @@ import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class RankingServiceImpl implements RankingService {
 
     @Autowired

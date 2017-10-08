@@ -6,6 +6,7 @@ import java.util.List;
 public class Tournament {
     private String name;
     private List<Player> players;
+    //TODO Players should have their standing
     private List<Match> matches;
     private int numberOfMatches;
 
