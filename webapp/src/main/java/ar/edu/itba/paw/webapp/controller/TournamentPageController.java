@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class TournamentPageController {
@@ -39,10 +41,12 @@ public class TournamentPageController {
     public ModelAndView tournament(@PathVariable long tournamentId){
         final ModelAndView mav = new ModelAndView("standings");
         final Tournament t = ts.findById(tournamentId);
+        final List<Standing> s = ts.getStandings(tournamentId);
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
         mav.addObject("tournament", t);
+        mav.addObject("standings", s);
         return mav;
     }
 

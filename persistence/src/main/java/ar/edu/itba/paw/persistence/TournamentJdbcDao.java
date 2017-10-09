@@ -3,8 +3,10 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -79,12 +81,22 @@ public class TournamentJdbcDao implements TournamentDao {
         }
 
         for (Tournament t : list) {
-            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ?", Integer.class, t.getId());
-            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ?", Integer.class, t.getId());
+            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
             t.setSize(numberOfPlayers);
             t.setNumberOfMatches(numberOfMatches);
         }
 
         return list;
+    }
+
+    private final static RowMapper<Standing> STANDING_ROW_MAPPER = (rs, rowNum) -> new Standing(rs.getString("name"), rs.getInt("standing"));
+
+    @Override
+    public List<Standing> getStandings(long tournamentId) {
+
+        List<Standing> standingList = jdbcTemplate.query("SELECT player.name AS name, participates_in.standing as standing  FROM player NATURAL JOIN participates_in WHERE tournament_id = ? AND player_id != ? ORDER BY standing ASC", STANDING_ROW_MAPPER, tournamentId, TournamentService.BYE_ID);
+
+        return standingList;
     }
 }

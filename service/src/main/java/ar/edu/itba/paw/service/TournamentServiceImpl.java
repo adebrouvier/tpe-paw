@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,11 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public List<Tournament> findFeaturedTournaments() {
         return tournamentDao.findFeaturedTournaments();
+    }
+
+    @Override
+    public List<Standing> getStandings(long tournamentId) {
+        return tournamentDao.getStandings(tournamentId);
     }
 
     private void generateSingleEliminationBracket(long tournamentId) {

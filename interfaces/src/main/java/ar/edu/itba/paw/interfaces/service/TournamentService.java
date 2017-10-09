@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 
 import java.util.List;
@@ -31,5 +32,7 @@ public interface TournamentService {
      * @return a list of tournaments
      */
     public List<Tournament> findFeaturedTournaments();
+
+    public List<Standing> getStandings(long tournamentId);
 
 }

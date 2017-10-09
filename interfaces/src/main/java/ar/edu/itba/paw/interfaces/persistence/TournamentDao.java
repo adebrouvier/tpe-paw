@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface TournamentDao {
     public Tournament create(String name);
 
     public List<Tournament> findFeaturedTournaments();
+
+    public List<Standing> getStandings(long tournamentId);
 }
