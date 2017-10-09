@@ -44,3 +44,19 @@ nav .nav-wrapper{
     background-color: #0288d1;
 }
 
+.tabs .indicator{
+    background-color: #0288d1;
+}
+
+.tabs .tab a.active {
+    color: #0288d1;
+}
+
+.tabs .tab a:hover {
+    color: #0288d1;
+}
+
+.tabs .tab a {
+    color: #0288d1;
+}
+

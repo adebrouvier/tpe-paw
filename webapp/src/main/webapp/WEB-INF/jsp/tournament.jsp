@@ -3,12 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
+    <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>"/>
     <title>${tournament.name} - <spring:message code="header.name"/></title>
@@ -25,9 +25,9 @@ ${navbar}
                     <table>
                         <thead>
                             <tr>
-                                <td><spring:message code="tournament.info.players"/></td>
-                                <td><spring:message code="tournament.info.matches"/></td>
-                                <td><spring:message code="tournament.info.game"/></td>
+                                <th><spring:message code="tournament.info.players"/></th>
+                                <th><spring:message code="tournament.info.matches"/></th>
+                                <th><spring:message code="tournament.info.game"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +41,13 @@ ${navbar}
                     </div>
                 </div>
             </div>
+        </div>
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s6"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
+                <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a></li>
+            </ul>
         </div>
     </div>
 </div>

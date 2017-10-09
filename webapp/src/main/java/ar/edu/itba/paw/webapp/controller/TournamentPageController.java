@@ -35,6 +35,17 @@ public class TournamentPageController {
         return mav;
     }
 
+    @RequestMapping("/tournament/{tournamentId}/standings")
+    public ModelAndView tournament(@PathVariable long tournamentId){
+        final ModelAndView mav = new ModelAndView("standings");
+        final Tournament t = ts.findById(tournamentId);
+        if (t == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        mav.addObject("tournament", t);
+        return mav;
+    }
+
     @RequestMapping(value = "/update/{tournamentId}/{matchId}", method = { RequestMethod.POST })
     public ModelAndView updateMatch(@Valid @ModelAttribute("matchForm")
                                final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId) {
