@@ -32,7 +32,7 @@ public class PlayerJdbcDao implements PlayerDao {
                 .usingGeneratedKeyColumns("player_id");
         participatesInjdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("participates_in")
-                .usingColumns("player_id", "tournament_id", "seed");
+                .usingColumns("player_id", "tournament_id", "seed", "standing");
     }
 
     @Override
@@ -84,6 +84,7 @@ public class PlayerJdbcDao implements PlayerDao {
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
         args.put("seed", seed);
+        args.put("standing", 0);
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 
