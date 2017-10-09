@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Repository
 public class PlayerJdbcDao implements PlayerDao{
+    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
 
     private JdbcTemplate jdbcTemplate;
 
@@ -22,7 +23,6 @@ public class PlayerJdbcDao implements PlayerDao{
 
     private final SimpleJdbcInsert participatesInjdbcInsert;
 
-    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
 
     @Autowired
     public PlayerJdbcDao(final DataSource ds) {

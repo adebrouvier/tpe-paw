@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Tournament {
     private String name;
+    private Boolean isFinished;
+    private int tier;
     private List<Player> players;
     private List<Match> matches;
     private int numberOfMatches;
@@ -18,6 +20,26 @@ public class Tournament {
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
+        this.tier = 1;
+        this.isFinished = false;
+    }
+
+    public Tournament(String name, long id, int tier){
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
+        this.name = name;
+        this.id = id;
+        this.tier = tier;
+        this.isFinished = false;
+    }
+
+    public Tournament(String name, long id, boolean isFinished, int tier){
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
+        this.name = name;
+        this.id = id;
+        this.tier = tier;
+        this.isFinished = isFinished;
     }
 
     public String getName() { return name; }
@@ -75,6 +97,8 @@ public class Tournament {
     public boolean addMatch(List<Match> matches){
         return this.matches.addAll(matches);
     }
+
+    public void endTournament() { this.isFinished = true; }
 
     @Override
     public boolean equals(Object o) {

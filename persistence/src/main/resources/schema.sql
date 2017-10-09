@@ -4,10 +4,24 @@ username varchar(100),
 password varchar(100)
 );*/
 
+
+/*CREATE FUNCTION check_tournament_finished() RETURNS trigger AS $$
+BEGIN
+  IF (SELECT is_finished FROM tournament WHERE tournament_id=new.tournament_id) THEN
+    new.away_player_score=old.away_player_score;
+    new.home_player_score=old.home_player_score;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;**/
+
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
+  is_finished BOOLEAN,
+  tier INTEGER,
   name varchar(100) NOT NULL
 );
+
 
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,
@@ -39,3 +53,8 @@ CREATE TABLE IF NOT EXISTS match (
   UNIQUE (match_id, tournament_id),
   FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
 );
+
+/*CREATE TRIGGER check_if_finished
+  BEFORE UPDATE ON MATCH
+    EXECUTE PROCEDURE check_tournament_finished();
+**/

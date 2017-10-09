@@ -51,6 +51,27 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public Tournament create(String name, List<Player> players, int tier) {
+        Tournament tournament = tournamentDao.create(name, tier);
+
+        int i = 0;
+
+        for (; i < players.size(); i++) {
+            playerService.addToTournament(players.get(i).getId(), tournament.getId(), i + 1);
+        }
+
+        int power = (int) Math.ceil(Math.log(players.size()) / Math.log(2));
+        int byes = (int) (Math.pow(2, power) - players.size());
+
+        for (; i < players.size() + byes; i++) {
+            playerService.addToTournament(BYE_ID, tournament.getId(), i + 1);
+        }
+
+        generateSingleEliminationBracket(tournament.getId());
+        return tournament;
+    }
+
+    @Override
     public List<Tournament> findFeaturedTournaments() {
         return tournamentDao.findFeaturedTournaments();
     }

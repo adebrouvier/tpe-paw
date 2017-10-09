@@ -26,6 +26,9 @@ public interface TournamentService {
      */
     public Tournament create(String name, List<Player> players);
 
+
+    public Tournament create(String name, List<Player> players, int tier);
+
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded
      * @return a list of tournaments
