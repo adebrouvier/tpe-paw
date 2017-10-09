@@ -97,9 +97,8 @@ public class PlayerJdbcDao implements PlayerDao {
                 " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
     }
 
-    public void updateStanding(long playerId, long matchId, long tournamentId) {
-        jdbcTemplate.query("UPDATE participates_in SET standing = (SELECT standing FROM match " +
-                        "WHERE tournamnent_id = ? AND matchId = ?) where player_id = ? AND tournament_id = ?"
-                , ROW_MAPPER, tournamentId, matchId, playerId, tournamentId);
+    @Override
+    public void setDefaultStanding(int defaultStanding, long tournamentId) {
+        jdbcTemplate.update("UPDATE participates_in SET standing = ? WHERE tournament_id = ?", defaultStanding, tournamentId);
     }
 }

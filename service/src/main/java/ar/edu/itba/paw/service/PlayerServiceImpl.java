@@ -44,5 +44,10 @@ public class PlayerServiceImpl implements PlayerService{
         return playerDao.addToTournament(playerId, tournamentId,seed);
     }
 
+    @Override
+    public void setDefaultStanding(int standing, long tournamentId) {
+        playerDao.setDefaultStanding(standing, tournamentId);
+    }
+
 
 }

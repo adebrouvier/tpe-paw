@@ -75,13 +75,14 @@ public class MatchJDBCDao implements MatchDao {
         if (awayPlayerId == -1) { /*Checks if there is a BYE*/
             homeScore = MatchService.BYE_WIN_SCORE;
             args.put("home_player_score", homeScore);
+            updateNextMatch(tournamentId,nextMatchId,homeScore,0,homePlayerId,awayPlayerId,isNextMatchHome);
         }
-        jdbcTemplate.update("UPDATE participates_in SET standing = ? where player_id = ? AND tournament_id = ?", standing, homePlayerId, tournamentId);
-        jdbcTemplate.update("UPDATE participates_in SET standing = ? where player_id = ? AND tournament_id = ?", standing, awayPlayerId, tournamentId);
-
-        updateNextMatch(tournamentId,nextMatchId,homeScore,0,homePlayerId,awayPlayerId,isNextMatchHome);
 
         jdbcInsert.execute(args);
+
+        if (awayPlayerId == -1)
+            updateStanding(homePlayerId, matchId, tournamentId);
+
         return new Match(homePlayerId, awayPlayerId, homeScore,0, matchId, nextMatchId, isNextMatchHome, tournamentId, standing);
     }
 
@@ -119,6 +120,12 @@ public class MatchJDBCDao implements MatchDao {
         }
 
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
+
+        if (homeScore > awayScore)
+            updateStanding(match.getHomePlayerId(),matchId,tournamentId);
+        else if (homeScore < awayScore){
+            updateStanding(match.getAwayPlayerId(),matchId,tournamentId);
+        }
 
         updateNextMatch(tournamentId,match.getNextMatchId(),homeScore,awayScore,match.getHomePlayerId(),match.getAwayPlayerId(),match.isNextMatchHome());
 
@@ -178,23 +185,18 @@ public class MatchJDBCDao implements MatchDao {
         }
 
         long winnerId = 0;
-        long loserId = 0;
 
         if (homeScore > awayScore) {
             winnerId = homePlayerId;
         } else if (awayScore > homeScore){
             winnerId = awayPlayerId;
         }
-        int standing = match.getStanding();
 
         if (nextMatchHome) {
             jdbcTemplate.update("UPDATE match SET home_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
-            jdbcTemplate.update("UPDATE participates_in SET standing = ? where player_id = ? AND tournament_id = ?", standing, winnerId, tournamentId);
 
         } else {
             jdbcTemplate.update("UPDATE match SET away_player_id = ? WHERE match_id = ? AND tournament_id = ?", winnerId, nextMatchId, tournamentId);
-            jdbcTemplate.update("UPDATE participates_in SET standing = ? where player_id = ? AND tournament_id = ?", standing, winnerId, tournamentId);
-
         }
 
     }
@@ -239,12 +241,11 @@ public class MatchJDBCDao implements MatchDao {
 
         return matches;
     }
-    /*
+
     public void updateStanding(long playerId, long matchId, long tournamentId) {
-        Match match = jdbcTemplate.query("SELECT * FROM match WHERE tournament_id = ? AND matchId = ?", ROW_MAPPER, tournamentId, matchId);
-        jdbcTemplate.query("UPDATE participates_in SET standing = (SELECT standing FROM match " +
-                        "WHERE tournamnent_id = ? AND matchId = ?) where player_id = ? AND tournament_id = ?"
-                , ROW_MAPPER, tournamentId, matchId, playerId, tournamentId);
-    }**/
+        jdbcTemplate.update("UPDATE participates_in SET standing = (SELECT standing FROM match " +
+                        "WHERE tournament_id = ? AND match_id = ?) where player_id = ? AND tournament_id = ?"
+                , tournamentId, matchId, playerId, tournamentId);
+    }
 
 }

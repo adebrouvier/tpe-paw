@@ -58,25 +58,28 @@ public class TournamentServiceImpl implements TournamentService {
     private void generateSingleEliminationBracket(long tournamentId) {
         List<Player> players = this.findById(tournamentId).getPlayers();
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
-        generateBracketRecursive(1, 2, 1, TournamentService.NO_PARENT, false, tournamentId, (int)Math.pow(2,totalDepth));
+        int initialStanding = 1;
+        playerService.setDefaultStanding(players.size()/2 + 1, tournamentId);
+        generateBracketRecursive(1, 2, 1, TournamentService.NO_PARENT, false, tournamentId, (int)Math.pow(2,totalDepth), initialStanding);
     }
 
-    private void generateBracketRecursive(int seed, int roundPlayers, int matchId, int parentId, boolean isNextMatchHome, long tournamentId, int totalPlayers) {
+    private void generateBracketRecursive(int seed, int roundPlayers, int matchId, int parentId, boolean isNextMatchHome, long tournamentId, int totalPlayers, int standing) {
         if(roundPlayers > totalPlayers) {
             return;
         }
 
-        int standing = Integer.highestOneBit(matchId)+1;
+        int nextStanding  = standing * 2 - (standing == 1 ? 0 : 1);
+
         if(parentId == TournamentService.NO_PARENT) {
 
             if (roundPlayers == totalPlayers){ /* Only one match */
-                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId), Integer.highestOneBit(totalPlayers-matchId)+1);
+                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, playerService.findBySeed(seed, tournamentId), playerService.findBySeed(totalPlayers-seed+1, tournamentId), standing);
                 return;
             }
 
             matchService.createEmpty(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId, standing);
-            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
-            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
+            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers, nextStanding);
+            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers, nextStanding);
             return;
         }
         if(roundPlayers == totalPlayers) {
@@ -86,8 +89,8 @@ public class TournamentServiceImpl implements TournamentService {
 
         if(roundPlayers < totalPlayers) {
             matchService.createEmpty(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, standing);
-            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers);
-            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers);
+            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers, nextStanding);
+            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers, nextStanding);
         }
     }
 }
