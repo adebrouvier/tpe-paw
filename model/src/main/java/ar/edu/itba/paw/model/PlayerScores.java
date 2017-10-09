@@ -2,20 +2,20 @@ package ar.edu.itba.paw.model;
 
 public class PlayerScores {
     /*This could be only the id*/
-    private int playerId;
+    private String name;
     private int points;
 
-    public PlayerScores(int playerId, int points){
-        this.playerId = playerId;
+    public PlayerScores(String name, int points){
+        this.name = name;
         this.points = points;
     }
 
-    public int getPlayerId() {
-        return playerId;
+    public String getName() {
+        return name;
     }
 
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getPoints() {

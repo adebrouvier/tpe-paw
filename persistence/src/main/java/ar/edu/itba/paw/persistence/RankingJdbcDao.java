@@ -29,7 +29,7 @@ public class RankingJdbcDao implements RankingDao {
 
     private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"));
 
-    private final static RowMapper<PlayerScores> PLAYER_RANKING_MAPPER = (rs, rowNum) -> new PlayerScores(rs.getInt("player_id"),rs.getInt("points"));
+    private final static RowMapper<PlayerScores> PLAYER_RANKING_MAPPER = (rs, rowNum) -> new PlayerScores(rs.getString("name"),rs.getInt("points"));
 
     private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getInt("tournament_id"),rs.getInt("awarded_points"));
 
@@ -85,7 +85,7 @@ public class RankingJdbcDao implements RankingDao {
 
     public List<PlayerScores> getRankingPlayers(long rankingId){
         List<PlayerScores> players;
-        players = jdbcTemplate.query("SELECT player_id, points FROM ranking_players WHERE ranking_id = ?",PLAYER_RANKING_MAPPER,rankingId);
+        players = jdbcTemplate.query("SELECT name, points FROM ranking_players WHERE ranking_id = ?",PLAYER_RANKING_MAPPER,rankingId);
         return players;
 
     }

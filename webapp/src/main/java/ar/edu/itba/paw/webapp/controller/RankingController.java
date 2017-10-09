@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.RankingForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class RankingController {
         Tournament t = ts.findById(rankingForm.getTournamentId());
         Map<Tournament,Integer> tMap = new HashMap<>();
         tMap.put(t,rankingForm.getAwardedPoints());
-        rs.create(rankingForm.getRankingName(),tMap);
+        Ranking r = rs.create(rankingForm.getRankingName(),tMap);
         //TODO ranking Page
-        return new ModelAndView("ranking/1");
+        return new ModelAndView("redirect:/ranking/"+ r.getId());
     }
 
 }
