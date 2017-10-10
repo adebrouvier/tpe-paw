@@ -29,13 +29,13 @@ public class TournamentServiceTest {
     @Before
     public void setUp() {
         Mockito.when(tournamentDao.findById(3)).thenReturn(standardTournament());
-        Mockito.when(tournamentDao.create("Test")).thenReturn(standardTournament());
+        Mockito.when(tournamentDao.create("Test","Game")).thenReturn(standardTournament());
         Mockito.when(tournamentDao.findFeaturedTournaments()).thenReturn(standardTournaments());
     }
 
     @Test
     public void testCreate() {
-        Tournament tournament = tournamentServiceImpl.create("Test", new ArrayList<Player>());
+        Tournament tournament = tournamentServiceImpl.create("Test", new ArrayList<Player>(),"Game");
         Assert.assertEquals("Test", tournament.getName());
 
     }
@@ -57,13 +57,13 @@ public class TournamentServiceTest {
         }
     }
     private Tournament standardTournament() {
-        return new Tournament("Test", 3);
+        return new Tournament("Test", 3,1);
     }
 
     private List<Tournament> standardTournaments() {
         List<Tournament> tournaments = new ArrayList<Tournament>();
         for(Integer i = 0; i < 10; i++) {
-            tournaments.add(new Tournament(i.toString(), i));
+            tournaments.add(new Tournament(i.toString(), i,1));
         }
         return tournaments;
     }

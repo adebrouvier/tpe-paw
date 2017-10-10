@@ -9,7 +9,7 @@ public interface TournamentDao {
 
     public Tournament findById (long id);
 
-    public Tournament create(String name);
+    public Tournament create(String name, String game);
 
     public List<Tournament> findFeaturedTournaments();
 

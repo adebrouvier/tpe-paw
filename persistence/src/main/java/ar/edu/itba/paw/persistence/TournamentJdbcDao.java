@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Standing;
@@ -26,7 +28,7 @@ public class TournamentJdbcDao implements TournamentDao {
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getInt("tournament_id"));
+    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getInt("tournament_id"), rs.getLong("game_id"));
 
     @Autowired
     public TournamentJdbcDao(final DataSource ds) {
@@ -41,6 +43,9 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Autowired
     private MatchDao matchDao;
+
+    @Autowired
+    private GameDao gameDao;
 
     @Override
     public Tournament findById(long id) {
@@ -62,11 +67,16 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public Tournament create(String name) {
+    public Tournament create(String name, String gameName) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
+        Game game = gameDao.findByName(gameName);
+        if(game == null) {
+            game = gameDao.create(gameName, true);
+        }
+        args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,tournamentId.longValue());
+        return new Tournament(name,tournamentId.longValue(), game.getGameId());
     }
 
     @Override

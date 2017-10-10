@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
@@ -30,9 +32,13 @@ public class IndexController {
     @Autowired
     private PlayerService ps;
 
+    @Autowired
+    private GameService gs;
+
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("tournamentForm") final TournamentForm form, @ModelAttribute("searchForm") final TournamentSearchForm searchForm) {
         final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("games", gameToString(gs.findGamesName()));
         mav.addObject("tournaments",ts.findFeaturedTournaments());
         mav.addObject("tournamentNames", tournamentToCellString(ts.findTournamentNames()));
         return mav;
@@ -52,6 +58,21 @@ public class IndexController {
         return sb.toString();
     }
 
+    private String gameToString(List<String> list){
+        String arg = "{";
+        if(list.isEmpty() || list == null) {
+            return arg.concat("}");
+        }
+        int size = list.size();
+        int i = 0;
+        for( ; i < size-1 ; i++) {
+            arg = arg.concat("\"" + list.get(i) + "\"" + ": null,");
+        }
+
+        arg = arg.concat("\"" + list.get(i) + "\":null}");
+        return arg;
+    }
+
     @RequestMapping(value = "/create", method = { RequestMethod.POST })
     public ModelAndView create(@Valid @ModelAttribute("tournamentForm")
                                    final TournamentForm form, final BindingResult errors) {
@@ -62,7 +83,7 @@ public class IndexController {
         if (form.isRandomizeSeed()) {
             Collections.shuffle(players);
         }
-        final Tournament t = ts.create(form.getTournamentName(),players);
+        final Tournament t = ts.create(form.getTournamentName(),players,form.getGame());
         return new ModelAndView("redirect:/tournament/"+ t.getId());
     }
 
