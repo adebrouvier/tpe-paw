@@ -46,6 +46,11 @@ public class IndexController {
 
     private String tournamentToCellString(List<String> list){
         StringBuilder sb = new StringBuilder("{");
+
+        if (list.isEmpty()){
+            return sb.append("}").toString();
+        }
+
         for(String tournament : list) {
             sb.append("\"");
             sb.append(tournament);
@@ -104,8 +109,8 @@ public class IndexController {
         return result;
     }
 
-    @RequestMapping(value = "/searchtourn", method = { RequestMethod.GET })
-    public ModelAndView search(@Valid @ModelAttribute("searchForm")
+    @RequestMapping(value = "/searchtournament", method = { RequestMethod.GET })
+    public ModelAndView searchtournament(@Valid @ModelAttribute("searchForm")
                                final TournamentSearchForm form, final BindingResult errors) {
         if (errors.hasErrors()) {
             return index(null, form);

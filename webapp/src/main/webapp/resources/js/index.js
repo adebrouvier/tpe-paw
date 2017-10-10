@@ -13,8 +13,7 @@ $(document).ready(function() {
 
     var tournamentList = document.getElementById('autocomplete-search');
     var tournaments = JSON.parse(tournamentList.dataset.search);
-    $('input.autocomplete').autocomplete({
-
+    $('.autocomplete-search-input').autocomplete({
         data: tournaments,
         limit: 3,
         minLength: 1

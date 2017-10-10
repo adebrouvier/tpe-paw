@@ -10,7 +10,9 @@ public interface TournamentService {
 
     public final int NO_PARENT = 0;
 
-    public final int BYE_ID = -1;
+    public final String BYE_NAME = "BYE";
+
+    public final long BYE_ID = -1;
 
     /**
      * Finds the tournament with the specified id

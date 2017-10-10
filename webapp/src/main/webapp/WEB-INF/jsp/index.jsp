@@ -3,28 +3,28 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <link rel="stylesheet" href="<c:url value="/resources/css/index.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
-    <title><spring:message code="index.title"/></title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/index.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
+    <title><spring:message code="index.title"/></title>
 </head>
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
 <div class="container center">
     <div>
-        <c:url value="/searchtourn" var="getPath"/>
+        <c:url value="/searchtournament" var="getPath"/>
         <form:form modelAttribute="searchForm" action="${getPath}" method="get">
             <div class="input-field">
                 <div id="autocomplete-search" data-search="<c:out value="${tournamentNames}"/>"></div>
                 <i class="material-icons prefix">search</i>
-                <form:input type="text" cssClass="autocomplete" placeholdertype="text" path="query" autocomplete="off"/>
+                <form:input type="text" cssClass="autocomplete autocomplete-search-input" placeholdertype="text" path="query" autocomplete="off"/>
                 <form:label path="query">Search </form:label>
                 <form:errors path="query" cssClass="form-error" element="p"/>
             </div>
@@ -64,8 +64,8 @@ ${navbar}
                             <form:label path="randomizeSeed" for="seed-checkbox"><spring:message code="tournament.create.checkbox.seeding"/></form:label>
                         </div>
                     </div>
-                </div>
                     <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="tournament.create.submit"/></button>
+                </div>
             </form:form>
         </div>
     </div>

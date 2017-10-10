@@ -20,7 +20,7 @@ public class SearchController {
     private TournamentService ts;
 
     @RequestMapping("/search")
-    public ModelAndView searchQuery(@RequestParam String query){
+    public ModelAndView search(@RequestParam String query){
 
         String term = "";
 
