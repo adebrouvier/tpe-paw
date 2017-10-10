@@ -98,6 +98,8 @@ public class Tournament {
         return this.matches.addAll(matches);
     }
 
+    public boolean getIsFinished() { return isFinished; }
+
     public void endTournament() { this.isFinished = true; }
 
     @Override

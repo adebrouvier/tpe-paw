@@ -20,6 +20,8 @@ public class TournamentForm {
 
     private boolean randomizeSeed;
 
+    private boolean isFinished;
+
     public boolean isRandomizeSeed() { return randomizeSeed; }
 
     public void setRandomizeSeed(boolean randomizeSeed) { this.randomizeSeed = randomizeSeed; }
@@ -39,4 +41,6 @@ public class TournamentForm {
     public void setPlayers(String players) {
         this.players = players;
     }
+
+    public boolean isFinished() { return this.isFinished(); }
 }
