@@ -5,5 +5,6 @@ import ar.edu.itba.paw.model.Game;
 import java.util.List;
 
 public interface GameService {
-    public List<Game> getGames();
+    public List<String> findGamesName();
+    public Game findById(final long id);
 }

@@ -8,16 +8,26 @@ public class Tournament {
     private List<Player> players;
     private List<Match> matches;
     private int numberOfMatches;
+    private long gameId;
 
     private int size;
 
     private long id;
 
-    public Tournament(String name, long id){
+    public Tournament(String name, long id, long gameId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
+        this.gameId = gameId;
+    }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
     }
 
     public String getName() { return name; }

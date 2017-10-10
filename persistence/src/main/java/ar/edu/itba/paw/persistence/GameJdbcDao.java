@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class GameJdbcDao implements GameDao{
@@ -30,8 +32,8 @@ public class GameJdbcDao implements GameDao{
 
 
     @Override
-    public List<Game> getGames() {
-        List<Game> list = jdbcTemplate.query("SELECT * FROM game",ROW_MAPPER);
+    public List<String> findGamesName() {
+        List<String> list = jdbcTemplate.queryForList("SELECT name FROM game WHERE NOT user_generated ",String.class);
         if(list == null) {
             return null;
         }
@@ -42,7 +44,7 @@ public class GameJdbcDao implements GameDao{
     @Override
     public Game findById(long id) {
         List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE game_id = ?", ROW_MAPPER, id);
-        if(g == null) {
+        if(g.isEmpty() || g == null) {
             return null;
         }
         return g.get(0);
@@ -51,10 +53,20 @@ public class GameJdbcDao implements GameDao{
     @Override
     public Game findByName(String name) {
         List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE name LIKE ?", ROW_MAPPER, name);
-        if(g == null) {
+        if(g.isEmpty() || g == null) {
             return null;
         }
         return g.get(0);
+    }
+
+    @Override
+    public Game create(String name, boolean userGenerated) {
+
+        final Map<String, Object> args = new HashMap<>();
+        args.put("name", name);
+        args.put("user_generated", userGenerated);
+        final Number gameId = jdbcInsert.executeAndReturnKey(args);
+        return new Game(gameId.longValue(), name);
     }
 
 }

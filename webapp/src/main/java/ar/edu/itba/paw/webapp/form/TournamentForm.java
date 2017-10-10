@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.webapp.form.validation.GameConstraint;
 import ar.edu.itba.paw.webapp.form.validation.PlayerConstraint;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -16,7 +14,7 @@ public class TournamentForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String tournamentName;
 
-    @GameConstraint
+    @Size(min = 0, max = 60)
     private String game;
 
     @Pattern(regexp = "(([a-zA-Z0-9]{1,25}\r\n)+([a-zA-Z0-9]{1,25})$)|([a-zA-Z0-9]{1,25}\r\n)+")

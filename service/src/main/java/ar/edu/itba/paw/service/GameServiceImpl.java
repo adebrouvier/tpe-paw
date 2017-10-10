@@ -15,7 +15,12 @@ public class GameServiceImpl implements GameService{
     private GameDao gameDao;
 
     @Override
-    public List<Game> getGames() {
-        return gameDao.getGames();
+    public List<String> findGamesName() {
+        return gameDao.findGamesName();
+    }
+
+    @Override
+    public Game findById(long id) {
+        return gameDao.findById(id);
     }
 }

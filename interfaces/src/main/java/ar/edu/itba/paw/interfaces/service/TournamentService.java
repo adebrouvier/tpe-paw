@@ -24,7 +24,7 @@ public interface TournamentService {
      * @param players list of players
      * @return instance of the Tournament
      */
-    public Tournament create(String name, List<Player> players);
+    public Tournament create(String name, List<Player> players, String game);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded

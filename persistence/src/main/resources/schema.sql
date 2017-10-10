@@ -6,7 +6,8 @@ password varchar(100)
 
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
-  name varchar(60) UNIQUE NOT NULL
+  name varchar(60) UNIQUE NOT NULL,
+  user_generated BOOLEAN DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS tournament (
