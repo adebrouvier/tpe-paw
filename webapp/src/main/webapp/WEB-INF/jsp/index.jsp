@@ -15,6 +15,18 @@
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
 <div class="container center">
+    <div>
+        <c:url value="/searchtourn" var="getPath"/>
+        <form:form modelAttribute="searchForm" action="${getPath}" method="get">
+            <div class="input-field">
+                <div id="autocomplete-search" data-search="<c:out value="${tournamentNames}"/>"></div>
+                <i class="material-icons prefix">search</i>
+                <form:input type="text" cssClass="autocomplete" placeholdertype="text" path="query" autocomplete="off"/>
+                <form:label path="query">Search </form:label>
+                <form:errors path="query" cssClass="form-error" element="p"/>
+            </div>
+        </form:form>
+    </div>
     <h3><spring:message code="tournament.create.title"/></h3>
     <div class="row">
         <div class="col offset-s3 s6">
@@ -76,8 +88,8 @@ ${navbar}
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 
-<script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
 <script type="text/javascript"
         src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
 </body>
 </html>

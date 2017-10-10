@@ -35,4 +35,16 @@ public interface TournamentService {
 
     public List<Standing> getStandings(long tournamentId);
 
+    /**
+     * Finds the name of every existing tournament
+     * @return the list with the names
+     */
+    public List<String> findTournamentNames();
+
+    /**
+     * Finds a tournament with the specified name
+     * @param name the name of part of the name of the tournament
+     * @return a list of tournaments
+     */
+    public List<Tournament> findByName(String name);
 }

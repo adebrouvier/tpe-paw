@@ -14,4 +14,8 @@ public interface TournamentDao {
     public List<Tournament> findFeaturedTournaments();
 
     public List<Standing> getStandings(long tournamentId);
+
+    public List<String> findTournamentNames();
+
+    public List<Tournament> findByName(String name);
 }
