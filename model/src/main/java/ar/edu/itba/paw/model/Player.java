@@ -46,8 +46,4 @@ public class Player {
         return name + " - " + "Id: " + id;
     }
 
-    public int getStanding(){
-        //TODO This should be in tournament, the tournament should have the players standings
-        return 1;
-    }
 }

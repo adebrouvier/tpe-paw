@@ -62,7 +62,7 @@ public class TournamentServiceImpl implements TournamentService {
         }
 
         generateSingleEliminationBracket(tournament.getId(), players, seeds);
-        /*TODO:tournament.getMatches() is empty*/
+        /*TODO:tournament.getMatches() is empty. The tournament in return is not updated*/
         return tournament;
     }
 
