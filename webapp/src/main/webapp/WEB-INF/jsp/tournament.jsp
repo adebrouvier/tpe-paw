@@ -16,7 +16,13 @@
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
-
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4"><i class="material-icons">build</i></a>
+    <ul>
+        <li><a class="btn-floating light-blue darken-1" href="/">T</a></li>
+        <li><a class="btn-floating light-blue darken-3" href="/ranking">R</a></li>
+    </ul>
+</div>
 <div class="container">
     <div class="row">
         <div class="col s12">
@@ -35,7 +41,13 @@ ${navbar}
                             <tr>
                                 <td>${tournament.size}</td>
                                 <td>${tournament.numberOfMatches}</td>
-                                <td>Undefined</td>
+                                <td><c:if test="${game.name == ''}">
+                                    <spring:message code="tournament.undefined.game"/>
+                                </c:if>
+                                    <c:if test="${game.name != null}">
+                                        <c:out value="${game.name}"/>
+                                    </c:if>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

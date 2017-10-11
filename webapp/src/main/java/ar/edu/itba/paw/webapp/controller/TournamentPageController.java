@@ -1,7 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.persistence.GameDao;
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.MatchForm;
@@ -27,6 +30,9 @@ public class TournamentPageController {
     @Autowired
     private MatchService ms;
 
+    @Autowired
+    private GameService gs;
+
     @RequestMapping("/tournament/{tournamentId}")
     public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId){
         final ModelAndView mav = new ModelAndView("tournament");
@@ -34,6 +40,11 @@ public class TournamentPageController {
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
+        final Game game = gs.findById(t.getGameId());
+        if(game == null) {
+            mav.addObject("game", new Game(0, ""));
+        }
+        mav.addObject("game", game);
         mav.addObject("tournament", t);
         return mav;
     }

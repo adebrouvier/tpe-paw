@@ -63,6 +63,12 @@ public class TournamentJdbcDao implements TournamentDao {
         t.addPlayer(players);
         t.addMatch(matches);
 
+        //TODO: el model deberia hacer eso.
+        Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+        Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+        t.setSize(numberOfPlayers);
+        t.setNumberOfMatches(numberOfMatches);
+
         return t;
     }
 
