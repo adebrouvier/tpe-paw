@@ -41,16 +41,31 @@ public class RankingController {
     }
 
     @RequestMapping(value = "/createRanking", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors){
+    public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors){
         /*Tournament t = ts.findById(rankingForm.getTournaments());
         Map<Tournament,Integer> tMap = new HashMap<>();
         tMap.put(t,rankingForm.getAwardedPoints());
         Ranking r = rs.create(rankingForm.getRankingName(),tMap);*/
+
+        if (errors.hasErrors()){
+            ranking(rankingForm);
+        }
+
         Map<Tournament,Integer> tMap = new HashMap<>();
-        List<Tournament> tournaments = parseTournaments(rankingForm.getTournaments());
+
+        for (int i = 0; i < rankingForm.getTournaments().size(); i++){
+
+            String name = rankingForm.getTournaments().get(i);
+
+            final Tournament t = ts.getByName(name);
+
+            tMap.put(t,rankingForm.getPoints().get(i));
+        }
+
+        /*List<Tournament> tournaments = parseTournaments(rankingForm.getTournaments());
         for(Tournament tournament : tournaments){
             tMap.put(tournament,100);
-        }
+        }*/
         Ranking r = rs.create(rankingForm.getRankingName(),tMap);
         //TODO ranking Page
         return new ModelAndView("redirect:/ranking/"+ r.getId());

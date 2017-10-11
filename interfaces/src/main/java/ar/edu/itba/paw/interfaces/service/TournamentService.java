@@ -54,4 +54,6 @@ public interface TournamentService {
      * @return a list of tournaments
      */
     public List<Tournament> findByName(String name);
+
+    public Tournament getByName(String name);
 }

@@ -1,12 +1,8 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.webapp.form.validation.PlayerConstraint;
-
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Map;
+import java.util.List;
 
 public class RankingForm {
 
@@ -14,39 +10,30 @@ public class RankingForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String rankingName;
 
-    @Pattern(regexp = "(([a-zA-Z0-9]{1,50}\r\n)+([a-zA-Z0-9]{1,50})$)|([a-zA-Z0-9]{1,50}\r\n)+")
-    @PlayerConstraint
-    private String tournaments;
+    private List<String> tournaments;
+    private List<Integer> points;
 
     public String getRankingName() {
         return rankingName;
     }
 
-    public String getTournaments() {
+    public void setRankingName(String rankingName){
+        this.rankingName=rankingName;
+    }
+
+    public List<String> getTournaments() {
         return tournaments;
     }
 
-    public void setTournaments(String tournaments) {
+    public void setTournaments(List<String> tournaments) {
         this.tournaments = tournaments;
     }
 
-    public void setRankingName(String rankingName) {
-        this.rankingName = rankingName;
-    }
-/*
-    public int getTournamentId() {
-        return tournamentId;
+    public List<Integer> getPoints() {
+        return points;
     }
 
-    public void setTournamentId(int tournamentId) {
-        this.tournamentId = tournamentId;
+    public void setPoints(List<Integer> points) {
+        this.points = points;
     }
-
-    public int getAwardedPoints() {
-        return awardedPoints;
-    }*/
-/*
-    public void setAwardedPoints(int awardedPoints) {
-        this.awardedPoints = awardedPoints;
-    }*/
 }

@@ -117,6 +117,11 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentDao.findByName(name);
     }
 
+    @Override
+    public Tournament getByName(String name) {
+        return tournamentDao.getByName(name);
+    }
+
     private void generateSingleEliminationBracket(long tournamentId, List<Player> players, Map<Integer, Long> seeds) {
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
         int initialStanding = 1;

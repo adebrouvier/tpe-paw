@@ -148,6 +148,18 @@ public class TournamentJdbcDao implements TournamentDao {
         return list;
     }
 
+    @Override
+    public Tournament getByName(String name) {
+
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE name = ?",
+                ROW_MAPPER, name);
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list.get(0);
+    }
+
     public void endTournament(long tournamentId) {
         jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true,tournamentId);
     }

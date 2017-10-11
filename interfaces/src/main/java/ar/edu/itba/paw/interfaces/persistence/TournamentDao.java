@@ -22,4 +22,6 @@ public interface TournamentDao {
     public List<String> findTournamentNames();
 
     public List<Tournament> findByName(String name);
+
+    public Tournament getByName(String name);
 }
