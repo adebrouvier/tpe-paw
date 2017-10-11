@@ -35,4 +35,5 @@ public interface PlayerService {
      */
     public boolean addToTournament(long playerId,long tournamentId, int seed);
 
+    void setDefaultStanding(int standing, long tournamentId);
 }

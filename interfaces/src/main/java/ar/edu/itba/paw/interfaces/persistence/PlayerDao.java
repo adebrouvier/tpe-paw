@@ -15,4 +15,6 @@ public interface PlayerDao {
     public boolean addToTournament(long playerId,long tournamentId, int seed);
 
     public List<Player> getTournamentPlayers(long tournamentId);
+
+    void setDefaultStanding(int standing, long tournamentId);
 }

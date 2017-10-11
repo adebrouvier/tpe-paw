@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class PlayerJdbcDao implements PlayerDao{
+public class PlayerJdbcDao implements PlayerDao {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -32,7 +32,7 @@ public class PlayerJdbcDao implements PlayerDao{
                 .usingGeneratedKeyColumns("player_id");
         participatesInjdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("participates_in")
-                .usingColumns("player_id","tournament_id","seed");
+                .usingColumns("player_id", "tournament_id", "seed", "standing");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PlayerJdbcDao implements PlayerDao{
                 "SELECT * FROM participates_in WHERE player_id = (SELECT player_id FROM participates_in WHERE seed = ?)",ROW_MAPPER, seed);
                 */
 
-        final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ? AND tournament_id = ?",LONG_MAPPER,seed,tournamentId);
+        final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ? AND tournament_id = ?", LONG_MAPPER, seed, tournamentId);
 
         if (list.isEmpty()) {
             return 0;
@@ -68,13 +68,13 @@ public class PlayerJdbcDao implements PlayerDao{
     public Player create(String name) {
         final Map<String, Object> args = new HashMap<>();
 
-        if(name.length() > 50) { //TODO ver que no rompe nada
+        if(name.length() > 25) { //TODO ver que no rompe nada
             return null;
         }
 
         args.put("name", name);
         final Number playerId = playerjdbcInsert.executeAndReturnKey(args);
-        return new Player(name,playerId.longValue());
+        return new Player(name, playerId.longValue());
     }
 
     @Override
@@ -83,7 +83,8 @@ public class PlayerJdbcDao implements PlayerDao{
         final Map<String, Object> args = new HashMap<>();
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
-        args.put("seed",seed);
+        args.put("seed", seed);
+        args.put("standing", 0);
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 
@@ -93,6 +94,11 @@ public class PlayerJdbcDao implements PlayerDao{
     @Override
     public List<Player> getTournamentPlayers(long tournamentId) {
         return jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in" +
-                        " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+                " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+    }
+
+    @Override
+    public void setDefaultStanding(int defaultStanding, long tournamentId) {
+        jdbcTemplate.update("UPDATE participates_in SET standing = ? WHERE tournament_id = ?", defaultStanding, tournamentId);
     }
 }

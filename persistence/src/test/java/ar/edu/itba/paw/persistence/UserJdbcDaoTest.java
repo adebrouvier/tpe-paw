@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,23 +22,23 @@ import ar.edu.itba.paw.model.User;
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
 public class UserJdbcDaoTest {
-	
+
 	private static final String PASSWORD = "Password";
 	private static final String USERNAME = "Username";
-	
+
 	@Autowired
 	private DataSource ds;
-	
+
 	@Autowired
 	private UserJdbcDao userDao;
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Before
 	public void setUp() {
 		jdbcTemplate = new JdbcTemplate(ds);
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
 	}
-	
+
 	@Test
 	public void testCreate() {
 		final User user = userDao.create(USERNAME, PASSWORD);
@@ -47,5 +48,5 @@ public class UserJdbcDaoTest {
 		assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
 	}
 }
-    
+
 
