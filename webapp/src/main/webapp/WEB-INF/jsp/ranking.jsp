@@ -38,10 +38,10 @@ ${navbar}
             </div>
             <div class="row center">
                 <div class="col offset-s5">
-                    <a id="tournament-adder" class="btn btn-primary">Add tournament</a>
+                    <a id="tournament-adder" class="btn btn-primary light-blue darken-4">Add tournament</a>
                     <br/>
                     <br/>
-                    <button class="btn btn-primary" type="submit"><spring:message code="ranking.create.submit"/></button>
+                    <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.create.submit"/></button>
                 </div>
             </div>
 

@@ -156,7 +156,8 @@ public class TournamentJdbcDao implements TournamentDao {
         if (list.isEmpty()) {
             return null;
         }
-
+        //Tournament t = findById(list.get(0).getId());
+        list.get(0).setPlayers(playerDao.getTournamentPlayers(list.get(0).getId()));
         return list.get(0);
     }
 
