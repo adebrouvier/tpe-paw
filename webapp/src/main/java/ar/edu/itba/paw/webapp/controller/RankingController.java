@@ -41,34 +41,37 @@ public class RankingController {
     }
 
     @RequestMapping(value = "/createRanking", method = {RequestMethod.POST})
-    public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors){
+    public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors) {
         /*Tournament t = ts.findById(rankingForm.getTournaments());
         Map<Tournament,Integer> tMap = new HashMap<>();
         tMap.put(t,rankingForm.getAwardedPoints());
         Ranking r = rs.create(rankingForm.getRankingName(),tMap);*/
 
-        if (errors.hasErrors()){
+        if (errors.hasErrors()) {
             ranking(rankingForm);
         }
 
-        Map<Tournament,Integer> tMap = new HashMap<>();
-
-        for (int i = 0; i < rankingForm.getTournaments().size(); i++){
+        Map<Tournament, Integer> tMap = new HashMap<>();
+        int size = 0;
+        if (rankingForm.getTournaments() != null)
+            size = rankingForm.getTournaments().size();
+        for (int i = 0; i < size; i++) {
 
             String name = rankingForm.getTournaments().get(i);
 
             final Tournament t = ts.getByName(name);
-
-            tMap.put(t,rankingForm.getPoints().get(i));
+            if (t != null) {
+                tMap.put(t, rankingForm.getPoints().get(i));
+            }
         }
 
         /*List<Tournament> tournaments = parseTournaments(rankingForm.getTournaments());
         for(Tournament tournament : tournaments){
             tMap.put(tournament,100);
         }*/
-        Ranking r = rs.create(rankingForm.getRankingName(),tMap);
+        Ranking r = rs.create(rankingForm.getRankingName(), tMap);
         //TODO ranking Page
-        return new ModelAndView("redirect:/ranking/"+ r.getId());
+        return new ModelAndView("redirect:/ranking/" + r.getId());
     }
 
     private List<Tournament> parseTournaments(String tournaments) {
@@ -77,14 +80,14 @@ public class RankingController {
 
         Long id;
 
-        for (String tournament : tournaments.split("\r\n")){
+        for (String tournament : tournaments.split("\r\n")) {
 
             if (tournament.length() > 0) {
 
                 id = Long.parseLong(tournament);
                 final Tournament t = ts.findById(id);
 
-                if(t != null){
+                if (t != null) {
                     result.add(t);
                 }
 
