@@ -13,7 +13,7 @@ public interface MatchService {
      * @param tournamentId id of the tournament that match belongs to
      * @return the created match
      */
-    public Match createEmpty(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId);
+    public Match createEmpty(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId, final int standing);
 
     /**
      * Creates a match between two players
@@ -25,7 +25,7 @@ public interface MatchService {
      * @param awayPlayerId id of the away player
      * @return the created match
      */
-    public Match create(final int matchId,final int nextMatchId,final boolean isNextMatchHome, final long tournamentId, final long homePlayerId, final long awayPlayerId);
+    public Match create(final int matchId,final int nextMatchId,final boolean isNextMatchHome, final long tournamentId, final long homePlayerId, final long awayPlayerId, final int standing);
 
     /**
      * Finds the Match with the specified id

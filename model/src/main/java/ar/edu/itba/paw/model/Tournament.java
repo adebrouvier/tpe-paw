@@ -10,36 +10,50 @@ public class Tournament {
     private List<Player> players;
     private List<Match> matches;
     private int numberOfMatches;
+    private long gameId;
 
     private int size;
 
     private long id;
 
-    public Tournament(String name, long id){
+    public Tournament(String name, long id, long gameId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
         this.tier = 1;
         this.isFinished = false;
+        this.gameId = gameId;
+
     }
 
-    public Tournament(String name, long id, int tier){
+    public Tournament(String name, long id, int tier, long gameId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
         this.tier = tier;
         this.isFinished = false;
+        this.gameId = gameId;
+
     }
 
-    public Tournament(String name, long id, boolean isFinished, int tier){
+    public Tournament(String name, long id, boolean isFinished, int tier, long gameId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
         this.tier = tier;
         this.isFinished = isFinished;
+        this.gameId = gameId;
+    }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
     }
 
     public String getName() { return name; }

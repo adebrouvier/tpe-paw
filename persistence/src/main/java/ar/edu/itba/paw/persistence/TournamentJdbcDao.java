@@ -1,10 +1,14 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +28,7 @@ public class TournamentJdbcDao implements TournamentDao {
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getInt("tournament_id"), rs.getBoolean("is_finished"), rs.getInt("tier"));
+    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getLong("tournament_id"), rs.getBoolean("is_finished"),  rs.getInt("tier") ,rs.getLong("game_id"));
 
     @Autowired
     public TournamentJdbcDao(final DataSource ds) {
@@ -39,6 +43,9 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Autowired
     private MatchDao matchDao;
+
+    @Autowired
+    private GameDao gameDao;
 
     @Override
     public Tournament findById(long id) {
@@ -60,23 +67,33 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public Tournament create(String name) {
+    public Tournament create(String name, String gameName) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
         args.put("is_finished", false);
         args.put("tier", 1);
+        Game game = gameDao.findByName(gameName);
+        if(game == null) {
+            game = gameDao.create(gameName, true);
+        }
+        args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,tournamentId.longValue());
+        return new Tournament(name,tournamentId.longValue(), game.getGameId());
     }
 
 
-    public Tournament create(String name, int tier) {
+    public Tournament create(String name, String gameName,int tier) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
         args.put("is_finished", false);
         args.put("tier", tier);
+        Game game = gameDao.findByName(gameName);
+        if(game == null) {
+            game = gameDao.create(gameName, true);
+        }
+        args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,tournamentId.longValue());
+        return new Tournament(name,game.getGameId(),tournamentId.longValue());
     }
 
 
@@ -92,10 +109,40 @@ public class TournamentJdbcDao implements TournamentDao {
         }
 
         for (Tournament t : list) {
-            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ?", Integer.class, t.getId());
-            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ?", Integer.class, t.getId());
+            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
             t.setSize(numberOfPlayers);
             t.setNumberOfMatches(numberOfMatches);
+        }
+
+        return list;
+    }
+
+    private final static RowMapper<Standing> STANDING_ROW_MAPPER = (rs, rowNum) -> new Standing(rs.getString("name"), rs.getInt("standing"));
+
+    @Override
+    public List<Standing> getStandings(long tournamentId) {
+
+        List<Standing> standingList = jdbcTemplate.query("SELECT player.name AS name, participates_in.standing as standing  FROM player NATURAL JOIN participates_in WHERE tournament_id = ? AND player_id != ? ORDER BY standing ASC", STANDING_ROW_MAPPER, tournamentId, TournamentService.BYE_ID);
+
+        return standingList;
+    }
+
+    @Override
+    public List<String> findTournamentNames() {
+        return jdbcTemplate.queryForList("SELECT name FROM tournament", String.class);
+    }
+
+    @Override
+    public List<Tournament> findByName(String name) {
+
+        StringBuilder sb = new StringBuilder(name);
+        sb.insert(0,"%");
+        sb.append("%");
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE name LIKE ?",
+                ROW_MAPPER, sb);
+        if (list.isEmpty()) {
+            return null;
         }
 
         return list;
