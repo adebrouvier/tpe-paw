@@ -121,6 +121,15 @@ public class MatchJDBCDao implements MatchDao {
 
         jdbcTemplate.update("UPDATE match SET home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", homeScore, awayScore, matchId, tournamentId);
 
+        if((homeScore > awayScore) && (match.getHomePlayerScore() < match.getAwayPlayerScore())) {
+            updateRecursiveStanding(match.getAwayPlayerId(),matchId,match.getNextMatchId(),tournamentId);
+            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+        } else if((homeScore < awayScore) && (match.getHomePlayerScore() > match.getAwayPlayerScore())) {
+            updateRecursiveStanding(match.getHomePlayerId(),matchId,match.getNextMatchId(),tournamentId);
+            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
+        }
+
+
         if (homeScore > awayScore)
             updateStanding(match.getHomePlayerId(),matchId,tournamentId);
         else if (homeScore < awayScore){
@@ -139,47 +148,6 @@ public class MatchJDBCDao implements MatchDao {
             return;
         }
 
-        Match match = findById((int)nextMatchId, tournamentId);
-
-        if(match != null) {
-            if(nextMatchHome) {
-                if(match.getHomePlayerId() != EMPTY) {
-                    if(homeScore > awayScore) {
-                        if(match.getHomePlayerId() != homePlayerId) {
-                            jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
-                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
-                            return;
-                        }
-                    }
-                    if(homeScore < awayScore) {
-                        if(match.getHomePlayerId() != awayPlayerId) {
-                            jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", awayPlayerId, 0, 0, nextMatchId, tournamentId);
-                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
-                            return;
-                        }
-                    }
-                }
-
-            } else {
-                if(match.getAwayPlayerId() != EMPTY) {
-                    if(homeScore > awayScore) {
-                        if(match.getAwayPlayerId() != homePlayerId) {
-                            jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", homePlayerId, 0, 0, nextMatchId, tournamentId);
-                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
-                            return;
-                        }
-                    }
-                    if(homeScore < awayScore) {
-                        if(match.getAwayPlayerId() != awayPlayerId) {
-                            jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ?  WHERE match_id = ? AND tournament_id = ?", awayPlayerId, 0, 0, nextMatchId, tournamentId);
-                            updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
-                            return;
-                        }
-                    }
-                }
-
-            }
-        }
         if (homeScore == awayScore){
             return;
         }
@@ -213,11 +181,17 @@ public class MatchJDBCDao implements MatchDao {
                 if(nextMatchHome) {
                     if(match.getHomePlayerId() != 0) {
                         jdbcTemplate.update("UPDATE match SET home_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", null, 0, 0, matchId, tournamentId);
+                        if(match.getHomePlayerScore() < match.getAwayPlayerScore()) {
+                            updateRecursiveStanding(match.getAwayPlayerId(),matchId, match.getNextMatchId(),tournamentId);
+                        }
                         updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
                     }
                 } else {
                     if(match.getAwayPlayerId() != 0) {
                         jdbcTemplate.update("UPDATE match SET away_player_id = ?, home_player_score = ?, away_player_score = ? WHERE match_id = ? AND tournament_id = ?", null, 0, 0, matchId, tournamentId);
+                        if(match.getHomePlayerScore() > match.getAwayPlayerScore()) {
+                            updateRecursiveStanding(match.getHomePlayerId(),matchId, match.getNextMatchId(),tournamentId);
+                        }
                         updateRecursive(tournamentId, match.getNextMatchId(), match.isNextMatchHome());
                     }
                 }
@@ -246,6 +220,19 @@ public class MatchJDBCDao implements MatchDao {
         jdbcTemplate.update("UPDATE participates_in SET standing = (SELECT standing FROM match " +
                         "WHERE tournament_id = ? AND match_id = ?) where player_id = ? AND tournament_id = ?"
                 , tournamentId, matchId, playerId, tournamentId);
+    }
+
+    private void updateRecursiveStanding(long playerId, long matchId, long nextMatchId, long tournamentId) {
+        if(nextMatchId == 0) {
+            jdbcTemplate.update("UPDATE participates_in SET standing = (SELECT (standing*2) FROM match " +
+                            "WHERE tournament_id = ? AND match_id = ?) where player_id = ? AND tournament_id = ?"
+                    , tournamentId, matchId, playerId, tournamentId);
+        } else {
+            jdbcTemplate.update("UPDATE participates_in SET standing = (SELECT (standing*2)-1 FROM match " +
+                            "WHERE tournament_id = ? AND match_id = ?) where player_id = ? AND tournament_id = ?"
+                    , tournamentId, matchId, playerId, tournamentId);
+        }
+
     }
 
 }
