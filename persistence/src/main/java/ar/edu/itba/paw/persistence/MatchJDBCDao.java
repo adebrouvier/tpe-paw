@@ -125,7 +125,7 @@ public class MatchJDBCDao implements MatchDao {
 
 
         if(nextMatchId == 0) {
-            jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true, tournamentId);
+        //    jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true, tournamentId);
             return;
         }
 
@@ -169,9 +169,6 @@ public class MatchJDBCDao implements MatchDao {
                 }
 
             }
-        }
-        else {
-            jdbcTemplate.update("UPDATE tournament SET is_finished=true WHERE tournament_id= ?", tournamentId);
         }
 
         if (homeScore == awayScore){
@@ -234,5 +231,6 @@ public class MatchJDBCDao implements MatchDao {
 
         return matches;
     }
+
 
 }

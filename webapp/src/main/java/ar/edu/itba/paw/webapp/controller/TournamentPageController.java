@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.MatchForm;
+import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,12 @@ public class TournamentPageController {
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
 
         return new ModelAndView("redirect:/tournament/"+ tournamentId);
+    }
+
+    @RequestMapping(value = "/endTournament/{tournamentId}", method = { RequestMethod.POST })
+    public ModelAndView endTournament(@ModelAttribute("tournament") final TournamentForm form, @PathVariable long tournamentId) {
+        ts.endTournament(tournamentId);
+        return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
 }

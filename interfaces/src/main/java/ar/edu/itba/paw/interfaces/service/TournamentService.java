@@ -35,4 +35,6 @@ public interface TournamentService {
      */
     public List<Tournament> findFeaturedTournaments();
 
+    public void endTournament(long tournamentId);
+
 }

@@ -29,6 +29,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public void endTournament(long tournamentId) {
+        tournamentDao.endTournament(tournamentId);
+    }
+
+    @Override
     public Tournament create(String name, List<Player> players) {
         Tournament tournament = tournamentDao.create(name);
 

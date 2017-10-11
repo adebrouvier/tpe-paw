@@ -13,4 +13,6 @@ public interface TournamentDao {
     public Tournament create(String name, int tier);
 
     public List<Tournament> findFeaturedTournaments();
+
+    public void endTournament(long tournamentId);
 }

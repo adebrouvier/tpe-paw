@@ -17,10 +17,21 @@
 ${navbar}
 <div class="center">
     <h2><spring:message code="tournament.greeting" arguments="${tournament.name}"/></h2>
-    <button class="btn waves-effect waves-light center" type="submit">
-        <spring:message code="tournament.finish"/>
-        <i class="material-icons right "></i>
-    </button>
+    <c:url value="/endTournament/${tournament.id}" var="endPath"/>
+    <form:form modelAttribute="tournament" action="${endPath}" method="post">
+        <c:if test="${tournament.isFinished != true}">
+        <button class="btn waves-effect waves-light center" type="submit">
+            <spring:message code="tournament.finish"/>
+            <i class="material-icons right "></i>
+        </button>
+        </c:if>
+        <c:if test="${tournament.isFinished == true}">
+        <button class="btn waves-effect waves-light center disabled" type="submit">
+            <spring:message code="tournament.finished"/>
+            <i class="material-icons right "></i>
+        </button>
+        </c:if>
+    </form:form>
 </div>
 <div>
     <div class="tournament-container">
@@ -89,13 +100,13 @@ ${navbar}
                                 <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.isFinished == true}">
                                     <button class="btn waves-effect waves-light disabled" type="submit">
                                         <spring:message code="tournament.update"/>
-                                        <i class="material-icons right "></i>
+                                        <i class="material-icons right ">update</i>
                                     </button>
                                 </c:if>
                                 <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.isFinished == false}">
                                     <button class="btn waves-effect waves-light" type="submit">
                                         <spring:message code="tournament.update"/>
-                                        <i class="material-icons right"></i>
+                                        <i class="material-icons right">update</i>
                                     </button>
                                 </c:if>
 

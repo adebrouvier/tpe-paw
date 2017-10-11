@@ -101,8 +101,8 @@ public class TournamentJdbcDao implements TournamentDao {
         return list;
     }
 
-    public void endTournament(int tournamentId) {
-        jdbcTemplate.query("UPDATE tournament SET is_finished = true WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+    public void endTournament(long tournamentId) {
+        jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true,tournamentId);
     }
 
 }
