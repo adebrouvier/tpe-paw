@@ -34,20 +34,11 @@ ${navbar}
                 <form:errors path="rankingName" cssClass="form-error" element="p"/>
             </div>
             <div class="input-field">
-                <form:label path="tournamentId"><spring:message code="ranking.create.tournamentId"/>: </form:label>
-                <spring:message code="ranking.create.tournamentId.placeholder" var="rankingTournamentIdPlaceholder"/>
-                <form:input placeholder="${rankingTournamentIdPlaceholder}" type="text" data-length="20"
-                            path="tournamentId"
-                            autocomplete="off"/>
-                <form:errors path="tournamentId" cssClass="form-error" element="p"/>
-            </div>
-            <div class="input-field">
-                <form:label path="awardedPoints"><spring:message code="ranking.create.awardedPoints"/>: </form:label>
-                <spring:message code="ranking.create.awardedPoints.placeholder" var="rankingAwardedPointsPlaceholder"/>
-                <form:input placeholder="${rankingAwardedPointsPlaceholder}" type="text" data-length="20"
-                            path="awardedPoints"
-                            autocomplete="off"/>
-                <form:errors path="awardedPoints" cssClass="form-error" element="p"/>
+                <form:label path="tournaments"><spring:message code="ranking.create.tournaments"/>:</form:label>
+                <spring:message code="ranking.create.tournaments.placeholder" var="rankingTournamentsPlaceholder"/>
+                <form:textarea placeholder="${rankingTournamentsPlaceholder}" cssClass="materialize-textarea" type="text"
+                               path="tournaments"/>
+                <form:errors path="tournaments" cssClass="form-error" element="p"/>
             </div>
             <button class="btn btn-primary" type="submit"><spring:message code="ranking.create.submit"/></button>
             </form:form>

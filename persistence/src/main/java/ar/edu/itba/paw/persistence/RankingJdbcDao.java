@@ -117,19 +117,22 @@ public class RankingJdbcDao implements RankingDao {
         Integer existingPlayerScore;
         for (Tournament tournament : tournaments.keySet()) {
             for (Player player : tournament.getPlayers()) {
-                /*Se podria en una query sacar el player y no tener que hacer otra query para sacar los puntos*/
-                Integer playerExists = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ranking_players WHERE ranking_id = ? AND name = ?", Integer.class, rankingId, player.getName());
-                if (playerExists > 0) {
-                    existingPlayerScore = jdbcTemplate.queryForObject("SELECT points FROM ranking_players WHERE name = ? AND ranking_id = ?", Integer.class,player.getName(), rankingId);
+                if(player.getId() != -1){
+                  /*Se podria en una query sacar el player y no tener que hacer otra query para sacar los puntos*/
+                    Integer playerExists = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ranking_players WHERE ranking_id = ? AND name = ?", Integer.class, rankingId, player.getName());
+                    if (playerExists > 0) {
+                        existingPlayerScore = jdbcTemplate.queryForObject("SELECT points FROM ranking_players WHERE name = ? AND ranking_id = ?", Integer.class,player.getName(), rankingId);
                     /*Add the logic of awarded points*/
-                    jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE name = ? AND ranking_id = ? ", existingPlayerScore + tournaments.get(tournament) ,player.getName(), rankingId);
-                } else {
-                    args.clear();
-                    args.put("ranking_id", rankingId);
-                    args.put("name",player.getName());
-                    args.put("points", tournaments.get(tournament));
-                    playerToRankingInsert.execute(args);
+                        jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE name = ? AND ranking_id = ? ", existingPlayerScore + tournaments.get(tournament) ,player.getName(), rankingId);
+                    } else {
+                        args.clear();
+                        args.put("ranking_id", rankingId);
+                        args.put("name",player.getName());
+                        args.put("points", tournaments.get(tournament));
+                        playerToRankingInsert.execute(args);
+                    }
                 }
+
             }
         }
     }
