@@ -33,6 +33,7 @@ ${navbar}
 
             </div>
             <spring:message code="ranking.create.tournaments.placeholder" var="rankingTournamentsPlaceholder"/>
+            <spring:message code="ranking.create.awardedPoints.placeholder" var="awardedPointsPlaceholder"/>
             <form:errors path="tournaments" cssClass="form-error" element="p"/>
 
             </div>
@@ -59,7 +60,7 @@ ${navbar}
                     $("#ranking-tournaments").append(
                     "<div class=\"input-field\">" +
                     "<input placeholder=\"${rankingTournamentsPlaceholder}\" name=\"tournaments[" + i + "]\"/>" +
-                    "<input type=\"number\" placeholder=" + "Points" + " name=\"points[" + i + "]\"/>" +
+                    "<input type=\"number\" placeholder=\"${awardedPointsPlaceholder}\ name=\"points[" + i + "]\"/>" +
                         "</div>"
 
                     );
