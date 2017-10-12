@@ -64,8 +64,8 @@ public class TournamentJdbcDao implements TournamentDao {
         t.addMatch(matches);
 
         //TODO: el model deberia hacer eso.
-        Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
-        Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+        Integer numberOfMatches = getNumberOfMatches(t.getId());
+        Integer numberOfPlayers = getNumberOfPlayers(t.getId());
         t.setSize(numberOfPlayers);
         t.setNumberOfMatches(numberOfMatches);
 
@@ -115,8 +115,8 @@ public class TournamentJdbcDao implements TournamentDao {
         }
 
         for (Tournament t : list) {
-            Integer numberOfMatches = jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
-            Integer numberOfPlayers = jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, t.getId(), TournamentService.BYE_ID);
+            Integer numberOfMatches = getNumberOfMatches(t.getId());
+            Integer numberOfPlayers = getNumberOfPlayers(t.getId());
             t.setSize(numberOfPlayers);
             t.setNumberOfMatches(numberOfMatches);
         }
@@ -151,6 +151,11 @@ public class TournamentJdbcDao implements TournamentDao {
             return null;
         }
 
+        for (Tournament t : list){
+            t.setNumberOfMatches(getNumberOfMatches(t.getId()));
+            t.setSize(getNumberOfPlayers(t.getId()));
+        }
+
         return list;
     }
 
@@ -162,13 +167,20 @@ public class TournamentJdbcDao implements TournamentDao {
         if (list.isEmpty()) {
             return null;
         }
-        //Tournament t = findById(list.get(0).getId());
         list.get(0).setPlayers(playerDao.getTournamentPlayers(list.get(0).getId()));
         return list.get(0);
     }
 
     public void endTournament(long tournamentId) {
         jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true,tournamentId);
+    }
+
+    private int getNumberOfMatches(long tournamentId){
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM match WHERE tournament_id = ? AND coalesce(away_player_id, 0) != ?", Integer.class, tournamentId, TournamentService.BYE_ID);
+    }
+
+    private int getNumberOfPlayers(long tournamentId){
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM participates_in WHERE tournament_id = ? AND player_id != ?", Integer.class, tournamentId, TournamentService.BYE_ID);
     }
 
 }

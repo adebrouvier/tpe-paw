@@ -16,13 +16,6 @@
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4"><i class="material-icons">build</i></a>
-    <ul>
-        <li><a class="btn-floating light-blue darken-1" href="/">T</a></li>
-        <li><a class="btn-floating light-blue darken-3" href="/ranking">R</a></li>
-    </ul>
-</div>
 <div class="container center">
     <c:url value="/createRanking" var="postPath"/>
     <form:form modelAttribute="rankingForm" action="${postPath}" method="post">
@@ -45,7 +38,7 @@ ${navbar}
             </div>
             <div class="row center">
                 <div class="col offset-s5">
-                    <a id="tournament-adder" class="btn btn-primary light-blue darken-4">Add tournament</a>
+                    <a id="tournament-adder" class="btn btn-primary light-blue darken-4"><spring:message code="ranking.tournament.add"/></a>
                     <br/>
                     <br/>
                     <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.create.submit"/></button>
@@ -77,6 +70,5 @@ ${navbar}
 
     </script>
 
-</div>
 </body>
 </html>

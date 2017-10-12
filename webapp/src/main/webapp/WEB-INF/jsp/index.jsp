@@ -17,64 +17,31 @@
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4"><i class="material-icons">build</i></a>
-    <ul>
-        <li><a class="btn-floating light-blue darken-1" href="/">T</a></li>
-        <li><a class="btn-floating light-blue darken-3" href="/ranking">R</a></li>
-    </ul>
-</div>
-<div class="container center">
-    <div>
-        <c:url value="/searchtournament" var="getPath"/>
-        <form:form modelAttribute="searchForm" action="${getPath}" method="get">
-            <div class="input-field">
-                <div id="autocomplete-search" data-search="<c:out value="${tournamentNames}"/>"></div>
-                <i class="material-icons prefix">search</i>
-                <form:input type="text" cssClass="autocomplete autocomplete-search-input" placeholdertype="text" path="query" autocomplete="off"/>
-                <form:label path="query">Search </form:label>
-                <form:errors path="query" cssClass="form-error" element="p"/>
-            </div>
-        </form:form>
-    </div>
-    <h3><spring:message code="tournament.create.title"/></h3>
-    <div class="row">
-        <div class="col offset-s3 s6">
-            <c:url value="/create" var="postPath"/>
-            <form:form modelAttribute="tournamentForm" action="${postPath}" method="post">
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div>
+            <c:url value="/searchtournament" var="getPath"/>
+            <form:form modelAttribute="searchForm" action="${getPath}" method="get">
                 <div class="input-field">
-                    <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
-                    <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
-                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="40" path="tournamentName" autocomplete="off"/>
-                    <form:errors path="tournamentName" cssClass="form-error" element="p"/>
-                </div>
-                <div class="input-field">
-                    <form:label path="players"><spring:message code="tournament.create.players"/>:</form:label>
-                    <spring:message code="tournament.create.players.placeholder" var="playersPlaceholder"/>
-                    <form:textarea placeholder="${playersPlaceholder}" cssClass="materialize-textarea" type="text"
-                                   path="players"/>
-                    <form:errors path="players" cssClass="form-error" element="p"/>
-                </div>
-                <div class="input-field">
-                    <div id="autocomplete-games" data-games="<c:out value="${games}"> </c:out>"></div>
-                    <form:label path="game"><spring:message code="tournament.create.game"/>: </form:label>
-                    <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
-                    <form:input placeholder="${gamePlaceholder}" type="text" class="autocomplete" path="game" autocomplete="off"/>
-                    <form:errors path="game" cssClass="form-error" element="p"/>
-                </div>
-                    <div class="row">
-                        <div>
-                            <spring:message code="tournament.create.seeding"/>
-                        </div>
-                        <div class="randomize-checkbox">
-                            <form:checkbox path="randomizeSeed" cssClass="filled-in checkbox-versus" id="seed-checkbox"/>
-                            <form:label path="randomizeSeed" for="seed-checkbox"><spring:message code="tournament.create.checkbox.seeding"/></form:label>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="tournament.create.submit"/></button>
+                    <div id="autocomplete-search" data-search="<c:out value="${tournamentNames}"/>"></div>
+                    <i class="material-icons prefix">search</i>
+                    <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
+                    <form:input placeholder="${indexSearchPlaceholder}" type="text" cssClass="autocomplete autocomplete-search-input" placeholdertype="text" path="query" autocomplete="off"/>
+                    <form:label path="query"><spring:message code="index.search"/></form:label>
+                    <form:errors path="query" cssClass="form-error" element="p"/>
                 </div>
             </form:form>
         </div>
+        <h1 class="header center"><spring:message code="index.header.title"/></h1>
+        <div class="row center">
+            <h5 class="header col s12 light"><spring:message code="index.header.subtitle"/></h5>
+        </div>
+        <div class="row center">
+            <a href="<c:url value = "/tournament"/>" class="btn-large waves-effect waves-light light-blue darken-4"><spring:message code="index.header.tournament.button"/></a>
+            <a href="<c:url value = "/ranking"/>" class="btn-large waves-effect waves-light light-blue darken-4"><spring:message code="index.header.ranking.button"/></a>
+        </div>
+        <br><br>
+
     </div>
 </div>
 <div class="featured-tournaments container">
@@ -102,7 +69,5 @@ ${navbar}
 </div>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
-
-
 </body>
 </html>

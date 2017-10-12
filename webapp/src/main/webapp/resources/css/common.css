@@ -60,3 +60,6 @@ nav .nav-wrapper{
     color: #0288d1;
 }
 
+.autocomplete-content {
+    position: absolute;
+}

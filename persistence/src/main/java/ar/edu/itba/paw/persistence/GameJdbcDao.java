@@ -44,7 +44,9 @@ public class GameJdbcDao implements GameDao{
     @Override
     public Game findById(long id) {
         List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE game_id = ?", ROW_MAPPER, id);
-        if(g.isEmpty() || g == null) {
+        if (g == null) {
+            return null;
+        } else if (g.isEmpty()) {
             return null;
         }
         return g.get(0);
@@ -53,9 +55,13 @@ public class GameJdbcDao implements GameDao{
     @Override
     public Game findByName(String name) {
         List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE name LIKE ?", ROW_MAPPER, name);
-        if(g.isEmpty() || g == null) {
+        if(g == null) {
+            return null;
+        }else if(g.isEmpty()){
             return null;
         }
+
+
         return g.get(0);
     }
 

@@ -3,6 +3,9 @@ package ar.edu.itba.paw.webapp.form;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
+/*
+    Form for updating match results
+ */
 public class MatchForm {
 
     @Min(value = 0L)

@@ -110,6 +110,13 @@ public class Match {
     }
 
     @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (tournamentId ^ (tournamentId >>> 32));
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Match{" +
                 "homePlayerId=" + homePlayerId +

@@ -34,9 +34,6 @@ public class RankingJdbcDao implements RankingDao { //TODO HUGE CODE CLEAN UP
     private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getInt("tournament_id"),rs.getInt("awarded_points"));
 
     @Autowired
-    private PlayerDao playerDao;
-
-    @Autowired
     private TournamentDao tournamentDao;
 
     @Autowired

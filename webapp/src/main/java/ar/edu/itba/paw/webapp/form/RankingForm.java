@@ -4,6 +4,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/*
+    Form for creating new rankings
+ */
 public class RankingForm {
 
     @Size(min=4, max=20)

@@ -8,18 +8,11 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
-    <title>${tournament.name} - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
+    <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
     <c:import var="navbar" url="header.jsp"/>
     ${navbar}
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4"><i class="material-icons">build</i></a>
-        <ul>
-            <li><a class="btn-floating light-blue darken-1" href="/">T</a></li>
-            <li><a class="btn-floating light-blue darken-3" href="/ranking">R</a></li>
-        </ul>
-    </div>
     <div class="container">
         <div class="row">
             <div class="col s12">

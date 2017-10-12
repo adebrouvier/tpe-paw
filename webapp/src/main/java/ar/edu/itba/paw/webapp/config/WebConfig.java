@@ -41,7 +41,7 @@ public class WebConfig {
 		return viewResolver;
 	}
 
-	private final String PROPERTIES_FILE = "database.properties";
+	private final static String PROPERTIES_FILE = "database.properties";
 	
 	@Bean
 	public DataSource dataSource() {

@@ -25,6 +25,7 @@ public interface TournamentService {
      * Creates a tournament with the specified name and list of players
      * @param name name of the tournament
      * @param players list of players
+     * @param game name of the game that the tournament hosts
      * @return instance of the Tournament
      */
     public Tournament create(String name, List<Player> players, String game);
