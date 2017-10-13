@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class RankingJdbcDao implements RankingDao { //TODO HUGE CODE CLEAN UP
+public class RankingJdbcDao implements RankingDao { //TODO: HUGE CODE CLEAN UP
 
     private JdbcTemplate jdbcTemplate;
 

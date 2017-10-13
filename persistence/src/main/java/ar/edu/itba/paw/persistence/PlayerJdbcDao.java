@@ -59,7 +59,7 @@ public class PlayerJdbcDao implements PlayerDao {
         final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ? AND tournament_id = ?", LONG_MAPPER, seed, tournamentId);
 
         if (list.isEmpty()) {
-            return 0;
+            return PlayerDao.EMPTY;
         }
         return list.get(0);
     }
@@ -67,7 +67,7 @@ public class PlayerJdbcDao implements PlayerDao {
     @Override
     public Player create(String name) {
 
-        if(name.length() > 25) { //TODO ver que no rompe nada
+        if(name.length() > PlayerDao.NAME_LENGTH) { //TODO ver que no rompe nada
             return null;
         }
         final Map<String, Object> args = new HashMap<>();
@@ -84,11 +84,11 @@ public class PlayerJdbcDao implements PlayerDao {
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
         args.put("seed", seed);
-        args.put("standing", 0);
+        args.put("standing", PlayerDao.EMPTY_STANDING); //TODO: Wouldnt be better to set default standing here?
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 
-        return numberOfRowsInserted == 1;
+        return numberOfRowsInserted == PlayerDao.SUCCESSFUL_INSERT;
     }
 
     @Override
