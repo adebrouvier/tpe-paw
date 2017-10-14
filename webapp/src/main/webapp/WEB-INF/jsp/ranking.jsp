@@ -60,7 +60,7 @@ ${navbar}
                     $("#ranking-tournaments").append(
                     "<div class=\"input-field\">" +
                     "<input placeholder=\"${rankingTournamentsPlaceholder}\" name=\"tournaments[" + i + "]\"/>" +
-                    "<input type=\"number\" placeholder=\"${awardedPointsPlaceholder}\ name=\"points[" + i + "]\"/>" +
+                    "<input type=\"number\" placeholder=\"${awardedPointsPlaceholder}\" name=\"points[" + i + "]\"/>" +
                         "</div>"
 
                     );
