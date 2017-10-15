@@ -108,8 +108,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<String> findTournamentNames() {
-        return tournamentDao.findTournamentNames();
+    public List<String> findTournamentNames(String query) {
+        return tournamentDao.findTournamentNames(query);
     }
 
     @Override

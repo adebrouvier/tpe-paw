@@ -53,10 +53,10 @@ public interface TournamentDao {
     public List<Standing> getStandings(long tournamentId);
 
     /**
-     * Finds the name of every existing tournament.
+     * Finds the name of matching existing tournament.
      * @return the list with the names.
      */
-    public List<String> findTournamentNames();
+    public List<String> findTournamentNames(String query);
 
     /**
      * Finds a tournament with the specified name.

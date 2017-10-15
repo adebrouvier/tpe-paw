@@ -76,10 +76,11 @@ public interface TournamentService {
     public List<Standing> getStandings(long tournamentId);
 
     /**
-     * Finds the name of every existing tournament.
-     * @return the list with the names.
+     * Finds the name of a matching existing tournament
+     * @param query term to be searched
+     * @return the list with the names
      */
-    public List<String> findTournamentNames();
+    public List<String> findTournamentNames(String query);
 
     /**
      * Finds a tournament with the specified name.

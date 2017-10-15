@@ -7,10 +7,12 @@ import java.util.List;
 public interface GameDao {
 
     /**
-     * @return every Game by name that was not
+     * @param query term to be search
+     * @return every matching game that was not
      * user generated.
      */
-    public List<String> findGamesName();
+    public List<String> findGameNames(String query);
+
     /**
      * Finds the game with the specified id.
      * @param id id of the Game.

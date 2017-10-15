@@ -7,10 +7,11 @@ import java.util.List;
 public interface GameService {
 
     /**
-     * @return every Game by name that was not
+     * @param query term to be search
+     * @return every matching Game by name that was not
      * user generated.
      */
-    public List<String> findGamesName();
+    public List<String> findGameNames(String query);
 
     /**
      * Finds the game with the specified id.

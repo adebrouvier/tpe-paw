@@ -13,10 +13,7 @@ import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -42,25 +39,13 @@ public class TournamentController {
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
-        mav.addObject("games", gameToString(gs.findGamesName()));
         return mav;
     }
 
-    private String gameToString(List<String> list){
-        StringBuilder sb = new StringBuilder("{");
-        if (list == null) {
-            return sb.append("}").toString();
-        } else if (list.isEmpty()) {
-            return sb.append("}").toString();
-        }
-        int size = list.size();
-        int i = 0;
-        for( ; i < size-1 ; i++) {
-            sb.append("\"").append(list.get(i)).append("\": null,");
-        }
-
-        sb.append("\"").append(list.get(i)).append("\":null}");
-        return sb.toString();
+    @RequestMapping(value = "/games_autocomplete", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> gamesAutocomplete(@RequestParam("query") String query) {
+        return gs.findGameNames(query);
     }
 
     @RequestMapping(value = "/create", method = { RequestMethod.POST })

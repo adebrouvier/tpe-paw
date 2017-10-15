@@ -10,7 +10,7 @@
     <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
     <title><c:out value="${tournament.name}"/> - <spring:message code="header.name"/></title>
 </head>
 <body>

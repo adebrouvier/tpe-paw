@@ -8,13 +8,18 @@ $(document).ready(function(){
     //Initialize modal
     $('.modal').modal();
 
-    var list = document.getElementById('autocomplete-games');
-    var games = JSON.parse(list.dataset.games);
-    $('input.autocomplete').autocomplete({
-
-        data: games,
-        limit: 3,
-        minLength: 1
+    var games = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/games_autocomplete?query=%QUERY',
+            wildcard: '%QUERY'
+        }
     });
+
+    $('.input-field .typeahead').typeahead(null, {
+        name: 'games',
+        source: games
+    })
 
 });

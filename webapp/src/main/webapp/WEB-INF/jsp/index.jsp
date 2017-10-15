@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
+    <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
     <title><spring:message code="index.title"/></title>
@@ -22,13 +24,13 @@ ${navbar}
         <div>
             <c:url value="/searchtournament" var="getPath"/>
             <form:form modelAttribute="searchForm" action="${getPath}" method="get">
-                <div class="input-field">
-                    <div id="autocomplete-search" data-search="<c:out value="${tournamentNames}"/>"></div>
-                    <i class="material-icons prefix">search</i>
-                    <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
-                    <form:input placeholder="${indexSearchPlaceholder}" type="text" cssClass="autocomplete autocomplete-search-input" placeholdertype="text" path="query" autocomplete="off"/>
-                    <form:label path="query"><spring:message code="index.search"/></form:label>
-                    <form:errors path="query" cssClass="form-error" element="p"/>
+                <div class="search-bar">
+                    <i id="search-icon" class="material-icons">search</i>
+                    <div class="input-field">
+                        <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
+                        <form:input cssClass="typeahead" type="text" placeholder="${indexSearchPlaceholder}" path="query" autocomplete="off"/>
+                        <form:errors path="query" cssClass="form-error" element="p"/>
+                    </div>
                 </div>
             </form:form>
         </div>

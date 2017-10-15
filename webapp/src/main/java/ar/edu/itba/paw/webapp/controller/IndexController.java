@@ -1,13 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.webapp.form.TournamentSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -25,27 +24,12 @@ public class IndexController {
     public ModelAndView index(@ModelAttribute("searchForm") final TournamentSearchForm searchForm) {
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("tournaments",ts.findFeaturedTournaments());
-        mav.addObject("tournamentNames", tournamentToCellString(ts.findTournamentNames()));
         return mav;
     }
 
-    private String tournamentToCellString(List<String> list){
-        StringBuilder sb = new StringBuilder("{");
-
-        if (list.isEmpty()){
-            return sb.append("}").toString();
-        }
-
-        for(String tournament : list) {
-            sb.append("\"");
-            sb.append(tournament);
-            sb.append("\"");
-            sb.append(": null,");
-        }
-
-        sb.append("\"other\":null}");
-
-        return sb.toString();
+    @RequestMapping(value = "/search_autocomplete", method = RequestMethod.GET)
+    public @ResponseBody List<String> searchAutocomplete(@RequestParam("query") String query) {
+        return ts.findTournamentNames(query);
     }
 
     @RequestMapping(value = "/searchtournament", method = { RequestMethod.GET })

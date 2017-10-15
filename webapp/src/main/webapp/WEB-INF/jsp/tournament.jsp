@@ -6,9 +6,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>" />
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
     <title><spring:message code="tournament.title"/> - <spring:message code="header.name"/></title>
 </head>
@@ -35,10 +38,9 @@ ${navbar}
                     <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
-                    <div id="autocomplete-games" data-games="<c:out value="${games}"> </c:out>"></div>
-                    <form:label path="game"><spring:message code="tournament.create.game"/>: </form:label>
+                    <%--<form:label path="game"><spring:message code="tournament.create.game"/>: </form:label> --%>
                     <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
-                    <form:input placeholder="${gamePlaceholder}" type="text" class="autocomplete" path="game" autocomplete="off"/>
+                    <form:input placeholder="${gamePlaceholder}" type="text" class="typeahead" path="game" autocomplete="off"/>
                     <form:errors path="game" cssClass="form-error" element="p"/>
                 </div>
                 <div class="row">
