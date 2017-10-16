@@ -22,7 +22,7 @@ ${navbar}
     <h3><spring:message code="tournament.create.title"/></h3>
     <div class="row">
         <div class="col offset-s3 s6">
-            <c:url value="/create" var="postPath"/>
+            <c:url value="/create/tournament" var="postPath"/>
             <form:form modelAttribute="tournamentForm" action="${postPath}" method="post">
                 <div class="input-field">
                     <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>

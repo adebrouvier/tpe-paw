@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -13,8 +15,10 @@ public class RankingForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String rankingName;
 
-    private List<String> tournaments;
-    private List<Integer> points;
+    @Size(min=2)
+    @NotNull
+    @Valid
+    private List<RankingTournaments> tournaments;
 
     public String getRankingName() {
         return rankingName;
@@ -24,19 +28,11 @@ public class RankingForm {
         this.rankingName=rankingName;
     }
 
-    public List<String> getTournaments() {
+    public List<RankingTournaments> getTournaments() {
         return tournaments;
     }
 
-    public void setTournaments(List<String> tournaments) {
+    public void setTournaments(List<RankingTournaments> tournaments) {
         this.tournaments = tournaments;
-    }
-
-    public List<Integer> getPoints() {
-        return points;
-    }
-
-    public void setPoints(List<Integer> points) {
-        this.points = points;
     }
 }

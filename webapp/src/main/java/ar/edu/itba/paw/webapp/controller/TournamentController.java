@@ -48,7 +48,7 @@ public class TournamentController {
         return gs.findGameNames(query);
     }
 
-    @RequestMapping(value = "/create", method = { RequestMethod.POST })
+    @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
     public ModelAndView create(@Valid @ModelAttribute("tournamentForm")
                                final TournamentForm form, final BindingResult errors) {
         if (errors.hasErrors()) {
