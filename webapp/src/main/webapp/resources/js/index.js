@@ -4,7 +4,7 @@ $(document).ready(function() {
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/search_autcomplete?query=%QUERY',
+            url: '/search_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
