@@ -10,6 +10,10 @@ nav .nav-wrapper{
     color: red;
 }
 
+.right-align{
+    float: right;
+}
+
 /* input-field custom colors  */
 /* label color */
 .input-field label {

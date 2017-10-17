@@ -53,6 +53,17 @@ public class UserJdbcDao implements UserDao{
 	private final SimpleJdbcInsert jdbcInsert;
 
 	@Override
+	public User findByName(String name) {
+
+		final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE username = ?",
+				ROW_MAPPER, name);
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
+	}
+
+	@Override
 	public User create(String username, String password) {
 		final Map<String, Object> args = new HashMap<String,Object>();
 		args.put("username", username); // la key es el nombre de la columna
