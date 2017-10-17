@@ -22,7 +22,7 @@
     </div>
     <div>
         <label for="password">password: </label>
-        <input id="password" name="j_password" type="text"/>
+        <input id="password" type="password" name="j_password" type="text"/>
     </div>
     <div>
         <label><input name="j_rememberme" type="checkbox"/><spring:message code="login.remember_me"/> </label>

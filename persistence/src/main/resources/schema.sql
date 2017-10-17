@@ -4,6 +4,7 @@ username varchar(100),
 password varchar(100)
 );
 
+
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
   name varchar(60) UNIQUE NOT NULL,

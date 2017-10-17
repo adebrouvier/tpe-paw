@@ -32,7 +32,7 @@ public class RegisterController {
         }
         final User user = us.create(registerForm.getUsername(), registerForm.getPassword());
 
-        return new ModelAndView("redirect:/user?userId=" + user.getId());
+        return new ModelAndView("redirect:/?userId=" + user.getId());
     }
 
     //@ModelAttribute("userId")

@@ -34,12 +34,12 @@ ${navbar}
         </div>
         <div>
             <form:label path="password">Password</form:label>
-            <form:input type="text" path="password"/>
+            <form:input type="password" path="password"/>
             <form:errors path="password" cssClass="formError" element="p"/>
         </div>
         <div>
             <form:label path="repeatPassword">Repeat Password</form:label>
-            <form:input type="text" path="repeatPassword"/>
+            <form:input type="password" path="repeatPassword"/>
             <form:errors path="username" cssClass="formError" element="p"/>
         </div>
         <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="tournament.create.submit"/></button>

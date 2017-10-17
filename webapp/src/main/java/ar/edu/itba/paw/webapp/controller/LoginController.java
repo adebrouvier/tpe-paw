@@ -20,7 +20,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public ModelAndView index(@ModelAttribute("loginForm") final UserForm loginForm) {
-        return new ModelAndView("/");
+        return new ModelAndView("/login");
     }
 
     @RequestMapping("/loginUser")
@@ -28,6 +28,6 @@ public class LoginController {
         if (errors.hasErrors()) {
             return index(loginForm);
         }
-
+        return new ModelAndView("/user");
     }
 }
