@@ -2,7 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.webapp.form.UserForm;
+import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,24 +21,25 @@ public class RegisterController {
     private UserService us;
 
     @RequestMapping("/register")
-    public ModelAndView index(@ModelAttribute("userForm") final UserForm registerForm) {
+    public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm registerForm) {
         return new ModelAndView("register");
     }
 
     @RequestMapping(value = "/registerUser", method = { RequestMethod.POST })
-    public ModelAndView register (@Valid @ModelAttribute("userForm") final UserForm registerForm, final BindingResult errors){
+    public ModelAndView registerUser (@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors){
         if (errors.hasErrors()) {
-            return index(registerForm);
+            return register(registerForm);
         }
-        final User user = us.create(registerForm.getUsername(), registerForm.getPassword());
 
-        return new ModelAndView("redirect:/?userId=" + user.getId());
+        us.create(registerForm.getUsername(), registerForm.getPassword());
+
+        return new ModelAndView("redirect:/");
     }
 
-    //@ModelAttribute("userId")
-    //public Integer loggedUser(final HttpSession session) {
-    //    return (Integer) session.getAttribute();
-   // }
+    @ModelAttribute("userId")
+    public Integer loggedUser(final HttpSession session) {
+        return (Integer) session.getAttribute("LOGGED_USER_ID");
+    }
 
 }
 

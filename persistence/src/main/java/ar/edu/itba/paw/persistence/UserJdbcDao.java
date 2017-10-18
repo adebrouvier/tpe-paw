@@ -22,14 +22,7 @@ public class UserJdbcDao implements UserDao{
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	private final static RowMapper<User> ROW_MAPPER = new RowMapper<User>(){
-
-		@Override
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return new User(rs.getInt("userid"),rs.getString("username"),rs.getString("password"));
-		}
-		
-	};
+	private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(rs.getInt("userid"),rs.getString("username"),rs.getString("password"));
 	
 	@Autowired
 	public UserJdbcDao (final DataSource ds){
@@ -65,11 +58,11 @@ public class UserJdbcDao implements UserDao{
 
 	@Override
 	public User create(String username, String password) {
-		final Map<String, Object> args = new HashMap<String,Object>();
+		final Map<String, Object> args = new HashMap<>();
 		args.put("username", username); // la key es el nombre de la columna
 		args.put("password", password);
 		final Number userId = jdbcInsert.executeAndReturnKey(args);
-		return new User(userId.longValue(), username,password);
+		return new User(userId.longValue(), username, password);
 	}
 	
 

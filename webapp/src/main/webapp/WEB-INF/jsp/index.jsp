@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
@@ -20,6 +21,12 @@ ${navbar}
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <div>
+            <sec:authorize access="isAnonymous()">
+                <h1>Logueate!</h1>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <h1>Deslogueate!</h1>
+            </sec:authorize>
             <c:url value="/searchtournament" var="getPath"/>
             <form:form modelAttribute="searchForm" action="${getPath}" method="get">
                 <div class="input-field">

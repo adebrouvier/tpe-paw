@@ -3,7 +3,10 @@ package ar.edu.itba.paw.webapp.form;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserForm {
+/**
+ * Form for registering users
+ */
+public class RegisterForm {
 
     @Size(min = 6, max = 100)
     @Pattern(regexp = "[a-zA-Z0-9]+")

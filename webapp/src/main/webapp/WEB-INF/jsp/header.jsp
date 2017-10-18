@@ -3,6 +3,5 @@
 <nav>
     <div class="nav-wrapper">
         <a href="<c:url value="/"/>" class="brand-logo center"><spring:message code="header.name"/></a>
-        </div>
     </div>
 </nav>

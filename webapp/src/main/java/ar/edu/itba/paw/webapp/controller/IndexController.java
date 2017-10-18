@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.form.TournamentSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.SecurityContextProvider;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.core.context.*;
 import javax.servlet.http.HttpSession;
