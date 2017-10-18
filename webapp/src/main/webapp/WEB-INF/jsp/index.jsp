@@ -21,12 +21,6 @@ ${navbar}
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <div>
-            <sec:authorize access="isAnonymous()">
-                <h1>Logueate!</h1>
-            </sec:authorize>
-            <sec:authorize access="isAuthenticated()">
-                <h1>Deslogueate!</h1>
-            </sec:authorize>
             <c:url value="/searchtournament" var="getPath"/>
             <form:form modelAttribute="searchForm" action="${getPath}" method="get">
                 <div class="input-field">
