@@ -27,20 +27,20 @@ ${navbar}
                 <div class="input-field">
                     <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
                     <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
-                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="40" path="tournamentName" autocomplete="off"/>
+                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" path="tournamentName" autocomplete="off"/>
                     <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                 </div>
-                <div class="input-field">
+                <div class="input-field" style="text-align: left">
                     <form:label path="players"><spring:message code="tournament.create.players"/>:</form:label>
                     <spring:message code="tournament.create.players.placeholder" var="playersPlaceholder"/>
                     <form:textarea placeholder="${playersPlaceholder}" cssClass="materialize-textarea" type="text"
                                    path="players"/>
                     <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
-                <div class="input-field">
-                    <%--<form:label path="game"><spring:message code="tournament.create.game"/>: </form:label> --%>
+                <div class="input-field game-autocomplete">
+                    <form:label path="game" cssClass="active"><spring:message code="tournament.create.game"/>: </form:label>
                     <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
-                    <form:input placeholder="${gamePlaceholder}" type="text" class="typeahead" path="game" autocomplete="off"/>
+                    <form:input placeholder="${gamePlaceholder}" type="text" cssClass="typeahead" path="game" autocomplete="off"/>
                     <form:errors path="game" cssClass="form-error" element="p"/>
                 </div>
                 <div class="row">
