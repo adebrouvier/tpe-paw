@@ -18,7 +18,7 @@
     <title><spring:message code="index.title"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">

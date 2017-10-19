@@ -16,7 +16,7 @@
     <title><spring:message code="tournament.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container center">
     <h3><spring:message code="tournament.create.title"/></h3>

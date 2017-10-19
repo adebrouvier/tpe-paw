@@ -2,6 +2,8 @@ package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.Player;
 
+import java.util.List;
+
 public interface PlayerService {
 
     /**
@@ -31,7 +33,7 @@ public interface PlayerService {
      *
      * @param name   of the player
      * @param userId id of the user
-     * @returnan instance of the player
+     * @return an instance of the player
      */
     public Player create(String name, long userId);
 
@@ -52,4 +54,8 @@ public interface PlayerService {
      * @param tournamentId id of the tournament.
      */
     void setDefaultStanding(int standing, long tournamentId);
+
+    public List<Player> getTournamentPlayers(long tournamentId);
+
+    void addToTournament(long id, long tournamentId);
 }

@@ -15,7 +15,7 @@
     <title><spring:message code="index.title"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="center">
 <h2><spring:message code="register.title"/></h2>

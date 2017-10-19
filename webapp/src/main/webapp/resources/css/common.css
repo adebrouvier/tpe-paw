@@ -20,11 +20,11 @@ nav .nav-wrapper{
     color: #0288d1;
 }
 /* label focus color */
-.input-field input[type=text]:focus + label, .input-field textarea:focus + label, .input-field input[type=number]:focus + label{
+.input-field input[type=text]:focus + label, .input-field textarea:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=password]:focus + label{
     color: #0288d1;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus, .input-field input[type=number]:focus, .input-field textarea:focus {
+.input-field input[type=text]:focus, .input-field input[type=number]:focus, .input-field textarea:focus, .input-field input[type=password]:focus + label {
     border-bottom: 1px solid #0288d1 !important;
     box-shadow: 0 1px 0 0 #0288d1 !important;
 }
@@ -39,7 +39,7 @@ nav .nav-wrapper{
     box-shadow: 0 1px 0 0 #0288d1 !important;
 }
 
-.checkbox-versus[type="checkbox"].filled-in:checked + label:after{
+.checkbox-versus[type="checkbox"].filled-in:checked + label:after, .checkbox-versus[type="input"].filled-in:checked + label:after{
     border: 2px solid #0288d1;
     background-color: #0288d1;
 }

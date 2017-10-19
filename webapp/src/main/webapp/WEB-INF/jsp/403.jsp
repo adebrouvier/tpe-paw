@@ -8,7 +8,7 @@
     <title><spring:message code="403.title"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container center">
     <h2><spring:message code="403.message"/></h2>

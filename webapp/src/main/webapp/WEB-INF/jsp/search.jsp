@@ -12,7 +12,7 @@
     <title><spring:message code="search.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container">
     <h3><spring:message code="search.header"/></h3>

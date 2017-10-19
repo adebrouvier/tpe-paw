@@ -9,7 +9,7 @@
     <title><spring:message code="404.title"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container center">
     <h4><spring:message code="404"/></h4>

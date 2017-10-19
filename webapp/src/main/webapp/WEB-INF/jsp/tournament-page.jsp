@@ -14,7 +14,7 @@
     <title><c:out value="${tournament.name}"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container">
     <div class="row">
@@ -51,9 +51,9 @@ ${navbar}
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s6"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
-                <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a></li>
-                <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
+                <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
+                <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a></li>
+                <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
             </ul>
         </div>
     </div>
@@ -61,13 +61,13 @@ ${navbar}
 <div class="center">
     <c:url value="/endTournament/${tournament.id}" var="endPath"/>
     <form:form modelAttribute="tournament" action="${endPath}" method="post">
-        <c:if test="${tournament.isFinished != true}">
+        <c:if test="${tournament.finished != true}">
             <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                 <spring:message code="tournament.finish"/>
                 <i class="material-icons right "></i>
             </button>
         </c:if>
-        <c:if test="${tournament.isFinished == true}">
+        <c:if test="${tournament.finished == true}">
             <button class="btn light-blue darken-4 waves-effect waves-light disabled" type="submit">
                 <spring:message code="tournament.finished"/>
                 <i class="material-icons right "></i>
@@ -171,13 +171,13 @@ ${navbar}
                                 </table>
                             </div>
                                 <div class="modal-footer">
-                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.isFinished == true}">
+                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.finished == true}">
                                     <button class="btn waves-effect waves-light disabled" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right ">update</i>
                                     </button>
                                 </c:if>
-                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.isFinished == false}">
+                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.finished == false}">
                                     <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right">update</i>

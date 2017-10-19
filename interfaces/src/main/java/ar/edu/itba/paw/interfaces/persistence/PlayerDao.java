@@ -63,4 +63,6 @@ public interface PlayerDao {
     void setDefaultStanding(int standing, long tournamentId);
 
     public Player create(String name, long userId);
+
+    public void addToTournament(long playerId, long tournamentId);
 }

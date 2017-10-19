@@ -11,7 +11,7 @@
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-    <c:import var="navbar" url="header.jsp"/>
+    <c:import var="navbar" url="navbar.jsp"/>
     ${navbar}
     <div class="container">
         <div class="row">
@@ -31,7 +31,7 @@
                             <tr>
                                 <td>${tournament.size}</td>
                                 <td>${tournament.numberOfMatches}</td>
-                                <td>Undefined</td>
+                                <td>${game.name}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -42,8 +42,9 @@
         <div class="row">
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
-                    <li class="tab col s6"><a class="active" href="#"><spring:message code="tournament.standings"/></a></li>
+                    <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
+                    <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.standings"/></a></li>
+                    <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
                 </ul>
             </div>
         </div>

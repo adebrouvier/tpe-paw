@@ -28,7 +28,7 @@ public class TournamentJdbcDao implements TournamentDao {
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getLong("tournament_id"), rs.getBoolean("is_finished"),  rs.getInt("tier") ,rs.getLong("game_id"));
+    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getLong("tournament_id"), rs.getLong("game_id"), rs.getBoolean("is_finished"), rs.getLong("user_id"));
 
     @Autowired
     public TournamentJdbcDao(final DataSource ds) {
@@ -73,35 +73,18 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public Tournament create(String name, String gameName) {
+    public Tournament create(String name, String gameName, long userId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
-        args.put("is_finished", false);
-        args.put("tier", 1);
+        args.put("user_id", userId);
         Game game = gameDao.findByName(gameName);
         if(game == null) {
             game = gameDao.create(gameName, true);
         }
         args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,tournamentId.longValue(), game.getGameId());
+        return new Tournament(name, tournamentId.longValue(), game.getGameId(), false, userId);
     }
-
-
-    public Tournament create(String name, String gameName,int tier) {
-        final Map<String, Object> args = new HashMap<>();
-        args.put("name", name);
-        args.put("is_finished", false);
-        args.put("tier", tier);
-        Game game = gameDao.findByName(gameName);
-        if(game == null) {
-            game = gameDao.create(gameName, true);
-        }
-        args.put("game_id", game.getGameId());
-        final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,game.getGameId(),tournamentId.longValue());
-    }
-
 
     @Override
     public List<Tournament> findFeaturedTournaments() {

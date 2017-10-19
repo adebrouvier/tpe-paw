@@ -92,6 +92,23 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
+    public void addToTournament(long playerId, long tournamentId) {
+
+        int seed = getNextSeed(tournamentId);
+
+        final Map<String, Object> args = new HashMap<>();
+        args.put("player_id", playerId);
+        args.put("tournament_id", tournamentId);
+        args.put("seed", seed);
+
+        participatesInjdbcInsert.execute(args);
+    }
+
+    private int getNextSeed(long tournamentId) {
+        return 1 + jdbcTemplate.queryForObject("SELECT COALESCE(max(seed), 0) FROM participates_in WHERE tournament_id = ?", Integer.class, tournamentId);
+    }
+
+    @Override
     public List<Player> getTournamentPlayers(long tournamentId) {
         return jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in" +
                 " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);

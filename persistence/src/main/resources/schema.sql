@@ -4,7 +4,6 @@ user_name varchar(100),
 password varchar(100)
 );
 
-
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
   name varchar(60) UNIQUE NOT NULL,
@@ -13,12 +12,11 @@ CREATE TABLE IF NOT EXISTS game (
 
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
-  is_finished BOOLEAN,
-  tier INTEGER,
+  is_finished BOOLEAN DEFAULT false,
   name varchar(100) NOT NULL,
-  game_id BIGINT REFERENCES game(game_id)
+  game_id BIGINT REFERENCES game(game_id),
+  user_id BIGINT REFERENCES users(user_id)
 );
-
 
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,

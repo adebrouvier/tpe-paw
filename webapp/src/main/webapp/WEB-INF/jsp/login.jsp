@@ -10,29 +10,47 @@
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
-    <title>Login</title>
+    <title><spring:message code="login.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-    <c:import var="navbar" url="header.jsp"/>
+    <c:import var="navbar" url="navbar.jsp"/>
     ${navbar}
     <c:url value="/login" var="loginUrl" />
     <div class="container">
-        <form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
-            <div>
-                <label for="username">Username: </label>
-                <input id="username" name="j_username" type="text"/>
+        <div class="row">
+            <div class="col s6 offset-s3 m6 offset-m3 card-panel">
+                <form class="login-form" action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <label for="username"><spring:message code="login.username"/>: </label>
+                            <input id="username" name="j_username" type="text"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">lock</i>
+                            <label for="password"><spring:message code="login.password"/>: </label>
+                            <input id="password" type="password" name="j_password"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <input type="checkbox" id="remember-me" class="filled-in checkbox-versus" name="j_rememberme"/>
+                            <label for="remember-me"><spring:message code="login.remember_me"/></label>
+                        </div>
+                    </div>
+                    <div class="row center">
+                        <div class="input-field col s12">
+                            <button class="btn-large light-blue darken-4" type="submit"><spring:message code="login.login"/></button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label for="password">Password: </label>
-                <input id="password" type="password" name="j_password"/>
-            </div>
-            <div>
-                <label><input name="j_rememberme" type="checkbox"/><spring:message code="login.remember_me"/> </label>
-            </div>
-            <div>
-            <input type="submit" value="Login!"/>
-            </div>
-        </form>
+        </div>
+        <div class="center">
+            <a class="btn light-blue darken-4" href="<c:url value="/register"/>"><spring:message code="login.create"/></a>
+        </div>
     </div>
 </body>
 </html>
