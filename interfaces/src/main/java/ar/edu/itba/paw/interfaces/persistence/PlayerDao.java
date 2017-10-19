@@ -17,4 +17,6 @@ public interface PlayerDao {
     public List<Player> getTournamentPlayers(long tournamentId);
 
     void setDefaultStanding(int standing, long tournamentId);
+
+    public Player create(String name, long userId);
 }

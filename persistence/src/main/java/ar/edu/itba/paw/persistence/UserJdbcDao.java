@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,20 +20,20 @@ public class UserJdbcDao implements UserDao{
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(rs.getInt("userid"),rs.getString("username"),rs.getString("password"));
+	private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(rs.getInt("user_id"),rs.getString("user_name"),rs.getString("password"));
 	
 	@Autowired
 	public UserJdbcDao (final DataSource ds){
 		jdbcTemplate = new JdbcTemplate(ds);
 		jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
 							.withTableName("users")
-							.usingGeneratedKeyColumns("userid");
+							.usingGeneratedKeyColumns("user_id");
 	}
 
 	@Override
 	public User findById(long id) {
 		
-		final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?",
+		final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE user_id = ?",
 				ROW_MAPPER, id);
 				if (list.isEmpty()) {
 				return null;
@@ -48,7 +46,7 @@ public class UserJdbcDao implements UserDao{
 	@Override
 	public User findByName(String name) {
 
-		final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE username = ?",
+		final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE user_name = ?",
 				ROW_MAPPER, name);
 		if (list.isEmpty()) {
 			return null;
@@ -59,7 +57,7 @@ public class UserJdbcDao implements UserDao{
 	@Override
 	public User create(String username, String password) {
 		final Map<String, Object> args = new HashMap<>();
-		args.put("username", username); // la key es el nombre de la columna
+		args.put("user_name", username);
 		args.put("password", password);
 		final Number userId = jdbcInsert.executeAndReturnKey(args);
 		return new User(userId.longValue(), username, password);

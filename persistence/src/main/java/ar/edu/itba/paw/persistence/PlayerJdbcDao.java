@@ -101,4 +101,17 @@ public class PlayerJdbcDao implements PlayerDao {
     public void setDefaultStanding(int defaultStanding, long tournamentId) {
         jdbcTemplate.update("UPDATE participates_in SET standing = ? WHERE tournament_id = ?", defaultStanding, tournamentId);
     }
+
+    @Override
+    public Player create(String name, long userId) {
+        if(name.length() > 25) { //TODO ver que no rompe nada
+            return null;
+        }
+        final Map<String, Object> args = new HashMap<>();
+
+        args.put("name", name);
+        args.put("user_id", userId);
+        final Number playerId = playerjdbcInsert.executeAndReturnKey(args);
+        return new Player(name, playerId.longValue());
+    }
 }

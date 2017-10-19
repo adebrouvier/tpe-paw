@@ -29,6 +29,11 @@ public class PlayerServiceImpl implements PlayerService{
         return playerDao.create(name);
     }
 
+    @Override
+    public Player create(String name, long userId) {
+        return playerDao.create(name, userId);
+    }
+
     @Autowired
     private TournamentService ts;
 

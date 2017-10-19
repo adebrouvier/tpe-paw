@@ -31,6 +31,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").anonymous()
+                .antMatchers("/registerUser").anonymous()
                 .antMatchers("/login").anonymous()
                 .antMatchers("/**").authenticated()
                 .and().formLogin().usernameParameter("j_username")

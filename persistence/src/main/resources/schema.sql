@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
-userid SERIAL PRIMARY KEY,
-username varchar(100),
+user_id SERIAL PRIMARY KEY,
+user_name varchar(100),
 password varchar(100)
 );
 
@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS tournament (
 
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,
-  name varchar(25) NOT NULL
+  name varchar(25) NOT NULL,
+  user_id BIGINT REFERENCES users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS participates_in (
