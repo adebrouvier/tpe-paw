@@ -38,10 +38,10 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Tournament create(String name, List<Player> players, String game) {
+    public Tournament create(String name, String game) {
         Tournament tournament = tournamentDao.create(name, game);
         Map<Integer, Long> seeds = new HashMap<>();
-
+        /*
         int i = 0;
         int playerCount = players.size();
 
@@ -60,39 +60,16 @@ public class TournamentServiceImpl implements TournamentService {
             playerService.addToTournament(BYE_ID, tournament.getId(), seed);
             players.add(new Player(BYE_NAME, BYE_ID));
             seeds.put(seed, BYE_ID);
-        }
+        }*/
 
-        generateSingleEliminationBracket(tournament.getId(), players, seeds);
+        //generateSingleEliminationBracket(tournament.getId(), players, seeds);
         /*TODO:tournament.getMatches() is empty. The tournament in return is not updated*/
         return tournament;
     }
 
     @Override
-    public Tournament create(String name, List<Player> players, String game, int tier) {
+    public Tournament create(String name, String game, int tier) {
         Tournament tournament = tournamentDao.create(name, game, tier);
-        Map<Integer, Long> seeds = new HashMap<>();
-
-        int i = 0;
-        int playerCount = players.size();
-
-        for (; i < playerCount; i++) {
-            long playerId = players.get(i).getId();
-            int seed = i + 1;
-            playerService.addToTournament(playerId, tournament.getId(), seed);
-            seeds.put(seed, playerId);
-        }
-
-        int power = (int) Math.ceil(Math.log(players.size()) / Math.log(2));
-        int byes = (int) (Math.pow(2, power) - players.size());
-
-        for (; i < playerCount + byes; i++) {
-            final int seed = i + 1;
-            playerService.addToTournament(BYE_ID, tournament.getId(), seed);
-            players.add(new Player(BYE_NAME, BYE_ID));
-            seeds.put(seed, BYE_ID);
-        }
-
-        generateSingleEliminationBracket(tournament.getId(), players, seeds);
         tournament = tournamentDao.findById(tournament.getId());
         return tournament;
     }
@@ -120,6 +97,32 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament getByName(String name) {
         return tournamentDao.getByName(name);
+    }
+
+    @Override
+    public void generateBracket(long tournamentId, List<Player> players){
+        Map<Integer, Long> seeds = new HashMap<>();
+        int i = 0;
+        int playerCount = players.size();
+
+        for (; i < playerCount; i++) {
+            long playerId = players.get(i).getId();
+            int seed = i + 1;
+            playerService.addToTournament(playerId, tournamentId, seed);
+            seeds.put(seed, playerId);
+        }
+
+        int power = (int) Math.ceil(Math.log(players.size()) / Math.log(2));
+        int byes = (int) (Math.pow(2, power) - players.size());
+
+        for (; i < playerCount + byes; i++) {
+            final int seed = i + 1;
+            playerService.addToTournament(BYE_ID, tournamentId, seed);
+            players.add(new Player(BYE_NAME, BYE_ID));
+            seeds.put(seed, BYE_ID);
+        }
+
+        generateSingleEliminationBracket(tournamentId, players, seeds);
     }
 
     /**
@@ -166,4 +169,6 @@ public class TournamentServiceImpl implements TournamentService {
             generateBracketRecursive(roundPlayers - seed + 1, roundPlayers * 2, matchId * 2, matchId, false, tournamentId, totalPlayers, nextStanding, seeds);
         }
     }
+
+
 }

@@ -35,7 +35,7 @@ public class TournamentServiceTest {
 
     @Test
     public void testCreate() {
-        Tournament tournament = tournamentServiceImpl.create("Test", new ArrayList<Player>(),"Game");
+        Tournament tournament = tournamentServiceImpl.create("Test", "Game");
         Assert.assertEquals("Test", tournament.getName());
 
     }

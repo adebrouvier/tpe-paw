@@ -56,12 +56,12 @@ public class TournamentController {
         if (errors.hasErrors()) {
             return tournament(form);
         }
-        final List<Player> players = parsePlayers(form.getPlayers());
-        if (form.isRandomizeSeed()) {
+        //final List<Player> players = parsePlayers(form.getPlayers());
+        /*if (form.isRandomizeSeed()) {
             Collections.shuffle(players);
-        }
-        final Tournament t = ts.create(form.getTournamentName(),players, form.getGame());
-        return new ModelAndView("redirect:/tournament/"+ t.getId());
+        }*/
+        final Tournament t = ts.create(form.getTournamentName(), form.getGame());
+        return new ModelAndView("redirect:/tournament/"+ t.getId() + "/players");
     }
 
     @RequestMapping("/tournament/{tournamentId}")
@@ -113,6 +113,12 @@ public class TournamentController {
     @RequestMapping(value = "/endTournament/{tournamentId}", method = { RequestMethod.POST })
     public ModelAndView endTournament(@ModelAttribute("tournament") final TournamentForm form, @PathVariable long tournamentId) {
         ts.endTournament(tournamentId);
+        return new ModelAndView("redirect:/tournament/" + tournamentId);
+    }
+
+    @RequestMapping(value ="/tournament/{tournamentId}/generate",method = {RequestMethod.POST})
+    public ModelAndView generateBracket(@PathVariable long tournamentId){
+        ts.generateBracket(tournamentId,null);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 

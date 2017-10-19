@@ -53,6 +53,7 @@ ${navbar}
             <ul class="tabs">
                 <li class="tab col s6"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
                 <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a></li>
+                <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
             </ul>
         </div>
     </div>

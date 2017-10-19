@@ -38,23 +38,21 @@ public interface TournamentService {
      * Creates a tournament with the specified name, list of players
      * and game it hosts.
      * @param name name of the tournament.
-     * @param players list of players.
      * @param game name of the game that the tournament hosts.
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, List<Player> players, String game);
+    public Tournament create(String name, String game);
 
 
     /**
      * Creates a tournament with the specified name, list of players,
      * game and tier.
      * @param name of the Tournament.
-     * @param players list of the players.
      * @param game name of the game that the tournament hosts.
      * @param tier corresponding to the Tournament's relevancy.
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, List<Player> players, String game,int tier);
+    public Tournament create(String name, String game, int tier);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
@@ -95,4 +93,6 @@ public interface TournamentService {
      * @return instance of the Tournament.
      */
     public Tournament getByName(String name);
+
+    public void generateBracket(long tournamentId,List<Player> players);
 }

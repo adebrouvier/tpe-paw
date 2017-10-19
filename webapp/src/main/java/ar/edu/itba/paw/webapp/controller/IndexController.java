@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-rk.security.core.Authentication;
+
 
 @Controller
 public class IndexController {
