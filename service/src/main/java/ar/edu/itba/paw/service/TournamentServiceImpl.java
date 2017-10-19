@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class TournamentServiceImpl implements TournamentService {
 
@@ -39,7 +40,7 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament create(String name, List<Player> players, String game) {
         Tournament tournament = tournamentDao.create(name, game);
-        Map<Integer,Long> seeds = new HashMap<>();
+        Map<Integer, Long> seeds = new HashMap<>();
 
         int i = 0;
         int playerCount = players.size();
@@ -69,7 +70,7 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament create(String name, List<Player> players, String game, int tier) {
         Tournament tournament = tournamentDao.create(name, game, tier);
-        Map<Integer,Long> seeds = new HashMap<>();
+        Map<Integer, Long> seeds = new HashMap<>();
 
         int i = 0;
         int playerCount = players.size();
@@ -92,7 +93,6 @@ public class TournamentServiceImpl implements TournamentService {
         }
 
         generateSingleEliminationBracket(tournament.getId(), players, seeds);
-        /*TODO:tournament.getMatches() is empty*/
         tournament = tournamentDao.findById(tournament.getId());
         return tournament;
     }
@@ -108,8 +108,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<String> findTournamentNames() {
-        return tournamentDao.findTournamentNames();
+    public List<String> findTournamentNames(String query) {
+        return tournamentDao.findTournamentNames(query);
     }
 
     @Override
@@ -122,41 +122,48 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentDao.getByName(name);
     }
 
+    /**
+     * Generates every match in the Tournament bracket.
+     * Setting its initial standing, calculating seeds placement
+     * and generating bracket relations of every match.
+     * @param tournamentId id of the tournament
+     * @param players list of players
+     * @param seeds seed of every player of the tournament
+     */
     private void generateSingleEliminationBracket(long tournamentId, List<Player> players, Map<Integer, Long> seeds) {
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
-        int initialStanding = 1;
-        playerService.setDefaultStanding(players.size()/2 + 1, tournamentId);
-        generateBracketRecursive(1, 2, 1, TournamentService.NO_PARENT, false, tournamentId, (int)Math.pow(2,totalDepth), initialStanding, seeds);
+        playerService.setDefaultStanding(players.size() / 2 + 1, tournamentId);
+        generateBracketRecursive(TournamentService.FIRST_SEED, TournamentService.FIRST_ROUND, TournamentService.FIRST_MATCH_ID, TournamentService.NO_PARENT, TournamentService.FINAL_NEXT_MATCH_HOME, tournamentId, (int) Math.pow(2, totalDepth), TournamentService.INITIAL_STANDING, seeds);
     }
 
     private void generateBracketRecursive(int seed, int roundPlayers, int matchId, int parentId, boolean isNextMatchHome, long tournamentId, int totalPlayers, int standing, Map<Integer, Long> seeds) {
-        if(roundPlayers > totalPlayers) {
+        if (roundPlayers > totalPlayers) {
             return;
         }
 
-        int nextStanding  = standing * 2 - (standing == 1 ? 0 : 1);
+        int nextStanding = standing * 2 - (standing == 1 ? 0 : 1);
 
-        if(parentId == TournamentService.NO_PARENT) {
+        if (parentId == TournamentService.NO_PARENT) {
 
-            if (roundPlayers == totalPlayers){ /* Only one match */
-                matchService.create(totalPlayers-matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, seeds.get(seed), seeds.get(totalPlayers-seed+1), standing);
+            if (roundPlayers == totalPlayers) { /* Only one match */
+                matchService.create(totalPlayers - matchId, TournamentService.NO_PARENT, isNextMatchHome, tournamentId, seeds.get(seed), seeds.get(totalPlayers - seed + 1), standing);
                 return;
             }
 
-            matchService.createEmpty(totalPlayers-matchId, parentId, isNextMatchHome, tournamentId, standing);
-            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers, nextStanding, seeds);
-            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers, nextStanding, seeds);
+            matchService.createEmpty(totalPlayers - matchId, parentId, isNextMatchHome, tournamentId, standing);
+            generateBracketRecursive(seed, roundPlayers * 2, matchId * 2 + 1, matchId, true, tournamentId, totalPlayers, nextStanding, seeds);
+            generateBracketRecursive(roundPlayers - seed + 1, roundPlayers * 2, matchId * 2, matchId, false, tournamentId, totalPlayers, nextStanding, seeds);
             return;
         }
-        if(roundPlayers == totalPlayers) {
-            matchService.create(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, seeds.get(seed), seeds.get(totalPlayers-seed+1), standing);
+        if (roundPlayers == totalPlayers) {
+            matchService.create(totalPlayers - matchId, totalPlayers - parentId, isNextMatchHome, tournamentId, seeds.get(seed), seeds.get(totalPlayers - seed + 1), standing);
             return;
         }
 
-        if(roundPlayers < totalPlayers) {
-            matchService.createEmpty(totalPlayers-matchId, totalPlayers-parentId, isNextMatchHome, tournamentId, standing);
-            generateBracketRecursive(seed, roundPlayers*2, matchId*2+1, matchId, true, tournamentId, totalPlayers, nextStanding, seeds);
-            generateBracketRecursive(roundPlayers-seed+1, roundPlayers*2, matchId*2, matchId, false, tournamentId, totalPlayers, nextStanding, seeds);
+        if (roundPlayers < totalPlayers) {
+            matchService.createEmpty(totalPlayers - matchId, totalPlayers - parentId, isNextMatchHome, tournamentId, standing);
+            generateBracketRecursive(seed, roundPlayers * 2, matchId * 2 + 1, matchId, true, tournamentId, totalPlayers, nextStanding, seeds);
+            generateBracketRecursive(roundPlayers - seed + 1, roundPlayers * 2, matchId * 2, matchId, false, tournamentId, totalPlayers, nextStanding, seeds);
         }
     }
 }

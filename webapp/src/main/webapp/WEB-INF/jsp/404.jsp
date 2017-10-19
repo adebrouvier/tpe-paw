@@ -12,7 +12,10 @@
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
 <div class="container center">
-    <h2><spring:message code="404"/></h2>
+    <h4><spring:message code="404"/></h4>
+    <p>
+        <spring:message code="404.message"/></p>
+    <a href="<c:url value = "/"/>" class="btn waves-effect waves-light light-blue darken-4"><spring:message code="404.return"/></a>
 </div>
 <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
 <script type="text/javascript"

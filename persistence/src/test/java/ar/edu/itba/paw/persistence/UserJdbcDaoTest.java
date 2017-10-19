@@ -23,30 +23,28 @@ import ar.edu.itba.paw.model.User;
 @Sql("classpath:schema.sql")
 public class UserJdbcDaoTest {
 
-	private static final String PASSWORD = "Password";
-	private static final String USERNAME = "Username";
+    private static final String PASSWORD = "Password";
+    private static final String USERNAME = "Username";
 
-	@Autowired
-	private DataSource ds;
+    @Autowired
+    private DataSource ds;
 
-	@Autowired
-	private UserJdbcDao userDao;
-	private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private UserJdbcDao userDao;
+    private JdbcTemplate jdbcTemplate;
 
-	@Before
-	public void setUp() {
-		jdbcTemplate = new JdbcTemplate(ds);
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
-	}
+    @Before
+    public void setUp() {
+        jdbcTemplate = new JdbcTemplate(ds);
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+    }
 
-	@Test
-	public void testCreate() {
-		final User user = userDao.create(USERNAME, PASSWORD);
-		assertNotNull(user);
-		assertEquals(USERNAME, user.getName());
-		assertEquals(PASSWORD, user.getPassword());
-		assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
-	}
+    @Test
+    public void testCreate() {
+        final User user = userDao.create(USERNAME, PASSWORD);
+        assertNotNull(user);
+        assertEquals(USERNAME, user.getName());
+        assertEquals(PASSWORD, user.getPassword());
+        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+    }
 }
-
-

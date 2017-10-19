@@ -135,8 +135,10 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public List<String> findTournamentNames() {
-        return jdbcTemplate.queryForList("SELECT name FROM tournament", String.class);
+    public List<String> findTournamentNames(String query) {
+        StringBuilder sb = new StringBuilder(query);
+        sb.append("%");
+        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE name LIKE ?",  String.class, sb);
     }
 
     @Override

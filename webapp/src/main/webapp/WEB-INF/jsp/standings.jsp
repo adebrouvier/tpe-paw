@@ -5,7 +5,7 @@
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/resources/css/tournament.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>

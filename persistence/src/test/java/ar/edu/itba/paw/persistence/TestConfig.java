@@ -11,14 +11,14 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 @ComponentScan({ "ar.edu.itba.paw.persistence", })
 @Configuration
 public class TestConfig {
-	
-	@Bean
-	public DataSource dataSource() {
-		final SimpleDriverDataSource ds = new SimpleDriverDataSource();
-		ds.setDriverClass(JDBCDriver.class);
-		ds.setUrl("jdbc:hsqldb:mem:paw");
-		ds.setUsername("ha");
-		ds.setPassword("");
-		return ds;
-	}
+
+    @Bean
+    public DataSource dataSource() {
+        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
+        ds.setDriverClass(JDBCDriver.class);
+        ds.setUrl("jdbc:hsqldb:mem:paw");
+        ds.setUsername("ha");
+        ds.setPassword("");
+        return ds;
+    }
 }

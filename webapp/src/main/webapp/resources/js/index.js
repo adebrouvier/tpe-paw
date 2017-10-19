@@ -1,9 +1,18 @@
 $(document).ready(function() {
-    var tournamentList = document.getElementById('autocomplete-search');
-    var tournaments = JSON.parse(tournamentList.dataset.search);
-    $('.autocomplete-search-input').autocomplete({
-        data: tournaments,
-        limit: 3,
-        minLength: 1
+
+    var tournaments = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/search_autocomplete?query=%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
+    $('.input-field .typeahead').typeahead(null, {
+        name: 'tournaments',
+        source: tournaments
+    }).on('typeahead:selected', function(e, data) {
+        $("#searchForm").submit();
     });
 });

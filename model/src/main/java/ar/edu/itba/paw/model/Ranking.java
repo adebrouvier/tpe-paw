@@ -6,7 +6,7 @@ import java.util.Map;
 public class Ranking {
     private long id;
     private List<PlayerScores> players;
-    private Map<Tournament, Integer> tournaments; /*Maybe we only need TournamentIds*/
+    private List<TournamentPoints> tournaments; /*Maybe we only need TournamentIds*/
     private String name;
 
     public Ranking(long id, String name){
@@ -26,11 +26,11 @@ public class Ranking {
         this.players = players;
     }
 
-    public Map<Tournament, Integer> getTournaments() {
+    public List<TournamentPoints> getTournaments() {
         return tournaments;
     }
 
-    public void setTournaments(Map<Tournament, Integer> tournaments) {
+    public void setTournaments(List<TournamentPoints> tournaments) {
         this.tournaments = tournaments;
     }
 

@@ -32,8 +32,8 @@ public class GameJdbcDao implements GameDao{
 
 
     @Override
-    public List<String> findGamesName() {
-        List<String> list = jdbcTemplate.queryForList("SELECT name FROM game WHERE NOT user_generated ",String.class);
+    public List<String> findGameNames(String query) {
+        List<String> list = jdbcTemplate.queryForList("SELECT name FROM game WHERE name LIKE ? AND NOT user_generated ", String.class, query + "%");
         if(list == null) {
             return null;
         }
