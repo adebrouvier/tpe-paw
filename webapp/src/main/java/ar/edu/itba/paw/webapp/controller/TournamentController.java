@@ -1,22 +1,19 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.service.GameService;
-import ar.edu.itba.paw.interfaces.service.MatchService;
-import ar.edu.itba.paw.interfaces.service.PlayerService;
-import ar.edu.itba.paw.interfaces.service.TournamentService;
-import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Standing;
-import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.interfaces.service.*;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +32,9 @@ public class TournamentController {
 
     @Autowired
     private GameService gs;
+
+    @Autowired
+    private GameImageService gis;
 
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
@@ -112,6 +112,21 @@ public class TournamentController {
     public ModelAndView endTournament(@ModelAttribute("tournament") final TournamentForm form, @PathVariable long tournamentId) {
         ts.endTournament(tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/gameImage/{gameId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] avatar(@PathVariable(value="gameId") final long gameId) throws IOException {
+        GameImage gameImage = gis.findById(gameId);
+        if(gameImage == null){
+            Resource r = appContext.getResource("/resources/img/cs3.jpg");
+            long l = r.contentLength();
+            byte[] ans = new byte[(int)l];
+            r.getInputStream().read(ans);
+            return ans;
+        } else {
+            return gameImage.getImage();
+        }
     }
 
     private List<Player> parsePlayers(String players) {

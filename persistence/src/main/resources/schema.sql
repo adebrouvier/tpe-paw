@@ -15,6 +15,11 @@ CREATE TABLE IF NOT EXISTS game_url_image (
   url_image TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS game_image(
+  game_id BIGINT REFERENCES game(game_id),
+  image BYTEA NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
   is_finished BOOLEAN,

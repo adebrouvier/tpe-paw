@@ -16,6 +16,9 @@
 <body>
 <c:import var="navbar" url="header.jsp"/>
 ${navbar}
+<div class="image-container" >
+    <div class="image-effect" style="background: url('<c:out value="${game.urlImage}"></c:out>') center center;"></div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col s12">

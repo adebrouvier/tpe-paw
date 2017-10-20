@@ -2,6 +2,23 @@
     font-size: 40px;
 }
 
+.image-container {
+    margin-bottom: -277.5px;
+    overflow: hidden;
+    height: 400px;
+}
+
+.image-effect {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    -moz-filter: blur(8px);
+    -webkit-filter: blur(8px);
+    filter: blur(8px);
+    transform: scale(1.1);
+    box-sizing: border-box;
+}
+
 .tournament-container{
     height: 600px;
     overflow: scroll;
