@@ -10,6 +10,11 @@ CREATE TABLE IF NOT EXISTS game (
   user_generated BOOLEAN DEFAULT false
 );
 
+CREATE TABLE IF NOT EXISTS game_url_image (
+  game_id BIGINT REFERENCES game(game_id),
+  url_image TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
   is_finished BOOLEAN,

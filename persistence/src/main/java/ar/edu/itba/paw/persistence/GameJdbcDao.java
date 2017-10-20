@@ -20,7 +20,7 @@ public class GameJdbcDao implements GameDao{
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Game> ROW_MAPPER = (rs, rowNum) -> new Game(rs.getLong("game_id"), rs.getString("name"));
+    private final static RowMapper<Game> ROW_MAPPER = (rs, rowNum) -> new Game(rs.getLong("game_id"), rs.getString("name"), rs.getString("url_image"));
 
     @Autowired
     public GameJdbcDao(final DataSource ds) {
@@ -43,7 +43,7 @@ public class GameJdbcDao implements GameDao{
 
     @Override
     public Game findById(long id) {
-        List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE game_id = ?", ROW_MAPPER, id);
+        List<Game> g = jdbcTemplate.query("SELECT * FROM game NATURAL JOIN game_url_image WHERE game_id = ?", ROW_MAPPER, id);
         if (g == null) {
             return null;
         } else if (g.isEmpty()) {
@@ -54,7 +54,7 @@ public class GameJdbcDao implements GameDao{
 
     @Override
     public Game findByName(String name) {
-        List<Game> g = jdbcTemplate.query("SELECT * FROM game WHERE name LIKE ?", ROW_MAPPER, name);
+        List<Game> g = jdbcTemplate.query("SELECT * FROM game NATURAL JOIN game_url_image WHERE name LIKE ?", ROW_MAPPER, name);
         if(g == null) {
             return null;
         }else if(g.isEmpty()){

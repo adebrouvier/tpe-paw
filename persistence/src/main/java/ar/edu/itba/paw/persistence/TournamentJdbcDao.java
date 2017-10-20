@@ -1,15 +1,23 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.persistence.GameDao;
-import ar.edu.itba.paw.interfaces.persistence.MatchDao;
-import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
-import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.persistence.*;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +25,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +55,9 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Autowired
     private GameDao gameDao;
+
+    @Autowired
+    private GameUrlImageDao gameUrlImageDao;
 
     @Override
     public Tournament findById(long id) {
@@ -81,12 +93,48 @@ public class TournamentJdbcDao implements TournamentDao {
         Game game = gameDao.findByName(gameName);
         if(game == null) {
             game = gameDao.create(gameName, true);
+            StringBuilder url = new StringBuilder("https://player.me/api/v1/search?sort=popular&order=desc&_limit=1&q=");
+            String[] gameWords = gameName.split(" ");
+            int size = gameWords.length;
+            int i = 0;
+            for( ; i < size-1 ; i++) {
+                url = url.append(gameWords[i] + "%20");
+            }
+            url = url.append(gameWords[i]);
+
+            try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+                HttpGet request = new HttpGet(url.toString());
+                request.addHeader("content-type", "application/json");
+                HttpResponse result = httpClient.execute(request);
+
+                String json = EntityUtils.toString(result.getEntity(), "UTF-8");
+                JSONObject obj = new JSONObject(json);
+
+                if(obj != null) {
+                    String title = obj.getJSONArray("results").getJSONObject(0).getString("title");
+                    if(title != null) {
+                        if(title.equals(gameName)) {
+                            String cover = obj.getJSONArray("results").getJSONObject(0).getJSONObject("cover").getString("original");
+                            if(cover != null) {
+                                StringBuilder urlImage = new StringBuilder("https:");
+                                String[] arg =cover.split("\\\\");
+                                for(String part : arg) {
+                                    urlImage = urlImage.append(part);
+                                }
+                                gameUrlImageDao.create(game.getGameId(),urlImage.toString());
+                            }
+                        }
+                    }
+                }
+
+            } catch (IOException ex) {
+
+            }
         }
         args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
         return new Tournament(name,tournamentId.longValue(), game.getGameId());
     }
-
 
     public Tournament create(String name, String gameName,int tier) {
         final Map<String, Object> args = new HashMap<>();
