@@ -57,13 +57,13 @@ public class TournamentServiceTest {
         }
     }
     private Tournament standardTournament() {
-        return new Tournament("Test", 3, 1, false, 1);
+        return new Tournament("Test", 3, 1, Tournament.Status.NEW, 1);
     }
 
     private List<Tournament> standardTournaments() {
         List<Tournament> tournaments = new ArrayList<Tournament>();
         for(Integer i = 0; i < 10; i++) {
-            tournaments.add(new Tournament(i.toString(), i,1, false, 1));
+            tournaments.add(new Tournament(i.toString(), i,1, Tournament.Status.NEW, 1));
         }
         return tournaments;
     }

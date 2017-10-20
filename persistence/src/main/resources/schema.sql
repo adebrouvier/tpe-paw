@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS game (
 
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
-  is_finished BOOLEAN DEFAULT false,
+  status VARCHAR(10) DEFAULT 'NEW',
   name varchar(100) NOT NULL,
   game_id BIGINT REFERENCES game(game_id),
   user_id BIGINT REFERENCES users(user_id)

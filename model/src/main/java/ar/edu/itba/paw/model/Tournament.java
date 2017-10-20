@@ -5,15 +5,17 @@ import java.util.List;
 
 public class Tournament {
 
+    public enum Status {NEW, STARTED, FINISHED}
+
     /**
      * Name of the tournament
      */
     private String name;
 
     /**
-     * Whether if the tournament finished or not
+     * Status of the tournament
      */
-    private boolean isFinished;
+    private Status status;
 
     /**
      * List of all the players, including BYES
@@ -51,12 +53,12 @@ public class Tournament {
      */
     private long id;
 
-    public Tournament(String name, long id, long gameId, boolean isFinished, long userId){
+    public Tournament(String name, long id, long gameId, Status status, long userId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
-        this.isFinished = isFinished;
+        this.status = status;
         this.gameId = gameId;
         this.userId = userId;
     }
@@ -125,9 +127,9 @@ public class Tournament {
         return this.matches.addAll(matches);
     }
 
-    public boolean isFinished() { return isFinished; }
+    public Status getStatus() { return status; }
 
-    public void endTournament() { this.isFinished = true; }
+    public void setStatus(Status status) { this.status = status; }
 
     @Override
     public boolean equals(Object o) {

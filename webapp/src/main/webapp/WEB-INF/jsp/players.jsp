@@ -49,19 +49,18 @@ ${navbar}
             </ul>
         </div>
     </div>
-</div>
-<div class="players">
-    <div class="container">
-        <div class="row">
-            <h6>Participants</h6>
-            <ul>
-            <c:forEach var="player" items="${players}">
-                <li><c:out value="${player.name}"/></li>
-            </c:forEach>
-            </ul>
-        </div>
-        <div class="row">
+    <div class="row">
+        <div class="players">
             <div class="col s12 card-panel">
+                <div class="row">
+                    <ol>
+                        <c:forEach var="player" items="${players}">
+                            <c:if test="${player.id != -1}">
+                                <li><c:out value="${player.name}"/></li>
+                            </c:if>
+                        </c:forEach>
+                    </ol>
+                </div>
                 <c:url value="/tournament/${tournament.id}/players" var="postPath"/>
                 <form:form modelAttribute="playerForm" action="${postPath}" method="post">
                     <h6><spring:message code="tournament.player.add.title"/></h6>
@@ -84,9 +83,11 @@ ${navbar}
                     </div>
                 </form:form>
                 <div class="row center">
-                    <form action="<c:url value="/tournament/${tournament.id}/generate"/>" method="post">
-                        <a type="submit" class="btn btn-primary light-blue darken-4"><spring:message code="tournament.players.generate"/></a>
-                    </form>
+                    <c:if test="${tournament.status == 'NEW' && tournament.size >= 2}">
+                        <form action="<c:url value="/tournament/${tournament.id}/generate"/>" method="post">
+                            <button type="submit" class="btn btn-primary light-blue darken-4"><spring:message code="tournament.players.generate"/></button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>

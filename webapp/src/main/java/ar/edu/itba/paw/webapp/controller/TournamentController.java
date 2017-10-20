@@ -5,6 +5,8 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Role;
@@ -24,6 +26,8 @@ import java.util.List;
 
 @Controller
 public class TournamentController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TournamentController.class);
 
     @Autowired
     private PlayerService ps;
@@ -121,6 +125,18 @@ public class TournamentController {
     public ModelAndView addPlayer(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId, final BindingResult errors){
 
         /*TODO: check that username exists */
+
+        String username = playerForm.getUsername();
+
+        if (username != null) {
+
+            User user = us.findByName(playerForm.getUsername());
+
+            if (user == null) {
+                return tournament(playerForm, tournamentId);
+            }
+        }
+
         if (errors.hasErrors()){
             return tournament(playerForm, tournamentId);
         }
@@ -155,14 +171,16 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tournament/{tournamentId}/end", method = { RequestMethod.POST })
-    public ModelAndView endTournament(@ModelAttribute("tournament") final TournamentForm form, @PathVariable long tournamentId) {
-        ts.endTournament(tournamentId);
+    public ModelAndView endTournament(@PathVariable long tournamentId) {
+        ts.setStatus(tournamentId, Tournament.Status.FINISHED);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
-    @RequestMapping(value ="/tournament/{tournamentId}/generate",method = {RequestMethod.POST})
+    @RequestMapping(value ="/tournament/{tournamentId}/generate", method = {RequestMethod.POST})
     public ModelAndView generateBracket(@PathVariable long tournamentId){
         ts.generateBracket(tournamentId);
+        ts.setStatus(tournamentId, Tournament.Status.STARTED);
+        LOGGER.debug("Generated bracket for tournament {}", tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 

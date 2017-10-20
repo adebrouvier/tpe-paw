@@ -70,7 +70,7 @@ public class RankingJdbcDao implements RankingDao {
 
         final Number rankingId = jdbcInsert.executeAndReturnKey(args);
         for (Tournament tournament : tournaments.keySet()) {
-            if (tournament.isFinished()) {
+            if (tournament.getStatus() == Tournament.Status.FINISHED) {
                 filteredTournaments.put(tournament, tournaments.get(tournament));
             }
         }

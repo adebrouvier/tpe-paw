@@ -49,7 +49,7 @@ ${navbar}
 </div>
 <div class="featured-tournaments container">
     <h4 class="center"><spring:message code="index.tournaments"/></h4>
-    <table class="highlight centered">
+    <table class="striped centered">
         <thead>
         <tr>
             <th><spring:message code="index.tournaments.table.name"/></th>
@@ -61,7 +61,7 @@ ${navbar}
         <tbody>
         <c:forEach var="tournament" items="${tournaments}">
             <tr>
-                <td>${tournament.name}</td>
+                <td><a href="<c:url value = "/tournament/${tournament.id}"/>">${tournament.name}</a></td>
                 <td>${tournament.size}</td>
                 <td>${tournament.numberOfMatches}</td>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>

@@ -6,13 +6,14 @@
         <a href="<c:url value="/"/>" class="brand-logo center"><spring:message code="header.name"/></a>
         <security:authorize access="isAnonymous()">
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="<c:url value="/login"/>"><spring:message code="navbar.signin"/></a></li>
+                <li><a href="<c:url value="/login"/>"><spring:message code="navbar.login"/></a></li>
                 <li><a href="<c:url value="/register"/>"><spring:message code="navbar.signup"/></a></li>
             </ul>
         </security:authorize>
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
-                <li>Hola!</li>
+                <li></li>
+                <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>
         </security:authorize>
     </div>

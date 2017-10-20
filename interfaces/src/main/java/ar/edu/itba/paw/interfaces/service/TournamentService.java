@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.interfaces.service;
 
-import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 
@@ -24,8 +23,6 @@ public interface TournamentService {
     public final boolean FINAL_NEXT_MATCH_HOME = false;
 
     public final int INITIAL_STANDING = 1;
-
-
 
     /**
      * Finds the tournament with the specified id.
@@ -51,11 +48,11 @@ public interface TournamentService {
     public List<Tournament> findFeaturedTournaments();
 
     /**
-     * Concludes the Tournament with the specified id
-     * preventing further editing of said Tournament.
+     * Changes the status of the tournament
      * @param tournamentId id of the tournament.
+     * @param status new status
      */
-    public void endTournament(long tournamentId);
+    public void setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.

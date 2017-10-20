@@ -13,12 +13,11 @@
     <title><spring:message code="login.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-    <c:import var="navbar" url="navbar.jsp"/>
-    ${navbar}
     <c:url value="/login" var="loginUrl" />
     <div class="container">
         <div class="row">
             <div class="col s6 offset-s3 m6 offset-m3 card-panel">
+                <div class="center"><a href="<c:url value="/"/>"><h1><spring:message code="header.name"/></h1></a></div>
                 <form class="login-form" action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="row">
                         <div class="input-field col s12">

@@ -7,7 +7,7 @@
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/tournament-page.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
@@ -59,15 +59,15 @@ ${navbar}
     </div>
 </div>
 <div class="center">
-    <c:url value="/endTournament/${tournament.id}" var="endPath"/>
-    <form:form modelAttribute="tournament" action="${endPath}" method="post">
-        <c:if test="${tournament.finished != true}">
+    <c:url value="/tournament/${tournament.id}/end" var="endPath"/>
+    <form:form action="${endPath}" method="post">
+        <c:if test="${tournament.status == 'STARTED'}">
             <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                 <spring:message code="tournament.finish"/>
                 <i class="material-icons right "></i>
             </button>
         </c:if>
-        <c:if test="${tournament.finished == true}">
+        <c:if test="${tournament.status == 'FINISHED'}">
             <button class="btn light-blue darken-4 waves-effect waves-light disabled" type="submit">
                 <spring:message code="tournament.finished"/>
                 <i class="material-icons right "></i>
@@ -77,6 +77,9 @@ ${navbar}
 </div>
 <div class="container">
     <h4><spring:message code="tournament.bracket"/></h4>
+    <c:if test="${tournament.status == 'NEW'}">
+    <h6><spring:message code="tournament.bracket.empty"/></h6>
+    </c:if>
     <div class="tournament-container">
         <div class="row">
             <c:set var="roundSize" value="${tournament.players.size()/2}"/>

@@ -30,12 +30,7 @@ public interface TournamentDao {
      */
     public List<Tournament> findFeaturedTournaments();
 
-    /**
-     * Concludes the Tournament with the specified id
-     * preventing further editing of said Tournament.
-     * @param tournamentId id of the tournament.
-     */
-    public void endTournament(long tournamentId);
+    public void setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.

@@ -33,8 +33,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void endTournament(long tournamentId) {
-        tournamentDao.endTournament(tournamentId);
+    public void setStatus(long tournamentId, Tournament.Status status) {
+        tournamentDao.setStatus(tournamentId, status);
     }
 
     @Override
@@ -89,7 +89,6 @@ public class TournamentServiceImpl implements TournamentService {
      * and generating bracket relations of every match.
      * @param tournamentId id of the tournament
      * @param players list of players
-     * @param seeds seed of every player of the tournament
      */
     private void generateSingleEliminationBracket(long tournamentId, List<Player> players) {
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/
