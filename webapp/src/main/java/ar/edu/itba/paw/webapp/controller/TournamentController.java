@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class TournamentController {
 
     @Autowired
     private GameImageService gis;
+
+    @Autowired
+    private ApplicationContext appContext;
 
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
