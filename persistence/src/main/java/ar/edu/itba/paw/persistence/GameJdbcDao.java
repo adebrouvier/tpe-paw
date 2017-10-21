@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.GameDao;
+import ar.edu.itba.paw.interfaces.persistence.GameUrlImageDao;
 import ar.edu.itba.paw.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,24 +44,25 @@ public class GameJdbcDao implements GameDao{
 
     @Override
     public Game findById(long id) {
-        List<Game> g = jdbcTemplate.query("SELECT * FROM game NATURAL JOIN game_url_image WHERE game_id = ?", ROW_MAPPER, id);
+        List<Game> g = jdbcTemplate.query("SELECT game.game_id, game.name, game_url_image.url_image FROM game LEFT OUTER JOIN game_url_image ON game.game_id = game_url_image.game_id WHERE game.game_id = ?", ROW_MAPPER, id);
         if (g == null) {
             return null;
         } else if (g.isEmpty()) {
             return null;
         }
+
         return g.get(0);
     }
 
     @Override
     public Game findByName(String name) {
-        List<Game> g = jdbcTemplate.query("SELECT * FROM game NATURAL JOIN game_url_image WHERE name LIKE ?", ROW_MAPPER, name);
+        List<Game> g = jdbcTemplate.query("SELECT game.game_id, game.name, game_url_image.url_image FROM game LEFT OUTER JOIN game_url_image ON game.game_id = game_url_image.game_id WHERE game.name LIKE ?", ROW_MAPPER, name);
+
         if(g == null) {
             return null;
-        }else if(g.isEmpty()){
+        } else if(g.isEmpty()) {
             return null;
         }
-
 
         return g.get(0);
     }

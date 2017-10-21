@@ -36,10 +36,7 @@ public class TournamentController {
 
     @Autowired
     private GameImageService gis;
-
-    @Autowired
-    private ApplicationContext appContext;
-
+    
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
@@ -123,11 +120,7 @@ public class TournamentController {
     public byte[] avatar(@PathVariable(value="gameId") final long gameId) throws IOException {
         GameImage gameImage = gis.findById(gameId);
         if(gameImage == null){
-            Resource r = appContext.getResource("/resources/img/cs3.jpg");
-            long l = r.contentLength();
-            byte[] ans = new byte[(int)l];
-            r.getInputStream().read(ans);
-            return ans;
+            return null;
         } else {
             return gameImage.getImage();
         }
