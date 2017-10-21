@@ -4,15 +4,38 @@ $(document).ready(function() {
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/search_autocomplete?query=%QUERY',
+            url: '/tournament_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
 
-    $('.input-field .typeahead').typeahead(null, {
-        name: 'tournaments',
-        source: tournaments
-    }).on('typeahead:selected', function(e, data) {
+    var rankings = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/ranking_autocomplete?query=%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
+    $('.input-field .typeahead').typeahead(null,
+        {
+            name: 'tournaments',
+            source: tournaments,
+            limit: 5,
+            templates: {
+                header: '<h6 class="category-name"><b>Tournament</b></h6>'
+            }
+        },
+        {
+            name: 'rankings',
+            source: rankings,
+            limit: 5,
+            templates: {
+                header: '<h6 class="category-name"><b>Ranking</b></h6>'
+            }
+        }
+    ).on('typeahead:selected', function(e, data) {
         $("#searchForm").submit();
     });
 });

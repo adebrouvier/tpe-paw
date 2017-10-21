@@ -4,9 +4,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /*
-    Form for searching tournaments
+    Form for searching
  */
-public class TournamentSearchForm {
+public class SearchForm {
 
     @Size(max = 40)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")

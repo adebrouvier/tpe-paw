@@ -84,6 +84,29 @@ public class RankingJdbcDao implements RankingDao {
         return new Ranking(rankingId.longValue(), name);
     }
 
+    @Override
+    public List<Ranking> findByName(String name) {
+
+        StringBuilder sb = new StringBuilder(name.toLowerCase());
+        sb.insert(0,"%");
+        sb.append("%");
+        final List<Ranking> list = jdbcTemplate.query("SELECT * FROM ranking WHERE lower(name) LIKE ?",
+                RANKING_MAPPER, sb.toString());
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<String> findRankingNames(String query) {
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0,"%");
+        sb.append("%");
+        return jdbcTemplate.queryForList("SELECT name FROM ranking WHERE lower(name) LIKE ?",  String.class, sb.toString());
+    }
+
     private List<UserScore> getRankingUsers(long rankingId) {
         List<UserScore> users;
         users = jdbcTemplate.query("SELECT user_id, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", USER_RANKING_MAPPER, rankingId);
