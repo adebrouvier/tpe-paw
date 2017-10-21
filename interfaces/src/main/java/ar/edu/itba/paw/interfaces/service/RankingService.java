@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.service;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RankingService {
@@ -31,4 +32,13 @@ public interface RankingService {
      * @param tournamentId id of the tournament
      */
     public void delete(final long rankingId, final long tournamentId);
+
+    /**
+     * Searches for a {@link Ranking}
+     * @param term name of part of the name
+     * @return a list of matching rankings
+     */
+    public List<Ranking> findByName(String term);
+
+    List<String> findRankingNames(String query);
 }

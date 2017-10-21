@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
@@ -23,18 +23,20 @@ ${navbar}
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <div>
-            <c:url value="/searchtournament" var="getPath"/>
+            <c:url value="/searchParse" var="getPath"/>
             <form:form modelAttribute="searchForm" action="${getPath}" method="get">
-                <div class="search-bar">
+                <div>
                     <i id="search-icon" class="material-icons">search</i>
                     <div class="input-field">
                         <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
                         <form:input cssClass="typeahead" type="text" placeholder="${indexSearchPlaceholder}" path="query" autocomplete="off"/>
                         <form:errors path="query" cssClass="form-error" element="p"/>
+                        <input type="submit" style="visibility: hidden"/>
                     </div>
                 </div>
             </form:form>
         </div>
+        <br/>
         <h1 class="header center"><spring:message code="index.header.title"/></h1>
         <div class="row center">
             <h5 class="header col s12 light"><spring:message code="index.header.subtitle"/></h5>

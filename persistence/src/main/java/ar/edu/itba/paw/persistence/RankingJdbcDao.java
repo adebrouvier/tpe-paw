@@ -85,6 +85,29 @@ public class RankingJdbcDao implements RankingDao {
     }
 
     @Override
+    public List<Ranking> findByName(String name) {
+
+        StringBuilder sb = new StringBuilder(name.toLowerCase());
+        sb.insert(0,"%");
+        sb.append("%");
+        final List<Ranking> list = jdbcTemplate.query("SELECT * FROM ranking WHERE lower(name) LIKE ?",
+                RANKING_MAPPER, sb.toString());
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<String> findRankingNames(String query) {
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0,"%");
+        sb.append("%");
+        return jdbcTemplate.queryForList("SELECT name FROM ranking WHERE lower(name) LIKE ?",  String.class, sb.toString());
+    }
+
+    @Override
     public void delete(long rankingId, long tournamentId) {
         int awardedPoints = jdbcTemplate.queryForObject("SELECT awarded_points FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?",Integer.class,rankingId,tournamentId);
         jdbcTemplate.update("DELETE FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?",rankingId, tournamentId);
