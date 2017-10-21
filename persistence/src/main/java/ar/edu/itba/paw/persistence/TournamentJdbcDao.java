@@ -159,7 +159,7 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Override
     public void setStatus(long tournamentId, Tournament.Status status) {
-        jdbcTemplate.update("UPDATE tournament SET status = ? WHERE tournament_id = ?", status, tournamentId);
+        jdbcTemplate.update("UPDATE tournament SET status = ? WHERE tournament_id = ?", status.toString(), tournamentId);
     }
 
     private int getNumberOfMatches(long tournamentId){

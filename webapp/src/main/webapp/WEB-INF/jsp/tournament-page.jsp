@@ -175,13 +175,13 @@ ${navbar}
                                 </table>
                             </div>
                                 <div class="modal-footer">
-                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.finished == true}">
+                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.status == 'FINISHED'}">
                                     <button class="btn waves-effect waves-light disabled" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right ">update</i>
                                     </button>
                                 </c:if>
-                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.finished == false}">
+                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.status == 'FINISHED'}">
                                     <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right">update</i>
