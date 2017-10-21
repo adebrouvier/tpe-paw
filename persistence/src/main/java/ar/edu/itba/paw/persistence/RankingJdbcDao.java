@@ -30,7 +30,7 @@ public class RankingJdbcDao implements RankingDao {
 
     private final static RowMapper<UserScore> USER_RANKING_MAPPER = (rs, rowNum) -> new UserScore(rs.getLong("user_id"), rs.getInt("points"));
 
-    private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getInt("tournament_id"), rs.getInt("awarded_points"));
+    private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getLong("tournament_id"), rs.getInt("awarded_points"));
 
     @Autowired
     private TournamentDao tournamentDao;
@@ -79,14 +79,41 @@ public class RankingJdbcDao implements RankingDao {
             }
         }
         addTournamentToRanking(rankingId.longValue(), filteredTournaments);
-        addPlayersToRanking(rankingId.longValue(), filteredTournaments);
+        addUsersToRanking(rankingId.longValue(), filteredTournaments);
 
         return new Ranking(rankingId.longValue(), name);
+    }
+
+    @Override
+    public void delete(long rankingId, long tournamentId) {
+        int awardedPoints = jdbcTemplate.queryForObject("SELECT awarded_points FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?",Integer.class,rankingId,tournamentId);
+        jdbcTemplate.update("DELETE FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?",rankingId, tournamentId);
+        deleteUsersFromRanking(rankingId,tournamentId, awardedPoints);
+    }
+
+    private void deleteUsersFromRanking(long rankingId, long tournamentId, int awardedPoints){
+        Tournament t = tournamentDao.findById(tournamentId);
+        int standing, score, existingScore;
+        long userId;
+        for(Player player: t.getPlayers()){
+            userId = player.getUserId();
+            if(userId != 0){
+                standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournamentId);
+                score = stadingHandler(standing, awardedPoints);
+                existingScore = jdbcTemplate.queryForObject("SELECT points FROM ranking_players WHERE ranking_id = ? AND user_id = ?",Integer.class,rankingId,userId);
+                if(score == existingScore){
+                    jdbcTemplate.update("DELETE FROM ranking_players WHERE ranking_id = ? AND user_id = ?",rankingId, userId);
+                }else{
+                    jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",existingScore-score,rankingId,userId);
+                }
+            }
+        }
     }
 
     private List<UserScore> getRankingUsers(long rankingId) {
         List<UserScore> users;
         users = jdbcTemplate.query("SELECT user_id, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", USER_RANKING_MAPPER, rankingId);
+        //TODO: Make a function getUserNameById
         for(UserScore user: users){
             user.setUserName(userDao.findById(user.getUserId()).getName());
         }
@@ -96,6 +123,10 @@ public class RankingJdbcDao implements RankingDao {
 
     private List<TournamentPoints> getRankingTournaments(long rankingId) {
         List<TournamentPoints> tournamentsPoints = jdbcTemplate.query("SELECT tournament_id, awarded_points FROM ranking_tournaments WHERE ranking_id = ?", TOURNAMENT_MAPPER, rankingId);
+        //TODO: Make a function getNameById()
+        for(TournamentPoints tPoints: tournamentsPoints){
+            tPoints.setName(tournamentDao.findById(tPoints.getTournamentId()).getName());
+        }
         return tournamentsPoints;
 
     }
@@ -118,7 +149,7 @@ public class RankingJdbcDao implements RankingDao {
      * @param rankingId id of the ranking.
      * @param tournaments tournaments and their respective points.
      */
-    private void addPlayersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
+    protected void addUsersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
         final Map<String, Object> args = new HashMap<>();
         Map<Long, Integer> userScores = new HashMap<>();
         int standing, userScore, tournamentScore;

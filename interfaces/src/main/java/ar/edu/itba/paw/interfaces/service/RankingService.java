@@ -23,4 +23,12 @@ public interface RankingService {
      * @return instance of new ranking
      */
     public Ranking create(final String name, final Map<Tournament,Integer> tournaments);
+
+    /**
+     * Deletes a tournament from a ranking that already
+     * existed.
+     * @param rankingId id of the ranking
+     * @param tournamentId id of the tournament
+     */
+    public void delete(final long rankingId, final long tournamentId);
 }

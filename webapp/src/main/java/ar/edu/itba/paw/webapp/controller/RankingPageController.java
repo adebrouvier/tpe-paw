@@ -27,4 +27,17 @@ public class RankingPageController {
         mav.addObject("ranking", r);
         return mav;
     }
+
+    @RequestMapping("/ranking/{rankingId}/delete/{tournamentId}")
+    public ModelAndView deleteTournament(@PathVariable long rankingId, @PathVariable long tournamentId){
+        rs.delete(rankingId,tournamentId);
+        final Ranking r = rs.findById(rankingId) ;
+        if (r == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("redirect:/ranking/" + r.getId());
+        mav.addObject("ranking", r);
+        return mav;
+    }
+
 }

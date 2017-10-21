@@ -35,4 +35,6 @@ public interface RankingDao {
      * @return instance of new ranking
      */
      Ranking create(final String name, final Map<Tournament, Integer> tournaments);
+
+     void delete(final long rankingId, final long tournamentId);
 }

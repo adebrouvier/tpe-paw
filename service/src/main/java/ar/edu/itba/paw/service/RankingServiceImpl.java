@@ -24,4 +24,11 @@ public class RankingServiceImpl implements RankingService {
     public Ranking create(String name, Map<Tournament, Integer> tournaments) {
         return rankingDao.create(name,tournaments);
     }
+
+    @Override
+    public void delete(long rankingId, long tournamentId) {
+        rankingDao.delete(rankingId, tournamentId);
+    }
+
+
 }

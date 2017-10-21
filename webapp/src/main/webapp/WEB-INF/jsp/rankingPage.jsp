@@ -21,23 +21,39 @@ ${navbar}
     </div>
 </div>
 <div class="container">
-    <h4 class="center"><spring:message code="ranking.table.title"/></h4>
-    <table class="highlight centered">
-        <thead>
-        <tr>
-            <th><spring:message code="ranking.table.players"/></th>
-            <th><spring:message code="ranking.table.points"/></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="user" items="${ranking.users}">
-            <tr>
-                <td>${user.userName}</td>
-                <td>${user.points}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col s6">
+            <h4 class="center"><spring:message code="ranking.table.title"/></h4>
+            <table class="highlight centered">
+                <thead>
+                <tr>
+                    <th><spring:message code="ranking.table.users"/></th>
+                    <th><spring:message code="ranking.table.points"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="user" items="${ranking.users}">
+                    <tr>
+                        <td>${user.userName}</td>
+                        <td>${user.points}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="center col s6">
+            <h4>
+                Tournaments
+            </h4>
+            <c:forEach var="tournament" items="${ranking.tournaments}">
+                <ol>
+                    <td>${tournament.name}</td>
+                    <td>${tournament.awardedPoints}</td>
+                    <td><a href="<c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}"/>"><i class="material-icons">delete</i></a></td>
+                </ol>
+            </c:forEach>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript"
