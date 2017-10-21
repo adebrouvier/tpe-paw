@@ -36,7 +36,7 @@ public class TournamentController {
 
     @Autowired
     private GameImageService gis;
-    
+
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");

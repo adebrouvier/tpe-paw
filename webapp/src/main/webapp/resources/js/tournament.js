@@ -28,14 +28,35 @@ $(document).ready(function(){
         }
     });
 
+    var sports = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/games_autocomplete?query=%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
     $('.input-field .typeahead').typeahead(null, {
+            name: 'sports',
+            source: sports,
+            templates: {
+                header: '<h6 style="font-weight: bold;">Sports</h6>',
+                empty: [
+                    '<h6 <h6 style="font-weight: bold;">Sports</h6>' +
+                    '<div class="empty-message"> no results found </div>'
+                ]
+            }
+        }, {
         name: 'games',
         display: 'title',
         source: games,
         templates: {
             empty: [
+                '<h6 <h6 style="font-weight: bold;">Games</h6>' +
                 '<div class="empty-message"> no results found </div>'
-            ]
+            ],
+            header: '<h6 <h6 style="font-weight: bold;">Games</h6>'
         },
         limit: Infinity
     });
