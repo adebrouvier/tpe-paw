@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
 user_id SERIAL PRIMARY KEY,
-user_name varchar(100),
+user_name varchar(100) UNIQUE,
 password varchar(100)
 );
 

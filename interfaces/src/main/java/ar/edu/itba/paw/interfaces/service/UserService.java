@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import ar.edu.itba.paw.model.User;
 
 public interface UserService {
@@ -8,5 +9,5 @@ public interface UserService {
 
 	public User findByName(String name);
 
-	public User create(String name,String password);
+	public User create(String name,String password) throws DuplicateUsernameException;
 }

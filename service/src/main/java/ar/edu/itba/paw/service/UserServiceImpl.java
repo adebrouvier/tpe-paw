@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User create(String name,String password) {
+	public User create(String name,String password) throws DuplicateUsernameException {
 		return userDao.create(name,password);
 	}
 

@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Component
-public class PawUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserService us;

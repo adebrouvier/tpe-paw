@@ -18,6 +18,7 @@
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="container center">
     <h3><spring:message code="tournament.create.title"/></h3>
     <div class="row">
@@ -51,6 +52,7 @@ ${navbar}
         </div>
     </div>
 </div>
+</main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 </body>

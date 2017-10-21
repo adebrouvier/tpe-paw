@@ -17,6 +17,7 @@
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="container center">
     <c:url value="/create/ranking" var="postPath"/>
     <form:form modelAttribute="rankingForm" action="${postPath}" method="post">
@@ -61,6 +62,9 @@ ${navbar}
             </form:form>
     </div>
 </div>
+</main>
+<c:import var="footer" url="footer.jsp"/>
+${footer}
 
     <script>
 

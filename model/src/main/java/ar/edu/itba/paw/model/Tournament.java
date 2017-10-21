@@ -111,20 +111,12 @@ public class Tournament {
         this.numberOfMatches = numberOfMatches;
     }
 
-    public boolean addPlayer(Player player){
-        return players.add(player);
+    public void addPlayer(List<Player> players){
+        this.players.addAll(players);
     }
 
-    public boolean addPlayer(List<Player> players){
-        return this.players.addAll(players);
-    }
-
-    public boolean addMatch(Match match){
-        return matches.add(match);
-    }
-
-    public boolean addMatch(List<Match> matches){
-        return this.matches.addAll(matches);
+    public void addMatch(List<Match> matches){
+        this.matches.addAll(matches);
     }
 
     public Status getStatus() { return status; }

@@ -1,11 +1,14 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.webapp.form.validation.FieldMatch;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
  * Form for registering users
  */
+@FieldMatch(first = "password", second = "repeatPassword")
 public class RegisterForm {
 
     @Size(min = 6, max = 100)

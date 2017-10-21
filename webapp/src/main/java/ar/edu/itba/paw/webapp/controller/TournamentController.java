@@ -124,34 +124,32 @@ public class TournamentController {
     @RequestMapping( value = "/tournament/{tournamentId}/players", method = RequestMethod.POST)
     public ModelAndView addPlayer(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId, final BindingResult errors){
 
-        /*TODO: check that username exists */
-
-        String username = playerForm.getUsername();
-
-        if (username != null) {
-
-            User user = us.findByName(playerForm.getUsername());
-
-            if (user == null) {
-                return tournament(playerForm, tournamentId);
-            }
-        }
-
         if (errors.hasErrors()){
             return tournament(playerForm, tournamentId);
         }
+
+        String username = playerForm.getUsername();
+        final User user;
+        final Player p;
+
+        /* If username field is not empty */
+        if (username != null) {
+            user = us.findByName(playerForm.getUsername());
+
+            /* If user doesn't exist */
+            if (user == null) {
+                errors.rejectValue("username", "playerForm.error.username");
+                return tournament(playerForm, tournamentId);
+            }else{ /* Player linked to user */
+                p = ps.create(playerForm.getPlayer(), user.getId());
+            }
+        }else{ /* Player is not linked to user */
+            p = ps.create(playerForm.getPlayer());
+        }
+
         /*if (form.isRandomizeSeed()) {
             Collections.shuffle(players);
         }*/
-
-        final Player p;
-
-        if (playerForm.getUsername() != null) {
-            User u =  us.findByName(playerForm.getUsername());
-            p = ps.create(playerForm.getPlayer(), u.getId());
-        } else {
-            p = ps.create(playerForm.getPlayer());
-        }
 
         ps.addToTournament(p.getId(), tournamentId);
 

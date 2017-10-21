@@ -23,6 +23,7 @@ ${navbar}
                 <div class="center"><h2><spring:message code="register.title"/></h2></div>
                 <c:url value="/registerUser" var="PostPath"/>
                 <form:form modelAttribute="registerForm" action="${PostPath}" method="post">
+                    <form:errors path="" cssClass="form-error" element="p"/>
                     <div class="input-field">
                         <i class="material-icons prefix">account_circle</i>
                         <form:label path="username"><spring:message code="register.username"/></form:label>

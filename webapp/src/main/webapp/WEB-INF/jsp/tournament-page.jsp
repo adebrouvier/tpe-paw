@@ -16,6 +16,7 @@
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="container">
     <div class="row">
         <div class="col s12">
@@ -201,6 +202,7 @@ ${navbar}
         </div>
     </div>
 </div>
+</main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 </body>

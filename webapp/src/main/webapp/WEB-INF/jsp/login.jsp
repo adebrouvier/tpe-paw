@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
@@ -19,6 +20,11 @@
             <div class="col s6 offset-s3 m6 offset-m3 card-panel">
                 <div class="center"><a href="<c:url value="/"/>"><h1><spring:message code="header.name"/></h1></a></div>
                 <form class="login-form" action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
+                    <c:if test="${param.error != null}" >
+                        <div class="row center form-error">
+                            <h6><spring:message code="login.error"/></h6>
+                        </div>
+                    </c:if>
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">account_circle</i>

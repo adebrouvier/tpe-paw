@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -55,13 +57,16 @@ public class UserJdbcDao implements UserDao{
 	}
 
 	@Override
-	public User create(String username, String password) {
+	public User create(String username, String password) throws DuplicateUsernameException {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("user_name", username);
 		args.put("password", password);
-		final Number userId = jdbcInsert.executeAndReturnKey(args);
-		return new User(userId.longValue(), username, password);
-	}
-	
 
+		try {
+            final Number userId = jdbcInsert.executeAndReturnKey(args);
+            return new User(userId.longValue(), username, password);
+        } catch (DuplicateKeyException e){
+		    throw new DuplicateUsernameException();
+        }
+	}
 }
