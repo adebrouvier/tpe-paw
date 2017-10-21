@@ -65,6 +65,6 @@ CREATE TABLE IF NOT EXISTS ranking_tournaments (
 
 CREATE TABLE IF NOT EXISTS ranking_players (
   ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
-  name varchar(100) NOT NULL,
+  user_id BIGINT REFERENCES users(user_id),
   points BIGINT
 );

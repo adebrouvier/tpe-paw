@@ -22,7 +22,7 @@ public class PlayerJdbcDao implements PlayerDao {
 
     private final SimpleJdbcInsert participatesInjdbcInsert;
 
-    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
+    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"), rs.getLong("user_id"));
 
     @Autowired
     public PlayerJdbcDao(final DataSource ds) {

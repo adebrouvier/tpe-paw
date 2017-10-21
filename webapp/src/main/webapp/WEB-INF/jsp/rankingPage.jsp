@@ -30,10 +30,10 @@ ${navbar}
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="player" items="${ranking.players}">
+        <c:forEach var="user" items="${ranking.users}">
             <tr>
-                <td>${player.name}</td>
-                <td>${player.points}</td>
+                <td>${user.userName}</td>
+                <td>${user.points}</td>
             </tr>
         </c:forEach>
         </tbody>

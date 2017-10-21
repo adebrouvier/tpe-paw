@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.RankingDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,16 +24,19 @@ public class RankingJdbcDao implements RankingDao {
 
     private final SimpleJdbcInsert tournamentToRankingInsert;
 
-    private final SimpleJdbcInsert playerToRankingInsert;
+    private final SimpleJdbcInsert userToRankingInsert;
 
     private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"));
 
-    private final static RowMapper<PlayerScores> PLAYER_RANKING_MAPPER = (rs, rowNum) -> new PlayerScores(rs.getString("name"), rs.getInt("points"));
+    private final static RowMapper<UserScore> USER_RANKING_MAPPER = (rs, rowNum) -> new UserScore(rs.getLong("user_id"), rs.getInt("points"));
 
     private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getInt("tournament_id"), rs.getInt("awarded_points"));
 
     @Autowired
     private TournamentDao tournamentDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     public RankingJdbcDao(final DataSource ds) {
@@ -43,9 +47,9 @@ public class RankingJdbcDao implements RankingDao {
         tournamentToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("ranking_tournaments")
                 .usingColumns("ranking_id", "tournament_id", "awarded_points");
-        playerToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
+        userToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("ranking_players")
-                .usingColumns("ranking_id", "name", "points");
+                .usingColumns("ranking_id", "user_id", "points");
     }
 
     @Override
@@ -57,7 +61,7 @@ public class RankingJdbcDao implements RankingDao {
         }
 
         Ranking r = list.get(0);
-        r.setPlayers(getRankingPlayers(rankingId));
+        r.setUsers(getRankingUsers(rankingId));
         r.setTournaments(getRankingTournaments(rankingId));
         return r;
     }
@@ -80,10 +84,13 @@ public class RankingJdbcDao implements RankingDao {
         return new Ranking(rankingId.longValue(), name);
     }
 
-    private List<PlayerScores> getRankingPlayers(long rankingId) {
-        List<PlayerScores> players;
-        players = jdbcTemplate.query("SELECT name, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", PLAYER_RANKING_MAPPER, rankingId);
-        return players;
+    private List<UserScore> getRankingUsers(long rankingId) {
+        List<UserScore> users;
+        users = jdbcTemplate.query("SELECT user_id, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", USER_RANKING_MAPPER, rankingId);
+        for(UserScore user: users){
+            user.setUserName(userDao.findById(user.getUserId()).getName());
+        }
+        return users;
 
     }
 
@@ -106,40 +113,40 @@ public class RankingJdbcDao implements RankingDao {
     }
 
     /**
-     * Adds the player scores on the listed tournaments, taking
+     * Adds the user scores on the listed tournaments, taking
      * into account their standings.
      * @param rankingId id of the ranking.
      * @param tournaments tournaments and their respective points.
      */
     private void addPlayersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
         final Map<String, Object> args = new HashMap<>();
-        Map<String, Integer> playerScores = new HashMap<>();
-        int standing, playerScore, tournamentScore;
-        String playerName;
+        Map<Long, Integer> userScores = new HashMap<>();
+        int standing, userScore, tournamentScore;
+        Long userId;
         for (Tournament tournament : tournaments.keySet()) {
             tournamentScore = tournaments.get(tournament);
             for (Player player : tournament.getPlayers()) {
-                playerScore = tournamentScore;
                 if (player.getId() != -1) {
-                    standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournament.getId());
-                    playerScore = stadingHandler(standing, tournamentScore);
-                    playerName = player.getName();
+                    userId = player.getUserId();
+                    if(userId != 0){
+                        standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournament.getId());
+                        userScore = stadingHandler(standing, tournamentScore);
 
-                    if (playerScores.containsKey(playerName)) {
-                        playerScores.put(playerName, playerScore + playerScores.get(playerName));
-                    } else {
-                        playerScores.put(playerName, playerScore);
+                        if (userScores.containsKey(userId)) {
+                            userScores.put(userId, userScore + userScores.get(userId));
+                        } else {
+                            userScores.put(userId, userScore);
+                        }
                     }
-
                 }
             }
         }
-        for (String name : playerScores.keySet()) {
+        for (Map.Entry<Long,Integer> entry : userScores.entrySet()) {
             args.clear();
             args.put("ranking_id", rankingId);
-            args.put("name", name);
-            args.put("points", playerScores.get(name));
-            playerToRankingInsert.execute(args);
+            args.put("user_id",entry.getKey() );
+            args.put("points", entry.getValue());
+            userToRankingInsert.execute(args);
         }
     }
 
@@ -168,7 +175,7 @@ public class RankingJdbcDao implements RankingDao {
                 playerScore = (int) (tournamentScore * RankingDao.FIFTH_SCORE);
                 return playerScore;
             default:
-                playerScore = 0;
+                playerScore = RankingDao.NO_SCORE;
                 return playerScore;
         }
     }

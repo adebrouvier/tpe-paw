@@ -1,12 +1,11 @@
 package ar.edu.itba.paw.model;
 
 import java.util.List;
-import java.util.Map;
 
 public class Ranking {
     private long id;
-    private List<PlayerScores> players;
-    private List<TournamentPoints> tournaments; /*Maybe we only need TournamentIds*/
+    private List<UserScore> users;
+    private List<TournamentPoints> tournaments;
     private String name;
 
     public Ranking(long id, String name){
@@ -18,12 +17,12 @@ public class Ranking {
         return id;
     }
 
-    public List<PlayerScores> getPlayers() {
-        return players;
+    public List<UserScore> getUsers() {
+        return users;
     }
 
-    public void setPlayers(List<PlayerScores> players) {
-        this.players = players;
+    public void setUsers(List<UserScore> users) {
+        this.users = users;
     }
 
     public List<TournamentPoints> getTournaments() {
