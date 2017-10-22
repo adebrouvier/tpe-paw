@@ -174,6 +174,20 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
+    @RequestMapping(value = "/remove/player/{tournamentId}/{playerId}", method = { RequestMethod.POST })
+    public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId) {
+
+        ps.removeToTournament(tournamentId, playerId);
+        ps.delete(playerId);
+        return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
+    }
+
+    @RequestMapping(value = "/swap/player/{tournamentId}/{playerOldSeed}/{playerNewSeed}", method = { RequestMethod.POST })
+    public ModelAndView swapPlayer(@PathVariable long tournamentId, @PathVariable int playerOldSeed,@PathVariable int playerNewSeed) {
+        ps.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
+        return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
+    }
+
     @RequestMapping(value ="/tournament/{tournamentId}/generate", method = {RequestMethod.POST})
     public ModelAndView generateBracket(@PathVariable long tournamentId){
         ts.generateBracket(tournamentId);

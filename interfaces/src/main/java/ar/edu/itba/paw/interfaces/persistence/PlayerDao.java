@@ -15,6 +15,27 @@ public interface PlayerDao {
     public final int SUCCESSFUL_INSERT = 1;
 
     /**
+     * Delete a player with a specified id.
+     * @param id id of the player.
+     */
+    public void delete(long id);
+
+    /**
+     * Remove player to a tournament.
+     * @param tournamentId id of the tournament.
+     * @param playerId id of the player.
+     */
+    public void removeToTournament(long tournamentId, long playerId);
+
+    /**
+     * Change player seed.
+     * @param tournamentId id of the tournament.
+     * @param playerOldSeed the old seed of the player.
+     * @param playerNewSeed the new seed of the player.
+     */
+    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed);
+
+    /**
      * Finds a player with a specified id.
      * @param id id of the player.
      * @return an instance of the player.

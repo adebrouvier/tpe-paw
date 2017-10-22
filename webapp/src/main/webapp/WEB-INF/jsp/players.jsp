@@ -2,16 +2,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
-<head>
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
+
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/players.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/players.js"/>"></script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
-<body>
+<body data-tournamentId="<c:out value="${tournament.id}"/>">
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container">
@@ -52,15 +56,6 @@ ${navbar}
     <div class="row">
         <div class="players">
             <div class="col s12 card-panel">
-                <div class="row">
-                    <ol>
-                        <c:forEach var="player" items="${players}">
-                            <c:if test="${player.id != -1}">
-                                <li><c:out value="${player.name}"/></li>
-                            </c:if>
-                        </c:forEach>
-                    </ol>
-                </div>
                 <c:url value="/tournament/${tournament.id}/players" var="postPath"/>
                 <form:form modelAttribute="playerForm" action="${postPath}" method="post">
                     <h6><spring:message code="tournament.player.add.title"/></h6>
@@ -88,6 +83,36 @@ ${navbar}
                             <button type="submit" class="btn btn-primary light-blue darken-4"><spring:message code="tournament.players.generate"/></button>
                         </form>
                     </c:if>
+                </div>
+                <div class="row">
+                    <ul id="sortable">
+                        <c:set var="seed" value="1"/>
+                        <c:forEach var="player" items="${players}">
+                            <c:if test="${player.id != -1}">
+                                <li>
+                                    <div class="player-container">
+                                        <span class="move">
+                                                <i class="tiny material-icons">unfold_more</i>
+                                        </span>
+                                        <span class="player-seed">
+                                            <c:out value="${seed}"></c:out>
+                                        </span>
+                                        <span class="player-name">
+                                            <c:out value="${player.name}"/>
+                                        </span>
+                                        <form style="width: 0;height: 0; margin: 0; padding: 0; display: inline" id="<c:out value="${seed}"/>" action="<c:url value="/remove/player/${tournament.id}/${player.id}"/>" method="POST">
+                                            <a href="#" onclick="$('#<c:out value="${seed}"/>').submit()" >
+                                                <span class="player-remove">
+                                                    <i class="tiny material-icons">delete</i>
+                                                </span>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </li>
+                                <c:set var="seed" value="${seed+1}"/>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -16,6 +16,21 @@ public class PlayerServiceImpl implements PlayerService{
     private PlayerDao playerDao;
 
     @Override
+    public void delete(long id) {
+        playerDao.delete(id);
+    }
+
+    @Override
+    public void removeToTournament(long tournamentId, long playerId) {
+        playerDao.removeToTournament(tournamentId, playerId);
+    }
+
+    @Override
+    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+        playerDao.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
+    }
+
+    @Override
     public Player findById(long id) {
         return playerDao.findById(id);
     }

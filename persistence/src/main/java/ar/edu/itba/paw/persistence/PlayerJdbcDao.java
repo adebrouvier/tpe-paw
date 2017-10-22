@@ -16,6 +16,8 @@ import java.util.Map;
 @Repository
 public class PlayerJdbcDao implements PlayerDao {
 
+    private static Integer DOWN_OFFSET = -1, UP_OFFSET = 1;
+
     private JdbcTemplate jdbcTemplate;
 
     private final SimpleJdbcInsert playerjdbcInsert;
@@ -33,6 +35,47 @@ public class PlayerJdbcDao implements PlayerDao {
         participatesInjdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("participates_in")
                 .usingColumns("player_id", "tournament_id", "seed", "standing");
+    }
+
+    @Override
+    public void delete(long id) {
+        jdbcTemplate.update("DELETE FROM player WHERE player_id = ?", id);
+    }
+
+    @Override
+    public void removeToTournament(long tournamentId, long playerId) {
+        List<Integer> list = jdbcTemplate.queryForList("(SELECT seed FROM participates_in WHERE tournament_id = ? AND seed > (SELECT seed FROM participates_in WHERE tournament_id = ? AND player_id = ?)) ORDER BY seed ASC",
+                Integer.class, tournamentId, tournamentId, playerId);
+        if(list != null) {
+            changePlayersSeed(list, tournamentId, DOWN_OFFSET);
+        }
+        jdbcTemplate.update("DELETE FROM participates_in WHERE  tournament_id = ? AND player_id = ?", tournamentId, playerId);
+    }
+
+    @Override
+    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+        Integer playerId = jdbcTemplate.queryForObject("SELECT player_id FROM participates_in WHERE tournament_id = ? AND seed = ?", Integer.class, tournamentId, playerOldSeed);
+        List<Integer> list = null;
+        if(playerOldSeed < playerNewSeed) {
+            list = jdbcTemplate.queryForList("SELECT seed FROM participates_in WHERE tournament_id = ? AND seed > ? AND seed <= ? ORDER BY seed ASC",
+                    Integer.class, tournamentId, playerOldSeed, playerNewSeed);
+            if(list != null) {
+                changePlayersSeed(list, tournamentId, DOWN_OFFSET);
+            }
+        } else {
+            list = jdbcTemplate.queryForList("SELECT seed FROM participates_in WHERE tournament_id = ? AND seed >= ? AND seed < ? ORDER BY seed DESC",
+                    Integer.class, tournamentId, playerNewSeed, playerOldSeed);
+            if(list != null) {
+                changePlayersSeed(list, tournamentId, UP_OFFSET);
+            }
+        }
+        jdbcTemplate.update("UPDATE participates_in SET seed = ? WHERE tournament_id = ? AND player_id = ?", playerNewSeed, tournamentId, playerId);
+    }
+
+    private void changePlayersSeed(List<Integer> list, long tournamentId, int offset) {
+        for(Integer seed : list) {
+            jdbcTemplate.update("UPDATE participates_in SET seed = ? WHERE tournament_id = ? AND seed = ?", (seed+offset),tournamentId, seed);
+        }
     }
 
     @Override
