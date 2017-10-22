@@ -107,7 +107,8 @@ public class PlayerJdbcDao implements PlayerDao {
     @Override
     public void removeFromTournament(long playerId, long tournamentId) {
         jdbcTemplate.update("UPDATE participates_in SET player_id=-1 WHERE player_id=? AND tournament_id=?", playerId, tournamentId);
-
+        jdbcTemplate.update("UPDATE match SET home_player_id=-1, away_player_score=1, home_player_score=0 WHERE home_player_id=? AND tournament_id=?", playerId, tournamentId);
+        jdbcTemplate.update("UPDATE match SET away_player_id=-1, home_player_score=1, away_player_score=0 WHERE away_player_id=? AND tournament_id=?", playerId, tournamentId);
     }
 
     private int getNextSeed(long tournamentId) {
