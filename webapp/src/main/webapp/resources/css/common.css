@@ -288,3 +288,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     /*border-bottom: 1px solid #ccc;*/
     background-color: whitesmoke;
 }
+
+.tournament-tabs{
+    border-bottom: 1px solid lightgrey;
+}

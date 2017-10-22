@@ -11,6 +11,7 @@
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
+    <main>
     <c:import var="navbar" url="navbar.jsp"/>
     ${navbar}
     <div class="container">
@@ -39,35 +40,40 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row card">
             <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
-                    <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.standings"/></a></li>
-                    <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
-                </ul>
+                <div class="row tournament-tabs">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
+                            <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.standings"/></a></li>
+                            <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>">Players</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row standings">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><spring:message code="tournament.standings.table.rank"/></th>
+                            <th><spring:message code="tournament.standings.table.player"/></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="rank" items="${standings}">
+                            <tr>
+                                <td>${rank.position}&deg;</td>
+                                <td>${rank.playerName}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div class="standings">
-        <div class="container">
-            <table>
-                <thead>
-                <tr>
-                    <th><spring:message code="tournament.standings.table.rank"/></th>
-                    <th><spring:message code="tournament.standings.table.player"/></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="rank" items="${standings}">
-                <tr>
-                    <td>${rank.position}&deg;</td>
-                    <td>${rank.playerName}</td>
-                </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    </main>
+    <c:import var="footer" url="footer.jsp"/>
+    ${footer}
 </body>
 </html>

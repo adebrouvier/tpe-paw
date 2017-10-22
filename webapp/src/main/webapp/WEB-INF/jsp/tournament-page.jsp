@@ -49,7 +49,7 @@ ${navbar}
                 </div>
             </div>
         </div>
-    <div class="row">
+    <div class="row tournament-tabs">
         <div class="col s12">
             <ul class="tabs">
                 <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
