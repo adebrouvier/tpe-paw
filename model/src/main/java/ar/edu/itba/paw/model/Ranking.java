@@ -7,10 +7,20 @@ public class Ranking {
     private List<UserScore> users;
     private List<TournamentPoints> tournaments;
     private String name;
+    private long gameId;
 
-    public Ranking(long id, String name){
+    public Ranking(long id, String name, long gameId){
         this.id = id;
         this.name = name;
+        this.gameId = gameId;
+    }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public void setGame(long gameId) {
+        this.gameId = gameId;
     }
 
     public long getId() {

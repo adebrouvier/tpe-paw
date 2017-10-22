@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -21,7 +22,29 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments) {
-        return rankingDao.create(name,tournaments);
+    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
+        return rankingDao.create(name,tournaments, game);
     }
+
+    @Override
+    public List<Ranking> findByName(String term) {
+        return rankingDao.findByName(term);
+    }
+
+    @Override
+    public List<String> findRankingNames(String query) {
+        return rankingDao.findRankingNames(query);
+    }
+
+    @Override
+    public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
+        return rankingDao.addTournaments(rankingId,tournaments);
+    }
+
+    @Override
+    public void delete(long rankingId, long tournamentId) {
+        rankingDao.delete(rankingId, tournamentId);
+    }
+
+
 }

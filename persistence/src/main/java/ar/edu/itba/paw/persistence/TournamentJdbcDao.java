@@ -120,18 +120,19 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Override
     public List<String> findTournamentNames(String query) {
-        StringBuilder sb = new StringBuilder(query);
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0,"%");
         sb.append("%");
-        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE name LIKE ?",  String.class, sb);
+        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE lower(name) LIKE ?",  String.class, sb.toString());
     }
 
     @Override
     public List<Tournament> findByName(String name) {
 
-        StringBuilder sb = new StringBuilder(name);
+        StringBuilder sb = new StringBuilder(name.toLowerCase());
         sb.insert(0,"%");
         sb.append("%");
-        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE name LIKE ?",
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE lower(name) LIKE ?",
                 ROW_MAPPER, sb);
         if (list.isEmpty()) {
             return null;
