@@ -4,9 +4,10 @@ import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
@@ -29,19 +30,22 @@ public class PlayerServiceImpl implements PlayerService{
         return playerDao.create(name);
     }
 
+    @Override
+    public Player create(String name, long userId) {
+        return playerDao.create(name, userId);
+    }
+
     @Autowired
     private TournamentService ts;
 
     @Override
     public boolean addToTournament(long playerId, long tournamentId,int seed) {
-
-        Tournament tournament = ts.findById(tournamentId);
-
-        Player player = findById(playerId);
-
-        tournament.addPlayer(player);
-
         return playerDao.addToTournament(playerId, tournamentId,seed);
+    }
+
+    @Override
+    public void removeFromTournament(long playerId, long tournamentId) {
+        playerDao.removeFromTournament(playerId, tournamentId);
     }
 
     @Override
@@ -49,5 +53,14 @@ public class PlayerServiceImpl implements PlayerService{
         playerDao.setDefaultStanding(standing, tournamentId);
     }
 
+    @Override
+    public List<Player> getTournamentPlayers(long tournamentId){
+        return playerDao.getTournamentPlayers(tournamentId);
+    }
+
+    @Override
+    public void addToTournament(long playerId, long tournamentId) {
+        playerDao.addToTournament(playerId, tournamentId);
+    }
 
 }

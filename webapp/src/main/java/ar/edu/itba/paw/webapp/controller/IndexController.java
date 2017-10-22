@@ -1,7 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
-import ar.edu.itba.paw.webapp.form.TournamentSearchForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,27 +14,47 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+
+
 @Controller
 public class IndexController {
 
     @Autowired
     private TournamentService ts;
 
+    @Autowired
+    private RankingService rs;
+
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("searchForm") final TournamentSearchForm searchForm) {
+    public ModelAndView index(@ModelAttribute("searchForm") final SearchForm searchForm) {
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("tournaments",ts.findFeaturedTournaments());
         return mav;
     }
 
-    @RequestMapping(value = "/search_autocomplete", method = RequestMethod.GET)
-    public @ResponseBody List<String> searchAutocomplete(@RequestParam("query") String query) {
+    /**
+     * Used by Bloodhound to get tournament names
+     * @param query term to search
+     * @return an array of tournament names
+     */
+    @RequestMapping(value = "/tournament_autocomplete", method = RequestMethod.GET)
+    public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query) {
         return ts.findTournamentNames(query);
     }
 
-    @RequestMapping(value = "/searchtournament", method = { RequestMethod.GET })
-    public ModelAndView searchtournament(@Valid @ModelAttribute("searchForm")
-                               final TournamentSearchForm form, final BindingResult errors) {
+    /**
+     * Used by Bloodhound to get ranking names
+     * @param query term to search
+     * @return an array of ranking names
+     */
+    @RequestMapping(value = "/ranking_autocomplete", method = RequestMethod.GET)
+    public @ResponseBody List<String> rankingAutocomplete(@RequestParam("query") String query) {
+        return rs.findRankingNames(query);
+    }
+
+    @RequestMapping(value = "/searchParse", method = { RequestMethod.GET })
+    public ModelAndView searchParse(@Valid @ModelAttribute("searchForm")
+                               final SearchForm form, final BindingResult errors) {
         if (errors.hasErrors()) {
             return index(form);
         }

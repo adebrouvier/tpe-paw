@@ -22,7 +22,7 @@ public class PlayerJdbcDao implements PlayerDao {
 
     private final SimpleJdbcInsert participatesInjdbcInsert;
 
-    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"));
+    private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"), rs.getLong("user_id"));
 
     @Autowired
     public PlayerJdbcDao(final DataSource ds) {
@@ -92,13 +92,49 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
+    public void addToTournament(long playerId, long tournamentId) {
+
+        int seed = getNextSeed(tournamentId);
+
+        final Map<String, Object> args = new HashMap<>();
+        args.put("player_id", playerId);
+        args.put("tournament_id", tournamentId);
+        args.put("seed", seed);
+
+        participatesInjdbcInsert.execute(args);
+    }
+
+    @Override
+    public void removeFromTournament(long playerId, long tournamentId) {
+        jdbcTemplate.update("UPDATE participates_in SET player_id=-1 WHERE player_id=? AND tournament_id=?", playerId, tournamentId);
+
+    }
+
+    private int getNextSeed(long tournamentId) {
+        return 1 + jdbcTemplate.queryForObject("SELECT COALESCE(max(seed), 0) FROM participates_in WHERE tournament_id = ?", Integer.class, tournamentId);
+    }
+
+    @Override
     public List<Player> getTournamentPlayers(long tournamentId) {
         return jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in" +
-                " WHERE tournament_id = ?", ROW_MAPPER, tournamentId);
+                " WHERE tournament_id = ? ORDER BY seed", ROW_MAPPER, tournamentId);
     }
 
     @Override
     public void setDefaultStanding(int defaultStanding, long tournamentId) {
         jdbcTemplate.update("UPDATE participates_in SET standing = ? WHERE tournament_id = ?", defaultStanding, tournamentId);
+    }
+
+    @Override
+    public Player create(String name, long userId) {
+        if(name.length() > 25) { //TODO ver que no rompe nada
+            return null;
+        }
+        final Map<String, Object> args = new HashMap<>();
+
+        args.put("name", name);
+        args.put("user_id", userId);
+        final Number playerId = playerjdbcInsert.executeAndReturnKey(args);
+        return new Player(name, playerId.longValue());
     }
 }

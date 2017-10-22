@@ -6,6 +6,8 @@ public interface UserDao {
 	
 	public User findById (long id);
 
-	public User create(String name,String password);
+	public User findByName(String name);
+
+	public User create(String name,String password) throws DuplicateUsernameException;
 
 }

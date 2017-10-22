@@ -15,10 +15,10 @@ public class RankingForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String rankingName;
 
-    @Size(min=2)
-    @NotNull
-    @Valid
-    private List<RankingTournaments> tournaments;
+    @Size(min=4, max=20)
+    @Pattern(regexp = "[a-zA-Z0-9 ]+")
+    private String game;
+
 
     public String getRankingName() {
         return rankingName;
@@ -28,11 +28,10 @@ public class RankingForm {
         this.rankingName=rankingName;
     }
 
-    public List<RankingTournaments> getTournaments() {
-        return tournaments;
+
+    public String getGame() {
+        return game;
     }
 
-    public void setTournaments(List<RankingTournaments> tournaments) {
-        this.tournaments = tournaments;
-    }
+    public void setGame(String game){this.game = game;}
 }

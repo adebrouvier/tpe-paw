@@ -1,9 +1,13 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,8 +22,15 @@ public class SearchController {
     @Autowired
     private TournamentService ts;
 
+    @Autowired
+    private RankingService rs;
+
     @RequestMapping("/search")
-    public ModelAndView search(@RequestParam String query){
+    public ModelAndView search(@ModelAttribute("searchForm") final SearchForm searchForm, @RequestParam(required = false) String query){
+
+        if (query == null){
+            return new ModelAndView("search");
+        }
 
         String term = "";
 
@@ -30,8 +41,10 @@ public class SearchController {
         }
 
         List<Tournament> tournamentList = ts.findByName(term);
+        List<Ranking> rankingList = rs.findByName(term);
         ModelAndView mav = new ModelAndView("search");
         mav.addObject("tournamentResults", tournamentList);
+        mav.addObject("rankingResults", rankingList);
         return mav;
     }
 

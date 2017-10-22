@@ -16,22 +16,13 @@ public interface TournamentDao {
 
     /**
      * Creates a new Tournament with the specified
-     * name and game.
+     * name, game and user.
      * @param name of the Tournament.
      * @param game name of the Game the Tournament hosts.
+     * @param userId id of the user that created the tournament.
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, String game);
-
-    /**
-     * Creates a new Tournament with the specified
-     * name, game and tier.
-     * @param name of the Tournament.
-     * @param game name of the Game the Tournament hosts.
-     * @param tier corresponding to the Tournament's relevancy.
-     * @return instance of the Tournament.
-     */
-    public Tournament create(String name, String game,int tier);
+    public Tournament create(String name, String game, long userId);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
@@ -39,12 +30,7 @@ public interface TournamentDao {
      */
     public List<Tournament> findFeaturedTournaments();
 
-    /**
-     * Concludes the Tournament with the specified id
-     * preventing further editing of said Tournament.
-     * @param tournamentId id of the tournament.
-     */
-    public void endTournament(long tournamentId);
+    public void setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.

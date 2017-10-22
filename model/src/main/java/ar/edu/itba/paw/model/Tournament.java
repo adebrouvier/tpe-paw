@@ -4,49 +4,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tournament {
+
+    public enum Status {NEW, STARTED, FINISHED}
+
+    /**
+     * Name of the tournament
+     */
     private String name;
-    private Boolean isFinished;
-    private int tier;
+
+    /**
+     * Status of the tournament
+     */
+    private Status status;
+
+    /**
+     * List of all the players, including BYES
+     */
     private List<Player> players;
     //TODO Players should have their standing
+
+    /**
+     * List of every match, including BYES
+     */
     private List<Match> matches;
+
+    /**
+     * Count of matches, without BYES
+     */
     private int numberOfMatches;
+
+    /**
+     * Id of the game that the tournament hosts
+     */
     private long gameId;
 
+    /**
+     * Id of the user that created the tournament
+     */
+    private long userId;
+
+    /**
+     * Number of players, without counting byes
+     */
     private int size;
 
+    /**
+     * Id of the tournament
+     */
     private long id;
 
-    public Tournament(String name, long id, long gameId){
+    public Tournament(String name, long id, long gameId, Status status, long userId){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
-        this.tier = 1;
-        this.isFinished = false;
+        this.status = status;
         this.gameId = gameId;
-
-    }
-
-    public Tournament(String name, long id, int tier, long gameId){
-        this.players = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.name = name;
-        this.id = id;
-        this.tier = tier;
-        this.isFinished = false;
-        this.gameId = gameId;
-
-    }
-
-    public Tournament(String name, long id, boolean isFinished, int tier, long gameId){
-        this.players = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.name = name;
-        this.id = id;
-        this.tier = tier;
-        this.isFinished = isFinished;
-        this.gameId = gameId;
+        this.userId = userId;
     }
 
     public long getGameId() {
@@ -97,25 +111,25 @@ public class Tournament {
         this.numberOfMatches = numberOfMatches;
     }
 
-    public boolean addPlayer(Player player){
-        return players.add(player);
+    public void addPlayer(List<Player> players){
+        this.players.addAll(players);
     }
 
-    public boolean addPlayer(List<Player> players){
-        return this.players.addAll(players);
+    public void removePlayer(List<Player> players) {
+        for(Player player: players) {
+            if(this.getPlayers().contains(player)) {
+                this.getPlayers().remove(player);
+            }
+        }
     }
 
-    public boolean addMatch(Match match){
-        return matches.add(match);
+    public void addMatch(List<Match> matches){
+        this.matches.addAll(matches);
     }
 
-    public boolean addMatch(List<Match> matches){
-        return this.matches.addAll(matches);
-    }
+    public Status getStatus() { return status; }
 
-    public boolean getIsFinished() { return isFinished; }
-
-    public void endTournament() { this.isFinished = true; }
+    public void setStatus(Status status) { this.status = status; }
 
     @Override
     public boolean equals(Object o) {

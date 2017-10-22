@@ -7,15 +7,16 @@
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/tournament-page.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
     <title><c:out value="${tournament.name}"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="container">
     <div class="row">
         <div class="col s12">
@@ -51,22 +52,23 @@ ${navbar}
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s6"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
-                <li class="tab col s6"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a></li>
+                <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
+                <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
+                <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>"><spring:message code="tournament.players"/></a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="center">
-    <c:url value="/endTournament/${tournament.id}" var="endPath"/>
-    <form:form modelAttribute="tournament" action="${endPath}" method="post">
-        <c:if test="${tournament.isFinished != true}">
+    <c:url value="/tournament/${tournament.id}/end" var="endPath"/>
+    <form:form action="${endPath}" method="post">
+        <c:if test="${tournament.status == 'STARTED'}">
             <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                 <spring:message code="tournament.finish"/>
                 <i class="material-icons right "></i>
             </button>
         </c:if>
-        <c:if test="${tournament.isFinished == true}">
+        <c:if test="${tournament.status == 'FINISHED'}">
             <button class="btn light-blue darken-4 waves-effect waves-light disabled" type="submit">
                 <spring:message code="tournament.finished"/>
                 <i class="material-icons right "></i>
@@ -76,6 +78,9 @@ ${navbar}
 </div>
 <div class="container">
     <h4><spring:message code="tournament.bracket"/></h4>
+    <c:if test="${tournament.status == 'NEW'}">
+    <h6><spring:message code="tournament.bracket.empty"/></h6>
+    </c:if>
     <div class="tournament-container">
         <div class="row">
             <c:set var="roundSize" value="${tournament.players.size()/2}"/>
@@ -170,13 +175,13 @@ ${navbar}
                                 </table>
                             </div>
                                 <div class="modal-footer">
-                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.isFinished == true}">
+                                <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.status == 'FINISHED'}">
                                     <button class="btn waves-effect waves-light disabled" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right ">update</i>
                                     </button>
                                 </c:if>
-                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.isFinished == false}">
+                                <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.status == 'STARTED'}">
                                     <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                                         <spring:message code="tournament.update"/>
                                         <i class="material-icons right">update</i>
@@ -197,6 +202,7 @@ ${navbar}
         </div>
     </div>
 </div>
+</main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 </body>

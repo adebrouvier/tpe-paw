@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.sql.DataSource;
 
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,7 @@ public class UserJdbcDaoTest {
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws DuplicateUsernameException {
         final User user = userDao.create(USERNAME, PASSWORD);
         assertNotNull(user);
         assertEquals(USERNAME, user.getName());
