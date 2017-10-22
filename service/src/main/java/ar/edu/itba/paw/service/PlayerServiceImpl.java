@@ -21,13 +21,13 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public void removeToTournament(long tournamentId, long playerId) {
-        playerDao.removeToTournament(tournamentId, playerId);
+    public boolean removeToTournament(long tournamentId, long playerId) {
+        return playerDao.removeToTournament(tournamentId, playerId);
     }
 
     @Override
-    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
-        playerDao.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
+    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+        return playerDao.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
     }
 
     @Override

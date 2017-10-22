@@ -177,8 +177,9 @@ public class TournamentController {
     @RequestMapping(value = "/remove/player/{tournamentId}/{playerId}", method = { RequestMethod.POST })
     public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId) {
 
-        ps.removeToTournament(tournamentId, playerId);
-        ps.delete(playerId);
+        if(ps.removeToTournament(tournamentId, playerId)) {
+            ps.delete(playerId);
+        }
         return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
     }
 

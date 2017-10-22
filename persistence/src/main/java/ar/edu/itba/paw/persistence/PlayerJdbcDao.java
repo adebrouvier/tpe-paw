@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,17 +44,26 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public void removeToTournament(long tournamentId, long playerId) {
+    public boolean removeToTournament(long tournamentId, long playerId) {
+        String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
+        if(!status.equals(Tournament.Status.NEW.toString())) {
+            return false;
+        }
         List<Integer> list = jdbcTemplate.queryForList("(SELECT seed FROM participates_in WHERE tournament_id = ? AND seed > (SELECT seed FROM participates_in WHERE tournament_id = ? AND player_id = ?)) ORDER BY seed ASC",
                 Integer.class, tournamentId, tournamentId, playerId);
         if(list != null) {
             changePlayersSeed(list, tournamentId, DOWN_OFFSET);
         }
         jdbcTemplate.update("DELETE FROM participates_in WHERE  tournament_id = ? AND player_id = ?", tournamentId, playerId);
+        return true;
     }
 
     @Override
-    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+        String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
+        if(!status.equals(Tournament.Status.NEW.toString())) {
+            return false;
+        }
         Integer playerId = jdbcTemplate.queryForObject("SELECT player_id FROM participates_in WHERE tournament_id = ? AND seed = ?", Integer.class, tournamentId, playerOldSeed);
         List<Integer> list = null;
         if(playerOldSeed < playerNewSeed) {
@@ -70,6 +80,7 @@ public class PlayerJdbcDao implements PlayerDao {
             }
         }
         jdbcTemplate.update("UPDATE participates_in SET seed = ? WHERE tournament_id = ? AND player_id = ?", playerNewSeed, tournamentId, playerId);
+        return true;
     }
 
     private void changePlayersSeed(List<Integer> list, long tournamentId, int offset) {
@@ -109,7 +120,6 @@ public class PlayerJdbcDao implements PlayerDao {
 
     @Override
     public Player create(String name) {
-
         if(name.length() > PlayerDao.NAME_LENGTH) { //TODO ver que no rompe nada
             return null;
         }
@@ -123,6 +133,10 @@ public class PlayerJdbcDao implements PlayerDao {
     @Override
     public boolean addToTournament(long playerId, long tournamentId, int seed) {
 
+        String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
+        if(!status.equals(Tournament.Status.NEW.toString())) {
+            return false;
+        }
         final Map<String, Object> args = new HashMap<>();
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);

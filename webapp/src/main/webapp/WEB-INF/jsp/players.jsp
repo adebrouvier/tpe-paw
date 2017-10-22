@@ -53,28 +53,29 @@ ${navbar}
             </ul>
         </div>
     </div>
+    <c:if test="${tournament.status == 'NEW'}">
     <div class="row">
         <div class="players">
             <div class="col s12 card-panel">
                 <c:url value="/tournament/${tournament.id}/players" var="postPath"/>
                 <form:form modelAttribute="playerForm" action="${postPath}" method="post">
-                    <h6><spring:message code="tournament.player.add.title"/></h6>
-                    <div class="row">
-                        <div class="input-field col s5">
-                            <form:label path="player"><spring:message code="tournament.player"/>: </form:label>
-                            <spring:message code="tournament.player.placeholder" var="playerPlaceholder"/>
-                            <form:input placeholder="${playerPlaceholder}" type="text" path="player" autocomplete="off"/>
-                            <form:errors path="player" cssClass="form-error" element="p"/>
-                        </div>
-                        <div class="input-field col s5">
-                            <form:label path="username"><spring:message code="tournament.player.username"/>: </form:label>
-                            <spring:message code="tournament.player.username.placeholder" var="usernamePlaceholder"/>
-                            <form:input placeholder="${usernamePlaceholder}" type="text" path="username" autocomplete="off"/>
-                            <form:errors path="username" cssClass="form-error" element="p"/>
-                        </div>
-                        <div class="col s2">
-                            <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="tournament.player.add"/></button>
-                        </div>
+                    <h5><spring:message code="tournament.player.add.title"/></h5>
+                    <div class="row" style=" margin-left: 10px;">
+                            <div class="input-field col s3">
+                                <form:label path="player"><spring:message code="tournament.player"/>: </form:label>
+                                <spring:message code="tournament.player.placeholder" var="playerPlaceholder"/>
+                                <form:input placeholder="${playerPlaceholder}" type="text" path="player" autocomplete="off"/>
+                                <form:errors path="player" cssClass="form-error" element="p"/>
+                            </div>
+                            <div class="input-field col s3">
+                                <form:label path="username"><spring:message code="tournament.player.username"/>: </form:label>
+                                <spring:message code="tournament.player.username.placeholder" var="usernamePlaceholder"/>
+                                <form:input placeholder="${usernamePlaceholder}" type="text" path="username" autocomplete="off"/>
+                                <form:errors path="username" cssClass="form-error" element="p"/>
+                            </div>
+                            <div class="col s2">
+                                <button class="btn btn-primary light-blue darken-4" style="margin-top: 20px" type="submit"><spring:message code="tournament.player.add"/></button>
+                            </div>
                     </div>
                 </form:form>
                 <div class="row center">
@@ -91,11 +92,11 @@ ${navbar}
                             <c:if test="${player.id != -1}">
                                 <li>
                                     <div class="player-container">
-                                        <span class="move">
-                                                <i class="tiny material-icons">unfold_more</i>
-                                        </span>
                                         <span class="player-seed">
                                             <c:out value="${seed}"></c:out>
+                                        </span>
+                                        <span class="move">
+                                                <i class="tiny material-icons">unfold_more</i>
                                         </span>
                                         <span class="player-name">
                                             <c:out value="${player.name}"/>
@@ -117,6 +118,46 @@ ${navbar}
             </div>
         </div>
     </div>
+    </c:if>
+    <c:if test="${tournament.status != 'NEW'}">
+        <div class="row">
+            <div class="players">
+                <div class="col s12 card-panel">
+                    <div class="row" >
+                        <table class="striped centered">
+                            <thead>
+                            <tr>
+                                <th><spring:message code="tournament.info.players.seed"/></th>
+                                <th><spring:message code="tournament.info.players.player"/></th>
+                                <th><spring:message code="tournament.info.players.user"/></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <c:set var="seed" value="1"/>
+                            <c:forEach var="player" items="${players}">
+                                <c:if test="${player.id != -1}">
+                                    <tr>
+                                        <td class="player-seed">
+                                            <c:out value="${seed}"></c:out>
+                                        </td>
+                                        <td class="player-name">
+                                            <c:out value="${player.name}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <c:set var="seed" value="${seed+1}"/>
+                                </c:if>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
 </div>
 </body>
 </html>

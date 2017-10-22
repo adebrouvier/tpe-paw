@@ -24,16 +24,18 @@ public interface PlayerDao {
      * Remove player to a tournament.
      * @param tournamentId id of the tournament.
      * @param playerId id of the player.
+     * @return if can remove player to tournament.
      */
-    public void removeToTournament(long tournamentId, long playerId);
+    public boolean removeToTournament(long tournamentId, long playerId);
 
     /**
      * Change player seed.
      * @param tournamentId id of the tournament.
      * @param playerOldSeed the old seed of the player.
      * @param playerNewSeed the new seed of the player.
+     * @return if can change player seed.
      */
-    public void changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed);
+    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed);
 
     /**
      * Finds a player with a specified id.
