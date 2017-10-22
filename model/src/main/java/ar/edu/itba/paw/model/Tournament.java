@@ -123,6 +123,14 @@ public class Tournament {
 
     public void setStatus(Status status) { this.status = status; }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

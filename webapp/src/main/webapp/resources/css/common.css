@@ -292,3 +292,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 .tournament-tabs{
     border-bottom: 1px solid lightgrey;
 }
+
+.nav-user{
+    padding: 0 15px 0 15px;
+}

@@ -50,7 +50,7 @@ ${navbar}
     <div class="results">
         <div class="card">
             <div class="card-content">
-                <h5 class="card-title">Tournaments</h5>
+                <h5 class="card-title"><spring:message code="search.tournaments"/> </h5>
                 <table>
                     <thead>
                         <tr>
@@ -69,13 +69,18 @@ ${navbar}
                             <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${tournamentResults == null}">
+                        <tr>
+                            <td><spring:message code="search.notfound" /></td>
+                        </tr>
+                    </c:if>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="card">
             <div class="card-content">
-                <h5 class="card-title">Rankings</h5>
+                <h5 class="card-title"><spring:message code="search.rankings"/></h5>
                 <table id="ranking-results">
                     <thead>
                     <tr>
@@ -90,6 +95,12 @@ ${navbar}
                             <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${rankingResults.size() == 0 || rankingResults == null}">
+                        <tr>
+                            <td><spring:message code="search.notfound" /></td>
+                            <td></td>
+                        </tr>
+                    </c:if>
                     </tbody>
                 </table>
             </div>

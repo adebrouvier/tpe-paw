@@ -8,6 +8,8 @@ import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.RankingForm;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
 import ar.edu.itba.paw.webapp.form.RankingTournaments;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Controller
 public class RankingPageController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RankingPageController.class);
+
     @Autowired
     private RankingService rs;
 
@@ -32,6 +36,7 @@ public class RankingPageController {
 
     @RequestMapping("/ranking/{rankingId}")
     public ModelAndView rankingPage(@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId){
+        LOGGER.debug("Access to ranking id {}", rankingId);
         final Ranking r = rs.findById(rankingId);
         if (r == null) {
             return new ModelAndView("redirect:/404");

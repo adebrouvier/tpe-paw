@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -47,6 +44,7 @@ public class TournamentController {
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
+        LOGGER.debug("Tournament");
         return mav;
     }
 
@@ -73,11 +71,14 @@ public class TournamentController {
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
+        LOGGER.debug("Access to tournament id {}", tournamentId);
         final ModelAndView mav = new ModelAndView("tournament-page");
         final Game game = gs.findById(t.getGameId());
         if(game == null) {
             mav.addObject("game", new Game(0, ""));
         }
+        final User creator = us.findById(t.getUserId());
+        mav.addObject("creator", creator);
         mav.addObject("game", game);
         mav.addObject("tournament", t);
         return mav;
@@ -95,6 +96,8 @@ public class TournamentController {
         if(game == null) {
             mav.addObject("game", new Game(0, ""));
         }
+        final User creator = us.findById(t.getUserId());
+        mav.addObject("creator", creator);
         mav.addObject("game", game);
         mav.addObject("tournament", t);
         mav.addObject("standings", s);
@@ -108,12 +111,15 @@ public class TournamentController {
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
+        LOGGER.debug("Access to tournament id {} players", tournamentId);
         final ModelAndView mav = new ModelAndView("players");
         final Game game = gs.findById(t.getGameId());
         if(game == null) {
             mav.addObject("game", new Game(0, ""));
         }
         final List<Player> playerList = ps.getTournamentPlayers(tournamentId);
+        final User creator = us.findById(t.getUserId());
+        mav.addObject("creator", creator);
         mav.addObject("game", game);
         mav.addObject("tournament", t);
         mav.addObject("players", playerList);

@@ -12,7 +12,7 @@
         </security:authorize>
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
-                <li></li>
+                <li class="nav-user"><security:authentication property="principal.username" /></li>
                 <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>
         </security:authorize>

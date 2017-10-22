@@ -5,7 +5,6 @@
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
-
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/players.css"/>"/>
@@ -21,29 +20,8 @@ ${navbar}
 <main>
 <div class="container">
     <div class="row">
-        <div class="col s12">
-            <div class="tournament-info card">
-                <div class="card-content">
-                    <span class="card-title center"><c:out value="${tournament.name}"/></span>
-                    <table>
-                        <thead>
-                        <tr>
-                            <td><spring:message code="tournament.info.players"/></td>
-                            <td><spring:message code="tournament.info.matches"/></td>
-                            <td><spring:message code="tournament.info.game"/></td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>${tournament.size}</td>
-                            <td>${tournament.numberOfMatches}</td>
-                            <td>${game.name}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <c:import var="tournamentInfo" url="tournament-info.jsp"/>
+        ${tournamentInfo}
     </div>
     <div class="row card">
         <div class="col s12">
@@ -56,7 +34,7 @@ ${navbar}
                     </ul>
                 </div>
             </div>
-            <c:if test="${tournament.status == 'NEW'}">
+            <c:if test="${tournament.status == 'NEW' && tournament.userId == loggedUser.id}">
                 <div class="row">
                     <div class="players">
                         <div class="col s12">

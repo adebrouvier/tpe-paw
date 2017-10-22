@@ -3,6 +3,8 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.webapp.form.SearchForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,8 @@ import java.util.List;
 @Controller
 public class IndexController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+
     @Autowired
     private TournamentService ts;
 
@@ -27,6 +31,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm searchForm) {
+        LOGGER.debug("Access to index");
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("tournaments",ts.findFeaturedTournaments());
         return mav;

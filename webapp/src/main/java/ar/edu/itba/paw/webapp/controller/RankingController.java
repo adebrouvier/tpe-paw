@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RankingService;
-import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.RankingForm;
-import ar.edu.itba.paw.webapp.form.RankingTournaments;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,8 +21,7 @@ import java.util.Map;
 @Controller
 public class RankingController {
 
-    @Autowired
-    private TournamentService ts;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RankingController.class);
 
     @Autowired
     private RankingService rs;
@@ -30,6 +29,7 @@ public class RankingController {
     @RequestMapping("/ranking")
     public ModelAndView ranking(@ModelAttribute("rankingForm") final RankingForm rankingForm) {
         final ModelAndView mav = new ModelAndView("ranking");
+        LOGGER.debug("Access to ranking");
         return mav;
     }
 
@@ -42,6 +42,7 @@ public class RankingController {
 
         Map<Tournament, Integer> tMap = new HashMap<>();
         Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame());
+        LOGGER.info("Created Ranking with id {}", r.getId());
 
         return new ModelAndView("redirect:/ranking/" + r.getId());
     }
