@@ -22,8 +22,8 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments) {
-        return rankingDao.create(name,tournaments);
+    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
+        return rankingDao.create(name,tournaments, game);
     }
 
     @Override
@@ -34,6 +34,11 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<String> findRankingNames(String query) {
         return rankingDao.findRankingNames(query);
+    }
+
+    @Override
+    public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
+        return rankingDao.addTournaments(rankingId,tournaments);
     }
 
     @Override

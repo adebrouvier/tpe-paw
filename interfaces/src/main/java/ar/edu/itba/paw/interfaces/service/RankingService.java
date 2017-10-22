@@ -21,9 +21,10 @@ public interface RankingService {
      * a list of tournaments with its corresponding points
      * @param name of the ranking
      * @param tournaments taken into account
+     * @param game that the tournaments will feature
      * @return instance of new ranking
      */
-    public Ranking create(final String name, final Map<Tournament,Integer> tournaments);
+    public Ranking create(final String name, final Map<Tournament,Integer> tournaments, String game);
 
     /**
      * Deletes a tournament from a ranking that already
@@ -41,4 +42,6 @@ public interface RankingService {
     public List<Ranking> findByName(String term);
 
     List<String> findRankingNames(String query);
+
+    Ranking addTournaments(final long rankingId, Map<Tournament, Integer> tournaments);
 }

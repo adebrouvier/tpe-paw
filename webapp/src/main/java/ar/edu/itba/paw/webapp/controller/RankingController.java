@@ -41,16 +41,7 @@ public class RankingController {
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
-
-        for (RankingTournaments rt : rankingForm.getTournaments()){
-
-            final Tournament t = ts.getByName(rt.getName());
-            if (t != null) {
-                tMap.put(t, rt.getPoints());
-            }
-        }
-
-        Ranking r = rs.create(rankingForm.getRankingName(), tMap);
+        Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame());
 
         return new ModelAndView("redirect:/ranking/" + r.getId());
     }

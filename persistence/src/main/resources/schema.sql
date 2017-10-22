@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS match (
 
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL
+  name varchar(100) NOT NULL,
+  game_id BIGINT REFERENCES game(game_id)
 );
 
 CREATE TABLE IF NOT EXISTS ranking_tournaments (
