@@ -13,6 +13,10 @@ nav .nav-wrapper{
     background-color: #0288d1;
 }
 
+.margin-top-25{
+    margin-top: 25px;
+}
+
 .form-error{
     color: red;
 }

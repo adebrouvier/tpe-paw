@@ -69,12 +69,17 @@ public class GameJdbcDao implements GameDao{
 
     @Override
     public Game create(String name, boolean userGenerated) {
+            if(name!=null) {
+                final Map<String, Object> args = new HashMap<>();
+                args.put("name", name);
+                args.put("user_generated", userGenerated);
+                final Number gameId = jdbcInsert.executeAndReturnKey(args);
+                return new Game(gameId.longValue(), name);
 
-        final Map<String, Object> args = new HashMap<>();
-        args.put("name", name);
-        args.put("user_generated", userGenerated);
-        final Number gameId = jdbcInsert.executeAndReturnKey(args);
-        return new Game(gameId.longValue(), name);
-    }
+            }
+            else {
+                return null;
+            }
+        }
 
 }

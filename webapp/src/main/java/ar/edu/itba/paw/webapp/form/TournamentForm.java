@@ -4,7 +4,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /*
-    Form for creating new tournaments
+        Form for creating new tournaments
  */
 public class TournamentForm {
 

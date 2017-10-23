@@ -48,6 +48,14 @@ WHERE
       SELECT player_id FROM player WHERE player_id = -1
   );
 
+INSERT INTO game (game_id,name)
+  SELECT -1, 'Game not specified'
+  WHERE
+    NOT EXISTS (
+        SELECT game_id FROM game WHERE game_id = -1
+    );
+
+
 CREATE TABLE IF NOT EXISTS match (
   match_id BIGINT NOT NULL,
   tournament_id BIGINT REFERENCES tournament(tournament_id) ON DELETE CASCADE,

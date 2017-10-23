@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,6 @@ public class TournamentController {
 
     @Autowired
     private UserService us;
-    private GameImageService gis;
 
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
@@ -59,8 +56,7 @@ public class TournamentController {
 
     @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
     public ModelAndView create(@Valid @ModelAttribute("tournamentForm") final TournamentForm form,
-                               @ModelAttribute("loggedUser") User loggedUser,
-                               final BindingResult errors) {
+                               final BindingResult errors,@ModelAttribute("loggedUser") User loggedUser) {
         if (errors.hasErrors()) {
             return tournament(form);
         }
@@ -204,17 +200,6 @@ public class TournamentController {
         ts.setStatus(tournamentId, Tournament.Status.STARTED);
         LOGGER.debug("Generated bracket for tournament {}", tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/gameImage/{gameId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] avatar(@PathVariable(value="gameId") final long gameId) throws IOException {
-        GameImage gameImage = gis.findById(gameId);
-        if(gameImage == null){
-            return null;
-        } else {
-            return gameImage.getImage();
-        }
     }
 
     private List<Player> parsePlayers(String players) {
