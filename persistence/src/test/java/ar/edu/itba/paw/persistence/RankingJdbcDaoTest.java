@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -36,6 +37,8 @@ public class RankingJdbcDaoTest {
     private RankingJdbcDao rankingJdbcDao;
     @Autowired
     private UserJdbcDao userJdbcDao;
+    @Autowired
+    private GameJdbcDao gameJdbcDao;
     private JdbcTemplate jdbcTemplate;
 
 
@@ -58,6 +61,7 @@ public class RankingJdbcDaoTest {
         final Player dummy = playerJdbcDao.create("Dummy");
         final Player player1 = playerJdbcDao.create("Alex");
         final Player player2 = playerJdbcDao.create("Alexis");
+        final Game game = gameJdbcDao.create("Smash", true);
         final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash", 0);
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         final Map<Tournament, Integer> criteria = new HashMap<>();

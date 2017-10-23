@@ -1,3 +1,5 @@
+CREATE TYPE TEXT AS VARCHAR (1000000);
+
 CREATE TABLE IF NOT EXISTS users (
 user_id IDENTITY PRIMARY KEY,
 user_name varchar(100) UNIQUE,
@@ -9,6 +11,17 @@ CREATE TABLE IF NOT EXISTS game (
   name varchar(60) UNIQUE NOT NULL,
   user_generated BOOLEAN DEFAULT false
 );
+
+CREATE TABLE IF NOT EXISTS game_url_image (
+  game_id BIGINT REFERENCES game(game_id),
+  url_image TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS game_image(
+  game_id BIGINT REFERENCES game(game_id),
+  image binary NOT NULL
+);
+
 
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id IDENTITY PRIMARY KEY,
