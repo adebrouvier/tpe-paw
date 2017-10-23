@@ -63,27 +63,46 @@ ${navbar}
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
                     </c:if>
                     <div class="tournament-container">
-                        <div class="row">
                             <c:set var="roundSize" value="${tournament.players.size()/2}"/>
                             <c:set var="matchCount" value="1"/>
                             <c:set var="margin" value="0"/>
-                            <c:set var="padding" value="16"/>
+                            <c:set var="padding" value="15"/>
+                            <c:set var="leftPosition" value="0"/>
+                            <c:set var="roundCount" value="1"/>
                             <c:forEach var="match" items="${tournament.matches}">
                             <c:choose>
-                            <c:when test="${matchCount == 1}">
-                            <div class="col">
-                                <div class="bracket-container" style="margin-top: ${margin}">
-                                    </c:when>
-                                    <c:when test="${matchCount != 1}">
-                                    <div class="bracket-container " style="padding-top: ${padding}">
-                                        </c:when>
+                                <c:when test="${matchCount == 1}">
+                                    <div class="tournament-col" style="left:<c:out value="${leftPosition}"/>;">
+                                        <c:choose>
+                                            <c:when test="${roundSize == 1}">
+                                                <div class="round"><spring:message code="tournament.info.final"/></div>
+                                            </c:when>
+                                            <c:when test="${roundSize == 2}">
+                                                <div class="round"><spring:message code="tournament.info.semifinal"/></div>
+                                            </c:when>
+                                            <c:when test="${roundSize != 1 && roundSize != 2}">
+                                                <div class="round"><spring:message code="tournament.info.round"/> <c:out value="${roundCount}"/></div>
+                                            </c:when>
                                         </c:choose>
+                                        <c:choose>
+                                            <c:when test="${roundCount != 1}">
+                                                <div class="bracket-container" style="margin-top: ${margin+20}">
+                                            </c:when>
+                                            <c:when test="${roundCount == 1}">
+                                                <div class="bracket-container" style="margin-top: ${margin}">
+                                            </c:when>
+                                        </c:choose>
+                                </c:when>
+                                <c:when test="${matchCount != 1}">
+                                        <div class="bracket-container " style="padding-top: ${padding}">
+                                </c:when>
+                                   </c:choose>
                                         <span class="match-id-container">
-                                    <span class="match-id">
-                                        <c:out value="${match.id}"/>
-                                    </span>
-                                    <span class="triangle"></span>
-                                </span>
+                                            <span class="match-id">
+                                                <c:out value="${match.id}"/>
+                                            </span>
+                                            <span class="triangle"></span>
+                                        </span>
                                         <a class="modal-trigger" href="#modal-${match.id}">
                                             <div class="bracket">
                                                 <div class="players-name">
@@ -104,7 +123,25 @@ ${navbar}
                                                 </div>
                                             </div>
                                         </a>
-
+                                        <c:if test="${roundSize != 1}">
+                                            <c:choose>
+                                                <c:when test="${matchCount % 2 == 0}">
+                                                    <div class="match-right-branch"></div>
+                                                </c:when>
+                                                <c:when test="${matchCount % 2 != 0}">
+                                                    <c:choose>
+                                                        <c:when test="${matchCount == 1}">
+                                                            <div class="match-left-branch" style="top:21px;height: <c:out value="${padding + 23}"/>px;"></div>
+                                                            <div class="match-next-branch" style="top:<c:out value="${padding/2+43}"/>px"></div>
+                                                        </c:when>
+                                                        <c:when test="${matchCount != 1}">
+                                                            <div class="match-left-branch" style="top:<c:out value="${padding + 21}"/>px;height: <c:out value="${padding + 23}"/>px;"></div>
+                                                            <div class="match-next-branch" style="top:<c:out value="${padding/2+padding+43}"/>px"></div>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </c:when>
+                                            </c:choose>
+                                        </c:if>
                                     </div>
 
                                     <c:choose>
@@ -224,11 +261,12 @@ ${navbar}
                                 <c:set var="matchCount" value="0"/>
                                 <c:set var="roundSize" value="${roundSize/2}"/>
                                 <c:set var="margin" value="${(padding+44)/2+margin}"/>
-                                <c:set var="padding" value="${2*margin+16}"/>
+                                <c:set var="padding" value="${2*margin+15}"/>
+                                <c:set var="leftPosition" value="${leftPosition+250}"/>
+                                <c:set var="roundCount" value="${roundCount+1}"/>
                                 </c:if>
                                 <c:set var="matchCount" value="${matchCount+1}"/>
                                 </c:forEach>
-                            </div>
                         </div>
                     </div>
                 </div>
