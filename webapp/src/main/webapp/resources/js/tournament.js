@@ -20,6 +20,6 @@ $(document).ready(function(){
     $('.input-field .typeahead').typeahead(null, {
         name: 'games',
         source: games
-    })
+    });
 
 });

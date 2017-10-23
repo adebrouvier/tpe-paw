@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.persistence;
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.model.User;
 import jdk.nashorn.internal.scripts.JD;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,8 @@ public class MatchJdbcDaoTest {
     private PlayerJdbcDao playerJdbcDao;
     @Autowired
     private TournamentJdbcDao tournamentJdbcDao;
+    @Autowired
+    private UserJdbcDao userJdbcDao;
     private JdbcTemplate jdbcTemplate;
 
 
@@ -40,15 +44,17 @@ public class MatchJdbcDaoTest {
         jdbcTemplate = new JdbcTemplate(ds);
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
     }
 
     @Test
-    public void test() {
+    public void test() throws DuplicateUsernameException {
+        final User user = userJdbcDao.create("Kachow", "asddas");
         final Player dummy = playerJdbcDao.create("Dummy");
         final Player player1 = playerJdbcDao.create("Alex");
         final Player player2 = playerJdbcDao.create("Alexis");
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash");
+        final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash", 0);
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         final Match match2 = matchDao.findById(1,0);
         assertNotNull(match);

@@ -16,8 +16,9 @@
     <title><spring:message code="tournament.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
-<c:import var="navbar" url="header.jsp"/>
+<c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="container center">
     <h3><spring:message code="tournament.create.title"/></h3>
     <div class="row">
@@ -29,13 +30,6 @@ ${navbar}
                     <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
                     <form:input placeholder="${tournamentNamePlaceholder}" type="text" data-length="40" path="tournamentName" autocomplete="off"/>
                     <form:errors path="tournamentName" cssClass="form-error" element="p"/>
-                </div>
-                <div class="input-field">
-                    <form:label path="players"><spring:message code="tournament.create.players"/>:</form:label>
-                    <spring:message code="tournament.create.players.placeholder" var="playersPlaceholder"/>
-                    <form:textarea placeholder="${playersPlaceholder}" cssClass="materialize-textarea" type="text"
-                                   path="players"/>
-                    <form:errors path="players" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
                     <%--<form:label path="game"><spring:message code="tournament.create.game"/>: </form:label> --%>
@@ -58,6 +52,7 @@ ${navbar}
         </div>
     </div>
 </div>
+</main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 </body>

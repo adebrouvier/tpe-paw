@@ -1,0 +1,44 @@
+.player-container{
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border: 2px solid #01579b;
+    width: 50%;
+    margin-bottom: 5px;
+    margin-left: 3%;
+    background-color: white;
+}
+
+.move {
+    margin-left: 4px;
+    margin-right: 4px;
+    zoom:1.2;
+}
+.move:hover {
+    cursor: move;
+}
+
+.player-seed{
+    top: 50%;
+    bottom: 50%;
+    margin-left: 5px;
+    margin-right: 3px;
+}
+
+.player-name{
+    top: 50%;
+    bottom: 50%;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.player-remove{
+    margin-top: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
+    color: #000000;
+    float: right;
+    zoom: 1.2;
+}
+.player-remove:hover{
+    cursor: hand;
+}

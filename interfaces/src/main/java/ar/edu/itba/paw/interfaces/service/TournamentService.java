@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.interfaces.service;
 
-import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 
@@ -25,8 +24,6 @@ public interface TournamentService {
 
     public final int INITIAL_STANDING = 1;
 
-
-
     /**
      * Finds the tournament with the specified id.
      * @param id id of the tournament.
@@ -38,23 +35,11 @@ public interface TournamentService {
      * Creates a tournament with the specified name, list of players
      * and game it hosts.
      * @param name name of the tournament.
-     * @param players list of players.
      * @param game name of the game that the tournament hosts.
+     * @param userId id of the user that created the tournament
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, List<Player> players, String game);
-
-
-    /**
-     * Creates a tournament with the specified name, list of players,
-     * game and tier.
-     * @param name of the Tournament.
-     * @param players list of the players.
-     * @param game name of the game that the tournament hosts.
-     * @param tier corresponding to the Tournament's relevancy.
-     * @return instance of the Tournament.
-     */
-    public Tournament create(String name, List<Player> players, String game,int tier);
+    public Tournament create(String name, String game, long userId);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
@@ -63,11 +48,11 @@ public interface TournamentService {
     public List<Tournament> findFeaturedTournaments();
 
     /**
-     * Concludes the Tournament with the specified id
-     * preventing further editing of said Tournament.
+     * Changes the status of the tournament
      * @param tournamentId id of the tournament.
+     * @param status new status
      */
-    public void endTournament(long tournamentId);
+    public void setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.
@@ -95,4 +80,6 @@ public interface TournamentService {
      * @return instance of the Tournament.
      */
     public Tournament getByName(String name);
+
+    public void generateBracket(long tournamentId);
 }

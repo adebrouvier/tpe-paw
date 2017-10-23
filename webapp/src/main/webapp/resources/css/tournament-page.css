@@ -3,9 +3,7 @@
 }
 
 .tournament-container{
-    height: 600px;
-    overflow: scroll;
-    padding-left: 30px;
+    overflow-x: scroll;
 }
 
 .bracket-container {

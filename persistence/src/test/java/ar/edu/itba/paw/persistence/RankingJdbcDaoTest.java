@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Match;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Ranking;
-import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
+import ar.edu.itba.paw.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +34,8 @@ public class RankingJdbcDaoTest {
     private TournamentJdbcDao tournamentJdbcDao;
     @Autowired
     private RankingJdbcDao rankingJdbcDao;
+    @Autowired
+    private UserJdbcDao userJdbcDao;
     private JdbcTemplate jdbcTemplate;
 
 
@@ -49,18 +49,20 @@ public class RankingJdbcDaoTest {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_tournaments");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_players");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
 
     @Test
-    public void test() {
+    public void test() throws DuplicateUsernameException {
+        final User user = userJdbcDao.create("user", "useruser");
         final Player dummy = playerJdbcDao.create("Dummy");
         final Player player1 = playerJdbcDao.create("Alex");
         final Player player2 = playerJdbcDao.create("Alexis");
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash");
+        final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash", 0);
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tourney, 100);
-        Ranking ranking = rankingJdbcDao.create("Ranking", criteria);
+        Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash");
         assertNotNull(ranking);
         ranking = rankingJdbcDao.findById(0);
         assertEquals(0, ranking.getId());

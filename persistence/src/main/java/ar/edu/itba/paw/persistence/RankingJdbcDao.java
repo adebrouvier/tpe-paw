@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.RankingDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,16 +24,22 @@ public class RankingJdbcDao implements RankingDao {
 
     private final SimpleJdbcInsert tournamentToRankingInsert;
 
-    private final SimpleJdbcInsert playerToRankingInsert;
+    private final SimpleJdbcInsert userToRankingInsert;
 
-    private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"));
+    private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"), rs.getInt("game_id"));
 
-    private final static RowMapper<PlayerScores> PLAYER_RANKING_MAPPER = (rs, rowNum) -> new PlayerScores(rs.getString("name"), rs.getInt("points"));
+    private final static RowMapper<UserScore> USER_RANKING_MAPPER = (rs, rowNum) -> new UserScore(rs.getLong("user_id"), rs.getInt("points"));
 
-    private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getInt("tournament_id"), rs.getInt("awarded_points"));
+    private final static RowMapper<TournamentPoints> TOURNAMENT_MAPPER = (rs, rowNum) -> new TournamentPoints(rs.getLong("tournament_id"), rs.getInt("awarded_points"));
 
     @Autowired
     private TournamentDao tournamentDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private GameJdbcDao gameDao;
 
     @Autowired
     public RankingJdbcDao(final DataSource ds) {
@@ -43,9 +50,9 @@ public class RankingJdbcDao implements RankingDao {
         tournamentToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("ranking_tournaments")
                 .usingColumns("ranking_id", "tournament_id", "awarded_points");
-        playerToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
+        userToRankingInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("ranking_players")
-                .usingColumns("ranking_id", "name", "points");
+                .usingColumns("ranking_id", "user_id", "points");
     }
 
     @Override
@@ -57,38 +64,114 @@ public class RankingJdbcDao implements RankingDao {
         }
 
         Ranking r = list.get(0);
-        r.setPlayers(getRankingPlayers(rankingId));
+        r.setUsers(getRankingUsers(rankingId));
         r.setTournaments(getRankingTournaments(rankingId));
         return r;
     }
 
     @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments) {
+    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
         final Map<String, Object> args = new HashMap<>();
+        long gameId = gameDao.findByName(game).getGameId();
         args.put("name", name);
-        Map<Tournament, Integer> filteredTournaments = new HashMap<>();
-
+        args.put("game_id", gameId);
         final Number rankingId = jdbcInsert.executeAndReturnKey(args);
-        for (Tournament tournament : tournaments.keySet()) {
-            if (tournament.getIsFinished()) {
-                filteredTournaments.put(tournament, tournaments.get(tournament));
-            }
-        }
-        addTournamentToRanking(rankingId.longValue(), filteredTournaments);
-        addPlayersToRanking(rankingId.longValue(), filteredTournaments);
-
-        return new Ranking(rankingId.longValue(), name);
+        return new Ranking(rankingId.longValue(), name, gameId);
     }
 
-    private List<PlayerScores> getRankingPlayers(long rankingId) {
-        List<PlayerScores> players;
-        players = jdbcTemplate.query("SELECT name, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", PLAYER_RANKING_MAPPER, rankingId);
-        return players;
+    @Override
+    public List<Ranking> findByName(String name) {
+
+        StringBuilder sb = new StringBuilder(name.toLowerCase());
+        sb.insert(0, "%");
+        sb.append("%");
+        final List<Ranking> list = jdbcTemplate.query("SELECT * FROM ranking WHERE lower(name) LIKE ?",
+                RANKING_MAPPER, sb.toString());
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<String> findRankingNames(String query) {
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0, "%");
+        sb.append("%");
+        return jdbcTemplate.queryForList("SELECT name FROM ranking WHERE lower(name) LIKE ?", String.class, sb.toString());
+    }
+
+    @Override
+    public void delete(long rankingId, long tournamentId) {
+        int awardedPoints = jdbcTemplate.queryForObject("SELECT awarded_points FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?", Integer.class, rankingId, tournamentId);
+        jdbcTemplate.update("DELETE FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?", rankingId, tournamentId);
+        deleteUsersFromRanking(rankingId, tournamentId, awardedPoints);
+    }
+
+    @Override
+    public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
+        Map<Tournament, Integer> filteredTournaments = new HashMap<>();
+        boolean flag = true; //TODO think a better solution
+        Ranking r = findById(rankingId);
+        for (Tournament tournament : tournaments.keySet()) {
+            if (r.getGameId() == tournament.getGameId()) {
+                if (tournament.getStatus() == Tournament.Status.FINISHED) {
+                    for(TournamentPoints tPoints: r.getTournaments()){
+                        if(tPoints.getTournamentId() == tournament.getId()){
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        filteredTournaments.put(tournament, tournaments.get(tournament));
+                    }
+                }
+            }
+            flag = true;
+        }
+
+        addTournamentToRanking(rankingId, filteredTournaments);
+        addUsersToRanking(rankingId, filteredTournaments);
+        return findById(rankingId);
+
+    }
+
+    private void deleteUsersFromRanking(long rankingId, long tournamentId, int awardedPoints) {
+        Tournament t = tournamentDao.findById(tournamentId);
+        int standing, score, existingScore;
+        long userId;
+        for (Player player : t.getPlayers()) {
+            userId = player.getUserId();
+            if (userId != 0) {
+                standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournamentId);
+                score = stadingHandler(standing, awardedPoints);
+                existingScore = jdbcTemplate.queryForObject("SELECT points FROM ranking_players WHERE ranking_id = ? AND user_id = ?", Integer.class, rankingId, userId);
+                if (score == existingScore) {
+                    jdbcTemplate.update("DELETE FROM ranking_players WHERE ranking_id = ? AND user_id = ?", rankingId, userId);
+                } else {
+                    jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?", existingScore - score, rankingId, userId);
+                }
+            }
+        }
+    }
+
+    private List<UserScore> getRankingUsers(long rankingId) {
+        List<UserScore> users;
+        users = jdbcTemplate.query("SELECT user_id, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", USER_RANKING_MAPPER, rankingId);
+        //TODO: Make a function getUserNameById
+        for (UserScore user : users) {
+            user.setUserName(userDao.findById(user.getUserId()).getName());
+        }
+        return users;
 
     }
 
     private List<TournamentPoints> getRankingTournaments(long rankingId) {
         List<TournamentPoints> tournamentsPoints = jdbcTemplate.query("SELECT tournament_id, awarded_points FROM ranking_tournaments WHERE ranking_id = ?", TOURNAMENT_MAPPER, rankingId);
+        //TODO: Make a function getNameById()
+        for (TournamentPoints tPoints : tournamentsPoints) {
+            tPoints.setName(tournamentDao.findById(tPoints.getTournamentId()).getName());
+        }
         return tournamentsPoints;
 
     }
@@ -106,46 +189,56 @@ public class RankingJdbcDao implements RankingDao {
     }
 
     /**
-     * Adds the player scores on the listed tournaments, taking
+     * Adds the user scores on the listed tournaments, taking
      * into account their standings.
-     * @param rankingId id of the ranking.
+     *
+     * @param rankingId   id of the ranking.
      * @param tournaments tournaments and their respective points.
      */
-    private void addPlayersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
+    protected void addUsersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
         final Map<String, Object> args = new HashMap<>();
-        Map<String, Integer> playerScores = new HashMap<>();
-        int standing, playerScore, tournamentScore;
-        String playerName;
+        Map<Long, Integer> existingScores = new HashMap<>();
+        Map<Long, Integer> newUserScores = new HashMap<>();
+        Ranking r = findById(rankingId);
+        for(UserScore tempScores:r.getUsers()){
+            existingScores.put(tempScores.getUserId(),tempScores.getPoints());
+        }
+        int standing, userScore, tournamentScore;
+        Long userId;
         for (Tournament tournament : tournaments.keySet()) {
             tournamentScore = tournaments.get(tournament);
             for (Player player : tournament.getPlayers()) {
-                playerScore = tournamentScore;
                 if (player.getId() != -1) {
-                    standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournament.getId());
-                    playerScore = stadingHandler(standing, tournamentScore);
-                    playerName = player.getName();
+                    userId = player.getUserId();
+                    if (userId != 0) {
+                        standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournament.getId());
+                        userScore = stadingHandler(standing, tournamentScore);
 
-                    if (playerScores.containsKey(playerName)) {
-                        playerScores.put(playerName, playerScore + playerScores.get(playerName));
-                    } else {
-                        playerScores.put(playerName, playerScore);
+                        if (existingScores.containsKey(userId)) {
+                            existingScores.put(userId,userScore + existingScores.get(userId));
+                        } else {
+                            newUserScores.put(userId, userScore);
+                        }
                     }
-
                 }
             }
         }
-        for (String name : playerScores.keySet()) {
+        for(Map.Entry<Long,Integer> entry : existingScores.entrySet()){
+            jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",entry.getValue(), rankingId,entry.getKey());
+        }
+        for (Map.Entry<Long, Integer> entry : newUserScores.entrySet()) {
             args.clear();
             args.put("ranking_id", rankingId);
-            args.put("name", name);
-            args.put("points", playerScores.get(name));
-            playerToRankingInsert.execute(args);
+            args.put("user_id", entry.getKey());
+            args.put("points", entry.getValue());
+            userToRankingInsert.execute(args);
         }
     }
 
     /**
      * Decides the points criteria.
-     * @param standing players standing.
+     *
+     * @param standing        players standing.
      * @param tournamentScore tournaments awarded points.
      * @return amount of points awarded to the player.
      */
@@ -168,7 +261,7 @@ public class RankingJdbcDao implements RankingDao {
                 playerScore = (int) (tournamentScore * RankingDao.FIFTH_SCORE);
                 return playerScore;
             default:
-                playerScore = 0;
+                playerScore = RankingDao.NO_SCORE;
                 return playerScore;
         }
     }

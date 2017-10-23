@@ -1,8 +1,8 @@
-/*CREATE TABLE IF NOT EXISTS users (
-userid SERIAL PRIMARY KEY,
-username varchar(100),
+CREATE TABLE IF NOT EXISTS users (
+user_id SERIAL PRIMARY KEY,
+user_name varchar(100) UNIQUE,
 password varchar(100)
-);*/
+);
 
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
@@ -12,16 +12,16 @@ CREATE TABLE IF NOT EXISTS game (
 
 CREATE TABLE IF NOT EXISTS tournament (
   tournament_id SERIAL PRIMARY KEY,
-  is_finished BOOLEAN,
-  tier INTEGER,
+  status VARCHAR(10) DEFAULT 'NEW',
   name varchar(100) NOT NULL,
-  game_id BIGINT REFERENCES game(game_id)
+  game_id BIGINT REFERENCES game(game_id),
+  user_id BIGINT REFERENCES users(user_id)
 );
-
 
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,
-  name varchar(25) NOT NULL
+  name varchar(25) NOT NULL,
+  user_id BIGINT REFERENCES users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS participates_in (
@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS match (
 
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL
+  name varchar(100) NOT NULL,
+  game_id BIGINT REFERENCES game(game_id)
 );
 
 CREATE TABLE IF NOT EXISTS ranking_tournaments (
@@ -65,6 +66,12 @@ CREATE TABLE IF NOT EXISTS ranking_tournaments (
 
 CREATE TABLE IF NOT EXISTS ranking_players (
   ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
-  name varchar(100) NOT NULL,
+  user_id BIGINT REFERENCES users(user_id),
   points BIGINT
 );
+
+/*
+MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
+WHEN MATCHED THEN UPDATE SET player_id = -1
+  WHEN NOT MATCHED THEN
+  INSERT (player_id, name) values (-1, 'bye');*/

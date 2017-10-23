@@ -28,7 +28,7 @@ public class TournamentJdbcDao implements TournamentDao {
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getLong("tournament_id"), rs.getBoolean("is_finished"),  rs.getInt("tier") ,rs.getLong("game_id"));
+    private final static RowMapper<Tournament> ROW_MAPPER = (rs, rowNum) -> new Tournament(rs.getString("name"), rs.getLong("tournament_id"), rs.getLong("game_id"), Tournament.Status.valueOf(rs.getString("status")), rs.getLong("user_id"));
 
     @Autowired
     public TournamentJdbcDao(final DataSource ds) {
@@ -73,35 +73,19 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public Tournament create(String name, String gameName) {
+    public Tournament create(String name, String gameName, long userId) {
         final Map<String, Object> args = new HashMap<>();
         args.put("name", name);
-        args.put("is_finished", false);
-        args.put("tier", 1);
+        args.put("user_id", userId);
+        args.put("status", Tournament.Status.NEW);
         Game game = gameDao.findByName(gameName);
         if(game == null) {
             game = gameDao.create(gameName, true);
         }
         args.put("game_id", game.getGameId());
         final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,tournamentId.longValue(), game.getGameId());
+        return new Tournament(name, tournamentId.longValue(), game.getGameId(), Tournament.Status.NEW, userId);
     }
-
-
-    public Tournament create(String name, String gameName,int tier) {
-        final Map<String, Object> args = new HashMap<>();
-        args.put("name", name);
-        args.put("is_finished", false);
-        args.put("tier", tier);
-        Game game = gameDao.findByName(gameName);
-        if(game == null) {
-            game = gameDao.create(gameName, true);
-        }
-        args.put("game_id", game.getGameId());
-        final Number tournamentId = jdbcInsert.executeAndReturnKey(args);
-        return new Tournament(name,game.getGameId(),tournamentId.longValue());
-    }
-
 
     @Override
     public List<Tournament> findFeaturedTournaments() {
@@ -136,18 +120,19 @@ public class TournamentJdbcDao implements TournamentDao {
 
     @Override
     public List<String> findTournamentNames(String query) {
-        StringBuilder sb = new StringBuilder(query);
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0,"%");
         sb.append("%");
-        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE name LIKE ?",  String.class, sb);
+        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE lower(name) LIKE ?",  String.class, sb.toString());
     }
 
     @Override
     public List<Tournament> findByName(String name) {
 
-        StringBuilder sb = new StringBuilder(name);
+        StringBuilder sb = new StringBuilder(name.toLowerCase());
         sb.insert(0,"%");
         sb.append("%");
-        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE name LIKE ?",
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE lower(name) LIKE ?",
                 ROW_MAPPER, sb);
         if (list.isEmpty()) {
             return null;
@@ -173,8 +158,9 @@ public class TournamentJdbcDao implements TournamentDao {
         return list.get(0);
     }
 
-    public void endTournament(long tournamentId) {
-        jdbcTemplate.update("UPDATE tournament SET is_finished = ? WHERE tournament_id = ?", true,tournamentId);
+    @Override
+    public void setStatus(long tournamentId, Tournament.Status status) {
+        jdbcTemplate.update("UPDATE tournament SET status = ? WHERE tournament_id = ?", status.toString(), tournamentId);
     }
 
     private int getNumberOfMatches(long tournamentId){
