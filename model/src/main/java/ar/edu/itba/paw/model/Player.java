@@ -21,6 +21,14 @@ public class Player {
         return userId;
     }
 
+    public boolean hasUser() {
+        if( userId == -1) {
+            return false;
+        }
+        else
+            return true;
+    }
+
     public void setUserId(long userId) {
         this.userId = userId;
     }

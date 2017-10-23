@@ -120,7 +120,10 @@ public class RankingJdbcDao implements RankingDao {
         boolean flag = true; //TODO think a better solution
         Ranking r = findById(rankingId);
         for (Tournament tournament : tournaments.keySet()) {
-            if (r.getGameId() == tournament.getGameId()) {
+            if(checkTournamentValidForRanking(r, tournament)) {
+                filteredTournaments.put(tournament, tournaments.get(tournament));
+            }
+            /**if (r.getGameId() == tournament.getGameId()) {
                 if (tournament.getStatus() == Tournament.Status.FINISHED) {
                     for(TournamentPoints tPoints: r.getTournaments()){
                         if(tPoints.getTournamentId() == tournament.getId()){
@@ -132,7 +135,7 @@ public class RankingJdbcDao implements RankingDao {
                     }
                 }
             }
-            flag = true;
+            flag = true;*/
         }
 
         addTournamentToRanking(rankingId, filteredTournaments);
@@ -164,7 +167,7 @@ public class RankingJdbcDao implements RankingDao {
             userId = player.getUserId();
             if (userId != 0) {
                 standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournamentId);
-                score = stadingHandler(standing, awardedPoints);
+                score = standingHandler(standing, awardedPoints);
                 existingScore = jdbcTemplate.queryForObject("SELECT points FROM ranking_players WHERE ranking_id = ? AND user_id = ?", Integer.class, rankingId, userId);
                 if (score == existingScore) {
                     jdbcTemplate.update("DELETE FROM ranking_players WHERE ranking_id = ? AND user_id = ?", rankingId, userId);
@@ -228,13 +231,12 @@ public class RankingJdbcDao implements RankingDao {
         for (Tournament tournament : tournaments.keySet()) {
             tournamentScore = tournaments.get(tournament);
             for (Player player : tournament.getPlayers()) {
-                if (player.getId() != -1) {
+                if (player.hasUser()) {
                     userId = player.getUserId();
                     if (userId != 0) {
                         standing = jdbcTemplate.queryForObject("SELECT standing FROM participates_in WHERE player_id = ? AND tournament_id = ?", Integer.class, player.getId(), tournament.getId());
-                        userScore = stadingHandler(standing, tournamentScore);
-
-                        if (existingScores.containsKey(userId)) {
+                        userScore = standingHandler(standing, tournamentScore);
+                        if (existingScores.containsKey(userId)) { // Is user already in the ranking
                             existingScores.put(userId,userScore + existingScores.get(userId));
                         } else {
                             newUserScores.put(userId, userScore);
@@ -243,16 +245,8 @@ public class RankingJdbcDao implements RankingDao {
                 }
             }
         }
-        for(Map.Entry<Long,Integer> entry : existingScores.entrySet()){
-            jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",entry.getValue(), rankingId,entry.getKey());
-        }
-        for (Map.Entry<Long, Integer> entry : newUserScores.entrySet()) {
-            args.clear();
-            args.put("ranking_id", rankingId);
-            args.put("user_id", entry.getKey());
-            args.put("points", entry.getValue());
-            userToRankingInsert.execute(args);
-        }
+        addPointsToExistingUsers(existingScores, rankingId);
+        addNewUsersToRanking(newUserScores,rankingId);
     }
 
     /**
@@ -262,7 +256,7 @@ public class RankingJdbcDao implements RankingDao {
      * @param tournamentScore tournaments awarded points.
      * @return amount of points awarded to the player.
      */
-    private int stadingHandler(int standing, int tournamentScore) {
+    private int standingHandler(int standing, int tournamentScore) {
         int playerScore;
         switch (standing) {
             case RankingDao.FIRST:
@@ -283,6 +277,37 @@ public class RankingJdbcDao implements RankingDao {
             default:
                 playerScore = RankingDao.NO_SCORE;
                 return playerScore;
+        }
+    }
+
+    private boolean checkTournamentValidForRanking(Ranking ranking, Tournament tournament) {
+        if (ranking.getGameId() == tournament.getGameId() && tournament.getStatus() == Tournament.Status.FINISHED ) {
+            if(ranking.getTournaments().size() == 0) return true;
+            boolean alreadyAddedToRankingFlag = false;
+            for(TournamentPoints tPoints: ranking.getTournaments()){
+                if(tPoints.getTournamentId() == tournament.getId()) alreadyAddedToRankingFlag = true;
+            }
+            return !alreadyAddedToRankingFlag;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private void addPointsToExistingUsers(Map<Long, Integer> points, long rankingId) {
+        for(Map.Entry<Long,Integer> entry : points.entrySet()){
+            jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",entry.getValue(), rankingId,entry.getKey());
+        }
+    }
+
+    private void addNewUsersToRanking(Map<Long, Integer> newUsers, long rankingId) {
+        final Map<String, Object> args = new HashMap<>();
+        for (Map.Entry<Long, Integer> entry : newUsers.entrySet()) {
+            args.clear();
+            args.put("ranking_id", rankingId);
+            args.put("user_id", entry.getKey());
+            args.put("points", entry.getValue());
+            userToRankingInsert.execute(args);
         }
     }
 }
