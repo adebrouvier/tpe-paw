@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,9 @@ public class TournamentController {
 
     @Autowired
     private UserService us;
+
+    @Autowired
+    private GameImageService gis;
 
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
@@ -179,6 +183,17 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
+    @ResponseBody
+    @RequestMapping(value="/gameImage/{gameId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] avatar(@PathVariable(value="gameId") final long gameId) {
+        GameImage gameImage = gis.findById(gameId);
+        if(gameImage == null){
+            return null;
+        } else {
+            return gameImage.getImage();
+        }
+    }
+    
     @RequestMapping(value = "/remove/player/{tournamentId}/{playerId}", method = { RequestMethod.POST })
     public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId) {
 
