@@ -79,3 +79,9 @@ CREATE TABLE IF NOT EXISTS ranking_players (
   user_id BIGINT REFERENCES users(user_id),
   points BIGINT
 );
+
+/*
+MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
+WHEN MATCHED THEN UPDATE SET player_id = -1
+  WHEN NOT MATCHED THEN
+  INSERT (player_id, name) values (-1, 'bye');*/

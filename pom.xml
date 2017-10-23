@@ -22,6 +22,7 @@
 	  	<logback.version>1.1.2</logback.version>
 	  	<logback-ext-spring.version>0.1.1</logback-ext-spring.version>
 	  	<maven-war-plugin.version>2.6</maven-war-plugin.version>
+	    <mockito-core.version>2.10.0</mockito-core.version>
 		<spring-security.version>4.0.4.RELEASE</spring-security.version>
 	  	<jackson-databind.version>2.9.0</jackson-databind.version>
 	  	<commons-beanutils.version>1.9.3</commons-beanutils.version>
@@ -116,13 +117,12 @@
 			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
-				<version>${javax.validation-api.version}</version
-				>
+				<version>${javax.validation-api.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>2.10.0</version>
+				<version>${mockito-core.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>

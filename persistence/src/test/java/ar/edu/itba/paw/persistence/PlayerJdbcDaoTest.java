@@ -48,8 +48,19 @@ public class PlayerJdbcDaoTest {
     public void testCreate() {
         final Player player = playerDao.create("Jorge");
         assertNotNull(player);
-        assertEquals(player, player.getName());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "player"));
+    }
+
+    @Test
+    public void testFindById() {
+        Player player = playerDao.create("Jorge");
+        assertNotNull(player);
+        assertEquals(0, player.getId());
+        player = playerDao.create("Samantha");
+        assertEquals("Samantha", player.getName());
+        assertEquals(1, player.getId());
+        player = playerDao.findById(0);
+        assertEquals("Jorge", player.getName());
     }
 
 }
