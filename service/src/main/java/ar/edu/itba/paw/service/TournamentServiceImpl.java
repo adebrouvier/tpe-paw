@@ -73,7 +73,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         List<Player> players = playerService.getTournamentPlayers(tournamentId);
         int playerCount = players.size();
-        int power = (int) Math.ceil(Math.log(playerCount / Math.log(2)));
+        int power = (int) Math.ceil((Math.log(playerCount) / Math.log(2)));
         int byes = (int) (Math.pow(2, power) - playerCount);
 
         for (int i = playerCount; i < playerCount + byes; i++) {
