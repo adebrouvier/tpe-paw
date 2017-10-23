@@ -8,11 +8,20 @@ public class Ranking {
     private List<TournamentPoints> tournaments;
     private String name;
     private long gameId;
+    private Game game;
 
     public Ranking(long id, String name, long gameId){
         this.id = id;
         this.name = name;
         this.gameId = gameId;
+    }
+
+    public Game getGame(){
+        return game;
+    }
+
+    public void setGame(Game game){
+        this.game = game;
     }
 
     public long getGameId() {

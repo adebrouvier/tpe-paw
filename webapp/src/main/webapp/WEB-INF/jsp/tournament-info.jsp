@@ -24,7 +24,7 @@
                             <c:out value="${game.name}"/>
                         </c:if>
                     </td>
-                    <td>${creator.name}</td>
+                    <td><c:out value="${creator.name}"/></td>
                 </tr>
                 </tbody>
             </table>

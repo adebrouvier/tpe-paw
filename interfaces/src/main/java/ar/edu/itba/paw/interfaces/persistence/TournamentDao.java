@@ -26,9 +26,10 @@ public interface TournamentDao {
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
+     * @param featured number of featured tournaments
      * @return a list of tournaments.
      */
-    public List<Tournament> findFeaturedTournaments();
+    public List<Tournament> findFeaturedTournaments(int featured);
 
     public void setStatus(long tournamentId, Tournament.Status status);
 

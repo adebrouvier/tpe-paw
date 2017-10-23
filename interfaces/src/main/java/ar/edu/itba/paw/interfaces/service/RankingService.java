@@ -44,4 +44,6 @@ public interface RankingService {
     List<String> findRankingNames(String query);
 
     Ranking addTournaments(final long rankingId, Map<Tournament, Integer> tournaments);
+
+    List<Ranking> findFeaturedRankings(int featured);
 }

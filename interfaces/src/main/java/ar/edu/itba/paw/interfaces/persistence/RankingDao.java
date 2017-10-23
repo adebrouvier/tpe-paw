@@ -45,4 +45,6 @@ public interface RankingDao {
      void delete(final long rankingId, final long tournamentId);
 
     Ranking addTournaments(final long rankingId, Map<Tournament, Integer> tournaments);
+
+    List<Ranking> findFeaturedRankings(int featured);
 }

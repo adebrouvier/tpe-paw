@@ -20,6 +20,7 @@
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
+<main>
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <div>
@@ -49,12 +50,13 @@ ${navbar}
 
     </div>
 </div>
-<div class="featured-tournaments container">
+<div class="featured container">
     <h4 class="center"><spring:message code="index.tournaments"/></h4>
     <table class="striped centered">
         <thead>
         <tr>
             <th><spring:message code="index.tournaments.table.name"/></th>
+            <th><spring:message code="index.tournaments.table.game"/></th>
             <th><spring:message code="index.tournaments.table.players"/></th>
             <th><spring:message code="index.tournaments.table.matches"/></th>
             <th><spring:message code="index.tournaments.table.page"/></th>
@@ -63,7 +65,8 @@ ${navbar}
         <tbody>
         <c:forEach var="tournament" items="${tournaments}">
             <tr>
-                <td><a href="<c:url value = "/tournament/${tournament.id}"/>">${tournament.name}</a></td>
+                <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><c:out value="${tournament.name}"/></a></td>
+                <td><c:out value="${tournament.game.name}"/></td>
                 <td>${tournament.size}</td>
                 <td>${tournament.numberOfMatches}</td>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
@@ -71,7 +74,27 @@ ${navbar}
         </c:forEach>
         </tbody>
     </table>
+    <h4 class="center"><spring:message code="index.rankings"/></h4>
+    <table class="striped centered">
+        <thead>
+        <tr>
+            <th><spring:message code="index.rankings.table.name"/></th>
+            <th><spring:message code="index.rankings.table.game"/></th>
+            <th><spring:message code="index.rankings.table.page"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="ranking" items="${rankings}">
+            <tr>
+                <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><c:out value="${ranking.name}"/></a></td>
+                <td><c:out value="${ranking.game.name}"/></td>
+                <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
+</main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 </body>

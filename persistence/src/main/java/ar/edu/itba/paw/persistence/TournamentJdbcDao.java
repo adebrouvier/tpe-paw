@@ -136,9 +136,7 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
-    public List<Tournament> findFeaturedTournaments() {
-
-        int featured = 10;
+    public List<Tournament> findFeaturedTournaments(int featured) {
 
         final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament ORDER BY tournament_id DESC LIMIT ?", ROW_MAPPER, featured);
 
@@ -151,6 +149,7 @@ public class TournamentJdbcDao implements TournamentDao {
             Integer numberOfPlayers = getNumberOfPlayers(t.getId());
             t.setSize(numberOfPlayers);
             t.setNumberOfMatches(numberOfMatches);
+            t.setGame(gameDao.findById(t.getGameId()));
         }
 
         return list;
@@ -189,6 +188,7 @@ public class TournamentJdbcDao implements TournamentDao {
         for (Tournament t : list){
             t.setNumberOfMatches(getNumberOfMatches(t.getId()));
             t.setSize(getNumberOfPlayers(t.getId()));
+            t.setGame(gameDao.findById(t.getGameId()));
         }
 
         return list;

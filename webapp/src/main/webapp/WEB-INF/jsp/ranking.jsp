@@ -18,29 +18,37 @@
 ${navbar}
 <main>
 <div class="container center">
-    <c:url value="/create/ranking" var="postPath"/>
-    <form:form modelAttribute="rankingForm" action="${postPath}" method="post">
-    <h2><spring:message code="ranking.create.title"/></h2>
     <div class="row">
-        <div class="col offset-s3 s6">
-            <div class="input-field">
-                <form:label path="rankingName"><spring:message code="ranking.create.name"/>: </form:label>
-                <spring:message code="ranking.create.name.placeholder" var="rankingNamePlaceholder"/>
-                <form:input placeholder="${rankingNamePlaceholder}" type="text" data-length="20" path="rankingName"
-                            autocomplete="off"/>
-                <form:errors path="rankingName" cssClass="form-error" element="p"/>
-            </div>
-            <div class="input-field">
-                <form:label path="game"><spring:message code="ranking.create.game"/>: </form:label>
-                <spring:message code="ranking.create.game.placeholder" var="rankingGamePlaceholder"/>
-                <form:input placeholder="${rankingGamePlaceholder}" type="text" data-length="20" path="game"
-                            autocomplete="off"/>
-                <form:errors path="game" cssClass="form-error" element="p"/>
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title"><spring:message code="ranking.create.title"/></div>
+                    <c:url value="/create/ranking" var="postPath"/>
+                    <form:form modelAttribute="rankingForm" action="${postPath}" method="post">
+                        <div class="row">
+                            <div class="col offset-s3 s6">
+                                <div class="input-field">
+                                    <form:label path="rankingName"><spring:message code="ranking.create.name"/>: </form:label>
+                                    <spring:message code="ranking.create.name.placeholder" var="rankingNamePlaceholder"/>
+                                    <form:input placeholder="${rankingNamePlaceholder}" type="text" data-length="20" path="rankingName"
+                                                autocomplete="off"/>
+                                    <form:errors path="rankingName" cssClass="form-error" element="p"/>
+                                </div>
+                                <div class="input-field">
+                                    <form:label path="game"><spring:message code="ranking.create.game"/>: </form:label>
+                                    <spring:message code="ranking.create.game.placeholder" var="rankingGamePlaceholder"/>
+                                    <form:input placeholder="${rankingGamePlaceholder}" type="text" data-length="20" path="game"
+                                                autocomplete="off"/>
+                                    <form:errors path="game" cssClass="form-error" element="p"/>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.create.submit"/></button>
+                    </form:form>
+                </div>
             </div>
         </div>
     </div>
-        <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.create.submit"/></button>
-    </form:form>
 </div>
 </main>
 <c:import var="footer" url="footer.jsp"/>

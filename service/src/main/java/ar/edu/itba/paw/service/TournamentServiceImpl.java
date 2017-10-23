@@ -44,8 +44,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Tournament> findFeaturedTournaments() {
-        return tournamentDao.findFeaturedTournaments();
+    public List<Tournament> findFeaturedTournaments(int featured) {
+        return tournamentDao.findFeaturedTournaments(featured);
     }
 
     @Override

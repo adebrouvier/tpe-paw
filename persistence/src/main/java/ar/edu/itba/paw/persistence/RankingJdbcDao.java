@@ -72,9 +72,14 @@ public class RankingJdbcDao implements RankingDao {
     @Override
     public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
         final Map<String, Object> args = new HashMap<>();
-        long gameId = gameDao.findByName(game).getGameId();
+
+        long gameId = 0;
+        final Game g = gameDao.findByName(game);
+        if (g != null){
+            gameId = g.getGameId();
+            args.put("game_id", gameId);
+        }
         args.put("name", name);
-        args.put("game_id", gameId);
         final Number rankingId = jdbcInsert.executeAndReturnKey(args);
         return new Ranking(rankingId.longValue(), name, gameId);
     }
@@ -134,6 +139,21 @@ public class RankingJdbcDao implements RankingDao {
         addUsersToRanking(rankingId, filteredTournaments);
         return findById(rankingId);
 
+    }
+
+    @Override
+    public List<Ranking> findFeaturedRankings(int featured) {
+        final List<Ranking> list = jdbcTemplate.query("SELECT * FROM ranking ORDER BY ranking_id DESC LIMIT ?", RANKING_MAPPER, featured);
+
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        for (Ranking r : list) {
+            r.setGame(gameDao.findById(r.getGameId()));
+        }
+
+        return list;
     }
 
     private void deleteUsersFromRanking(long rankingId, long tournamentId, int awardedPoints) {

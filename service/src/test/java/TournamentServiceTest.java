@@ -25,12 +25,13 @@ public class TournamentServiceTest {
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
     TournamentServiceImpl tournamentServiceImpl;
+    private int FEATURED_TOURNAMENTS = 10;
 
     @Before
     public void setUp() {
         Mockito.when(tournamentDao.findById(3)).thenReturn(standardTournament());
         Mockito.when(tournamentDao.create("Test","Game", 1)).thenReturn(standardTournament());
-        Mockito.when(tournamentDao.findFeaturedTournaments()).thenReturn(standardTournaments());
+        Mockito.when(tournamentDao.findFeaturedTournaments(10)).thenReturn(standardTournaments());
     }
 
     @Test
@@ -49,8 +50,8 @@ public class TournamentServiceTest {
 
     @Test
     public void testFindFeaturedTournaments() {
-        List<Tournament> tournaments = tournamentServiceImpl.findFeaturedTournaments();
-        for (Integer i = 0; i < 10; i++) {
+        List<Tournament> tournaments = tournamentServiceImpl.findFeaturedTournaments(FEATURED_TOURNAMENTS);
+        for (Integer i = 0; i < FEATURED_TOURNAMENTS; i++) {
             Assert.assertEquals(i.toString(), tournaments.get(i).getName());
             Assert.assertEquals(i.longValue(), tournaments.get(i).getId());
 
@@ -62,7 +63,7 @@ public class TournamentServiceTest {
 
     private List<Tournament> standardTournaments() {
         List<Tournament> tournaments = new ArrayList<Tournament>();
-        for(Integer i = 0; i < 10; i++) {
+        for(Integer i = 0; i < FEATURED_TOURNAMENTS; i++) {
             tournaments.add(new Tournament(i.toString(), i,1, Tournament.Status.NEW, 1));
         }
         return tournaments;

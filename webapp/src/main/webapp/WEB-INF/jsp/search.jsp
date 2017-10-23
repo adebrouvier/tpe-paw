@@ -64,7 +64,7 @@ ${navbar}
                     <c:forEach var="tournament" items="${tournamentResults}">
                         <tr>
                             <td><c:out value="${tournament.name}"/></td>
-                            <td>Game</td>
+                            <td><c:out value="${tournament.game.name}"/></td>
                             <td><c:out value="${tournament.size}"/></td>
                             <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
                         </tr>

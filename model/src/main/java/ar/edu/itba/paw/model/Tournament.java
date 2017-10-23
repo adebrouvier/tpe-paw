@@ -38,6 +38,8 @@ public class Tournament {
      */
     private long gameId;
 
+    private Game game;
+
     /**
      * Id of the user that created the tournament
      */
@@ -129,6 +131,14 @@ public class Tournament {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @Override

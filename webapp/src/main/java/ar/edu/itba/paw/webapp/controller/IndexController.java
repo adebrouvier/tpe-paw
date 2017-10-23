@@ -10,13 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-
-
 
 @Controller
 public class IndexController {
@@ -33,7 +30,10 @@ public class IndexController {
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm searchForm) {
         LOGGER.debug("Access to index");
         final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("tournaments",ts.findFeaturedTournaments());
+        int featuredTournaments = 10;
+        int featuredRankings = 10;
+        mav.addObject("tournaments", ts.findFeaturedTournaments(featuredTournaments));
+        mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
         return mav;
     }
 

@@ -43,9 +43,10 @@ public interface TournamentService {
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
+     * @param featured number of tournaments
      * @return a list of tournaments.
      */
-    public List<Tournament> findFeaturedTournaments();
+    public List<Tournament> findFeaturedTournaments(int featured);
 
     /**
      * Changes the status of the tournament

@@ -5,7 +5,6 @@ import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.webapp.form.RankingForm;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
 import ar.edu.itba.paw.webapp.form.RankingTournaments;
 import org.slf4j.Logger;
@@ -59,7 +58,7 @@ public class RankingPageController {
     }
 
     @RequestMapping(value = "/ranking/{rankingId}/addPlayers", method = {RequestMethod.POST})
-    public ModelAndView createRanking(@Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors,@PathVariable long rankingId) {
+    public ModelAndView createRanking(@Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors, @PathVariable long rankingId) {
 
         if (errors.hasErrors()) {
             //TODO: Queda en el url el addPlayer
@@ -69,13 +68,14 @@ public class RankingPageController {
         Map<Tournament, Integer> tMap = new HashMap<>();
 
         for (RankingTournaments rt : rankingPageForm.getTournaments()){
-            if(rt.getName() != ""){
+            if(!rt.getName().equals("")){
                 final Tournament t = ts.getByName(rt.getName());
                 if (t != null) {
                     tMap.put(t, rt.getPoints());
                 }
             }else{
-                errors.rejectValue("tournaments","Empty Tournament");
+                errors.rejectValue("tournaments","Empty Tournament", "Empty Tournament");
+                return rankingPage(rankingPageForm, rankingId);
             }
         }
 
