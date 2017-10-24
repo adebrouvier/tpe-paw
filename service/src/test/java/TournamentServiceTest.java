@@ -1,6 +1,7 @@
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.service.PlayerServiceImpl;
 import ar.edu.itba.paw.service.TournamentServiceImpl;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -30,22 +32,41 @@ public class TournamentServiceTest {
     @Before
     public void setUp() {
         Mockito.when(tournamentDao.findById(3)).thenReturn(standardTournament());
+        Mockito.when(tournamentDao.findById(1)).thenReturn(null);
         Mockito.when(tournamentDao.create("Test","Game", 1)).thenReturn(standardTournament());
+        Mockito.when(tournamentDao.create("Test", null, 1)).thenReturn(standardNoGameTournament());
         Mockito.when(tournamentDao.findFeaturedTournaments(10)).thenReturn(standardTournaments());
+        Mockito.when(tournamentDao.getStandings(3)).thenReturn(mockStanding());
     }
 
     @Test
     public void testCreate() {
         Tournament tournament = tournamentServiceImpl.create("Test", "Game", 1);
         Assert.assertEquals("Test", tournament.getName());
+    }
 
+    @Test
+    public void testCreateNoGameTournament() {
+        Tournament tournament = tournamentServiceImpl.create("Test", null, 1);
+        Assert.assertEquals();
     }
 
     @Test
     public void testFindById() {
         Tournament tournament = tournamentServiceImpl.findById(3);
         Assert.assertEquals(3, tournament.getId());
+    }
 
+    @Test
+    public void tournamentNotFound() {
+        Tournament tournament = tournamentServiceImpl.findById(1);
+        Assert.assertNull(tournament);
+    }
+
+    @Test
+    public void testStandingsReturn() {
+        List<Standing> standings = tournamentServiceImpl.getStandings(3);
+        Assert.assertEquals(1, standings.get(0).getPosition());
     }
 
     @Test
@@ -57,8 +78,13 @@ public class TournamentServiceTest {
 
         }
     }
+
     private Tournament standardTournament() {
         return new Tournament("Test", 3, 1, Tournament.Status.NEW, 1);
+    }
+
+    private Tournament standardNoGameTournament() {
+        return new Tournament("Test", 3, -1, Tournament.Status.NEW, 1);
     }
 
     private List<Tournament> standardTournaments() {
@@ -67,5 +93,18 @@ public class TournamentServiceTest {
             tournaments.add(new Tournament(i.toString(), i,1, Tournament.Status.NEW, 1));
         }
         return tournaments;
+    }
+
+    private List<Standing> mockStanding() {
+        List<Standing> standings = new ArrayList<>();
+        standings.add(new Standing("Primero", 1));
+        standings.add(new Standing("Segundo", 2));
+        standings.add(new Standing("Tercero", 3));
+        standings.add(new Standing("Cuarto", 4));
+        standings.add(new Standing("Quinto", 5));
+        standings.add(new Standing("Quintos", 5));
+        standings.add(new Standing("Septimo", 7));
+        standings.add(new Standing("Septimos", 7));
+        return standings;
     }
 }
