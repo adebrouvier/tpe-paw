@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <title><spring:message code="ranking.title"/></title>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
-    <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/game-autocomplete.js"/>"></script>
 </head>
 <body>
@@ -38,7 +37,7 @@ ${navbar}
                                     <form:errors path="rankingName" cssClass="form-error" element="p"/>
                                 </div>
                                 <div class="input-field">
-                                    <form:label path="game"><spring:message code="ranking.create.game"/>: </form:label>
+                                    <form:label class="active" path="game"><spring:message code="ranking.create.game"/>: </form:label>
                                     <spring:message code="ranking.create.game.placeholder" var="rankingGamePlaceholder"/>
                                     <form:input placeholder="${rankingGamePlaceholder}" type="text" cssClass="typeahead"
                                                 path="game" autocomplete="off"/>

@@ -15,12 +15,6 @@ public class TournamentForm {
     @Size(min = 0, max = 60)
     private String game;
 
-    private boolean randomizeSeed;
-
-    public boolean isRandomizeSeed() { return randomizeSeed; }
-
-    public void setRandomizeSeed(boolean randomizeSeed) { this.randomizeSeed = randomizeSeed; }
-
     public String getTournamentName() {
         return tournamentName;
     }

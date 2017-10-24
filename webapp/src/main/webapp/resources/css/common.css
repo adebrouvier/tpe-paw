@@ -18,7 +18,7 @@ nav .nav-wrapper{
 }
 
 .form-error{
-    color: red;
+    color: red !important;
 }
 
 .right-align{

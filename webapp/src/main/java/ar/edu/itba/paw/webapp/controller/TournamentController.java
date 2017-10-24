@@ -61,8 +61,8 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
-    public ModelAndView create(@Valid @ModelAttribute("tournamentForm") final TournamentForm form,
-                               final BindingResult errors,@ModelAttribute("loggedUser") User loggedUser) {
+    public ModelAndView create(@ModelAttribute("loggedUser") User loggedUser,@Valid @ModelAttribute("tournamentForm") final TournamentForm form,
+                               final BindingResult errors) {
         if (errors.hasErrors()) {
             return tournament(form);
         }
@@ -136,7 +136,7 @@ public class TournamentController {
     }
 
     @RequestMapping( value = "/tournament/{tournamentId}/players", method = RequestMethod.POST)
-    public ModelAndView addPlayer(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId, final BindingResult errors){
+    public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId){
 
         if (errors.hasErrors()){
             return tournament(playerForm, tournamentId);
@@ -222,22 +222,6 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
-    private List<Player> parsePlayers(String players) {
-
-        List<Player> result = new ArrayList<>();
-
-        for (String player : players.split("\r\n")){
-
-            if (player.length() > 0) {
-
-                final Player p = ps.create(player);
-
-                result.add(p);
-            }
-        }
-
-        return result;
-    }
 
     /*
        Empty strings as null for optional fields
