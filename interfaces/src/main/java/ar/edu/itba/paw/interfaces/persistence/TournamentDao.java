@@ -18,11 +18,11 @@ public interface TournamentDao {
      * Creates a new Tournament with the specified
      * name, game and user.
      * @param name of the Tournament.
-     * @param game name of the Game the Tournament hosts.
+     * @param gameId id of the Game the Tournament hosts.
      * @param userId id of the user that created the tournament.
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, String game, long userId);
+    public Tournament create(String name, long gameId, long userId);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.

@@ -45,6 +45,8 @@ public class TournamentController {
     @Autowired
     private GameImageService gis;
 
+    @Autowired PlayerMeController pmc;
+
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
@@ -64,7 +66,10 @@ public class TournamentController {
         if (errors.hasErrors()) {
             return tournament(form);
         }
-        final Tournament t = ts.create(form.getTournamentName(), form.getGame(), loggedUser.getId());
+
+        Game game = pmc.addGameImage(form.getGame());
+
+        final Tournament t = ts.create(form.getTournamentName(), game.getGameId(), loggedUser.getId());
         return new ModelAndView("redirect:/tournament/"+ t.getId() + "/players");
     }
 
@@ -193,7 +198,7 @@ public class TournamentController {
             return gameImage.getImage();
         }
     }
-    
+
     @RequestMapping(value = "/remove/player/{tournamentId}/{playerId}", method = { RequestMethod.POST })
     public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId) {
 

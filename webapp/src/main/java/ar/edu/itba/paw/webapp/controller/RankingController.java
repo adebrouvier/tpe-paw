@@ -1,8 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.RankingService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.persistence.GameUrlImageJdbcDao;
 import ar.edu.itba.paw.webapp.form.RankingForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,9 @@ public class RankingController {
     @Autowired
     private RankingService rs;
 
+    @Autowired
+    private PlayerMeController pmc;
+
     @RequestMapping("/ranking")
     public ModelAndView ranking(@ModelAttribute("rankingForm") final RankingForm rankingForm) {
         final ModelAndView mav = new ModelAndView("ranking");
@@ -41,6 +47,10 @@ public class RankingController {
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
+        Game game = pmc.addGameImage(rankingForm.getGame());
+
+        String gameName = rankingForm.getGame();
+
         Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame());
         LOGGER.info("Created Ranking with id {}", r.getId());
 
