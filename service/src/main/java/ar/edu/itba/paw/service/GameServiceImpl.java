@@ -23,4 +23,14 @@ public class GameServiceImpl implements GameService{
     public Game findById(long id) {
         return gameDao.findById(id);
     }
+
+    @Override
+    public Game findByName(String name) {
+        return gameDao.findByName(name);
+    }
+
+    @Override
+    public Game create(String name, boolean userGenerated) {
+        return gameDao.create(name, userGenerated);
+    }
 }

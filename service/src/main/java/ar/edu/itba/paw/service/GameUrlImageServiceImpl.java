@@ -15,4 +15,9 @@ public class GameUrlImageServiceImpl implements GameUrlImageService {
     public String findById(long gameId) {
         return gameUrlImageDao.findById(gameId);
     }
+
+    @Override
+    public void create(long gameId, String url) {
+        gameUrlImageDao.create(gameId, url);
+    }
 }

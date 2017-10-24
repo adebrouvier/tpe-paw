@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
@@ -31,6 +32,9 @@ public class RankingController {
     private RankingService rs;
 
     @Autowired
+    private PlayerMeController pmc;
+
+    @Autowired
     private UserService us;
 
     @RequestMapping("/ranking")
@@ -48,7 +52,11 @@ public class RankingController {
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
-        Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame(), loggedUser.getId());
+        Game game = pmc.addGameImage(rankingForm.getGame());
+
+        String gameName = rankingForm.getGame();
+
+        Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame(), loggedUser().getId());
         LOGGER.info("Created Ranking with id {}", r.getId());
 
         return new ModelAndView("redirect:/ranking/" + r.getId());

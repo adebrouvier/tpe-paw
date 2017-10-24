@@ -30,13 +30,13 @@ public class TournamentServiceTest {
     @Before
     public void setUp() {
         Mockito.when(tournamentDao.findById(3)).thenReturn(standardTournament());
-        Mockito.when(tournamentDao.create("Test","Game", 1)).thenReturn(standardTournament());
+        Mockito.when(tournamentDao.create("Test",2, 1)).thenReturn(standardTournament());
         Mockito.when(tournamentDao.findFeaturedTournaments(10)).thenReturn(standardTournaments());
     }
 
     @Test
     public void testCreate() {
-        Tournament tournament = tournamentServiceImpl.create("Test", "Game", 1);
+        Tournament tournament = tournamentServiceImpl.create("Test", 2, 1);
         Assert.assertEquals("Test", tournament.getName());
 
     }

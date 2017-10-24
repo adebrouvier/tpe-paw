@@ -12,8 +12,7 @@ public class RankingForm {
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String rankingName;
 
-    @Size(min=4, max=20)
-    @Pattern(regexp = "[a-zA-Z0-9: ]+")
+    @Size(min=0, max=60)
     private String game;
 
     public String getRankingName() {
