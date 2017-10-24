@@ -66,7 +66,7 @@ public class RankingJdbcDaoTest {
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tourney, 100);
-        Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash");
+        Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash", 1);
         assertNotNull(ranking);
         ranking = rankingJdbcDao.findById(0);
         assertEquals(0, ranking.getId());

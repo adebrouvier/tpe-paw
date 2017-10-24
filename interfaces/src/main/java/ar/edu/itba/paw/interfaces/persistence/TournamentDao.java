@@ -41,9 +41,18 @@ public interface TournamentDao {
 
     /**
      * Finds the name of matching existing tournament.
+     * @param query term to search.
      * @return the list with the names.
      */
     public List<String> findTournamentNames(String query);
+
+    /**
+     * Finds the name of matching existing tournament.
+     * @param query term to search
+     * @param gameId id of the game
+     * @return the list with the names.
+     */
+    public List<String> findTournamentNames(String query, long gameId);
 
     /**
      * Finds a tournament with the specified name.

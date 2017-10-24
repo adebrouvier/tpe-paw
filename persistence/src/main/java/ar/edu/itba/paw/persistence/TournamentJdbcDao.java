@@ -14,7 +14,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,6 +170,14 @@ public class TournamentJdbcDao implements TournamentDao {
         sb.insert(0,"%");
         sb.append("%");
         return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE lower(name) LIKE ?",  String.class, sb.toString());
+    }
+
+    @Override
+    public List<String> findTournamentNames(String query, long game) {
+        StringBuilder sb = new StringBuilder(query.toLowerCase());
+        sb.insert(0,"%");
+        sb.append("%");
+        return jdbcTemplate.queryForList("SELECT name FROM tournament WHERE lower(name) LIKE ? AND game_id = ?",  String.class, sb.toString(), game);
     }
 
     @Override

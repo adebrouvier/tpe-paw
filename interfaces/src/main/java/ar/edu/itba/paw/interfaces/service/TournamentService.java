@@ -69,6 +69,14 @@ public interface TournamentService {
     public List<String> findTournamentNames(String query);
 
     /**
+     * Finds the name of a matching existing tournament
+     * @param query term to be searched
+     * @param gameId of each tournament
+     * @return the list with the names
+     */
+    public List<String> findTournamentNames(String query, long gameId);
+
+    /**
      * Finds a tournament with the specified name.
      * @param name the name of part of the name of the tournament.
      * @return a list of tournaments.

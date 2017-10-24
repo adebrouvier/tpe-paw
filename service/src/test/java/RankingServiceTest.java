@@ -29,7 +29,7 @@ public class RankingServiceTest {
    Map<Tournament, Integer> tournaments;
     @Before
     public void setUp() {
-        Mockito.when(rankingDao.create("ranking", tournaments, "Smash")).thenReturn(standardRanking(1));
+        Mockito.when(rankingDao.create("ranking", tournaments, "Smash", 1)).thenReturn(standardRanking(1));
         Mockito.when(rankingDao.addTournaments(1, tournaments)).thenReturn(standardRanking(1));
         Mockito.when(rankingDao.findById(1)).thenReturn(standardRanking(1));
         Mockito.when(rankingDao.findByName("ranking")).thenReturn(standardRankings());
@@ -37,7 +37,7 @@ public class RankingServiceTest {
 
     @Test
     public void testCreate() {
-        Ranking ranking = rankingService.create("ranking", tournaments, "Smash");
+        Ranking ranking = rankingService.create("ranking", tournaments, "Smash", 1);
         assertEquals("ranking", ranking.getName());
         assertEquals(200, ranking.getUsers().get(1).getPoints());
     }
@@ -59,7 +59,7 @@ public class RankingServiceTest {
     }
 
     private Ranking standardRanking(int id) {
-        Ranking rank = new Ranking(id,"ranking", 1);
+        Ranking rank = new Ranking(id,"ranking", 1, 1);
         List<UserScore> userScores = new ArrayList<>();
         userScores.add(new UserScore(1, 100));
         userScores.add(new UserScore(2,200));

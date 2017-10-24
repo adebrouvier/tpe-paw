@@ -10,6 +10,9 @@
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/rankingPage.js"/>"></script>
     <title><c:out value="${ranking.name}"/> - <spring:message code="ranking.title"/></title>
 </head>
 <body>
@@ -20,11 +23,12 @@ ${navbar}
     <div class="row">
         <div class="col offset-s3 s6">
             <h2><spring:message code="ranking.greeting" arguments="${ranking.name}"/></h2>
+            <h3 id="ranking-game" data-game="<c:out value="${ranking.gameId}"/>"><c:out value="${ranking.game.name}"/></h3>
         </div>
     </div>
 </div>
-<il class="container">
-    <il class="row">
+<div class="container">
+    <div class="row">
         <div class="col s6">
             <h4 class="center"><spring:message code="ranking.table.title"/></h4>
             <table class="highlight centered">
@@ -44,74 +48,55 @@ ${navbar}
                 </tbody>
             </table>
         </div>
-        <il class="center col s6">
-            <h4>
-                Tournaments
-            </h4>
-            <c:forEach var="tournament" items="${ranking.tournaments}">
-                <ul>
-                        <ul>${tournament.name}</ul>
-                        <ul><spring:message code="ranking.tournamentPoints"/>: ${tournament.awardedPoints}</ul>
-                        <ul><a href="<c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}"/>"><i class="material-icons">delete</i></a></ul>
+        <div class="center col s6">
+            <div class="row">
+                <h4><spring:message code="rankingPage.tournaments"/></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tournament</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <c:forEach var="tournament" items="${ranking.tournaments}">
+                    <tr>
+                        <td><c:out value="${tournament.name}"/></td>
+                        <td>${tournament.awardedPoints}</td>
+                        <td><a href="<c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}"/>"><i class="material-icons">delete</i></a></td>
+                    </tr>
+                </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
-                </ul>
-            </c:forEach>
-            <c:url value="/ranking/${ranking.id}/addPlayers" var="postPath"/>
-            <form:form modelAttribute="rankingPageForm" action="${postPath}" method="post">
-                <div class="divider"></div>
-                <div id="ranking-tournaments">
+            <div class="row">
+                <c:url value="/ranking/${ranking.id}/addTournament" var="postPath"/>
+                <form:form modelAttribute="rankingPageForm" action="${postPath}" method="post">
+                    <div class="col s6">
                         <div class="input-field">
-                            <form:label path="tournaments[0].name"><spring:message code="ranking.tournaments"/>: </form:label>
+                            <%--<form:label path="tournamentName"><spring:message code="ranking.tournaments"/>: </form:label>--%>
                             <spring:message code="ranking.tournaments.placeholder" var="rankingTournamentsPlaceholder"/>
-                            <form:input path="tournaments[0].name" type="text" placeholder="${rankingTournamentsPlaceholder}"/>
-                            <form:errors path="tournaments[0].name" cssClass="form-error" element="p"/>
+                            <form:input cssClass="typeahead" path="tournamentName" type="text" placeholder="${rankingTournamentsPlaceholder}" autocomplete="off"/>
+                            <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                         </div>
+                    </div>
+                    <div class="col s6">
                         <div class="input-field">
-                            <form:label path="tournaments[0].name"><spring:message code="ranking.awardedPoints"/>: </form:label>
+                            <form:label path="points"><spring:message code="ranking.awardedPoints"/>: </form:label>
                             <spring:message code="ranking.awardedPoints.placeholder" var="awardedPointsPlaceholder"/>
-                            <form:input path="tournaments[0].points" type="number" placeholder="${awardedPointsPlaceholder}"/>
-                            <form:errors path="tournaments[0].points" cssClass="form-error" element="p"/>
+                            <form:input path="points" type="number" placeholder="${awardedPointsPlaceholder}"/>
+                            <form:errors path="points" cssClass="form-error" element="p"/>
                         </div>
-                    <form:errors path="tournaments" cssClass="form-error" element="p"/>
-                </div>
-                <br/>
-                <br/>
-                <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.create.submit"/></button>
+                    </div>
+                    <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.tournament.add"/></button>
             </form:form>
+            </div>
         </div>
     </div>
 </div>
 </main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
-<script type="text/javascript"
-        src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
-
-
 </body>
 </html>
-
-
-<script>
-
-    $(document).ready(
-        function() {
-            <c:set var="listIndex" value="0"/>
-            <c:if test="${rankingPageForm.tournaments.size() > 0}">
-            <c:set var="listIndex" value="${rankingPageForm.tournaments.size()}"/>
-            </c:if>
-            var i = <c:out value="${listIndex}"/>;
-            $("#tournament-adder").click(function () {
-                $("#ranking-tournaments").append(
-                    "<div class=\"input-field\">" +
-                    "<input type=\"text\" placeholder=\"${rankingTournamentsPlaceholder}\" name=\"tournaments[" + i + "].name\"/>" +
-                    "<input type=\"number\" placeholder=\"${awardedPointsPlaceholder}\" name=\"tournaments[" + i + "].points\"/>" +
-                    "</div>"
-
-                );
-                i = i + 1;
-            });
-
-        });
-
-</script>

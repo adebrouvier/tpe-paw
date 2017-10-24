@@ -10,10 +10,7 @@ import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -56,6 +53,11 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public List<String> findTournamentNames(String query) {
         return tournamentDao.findTournamentNames(query);
+    }
+
+    @Override
+    public List<String> findTournamentNames(String query, long gameId) {
+        return tournamentDao.findTournamentNames(query, gameId);
     }
 
     @Override
