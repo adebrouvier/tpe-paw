@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
  */
 public class TournamentForm {
 
+    @NotNull
     @Size(min = 4, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String tournamentName;

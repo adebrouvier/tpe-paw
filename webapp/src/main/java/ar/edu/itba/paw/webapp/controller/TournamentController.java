@@ -61,8 +61,7 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
-    public ModelAndView create(@ModelAttribute("loggedUser") User loggedUser,@Valid @ModelAttribute("tournamentForm") final TournamentForm form,
-                               final BindingResult errors) {
+    public ModelAndView create(@Valid@ModelAttribute("tournamentForm") final TournamentForm form,final BindingResult errors,@ModelAttribute("loggedUser") User loggedUser) {
         if (errors.hasErrors()) {
             return tournament(form);
         }
