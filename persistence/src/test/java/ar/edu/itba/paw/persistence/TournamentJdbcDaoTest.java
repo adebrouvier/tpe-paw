@@ -55,7 +55,7 @@ public class TournamentJdbcDaoTest {
         final Player player1 = playerJdbcDao.create("Alex");
         final Player player2 = playerJdbcDao.create("Alexis");
         final Game game = gameJdbcDao.create("Smash", true);
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", game.getName(), 0);
+        final Tournament tourney = tournamentJdbcDao.create("Prueba", game.getGameId(), 0);
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         assertNotNull(tourney);
         assertEquals(0, tourney.getId());

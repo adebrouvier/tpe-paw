@@ -11,7 +11,10 @@
     <title><spring:message code="ranking.title"/></title>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/game-autocomplete.js"/>"></script>
 </head>
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
@@ -30,15 +33,15 @@ ${navbar}
                                 <div class="input-field">
                                     <form:label path="rankingName"><spring:message code="ranking.create.name"/>: </form:label>
                                     <spring:message code="ranking.create.name.placeholder" var="rankingNamePlaceholder"/>
-                                    <form:input placeholder="${rankingNamePlaceholder}" type="text" data-length="20" path="rankingName"
+                                    <form:input placeholder="${rankingNamePlaceholder}" type="text" path="rankingName"
                                                 autocomplete="off"/>
                                     <form:errors path="rankingName" cssClass="form-error" element="p"/>
                                 </div>
                                 <div class="input-field">
                                     <form:label path="game"><spring:message code="ranking.create.game"/>: </form:label>
                                     <spring:message code="ranking.create.game.placeholder" var="rankingGamePlaceholder"/>
-                                    <form:input placeholder="${rankingGamePlaceholder}" type="text" data-length="20" path="game"
-                                                autocomplete="off"/>
+                                    <form:input placeholder="${rankingGamePlaceholder}" type="text" cssClass="typeahead"
+                                                path="game" autocomplete="off"/>
                                     <form:errors path="game" cssClass="form-error" element="p"/>
                                 </div>
                             </div>

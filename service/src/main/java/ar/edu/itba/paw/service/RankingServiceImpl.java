@@ -22,8 +22,8 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
-        return rankingDao.create(name,tournaments, game);
+    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
+        return rankingDao.create(name,tournaments, game, userId);
     }
 
     @Override

@@ -62,11 +62,11 @@ public class RankingJdbcDaoTest {
         final Player player1 = playerJdbcDao.create("Alex");
         final Player player2 = playerJdbcDao.create("Alexis");
         final Game game = gameJdbcDao.create("Smash", true);
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", "Smash", 0);
+        final Tournament tourney = tournamentJdbcDao.create("Prueba", 2, 0);
         final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tourney, 100);
-        Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash");
+        Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash", 1);
         assertNotNull(ranking);
         ranking = rankingJdbcDao.findById(0);
         assertEquals(0, ranking.getId());

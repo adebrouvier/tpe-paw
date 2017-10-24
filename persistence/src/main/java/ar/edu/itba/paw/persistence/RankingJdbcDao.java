@@ -26,7 +26,7 @@ public class RankingJdbcDao implements RankingDao {
 
     private final SimpleJdbcInsert userToRankingInsert;
 
-    private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"), rs.getInt("game_id"));
+    private final static RowMapper<Ranking> RANKING_MAPPER = (rs, rowNum) -> new Ranking(rs.getInt("ranking_id"), rs.getString("name"), rs.getInt("game_id"), rs.getLong("user_id"));
 
     private final static RowMapper<UserScore> USER_RANKING_MAPPER = (rs, rowNum) -> new UserScore(rs.getLong("user_id"), rs.getInt("points"));
 
@@ -70,7 +70,7 @@ public class RankingJdbcDao implements RankingDao {
     }
 
     @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game) {
+    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
         final Map<String, Object> args = new HashMap<>();
 
         long gameId = 0;
@@ -80,8 +80,9 @@ public class RankingJdbcDao implements RankingDao {
             args.put("game_id", gameId);
         }
         args.put("name", name);
+        args.put("user_id", userId);
         final Number rankingId = jdbcInsert.executeAndReturnKey(args);
-        return new Ranking(rankingId.longValue(), name, gameId);
+        return new Ranking(rankingId.longValue(), name, gameId, userId);
     }
 
     @Override

@@ -1,5 +1,6 @@
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
@@ -33,22 +34,23 @@ public class TournamentServiceTest {
     public void setUp() {
         Mockito.when(tournamentDao.findById(3)).thenReturn(standardTournament());
         Mockito.when(tournamentDao.findById(1)).thenReturn(null);
-        Mockito.when(tournamentDao.create("Test","Game", 1)).thenReturn(standardTournament());
-        Mockito.when(tournamentDao.create("Test", null, 1)).thenReturn(standardNoGameTournament());
-        Mockito.when(tournamentDao.findFeaturedTournaments(10)).thenReturn(standardTournaments());
+        Mockito.when(tournamentDao.create("Test", -1, 1)).thenReturn(standardNoGameTournament());
+        Mockito.when(tournamentDao.create("Test",2, 1)).thenReturn(standardTournament());
+        Mockito.when(tournamentDao.findFeaturedTournaments(FEATURED_TOURNAMENTS)).thenReturn(standardTournaments());
+        Mockito.when(tournamentDao.findFeaturedTournaments(0)).thenReturn(new ArrayList<>());
         Mockito.when(tournamentDao.getStandings(3)).thenReturn(mockStanding());
     }
 
     @Test
     public void testCreate() {
-        Tournament tournament = tournamentServiceImpl.create("Test", "Game", 1);
+        Tournament tournament = tournamentServiceImpl.create("Test", 2, 1);
         Assert.assertEquals("Test", tournament.getName());
     }
 
     @Test
     public void testCreateNoGameTournament() {
-        Tournament tournament = tournamentServiceImpl.create("Test", null, 1);
-        Assert.assertEquals();
+        Tournament tournament = tournamentServiceImpl.create("Test", -1, 1);
+        Assert.assertNotNull(tournament);
     }
 
     @Test
@@ -77,6 +79,12 @@ public class TournamentServiceTest {
             Assert.assertEquals(i.longValue(), tournaments.get(i).getId());
 
         }
+    }
+
+    @Test
+    public void testNoFeaturedTournaments() {
+        List<Tournament> tournaments = tournamentServiceImpl.findFeaturedTournaments(0);
+        Assert.assertEquals(0, tournaments.size());
     }
 
     private Tournament standardTournament() {

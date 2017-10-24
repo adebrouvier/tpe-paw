@@ -9,11 +9,13 @@ public class Ranking {
     private String name;
     private long gameId;
     private Game game;
+    private long userId;
 
-    public Ranking(long id, String name, long gameId){
+    public Ranking(long id, String name, long gameId, long userId){
         this.id = id;
         this.name = name;
         this.gameId = gameId;
+        this.userId = userId;
     }
 
     public Game getGame(){
@@ -56,12 +58,23 @@ public class Ranking {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

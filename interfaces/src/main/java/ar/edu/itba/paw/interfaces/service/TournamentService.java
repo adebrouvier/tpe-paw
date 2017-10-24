@@ -35,11 +35,11 @@ public interface TournamentService {
      * Creates a tournament with the specified name, list of players
      * and game it hosts.
      * @param name name of the tournament.
-     * @param game name of the game that the tournament hosts.
+     * @param gameId id of the game that the tournament hosts.
      * @param userId id of the user that created the tournament
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, String game, long userId);
+    public Tournament create(String name, long gameId, long userId);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
@@ -67,6 +67,14 @@ public interface TournamentService {
      * @return the list with the names
      */
     public List<String> findTournamentNames(String query);
+
+    /**
+     * Finds the name of a matching existing tournament
+     * @param query term to be searched
+     * @param gameId of each tournament
+     * @return the list with the names
+     */
+    public List<String> findTournamentNames(String query, long gameId);
 
     /**
      * Finds a tournament with the specified name.

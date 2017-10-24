@@ -34,9 +34,10 @@ public interface RankingDao {
      * @param name of the ranking
      * @param tournaments taken into account
      * @param game that the tournaments will feature
+     * @param userId id of the user that created the ranking
      * @return instance of new ranking
      */
-     Ranking create(final String name, final Map<Tournament, Integer> tournaments, String game);
+     Ranking create(final String name, final Map<Tournament, Integer> tournaments, String game, long userId);
 
      List<Ranking> findByName(String term);
 

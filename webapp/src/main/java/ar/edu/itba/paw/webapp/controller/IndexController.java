@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,8 +44,13 @@ public class IndexController {
      * @return an array of tournament names
      */
     @RequestMapping(value = "/tournament_autocomplete", method = RequestMethod.GET)
-    public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query) {
-        return ts.findTournamentNames(query);
+    public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query, @RequestParam(value = "game", required = false) Long game) {
+
+        if (game == null){
+            return ts.findTournamentNames(query);
+        }else{
+            return ts.findTournamentNames(query, game);
+        }
     }
 
     /**

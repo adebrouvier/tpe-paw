@@ -6,7 +6,6 @@ import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
-import ar.edu.itba.paw.webapp.form.RankingTournaments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,9 @@ public class RankingPageController {
 
     @RequestMapping("/ranking/{rankingId}/delete/{tournamentId}")
     public ModelAndView deleteTournament(@PathVariable long rankingId, @PathVariable long tournamentId){
+        LOGGER.info("Deleted tournament {} from ranking {}", tournamentId, rankingId);
         rs.delete(rankingId,tournamentId);
-        final Ranking r = rs.findById(rankingId) ;
+        final Ranking r = rs.findById(rankingId);
         if (r == null) {
             return new ModelAndView("redirect:/404");
         }
@@ -57,31 +57,33 @@ public class RankingPageController {
         return mav;
     }
 
-    @RequestMapping(value = "/ranking/{rankingId}/addPlayers", method = {RequestMethod.POST})
-    public ModelAndView createRanking(@Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors, @PathVariable long rankingId) {
+    @RequestMapping(value = "/ranking/{rankingId}/addTournament", method = {RequestMethod.POST})
+    public ModelAndView addTournament(@PathVariable long rankingId, @Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors) {
 
         if (errors.hasErrors()) {
-            //TODO: Queda en el url el addPlayer
             return rankingPage(rankingPageForm, rankingId);
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
 
-        for (RankingTournaments rt : rankingPageForm.getTournaments()){
-            if(!rt.getName().equals("")){
-                final Tournament t = ts.getByName(rt.getName());
-                if (t != null) {
-                    tMap.put(t, rt.getPoints());
-                }
-            }else{
-                errors.rejectValue("tournaments","Empty Tournament", "Empty Tournament");
-                return rankingPage(rankingPageForm, rankingId);
-            }
+        final Tournament tournament = ts.getByName(rankingPageForm.getTournamentName());
+        final Ranking ranking = rs.findById(rankingId);
+
+        if (tournament == null){
+            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.exist");
+            return rankingPage(rankingPageForm, rankingId);
+        } else if (tournament.getGameId() != ranking.getGameId()){
+            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.game");
+            return rankingPage(rankingPageForm, rankingId);
+        } else if (tournament.getStatus() != Tournament.Status.FINISHED){
+            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.notFinished");
+            return rankingPage(rankingPageForm, rankingId);
         }
+        tMap.put(tournament,rankingPageForm.getPoints());
+        rs.addTournaments(rankingId,tMap);
+        LOGGER.info("Added tournament {} to ranking {}", tournament.getId(), rankingId);
 
-        Ranking r = rs.addTournaments(rankingId,tMap);
-
-        return new ModelAndView("redirect:/ranking/" + r.getId());
+        return new ModelAndView("redirect:/ranking/" + ranking.getId());
     }
 
 }
