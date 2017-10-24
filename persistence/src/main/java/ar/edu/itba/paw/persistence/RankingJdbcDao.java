@@ -76,7 +76,7 @@ public class RankingJdbcDao implements RankingDao {
         long gameId = 0;
         final Game g = gameDao.findByName(game);
         if (g != null){
-            gameId = g.getGameId();a
+            gameId = g.getGameId();
             args.put("game_id", gameId);
         }
         args.put("name", name);
