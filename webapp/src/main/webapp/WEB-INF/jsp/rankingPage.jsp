@@ -54,8 +54,8 @@ ${navbar}
                 <table>
                     <thead>
                         <tr>
-                            <th>Tournament</th>
-                            <th>Points</th>
+                            <th><spring:message code="rankingPage.tournaments.table.name"/></th>
+                            <th><spring:message code="rankingPage.tournaments.table.points"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,13 +63,18 @@ ${navbar}
                     <tr>
                         <td><c:out value="${tournament.name}"/></td>
                         <td>${tournament.awardedPoints}</td>
-                        <td><a href="<c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}"/>"><i class="material-icons">delete</i></a></td>
+                        <c:if test="${ranking.userId == loggedUser.id}">
+                        <c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}" var="addTournamentPath"/>"
+                        <form:form action="${addTournamentPath}" method="post">
+                        <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
+                        </form:form>
+                        </c:if>
                     </tr>
                 </c:forEach>
                     </tbody>
                 </table>
             </div>
-
+            <c:if test="${loggedUser.id == ranking.userId}">
             <div class="row">
                 <c:url value="/ranking/${ranking.id}/addTournament" var="postPath"/>
                 <form:form modelAttribute="rankingPageForm" action="${postPath}" method="post">
@@ -92,6 +97,7 @@ ${navbar}
                     <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="ranking.tournament.add"/></button>
             </form:form>
             </div>
+            </c:if>
         </div>
     </div>
 </div>
