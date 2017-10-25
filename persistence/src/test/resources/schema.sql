@@ -1,4 +1,4 @@
-CREATE TYPE TEXT AS VARCHAR (1000000);
+
 
 CREATE TABLE IF NOT EXISTS users (
 user_id IDENTITY PRIMARY KEY,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS game (
 
 CREATE TABLE IF NOT EXISTS game_url_image (
   game_id BIGINT REFERENCES game(game_id),
-  url_image TEXT NOT NULL
+  url_image varchar(10000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS game_image(
@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS match (
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id IDENTITY PRIMARY KEY,
   name varchar(100) NOT NULL,
-  game_id BIGINT REFERENCES game(game_id)
+  game_id BIGINT REFERENCES game(game_id),
+  user_id BIGINT REFERENCES users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS ranking_tournaments (

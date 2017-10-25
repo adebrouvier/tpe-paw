@@ -93,6 +93,8 @@ public class MatchJDBCDao implements MatchDao {
     public Match findById(final int matchId, final long tournamentId) {
         List<Match> list = jdbcTemplate.query("SELECT * FROM match WHERE match_id = ? and tournament_id = ?", ROW_MAPPER, matchId, tournamentId);
 
+        if(list.size() == 0) { return null; }
+
         Match m = list.get(0);
 
         if (m != null) {
