@@ -46,6 +46,7 @@ public class RankingJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "participates_in");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_tournaments");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_players");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking");
@@ -70,6 +71,8 @@ public class RankingJdbcDaoTest {
         jdbcTemplate.execute("INSERT INTO ranking_players VALUES (1,1,800)");
         jdbcTemplate.execute("INSERT INTO ranking_players VALUES (1,2,400)");
         jdbcTemplate.execute("INSERT INTO ranking_players VALUES (2,1,1600)");
+        jdbcTemplate.execute("INSERT INTO participates_in VALUES (1,1,1,3)");
+        jdbcTemplate.execute("INSERT INTO participates_in VALUES (2,1,1,3)");
     }
 
     @Test
