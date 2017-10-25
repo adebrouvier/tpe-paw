@@ -12,6 +12,7 @@
     <script type="text/javascript" src="<c:url value="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/players.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
 <body data-tournamentId="<c:out value="${tournament.id}"/>">

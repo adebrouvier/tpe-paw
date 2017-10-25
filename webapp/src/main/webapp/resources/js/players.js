@@ -11,7 +11,7 @@ $(document).ready(function(){
                 $(this).removeAttr('data-previndex');
                 $.ajax({
                     type: 'POST',//falta el tournamentId
-                    url: '/swap/player/' + tournamentId + '/' + oldIndex + '/' + newIndex,
+                    url: contextPath + '/swap/player/' + tournamentId + '/' + oldIndex + '/' + newIndex,
                     success: function () {
                         url = window.location.href;
                         window.location.replace(url);
