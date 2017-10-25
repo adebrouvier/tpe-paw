@@ -169,7 +169,7 @@ public class PlayerJdbcDao implements PlayerDao {
 
     @Override
     public List<Player> getTournamentPlayers(long tournamentId) {
-        return jdbcTemplate.query("SELECT player.player_id,player.name,users.user_id,users.user_name FROM (player NATURAL JOIN participates_in)" +
+        return jdbcTemplate.query("SELECT player.name, player_id, users.user_id, users.user_name FROM (player NATURAL JOIN participates_in)" +
                 "LEFT JOIN users ON player.user_id = users.user_id WHERE tournament_id = ? ORDER BY seed", ROW_MAPPER_USERNAME, tournamentId);
     }
 

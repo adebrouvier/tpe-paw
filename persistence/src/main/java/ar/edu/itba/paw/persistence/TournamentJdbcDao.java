@@ -164,8 +164,8 @@ public class TournamentJdbcDao implements TournamentDao {
     public boolean participatesIn(long userId, long tournamentId) {
 
         final Integer count = jdbcTemplate.queryForObject(
-                "SELECT count(*) FROM participates_in NATURAL JOIN users WHERE tournament_id = ?" +
-                        "AND user_id = ?", Integer.class, tournamentId, userId);
+                "SELECT count(*) FROM participates_in NATURAL JOIN player WHERE tournament_id = ?" +
+                        "AND player.user_id = ?", Integer.class, tournamentId, userId);
 
         return count > 0;
     }
