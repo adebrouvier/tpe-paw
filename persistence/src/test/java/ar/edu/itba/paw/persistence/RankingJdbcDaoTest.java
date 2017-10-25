@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -45,31 +46,73 @@ public class RankingJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_tournaments");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_players");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        jdbcTemplate.execute("INSERT INTO users VALUES (1, 'Pibe', 'contraseña')");
+        jdbcTemplate.execute("INSERT INTO users VALUES (2, 'Pibe2', 'contraseña')");
+        jdbcTemplate.execute("INSERT INTO player VALUES (1, 'Jugador1', 1)");
+        jdbcTemplate.execute("INSERT INTO player VALUES (2,  'Jugador2', 2)");
+        jdbcTemplate.execute("INSERT INTO game VALUES (1, 'Smash', true)");
+        jdbcTemplate.execute("INSERT INTO game VALUES (2, 'Smosh', true)");
+        jdbcTemplate.execute("INSERT INTO tournament VALUES (1, 'NEW', 'Torneo', 1, 1)");
+        jdbcTemplate.execute("INSERT INTO tournament VALUES (2, 'NEW', 'Torneo2', 2, 2)");
+        jdbcTemplate.execute("INSERT INTO ranking VALUES (1, 'Ranking', 1, 1)");
+        jdbcTemplate.execute("INSERT INTO ranking VALUES (2, 'Ranking2', 2, 1)");
+        jdbcTemplate.execute("INSERT INTO ranking_tournaments VALUES (1,1,1000)");
+        jdbcTemplate.execute("INSERT INTO ranking_tournaments VALUES (1,2,1000)");
+        jdbcTemplate.execute("INSERT INTO ranking_tournaments VALUES (2,1,2000)");
+        jdbcTemplate.execute("INSERT INTO ranking_players VALUES (1,1,800)");
+        jdbcTemplate.execute("INSERT INTO ranking_players VALUES (1,2,400)");
+        jdbcTemplate.execute("INSERT INTO ranking_players VALUES (2,1,1600)");
     }
 
     @Test
-    public void test() throws DuplicateUsernameException {
-        final User user = userJdbcDao.create("user", "useruser");
-        final Player dummy = playerJdbcDao.create("Dummy");
-        final Player player1 = playerJdbcDao.create("Alex");
-        final Player player2 = playerJdbcDao.create("Alexis");
-        final Game game = gameJdbcDao.create("Smash", true);
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", 2, 0);
-        final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
+    public void testCreateRanking() throws DuplicateUsernameException {
         final Map<Tournament, Integer> criteria = new HashMap<>();
-        criteria.put(tourney, 100);
+        criteria.put(tournamentJdbcDao.findById(1), 100);
         Ranking ranking = rankingJdbcDao.create("Ranking", criteria, "Smash", 1);
         assertNotNull(ranking);
-        ranking = rankingJdbcDao.findById(0);
-        assertEquals(0, ranking.getId());
-        assertEquals("Ranking", ranking.getName());
+    }
+
+    @Test
+    public void testFindRankingByIdSuccess() {
+        assertNotNull(rankingJdbcDao.findById(1));
+    }
+
+    @Test
+    public void testFindRankingByIdFailure() {
+        assertNull(rankingJdbcDao.findById(123));
+    }
+
+    @Test
+    public void testGetPlayers() {
+        Ranking ranking = rankingJdbcDao.findById(1);
+        assertEquals(2, ranking.getUsers().size());
+    }
+
+    @Test
+    public void testGetPointsCorrectly() {
+        assertEquals(800, rankingJdbcDao.findById(1).getUsers().get(0).getPoints());
+    }
+
+    @Test
+    public void testGetTournamentPointValue() {
+        assertEquals(1000, rankingJdbcDao.findById(1).getTournaments().get(0).getAwardedPoints());
+    }
+
+    @Test
+    public void testFindRankingsByName() {
+        assertEquals(2, rankingJdbcDao.findRankingNames("Ran").size());
+    }
+
+    @Test
+    public void testFindFeaturedRanking() {
+        assertEquals(2, rankingJdbcDao.findFeaturedRankings(10).size());
     }
 }

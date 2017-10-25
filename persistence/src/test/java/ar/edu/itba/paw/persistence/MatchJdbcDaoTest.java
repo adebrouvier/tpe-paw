@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -38,39 +39,65 @@ public class MatchJdbcDaoTest {
     private UserJdbcDao userJdbcDao;
     private JdbcTemplate jdbcTemplate;
 
-
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"participates_in");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        jdbcTemplate.execute("INSERT INTO users VALUES (1, 'Pibe', 'contraseña')");
+        jdbcTemplate.execute("INSERT INTO users VALUES (2, 'Pibe2', 'contraseña')");
+        jdbcTemplate.execute("INSERT INTO player VALUES (1, 'Jugador1', 1)");
+        jdbcTemplate.execute("INSERT INTO player VALUES (2,  'Jugador2', 2)");
+        jdbcTemplate.execute("INSERT INTO game VALUES (1, 'Smash', true)");
+        jdbcTemplate.execute("INSERT INTO game VALUES (2, 'Smosh', true)");
+        jdbcTemplate.execute("INSERT INTO tournament VALUES (1, 'NEW', 'Torneo', 1, 1)");
+        jdbcTemplate.execute("INSERT INTO tournament VALUES (2, 'NEW', 'Torneo2', 2, 2)");
+        jdbcTemplate.execute("INSERT INTO match VALUES (3,1,1,2,0,0,1,null,TRUE)");
+        jdbcTemplate.execute("INSERT INTO match VALUES (1,1,1,2,0,0,3,3,TRUE)");
+        jdbcTemplate.execute("INSERT INTO match VALUES (2,1,1,2,0,0,3,3,TRUE)");
+        jdbcTemplate.execute("INSERT INTO participates_in VALUES (1,1,1,3)");
+        jdbcTemplate.execute("INSERT INTO participates_in VALUES (2,1,1,3)");
     }
 
     @Test
-    public void test() throws DuplicateUsernameException {
-        final User user = userJdbcDao.create("Kachow", "asddas");
-        final Player dummy = playerJdbcDao.create("Dummy");
-        final Player player1 = playerJdbcDao.create("Alex");
-        final Player player2 = playerJdbcDao.create("Alexis");
-        final Tournament tourney = tournamentJdbcDao.create("Prueba", 2, 0);
-        final Match match = matchDao.create(1,0,true, 0, 1, 2, 17);
-        final Match match2 = matchDao.findById(1,0);
-        assertNotNull(match);
-        assertNotNull(match2);
-        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "match"));
-        assertEquals(1, match.getHomePlayerId());
-        assertEquals(17, match.getStanding());
-        assertEquals(1, match2.getHomePlayerId());
-        assertEquals(17, match2.getStanding());
-
-        final Match match3 = matchDao.updateScore(0,1,2,1);
-        assertNotNull(match3);
-        assertEquals(2, match3.getHomePlayerScore());
-        assertEquals(1, match3.getAwayPlayerScore());
+    public void testFindByIdSuccess() throws DuplicateUsernameException {
+        assertNotNull(matchDao.findById(1,1));
     }
 
+    @Test
+    public void testFindByIdFailure() {
+        assertNull(matchDao.findById(4,1));
+    }
 
+    @Test
+    public void testUpdateMatchAwayScore() {
+        matchDao.updateScore(1,1,1,2);
+        assertEquals(2, matchDao.findById(1,1).getAwayPlayerScore());
+    }
+
+    @Test
+    public void testUpdateMatchHomeScore() {
+        matchDao.updateScore(1,1,1,2);
+        assertEquals(1, matchDao.findById(1,1).getHomePlayerScore());
+    }
+
+    @Test
+    public void testUpdatePlayer() {
+        matchDao.updateStanding(1,3,1);
+    }
+
+    @Test
+    public void testGetTournamentMatches() {
+        assertEquals(3, matchDao.getTournamentMatches(1).size());
+    }
+
+    @Test
+    public void testGetStanding() {
+        assertEquals(1, matchDao.findById(3,1).getStanding());
+    }
 
 }

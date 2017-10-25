@@ -95,4 +95,13 @@ public interface TournamentService {
      * @param tournamentId id of the Tournament
      */
     public void generateBracket(long tournamentId);
+
+    /**
+     * Checks if an user is already participating in a Tournament.
+     * @param userId id of the User.
+     * @param tournamentId id of the Tournament.
+     * @return true if the user is participating in the tournament,
+     * false otherwise.
+     */
+    boolean participatesIn(long userId, long tournamentId);
 }
