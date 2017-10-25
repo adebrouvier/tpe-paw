@@ -275,9 +275,6 @@ public class RankingJdbcDao implements RankingDao {
             case RankingDao.FIFTH:
                 playerScore = (int) (tournamentScore * RankingDao.FIFTH_SCORE);
                 return playerScore;
-            case RankingDao.SEVENTH:
-                playerScore = (int) (tournamentScore * RankingDao.SEVENTH_SCORE);
-                return playerScore;
             default:
                 playerScore = RankingDao.NO_SCORE;
                 return playerScore;
