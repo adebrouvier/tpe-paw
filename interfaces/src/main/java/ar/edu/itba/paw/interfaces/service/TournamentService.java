@@ -90,5 +90,9 @@ public interface TournamentService {
      */
     public Tournament getByName(String name);
 
+    /**
+     * Generates bracket for the specified Tournament
+     * @param tournamentId id of the Tournament
+     */
     public void generateBracket(long tournamentId);
 }

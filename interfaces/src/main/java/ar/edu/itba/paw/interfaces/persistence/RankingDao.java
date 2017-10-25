@@ -33,7 +33,7 @@ public interface RankingDao {
     /**
      *Creates a ranking with specified name and
      * a list of tournaments with its corresponding points
-     * @param name of the ranking
+     * @param name of the Ranking
      * @param tournaments taken into account
      * @param game that the tournaments will feature
      * @param userId id of the user that created the ranking
@@ -42,15 +42,18 @@ public interface RankingDao {
      Ranking create(final String name, final Map<Tournament, Integer> tournaments, String game, long userId);
 
     /**
-     * Finds any Ranking that matches the
-     * specified name
-     * @param term name of the Rankings
-     * @return a list of instances of the
-     * matched Rankings
+     * Searches for a {@link Ranking}
+     * @param term name of part of the name
+     * @return a list of matching rankings
      */
      List<Ranking> findByName(String term);
 
-    //TODO: add javadoc
+    /**
+     * Searchs by a partially completed name for a Ranking that
+     * matches
+     * @param query partial name
+     * @return list of Rankings that matched
+     */
     List<String> findRankingNames(String query);
 
     /**

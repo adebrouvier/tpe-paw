@@ -78,7 +78,19 @@ public interface PlayerService {
      */
     void setDefaultStanding(int standing, long tournamentId);
 
+    /**
+     * Gets every Player that participates
+     * in the Tournament specified with the id
+     * @param tournamentId id of the Tournament
+     * @return list of the Players participating
+     */
     public List<Player> getTournamentPlayers(long tournamentId);
 
+    /**
+     * Adds Player to a Tournament both specified
+     * by id
+     * @param id of the Player
+     * @param tournamentId id of the Tournament
+     */
     void addToTournament(long id, long tournamentId);
 }

@@ -41,9 +41,29 @@ public interface RankingService {
      */
     public List<Ranking> findByName(String term);
 
+    /**
+     * Searchs by a partially completed name for a Ranking that
+     * matches
+     * @param query partial name
+     * @return list of Rankings that matched
+     */
     List<String> findRankingNames(String query);
 
+    /**
+     * Add Tournaments to a specified Ranking
+     * @param rankingId id of the Ranking
+     * @param tournaments Map of Tournament
+     *                    and the points each
+     *                    one awards
+     * @return instance of the modified Ranking
+     */
     Ranking addTournaments(final long rankingId, Map<Tournament, Integer> tournaments);
 
+    /**
+     *
+     * Returns a list of the featured Rankings
+     * @param featured amount of Ranking to be featured
+     * @return list of the featured Rankings
+     */
     List<Ranking> findFeaturedRankings(int featured);
 }

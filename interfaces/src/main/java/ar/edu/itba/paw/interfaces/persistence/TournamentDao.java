@@ -31,6 +31,12 @@ public interface TournamentDao {
      */
     public List<Tournament> findFeaturedTournaments(int featured);
 
+    /**
+     * Sets a Tournament status to either
+     * NEW, STARTED or FINISHED
+     * @param tournamentId id of the Tournament
+     * @param status status of the Tournament
+     */
     public void setStatus(long tournamentId, Tournament.Status status);
 
     /**

@@ -85,7 +85,20 @@ public interface PlayerDao {
      */
     void setDefaultStanding(int standing, long tournamentId);
 
+    /**
+     * Creates a Player with the specified name
+     * and user id.
+     * @param name of the Player
+     * @param userId id of the User
+     * @return an instance of the new Player
+     */
     public Player create(String name, long userId);
 
+    /**
+     * Adds a Player to a Tournament
+     * both specified by id
+     * @param playerId id of the Player
+     * @param tournamentId id of the Tournament
+     */
     public void addToTournament(long playerId, long tournamentId);
 }
