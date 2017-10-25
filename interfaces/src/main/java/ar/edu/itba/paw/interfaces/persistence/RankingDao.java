@@ -16,9 +16,9 @@ public interface RankingDao {
     int SEVENTH = 7;
     double FIRST_SCORE = 0.4;
     double SECOND_SCORE = 0.2;
-    double THIRD_SCORE = 0.15;
+    double THIRD_SCORE = 0.1;
     double FOURTH_SCORE = 0.1;
-    double FIFTH_SCORE = 0.1;
+    double FIFTH_SCORE = 0.05;
     double SEVENTH_SCORE = 0.025;
     int NO_SCORE = 0;
 
