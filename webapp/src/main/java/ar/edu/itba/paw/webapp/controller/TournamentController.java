@@ -137,10 +137,21 @@ public class TournamentController {
     }
 
     @RequestMapping( value = "/update/tournament/{tournamentId}/players", method = RequestMethod.POST)
-    public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId){
+    public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
 
         if (errors.hasErrors()){
             return tournament(playerForm, tournamentId);
+        }
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to add player to tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
         }
 
         String username = playerForm.getUsername();
@@ -174,10 +185,21 @@ public class TournamentController {
 
     @RequestMapping(value = "/update/{tournamentId}/{matchId}", method = { RequestMethod.POST })
     public ModelAndView updateMatch(@Valid @ModelAttribute("matchForm")
-                               final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId) {
+                               final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
             return tournament(form,tournamentId);
+        }
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to update match on tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
         }
 
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
@@ -187,7 +209,19 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/update/tournament/{tournamentId}/end", method = { RequestMethod.POST })
-    public ModelAndView endTournament(@PathVariable long tournamentId) {
+    public ModelAndView endTournament(@PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser) {
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to end the tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
+        }
+
         ts.setStatus(tournamentId, Tournament.Status.FINISHED);
         LOGGER.info("Ended tournament {}", tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
@@ -205,7 +239,18 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/remove/player/{tournamentId}/{playerId}", method = { RequestMethod.POST })
-    public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId) {
+    public ModelAndView removePlayer(@PathVariable long tournamentId, @PathVariable int playerId, @ModelAttribute("loggedUser") User loggedUser) {
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to remove player to tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
+        }
 
         if(ps.removeToTournament(tournamentId, playerId)) {
             ps.delete(playerId);
@@ -215,14 +260,38 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/swap/player/{tournamentId}/{playerOldSeed}/{playerNewSeed}", method = { RequestMethod.POST })
-    public ModelAndView swapPlayer(@PathVariable long tournamentId, @PathVariable int playerOldSeed,@PathVariable int playerNewSeed) {
+    public ModelAndView swapPlayer(@PathVariable long tournamentId, @PathVariable int playerOldSeed,@PathVariable int playerNewSeed, @ModelAttribute("loggedUser") User loggedUser) {
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to swap player to tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
+        }
+
         ps.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
         LOGGER.info("Swapped seed {} with seed {} from tournament {}", playerOldSeed, playerNewSeed, tournamentId);
         return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
     }
 
     @RequestMapping(value ="/update/tournament/{tournamentId}/generate", method = {RequestMethod.POST})
-    public ModelAndView generateBracket(@PathVariable long tournamentId){
+    public ModelAndView generateBracket(@PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
+
+        final Tournament tournament = ts.findById(tournamentId);
+
+        if (tournament == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (tournament.getUserId() != loggedUser.getId()){
+            LOGGER.warn("Unauthorized User {} tried to generate the tournament {}", loggedUser.getId(), tournamentId);
+            return new ModelAndView("redirect:/403");
+        }
+
         ts.generateBracket(tournamentId);
         ts.setStatus(tournamentId, Tournament.Status.STARTED);
         LOGGER.debug("Generated bracket for tournament {}", tournamentId);

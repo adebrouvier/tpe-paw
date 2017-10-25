@@ -109,8 +109,6 @@ public class MatchJDBCDao implements MatchDao {
     @Override
     public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
 
-        //TODO: check ties and defined matches
-
         Match match = findById(matchId, tournamentId);
 
         if (match == null){
@@ -207,7 +205,6 @@ public class MatchJDBCDao implements MatchDao {
         List<Match> matches = jdbcTemplate.query("SELECT * FROM match" +
                 " WHERE tournament_id = ? ORDER BY match_id ASC", ROW_MAPPER, tournamentId);
 
-        //TODO ask if is okay to do this
         for (Match m : matches) {
             Player homePlayer = playerDao.findById(m.getHomePlayerId());
             Player awayPlayer = playerDao.findById(m.getAwayPlayerId());

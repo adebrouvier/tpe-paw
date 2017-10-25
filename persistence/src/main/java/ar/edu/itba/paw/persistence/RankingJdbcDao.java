@@ -118,25 +118,12 @@ public class RankingJdbcDao implements RankingDao {
     @Override
     public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
         Map<Tournament, Integer> filteredTournaments = new HashMap<>();
-        boolean flag = true; //TODO think a better solution
         Ranking r = findById(rankingId);
         for (Tournament tournament : tournaments.keySet()) {
             if(checkTournamentValidForRanking(r, tournament)) {
                 filteredTournaments.put(tournament, tournaments.get(tournament));
             }
-            /**if (r.getGameId() == tournament.getGameId()) {
-                if (tournament.getStatus() == Tournament.Status.FINISHED) {
-                    for(TournamentPoints tPoints: r.getTournaments()){
-                        if(tPoints.getTournamentId() == tournament.getId()){
-                            flag = false;
-                        }
-                    }
-                    if(flag){
-                        filteredTournaments.put(tournament, tournaments.get(tournament));
-                    }
-                }
-            }
-            flag = true;*/
+
         }
 
         addTournamentToRanking(rankingId, filteredTournaments);
@@ -182,7 +169,6 @@ public class RankingJdbcDao implements RankingDao {
     private List<UserScore> getRankingUsers(long rankingId) {
         List<UserScore> users;
         users = jdbcTemplate.query("SELECT user_id, points FROM ranking_players WHERE ranking_id = ? ORDER BY points DESC", USER_RANKING_MAPPER, rankingId);
-        //TODO: Make a function getUserNameById
         for (UserScore user : users) {
             user.setUserName(userDao.findById(user.getUserId()).getName());
         }
@@ -192,7 +178,6 @@ public class RankingJdbcDao implements RankingDao {
 
     private List<TournamentPoints> getRankingTournaments(long rankingId) {
         List<TournamentPoints> tournamentsPoints = jdbcTemplate.query("SELECT tournament_id, awarded_points FROM ranking_tournaments WHERE ranking_id = ?", TOURNAMENT_MAPPER, rankingId);
-        //TODO: Make a function getNameById()
         for (TournamentPoints tPoints : tournamentsPoints) {
             tPoints.setName(tournamentDao.findById(tPoints.getTournamentId()).getName());
         }

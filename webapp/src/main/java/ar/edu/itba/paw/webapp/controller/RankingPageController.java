@@ -87,7 +87,7 @@ public class RankingPageController {
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
-        final Tournament tournament = ts.getByName(rankingPageForm.getTournamentName());
+        final Tournament tournament = ts.getByNameAndGameId(rankingPageForm.getTournamentName(), ranking.getGameId());
 
         if (tournament == null){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.exist");

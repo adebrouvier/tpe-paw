@@ -52,9 +52,7 @@ public class RankingController {
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
-        Game game = pmc.addGameImage(rankingForm.getGame());
-
-        String gameName = rankingForm.getGame();
+        pmc.addGameImage(rankingForm.getGame());
 
         Ranking r = rs.create(rankingForm.getRankingName(), tMap, rankingForm.getGame(), loggedUser().getId());
         LOGGER.info("Created Ranking with id {}", r.getId());

@@ -104,4 +104,12 @@ public interface TournamentService {
      * false otherwise.
      */
     boolean participatesIn(long userId, long tournamentId);
+
+    /**
+     * Find finished tournament by name and gameId.
+     * @param tournamentName the tournament name.
+     * @param gameId id of the game.
+     * @return a tournament.
+     */
+    Tournament getByNameAndGameId(String tournamentName, long gameId);
 }

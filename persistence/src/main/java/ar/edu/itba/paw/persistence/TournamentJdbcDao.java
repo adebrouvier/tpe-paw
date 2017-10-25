@@ -57,7 +57,6 @@ public class TournamentJdbcDao implements TournamentDao {
         t.addPlayer(players);
         t.addMatch(matches);
 
-        //TODO: el model deberia hacer eso.
         Integer numberOfMatches = getNumberOfMatches(t.getId());
         Integer numberOfPlayers = getNumberOfPlayers(t.getId());
         t.setSize(numberOfPlayers);
@@ -168,6 +167,17 @@ public class TournamentJdbcDao implements TournamentDao {
                         "AND player.user_id = ?", Integer.class, tournamentId, userId);
 
         return count > 0;
+    }
+
+    @Override
+    public Tournament getByNameAndGameId(String tournamentName, long gameId) {
+        final List<Tournament> list = jdbcTemplate.query("SELECT * FROM tournament WHERE name = ? AND game_id = ? AND status = ?",
+                ROW_MAPPER, tournamentName, gameId, Tournament.Status.FINISHED.toString());
+        if (list.isEmpty()) {
+            return null;
+        }
+        list.get(0).setPlayers(playerDao.getTournamentPlayers(list.get(0).getId()));
+        return list.get(0);
     }
 
     @Override

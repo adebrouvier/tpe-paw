@@ -41,7 +41,7 @@ ${navbar}
                     <c:if test="${loggedUser.id == tournament.userId}">
                     <div class="center">
 
-                        <c:url value="update/tournament/${tournament.id}/end" var="endPath"/>
+                        <c:url value="/update/tournament/${tournament.id}/end" var="endPath"/>
                         <form:form action="${endPath}" method="post">
                             <c:if test="${tournament.status == 'STARTED'}">
                                 <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">

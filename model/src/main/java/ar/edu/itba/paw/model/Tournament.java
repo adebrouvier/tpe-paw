@@ -21,7 +21,6 @@ public class Tournament {
      * List of all the players, including BYES
      */
     private List<Player> players;
-    //TODO Players should have their standing
 
     /**
      * List of every match, including BYES

@@ -106,11 +106,6 @@ public class PlayerJdbcDao implements PlayerDao {
     @Override
     public long findBySeed(int seed, long tournamentId) {
 
-        //TODO Select the best option
-
-        /*final List<Player> list = jdbcTemplate.query(
-                "SELECT * FROM participates_in WHERE player_id = (SELECT player_id FROM participates_in WHERE seed = ?)",ROW_MAPPER, seed);
-                */
 
         final List<Long> list = jdbcTemplate.query("SELECT * FROM participates_in WHERE seed = ? AND tournament_id = ?", LONG_MAPPER, seed, tournamentId);
 
@@ -122,7 +117,7 @@ public class PlayerJdbcDao implements PlayerDao {
 
     @Override
     public Player create(String name) {
-        if(name.length() > PlayerDao.NAME_LENGTH) { //TODO ver que no rompe nada
+        if(name.length() > PlayerDao.NAME_LENGTH) {
             return null;
         }
         final Map<String, Object> args = new HashMap<>();
@@ -143,7 +138,7 @@ public class PlayerJdbcDao implements PlayerDao {
         args.put("player_id", playerId);
         args.put("tournament_id", tournamentId);
         args.put("seed", seed);
-        args.put("standing", PlayerDao.EMPTY_STANDING); //TODO: Wouldnt be better to set default standing here?
+        args.put("standing", PlayerDao.EMPTY_STANDING);
 
         int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
 
@@ -180,7 +175,7 @@ public class PlayerJdbcDao implements PlayerDao {
 
     @Override
     public Player create(String name, long userId) {
-        if(name.length() > 25) { //TODO ver que no rompe nada
+        if(name.length() > PlayerDao.NAME_LENGTH) {
             return null;
         }
         final Map<String, Object> args = new HashMap<>();

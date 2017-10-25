@@ -85,13 +85,17 @@ public class TournamentServiceImpl implements TournamentService {
             playerService.addToTournament(BYE_ID, tournamentId);
             players.add(new Player(BYE_NAME, BYE_ID));
         }
-        /*TODO:tournament.getMatches() is empty. The tournament in return is not updated*/
         generateSingleEliminationBracket(tournamentId, players);
     }
 
     @Override
     public boolean participatesIn(long userId, long tournamentId) {
         return tournamentDao.participatesIn(userId, tournamentId);
+    }
+
+    @Override
+    public Tournament getByNameAndGameId(String tournamentName, long gameId) {
+        return tournamentDao.getByNameAndGameId(tournamentName, gameId);
     }
 
     /**
