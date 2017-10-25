@@ -15,6 +15,7 @@
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/index.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><spring:message code="index.title"/></title>
 </head>
 <body>

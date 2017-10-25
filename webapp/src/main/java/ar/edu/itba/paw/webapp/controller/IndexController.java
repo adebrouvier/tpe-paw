@@ -43,7 +43,7 @@ public class IndexController {
      * @param query term to search
      * @return an array of tournament names
      */
-    @RequestMapping(value = "/paw-2017b-2/tournament_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/tournament_autocomplete", method = RequestMethod.GET)
     public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query, @RequestParam(value = "game", required = false) Long game) {
 
         if (game == null){
@@ -58,7 +58,7 @@ public class IndexController {
      * @param query term to search
      * @return an array of ranking names
      */
-    @RequestMapping(value = "/paw-2017b-2/ranking_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/ranking_autocomplete", method = RequestMethod.GET)
     public @ResponseBody List<String> rankingAutocomplete(@RequestParam("query") String query) {
         return rs.findRankingNames(query);
     }

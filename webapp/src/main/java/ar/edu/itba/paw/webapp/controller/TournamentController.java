@@ -54,7 +54,7 @@ public class TournamentController {
         return mav;
     }
 
-    @RequestMapping(value = "/paw-2017b-2/games_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/games_autocomplete", method = RequestMethod.GET)
     public @ResponseBody
     List<String> gamesAutocomplete(@RequestParam("query") String query) {
         return gs.findGameNames(query);

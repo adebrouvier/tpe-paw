@@ -14,6 +14,7 @@
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/tournament.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/game-autocomplete.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><spring:message code="tournament.title"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
