@@ -9,6 +9,7 @@ import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class TournamentServiceImpl implements TournamentService {
         tournamentDao.setStatus(tournamentId, status);
     }
 
+    @Transactional
     @Override
     public Tournament create(String name, long gameId, long userId) {
         return tournamentDao.create(name, gameId, userId);
@@ -70,6 +72,7 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentDao.getByName(name);
     }
 
+    @Transactional
     @Override
     public void generateBracket(long tournamentId){
 
