@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findById(rankingId);
     }
 
+    @Transactional
     @Override
     public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
         return rankingDao.create(name,tournaments, game, userId);
@@ -36,6 +38,7 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findRankingNames(query);
     }
 
+    @Transactional
     @Override
     public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
         return rankingDao.addTournaments(rankingId,tournaments);
@@ -46,6 +49,7 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findFeaturedRankings(featured);
     }
 
+    @Transactional
     @Override
     public void delete(long rankingId, long tournamentId) {
         rankingDao.delete(rankingId, tournamentId);

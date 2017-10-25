@@ -16,9 +16,11 @@ public class RegisterForm {
     private String username;
 
     @Size(min = 6, max = 100)
+    @Pattern(regexp = "[a-zA-Z0-9]+")
     private String password;
 
     @Size(min = 6, max = 100)
+    @Pattern(regexp = "[a-zA-Z0-9]+")
     private String repeatPassword;
 
     public String getUsername() {

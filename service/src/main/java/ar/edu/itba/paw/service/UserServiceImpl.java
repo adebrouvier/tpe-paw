@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {	
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.findByName(name);
 	}
 
+	@Transactional
 	@Override
 	public User create(String name,String password) throws DuplicateUsernameException {
 		return userDao.create(name,password);

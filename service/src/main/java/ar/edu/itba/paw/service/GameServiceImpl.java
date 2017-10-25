@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class GameServiceImpl implements GameService{
         return gameDao.findByName(name);
     }
 
+    @Transactional
     @Override
     public Game create(String name, boolean userGenerated) {
         return gameDao.create(name, userGenerated);

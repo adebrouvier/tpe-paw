@@ -3,11 +3,29 @@ package ar.edu.itba.paw.interfaces.persistence;
 import ar.edu.itba.paw.model.User;
 
 public interface UserDao {
-	
+
+	/**
+	 * Finds a User with the specified id
+	 * @param id of the User
+	 * @return instance of the User
+	 */
 	public User findById (long id);
 
+	/**
+	 * Finds a User with the specified name
+	 * @param name of the User
+	 * @return instance of the User
+	 */
 	public User findByName(String name);
 
+	/**
+	 * Creates a User with the specified
+	 * name and password.
+	 * @param name of the User
+	 * @param password of the User
+	 * @return instance of the new User
+	 * @throws DuplicateUsernameException
+	 */
 	public User create(String name,String password) throws DuplicateUsernameException;
 
 }

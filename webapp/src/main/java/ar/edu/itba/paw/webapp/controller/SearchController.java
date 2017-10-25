@@ -5,6 +5,8 @@ import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.webapp.form.SearchForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,8 @@ import java.util.List;
 @Controller
 public class SearchController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
+
     @Autowired
     private TournamentService ts;
 
@@ -27,6 +31,8 @@ public class SearchController {
 
     @RequestMapping("/search")
     public ModelAndView search(@ModelAttribute("searchForm") final SearchForm searchForm, @RequestParam(required = false) String query){
+
+        LOGGER.debug("Access to search");
 
         if (query == null){
             return new ModelAndView("search");
