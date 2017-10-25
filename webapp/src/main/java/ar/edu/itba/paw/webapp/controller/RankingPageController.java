@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.model.TournamentPoints;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
 import org.slf4j.Logger;
@@ -97,6 +98,13 @@ public class RankingPageController {
         } else if (tournament.getStatus() != Tournament.Status.FINISHED){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.notFinished");
             return rankingPage(rankingPageForm, rankingId);
+        } else{
+            for(TournamentPoints tPoints: ranking.getTournaments()){
+                if(tournament.getId() == tPoints.getTournamentId()){
+                    errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.duplicateTournament");
+                    return rankingPage(rankingPageForm,rankingId);
+                }
+            }
         }
         tMap.put(tournament,rankingPageForm.getPoints());
         rs.addTournaments(rankingId,tMap);
