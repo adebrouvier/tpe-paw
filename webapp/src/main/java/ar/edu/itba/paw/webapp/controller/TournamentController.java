@@ -69,6 +69,7 @@ public class TournamentController {
         Game game = pmc.addGameImage(form.getGame());
 
         final Tournament t = ts.create(form.getTournamentName(), game.getGameId(), loggedUser.getId());
+        LOGGER.info("Created tournament {} with id {}", t.getName(), t.getId());
         return new ModelAndView("redirect:/tournament/"+ t.getId() + "/players");
     }
 
@@ -98,6 +99,7 @@ public class TournamentController {
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
+        LOGGER.debug("Access to tournament {} standings", t.getId());
         final ModelAndView mav = new ModelAndView("standings");
         final Game game = gs.findById(t.getGameId());
         if(game == null) {
@@ -172,11 +174,13 @@ public class TournamentController {
     @RequestMapping(value = "/update/{tournamentId}/{matchId}", method = { RequestMethod.POST })
     public ModelAndView updateMatch(@Valid @ModelAttribute("matchForm")
                                final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId) {
+
         if (errors.hasErrors()) {
             return tournament(form,tournamentId);
         }
 
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
+        LOGGER.info("Updated score of match {} from tournament {}", matchId, tournamentId);
 
         return new ModelAndView("redirect:/tournament/"+ tournamentId);
     }
@@ -184,6 +188,7 @@ public class TournamentController {
     @RequestMapping(value = "/tournament/{tournamentId}/end", method = { RequestMethod.POST })
     public ModelAndView endTournament(@PathVariable long tournamentId) {
         ts.setStatus(tournamentId, Tournament.Status.FINISHED);
+        LOGGER.info("Ended tournament {}", tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
@@ -203,6 +208,7 @@ public class TournamentController {
 
         if(ps.removeToTournament(tournamentId, playerId)) {
             ps.delete(playerId);
+            LOGGER.info("Removed player {} from tournament {}", playerId, tournamentId);
         }
         return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
     }
@@ -210,6 +216,7 @@ public class TournamentController {
     @RequestMapping(value = "/swap/player/{tournamentId}/{playerOldSeed}/{playerNewSeed}", method = { RequestMethod.POST })
     public ModelAndView swapPlayer(@PathVariable long tournamentId, @PathVariable int playerOldSeed,@PathVariable int playerNewSeed) {
         ps.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
+        LOGGER.info("Swapped seed {} with seed {} from tournament {}", playerOldSeed, playerNewSeed, tournamentId);
         return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
     }
 
