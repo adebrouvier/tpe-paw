@@ -13,12 +13,12 @@ CREATE TABLE IF NOT EXISTS game (
 );
 
 CREATE TABLE IF NOT EXISTS game_url_image (
-  game_id BIGINT REFERENCES game(game_id),
+  game_id BIGINT REFERENCES game(game_id) ON DELETE CASCADE,
   url_image varchar(10000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS game_image(
-  game_id BIGINT REFERENCES game(game_id),
+  game_id BIGINT REFERENCES game(game_id) ON DELETE CASCADE,
   image binary NOT NULL
 );
 
@@ -27,19 +27,19 @@ CREATE TABLE IF NOT EXISTS tournament (
   tournament_id IDENTITY PRIMARY KEY,
   status VARCHAR(10) DEFAULT 'NEW',
   name varchar(100) NOT NULL,
-  game_id BIGINT REFERENCES game(game_id),
-  user_id BIGINT REFERENCES users(user_id)
+  game_id BIGINT REFERENCES game(game_id) ON DELETE CASCADE,
+  user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS player (
   player_id IDENTITY PRIMARY KEY,
   name varchar(25) NOT NULL,
-  user_id BIGINT REFERENCES users(user_id)
+  user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS participates_in (
-  player_id BIGINT REFERENCES player(player_id),
-  tournament_id BIGINT REFERENCES tournament(tournament_id),
+  player_id BIGINT REFERENCES player(player_id) ON DELETE CASCADE,
+  tournament_id BIGINT REFERENCES tournament(tournament_id) ON DELETE CASCADE,
   seed INTEGER,
   standing INTEGER
 );
@@ -53,32 +53,32 @@ WHEN MATCHED THEN UPDATE SET player_id = -1
 CREATE TABLE IF NOT EXISTS match (
   match_id BIGINT NOT NULL,
   tournament_id BIGINT REFERENCES tournament(tournament_id) ON DELETE CASCADE,
-  home_player_id BIGINT REFERENCES player(player_id),
-  away_player_id BIGINT REFERENCES player(player_id),
+  home_player_id BIGINT REFERENCES player(player_id) ON DELETE CASCADE,
+  away_player_id BIGINT REFERENCES player(player_id) ON DELETE CASCADE,
   home_player_score INTEGER DEFAULT 0,
   away_player_score INTEGER DEFAULT 0,
   standing INTEGER,
   next_match_id BIGINT,
   next_match_home BOOLEAN,
   UNIQUE (match_id, tournament_id),
-  FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
+  FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id IDENTITY PRIMARY KEY,
   name varchar(100) NOT NULL,
-  game_id BIGINT REFERENCES game(game_id),
-  user_id BIGINT REFERENCES users(user_id)
+  game_id BIGINT REFERENCES game(game_id) ON DELETE CASCADE,
+  user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ranking_tournaments (
-  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
-  tournament_id BIGINT REFERENCES tournament(tournament_id),
+  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id) ON DELETE CASCADE,
+  tournament_id BIGINT REFERENCES tournament(tournament_id) ON DELETE CASCADE,
    awarded_points BIGINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ranking_players (
-  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id),
-  user_id BIGINT REFERENCES users(user_id),
+  ranking_id BIGINT NOT NULL REFERENCES ranking(ranking_id) ON DELETE CASCADE,
+  user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE,
   points BIGINT
 );
