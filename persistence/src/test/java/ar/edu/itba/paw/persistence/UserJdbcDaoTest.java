@@ -37,6 +37,14 @@ public class UserJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "participates_in");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_tournaments");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_players");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
 

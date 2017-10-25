@@ -50,8 +50,9 @@ public class RankingJdbcDaoTest {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_tournaments");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking_players");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "ranking");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
+
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "match");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
