@@ -40,34 +40,15 @@ public class WebConfig {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-
-	private final static String PROPERTIES_FILE = "database.properties";
 	
 	@Bean
 	public DataSource dataSource() {
 		final SimpleDriverDataSource ds = new SimpleDriverDataSource();
 		ds.setDriverClass(org.postgresql.Driver.class);
-		Properties p = readResourceFromFile(PROPERTIES_FILE);
-		ds.setUrl("jdbc:postgresql://" + p.getProperty("database"));
-		ds.setUsername(p.getProperty("user"));
-		ds.setPassword(p.getProperty("password"));
+		ds.setUrl("jdbc:postgresql://localhost/paw");
+		ds.setUsername("root");
+		ds.setPassword("root");
 		return ds;
-	}
-
-	private Properties readResourceFromFile(String resource){
-
-		Properties prop = new Properties();
-		InputStream input;
-
-		try {
-			input = this.getClass().getClassLoader().getResourceAsStream(resource);
-			prop.load(input);
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-
-		return prop;
 	}
 	
 	@Value("classpath:schema.sql")

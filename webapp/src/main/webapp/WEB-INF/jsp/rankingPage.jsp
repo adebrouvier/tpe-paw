@@ -59,18 +59,18 @@ ${navbar}
                         </tr>
                     </thead>
                     <tbody>
-                <c:forEach var="tournament" items="${ranking.tournaments}">
-                    <tr>
-                        <td><c:out value="${tournament.name}"/></td>
-                        <td>${tournament.awardedPoints}</td>
-                        <c:if test="${ranking.userId == loggedUser.id}">
-                        <c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}" var="addTournamentPath"/>"
-                        <form:form action="${addTournamentPath}" method="post">
-                        <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
-                        </form:form>
-                        </c:if>
-                    </tr>
-                </c:forEach>
+                    <c:forEach var="tournament" items="${ranking.tournaments}">
+                        <tr>
+                            <td><c:out value="${tournament.name}"/></td>
+                            <td>${tournament.awardedPoints}</td>
+                            <c:if test="${ranking.userId == loggedUser.id}">
+                            <c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}" var="addTournamentPath"/>
+                            <form:form action="${addTournamentPath}" method="post">
+                            <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
+                            </form:form>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
