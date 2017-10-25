@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +50,18 @@ public class RankingServiceTest {
     }
 
     @Test
-    public void testFindMethods() {
+    public void testFindMethodSuccess() {
         Ranking ranking = rankingService.findById(1);
         assertEquals("ranking", ranking.getName());
-        assertEquals(200, ranking.getUsers().get(1).getPoints());
+    }
+
+    @Test
+    public void testGetPoints() {
+        assertEquals(200, rankingService.findById(1).getUsers().get(1).getPoints());
+    }
+
+    @Test
+    public void testGetRankingsSuccess() {
         List<Ranking> rankings = rankingService.findByName("ranking");
         assertEquals(10, rankings.size());
         assertEquals(200, rankings.get(2).getUsers().get(1).getPoints());
