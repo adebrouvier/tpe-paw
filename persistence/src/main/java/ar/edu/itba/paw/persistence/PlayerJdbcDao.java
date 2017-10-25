@@ -27,6 +27,8 @@ public class PlayerJdbcDao implements PlayerDao {
 
     private final static RowMapper<Player> ROW_MAPPER = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"), rs.getLong("user_id"));
 
+    private final static RowMapper<Player> ROW_MAPPER_USERNAME = (rs, rowNum) -> new Player(rs.getString("name"), rs.getLong("player_id"), rs.getLong("user_id"), rs.getString("user_name"));
+
     @Autowired
     public PlayerJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
@@ -167,8 +169,8 @@ public class PlayerJdbcDao implements PlayerDao {
 
     @Override
     public List<Player> getTournamentPlayers(long tournamentId) {
-        return jdbcTemplate.query("SELECT * FROM player NATURAL JOIN participates_in" +
-                " WHERE tournament_id = ? ORDER BY seed", ROW_MAPPER, tournamentId);
+        return jdbcTemplate.query("SELECT player.player_id,player.name,users.user_id,users.user_name FROM (player NATURAL JOIN participates_in)" +
+                "LEFT JOIN users ON player.user_id = users.user_id WHERE tournament_id = ? ORDER BY seed", ROW_MAPPER_USERNAME, tournamentId);
     }
 
     @Override

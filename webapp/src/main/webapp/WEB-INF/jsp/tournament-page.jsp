@@ -145,7 +145,7 @@ ${navbar}
                                     </div>
 
                                     <c:choose>
-                                        <c:when test="${loggedUser.id == tournament.userId}">
+                                        <c:when test="${loggedUser.id == tournament.userId && (match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.status == 'STARTED')}">
                                             <div id="modal-${match.id}" class="modal match-modal">
 
                                                 <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
@@ -156,14 +156,7 @@ ${navbar}
                                                             <tbody>
                                                             <tr class="modal-top-player">
                                                                 <td class="modal-player-name">
-                                                                    <c:choose>
-                                                                        <c:when test="${match.homePlayer.id != null}">
-                                                                            <div><c:out value="${match.homePlayer.name}"/></div>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <div><spring:message code="tournament.modal.tbd"/></div>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
+                                                                    <div><c:out value="${match.homePlayer.name}"/></div>
                                                                 </td>
                                                                 <td class="modal-player-score">
                                                                     <div class="input-field inline">
@@ -174,14 +167,7 @@ ${navbar}
                                                             </tr>
                                                             <tr>
                                                                 <td class="modal-player-name">
-                                                                    <c:choose>
-                                                                        <c:when test="${match.awayPlayer.id != null}">
-                                                                            <div><c:out value="${match.awayPlayer.name}"/></div>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <div><spring:message code="tournament.modal.tbd"/></div>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
+                                                                    <div><c:out value="${match.awayPlayer.name}"/></div>
                                                                 </td>
                                                                 <td class="modal-player-score">
                                                                     <div class="input-field inline">
@@ -194,18 +180,10 @@ ${navbar}
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <c:if test="${match.awayPlayerId == -1 || match.awayPlayerId == 0 || match.homePlayerId == 0 || tournament.status == 'FINISHED'}">
-                                                            <button class="btn waves-effect waves-light disabled" type="submit">
-                                                                <spring:message code="tournament.update"/>
-                                                                <i class="material-icons right ">update</i>
-                                                            </button>
-                                                        </c:if>
-                                                        <c:if test="${match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.status == 'STARTED'}">
-                                                            <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
-                                                                <spring:message code="tournament.update"/>
-                                                                <i class="material-icons right">update</i>
-                                                            </button>
-                                                        </c:if>
+                                                       <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
+                                                            <spring:message code="tournament.update"/>
+                                                            <i class="material-icons right">update</i>
+                                                       </button>
                                                     </div>
                                                 </form:form>
                                             </div>
@@ -213,7 +191,7 @@ ${navbar}
                                         <c:otherwise>
                                             <div id="modal-${match.id}" class="modal match-modal">
                                                 <div class="modal-content">
-                                                    <h5><spring:message code="tournament.modal.title"/></h5>
+                                                    <h5><spring:message code="tournament.modal.title.otherUser"/></h5>
                                                     <table class="modal-table centered">
                                                         <tbody>
                                                         <tr class="modal-top-player">

@@ -34,6 +34,10 @@
                         </ul>
                     </div>
                 </div>
+                <c:if test="${standings.size() == 0}">
+                    <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/> </h5>
+                </c:if>
+                <c:if test="${(standings.size() != 0)}">
                 <div class="row standings">
                     <table class="centered striped">
                         <thead>
@@ -45,13 +49,21 @@
                         <tbody>
                         <c:forEach var="rank" items="${standings}">
                             <tr>
-                                <td>${rank.position}&deg;</td>
+                                <c:choose>
+                                    <c:when test="${rank.position == 0}">
+                                        <td >-</td>
+                                    </c:when>
+                                    <c:when test="${rank.position != 0}">
+                                        <td>${rank.position}&deg;</td>
+                                    </c:when>
+                                </c:choose>
                                 <td>${rank.playerName}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+                </c:if>
             </div>
         </div>
     </div>

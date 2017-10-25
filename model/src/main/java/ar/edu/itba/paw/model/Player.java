@@ -5,6 +5,7 @@ public class Player {
     private String name;
     private long id;
     private long userId;
+    private String userName;
 
     public Player(String name, long id) {
         this.name = name;
@@ -17,6 +18,13 @@ public class Player {
         this.userId = userId;
     }
 
+    public Player(String name, long id, long userId, String userName){
+        this.name = name;
+        this.id = id;
+        this.userId = userId;
+        this.userName = userName;
+    }
+
     public long getUserId() {
         return userId;
     }
@@ -27,6 +35,14 @@ public class Player {
         }
         else
             return true;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setUserId(long userId) {

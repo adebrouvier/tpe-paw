@@ -85,6 +85,11 @@ ${navbar}
                                                     <span class="player-name">
                                             <c:out value="${player.name}"/>
                                         </span>
+                                                    <c:if test="${player.userName != null}">
+                                                        <span class="user-name">- <c:out value="${player.userName}"/>
+                                                        </span>
+                                                    </c:if>
+
                                                     <form style="width: 0;height: 0; margin: 0; padding: 0; display: inline" id="<c:out value="${seed}"/>" action="<c:url value="/remove/player/${tournament.id}/${player.id}"/>" method="POST">
                                                         <a href="#" onclick="$('#<c:out value="${seed}"/>').submit()" >
                                                 <span class="player-remove">
@@ -102,6 +107,9 @@ ${navbar}
                         </div>
                     </div>
                 </div>
+            </c:if>
+            <c:if test="${players.size() == 0 && tournament.userId != loggedUser.id}">
+                <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/></h5>
             </c:if>
             <c:if test="${tournament.status != 'NEW'}">
                 <div class="row">
@@ -129,7 +137,7 @@ ${navbar}
                                                     <c:out value="${player.name}"/>
                                                 </td>
                                                 <td>
-
+                                                    <c:out value="${player.userName}"/>
                                                 </td>
                                             </tr>
                                             <c:set var="seed" value="${seed+1}"/>
