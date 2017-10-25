@@ -41,7 +41,7 @@ ${navbar}
                 <div class="row">
                     <div class="players">
                         <div class="col s12">
-                            <c:url value="/tournament/${tournament.id}/players" var="postPath"/>
+                            <c:url value="/update/tournament/${tournament.id}/players" var="postPath"/>
                             <form:form modelAttribute="playerForm" action="${postPath}" method="post">
                                 <h5><spring:message code="tournament.player.add.title"/></h5>
                                 <div class="row" style=" margin-left: 10px;">
@@ -64,7 +64,7 @@ ${navbar}
                             </form:form>
                             <div class="row center">
                                 <c:if test="${tournament.status == 'NEW' && tournament.size >= 2}">
-                                    <form action="<c:url value="/tournament/${tournament.id}/generate"/>" method="post">
+                                    <form action="<c:url value="/update/tournament/${tournament.id}/generate"/>" method="post">
                                         <button type="submit" class="btn btn-primary light-blue darken-4"><spring:message code="tournament.players.generate"/></button>
                                     </form>
                                 </c:if>

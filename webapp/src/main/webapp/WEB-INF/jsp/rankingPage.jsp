@@ -64,7 +64,7 @@ ${navbar}
                             <td><c:out value="${tournament.name}"/></td>
                             <td>${tournament.awardedPoints}</td>
                             <c:if test="${ranking.userId == loggedUser.id}">
-                            <c:url value="/ranking/${ranking.id}/delete/${tournament.tournamentId}" var="addTournamentPath"/>
+                            <c:url value="/delete/ranking/${ranking.id}/${tournament.tournamentId}" var="addTournamentPath"/>
                             <form:form action="${addTournamentPath}" method="post">
                             <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
                             </form:form>
@@ -76,7 +76,7 @@ ${navbar}
             </div>
             <c:if test="${loggedUser.id == ranking.userId}">
             <div class="row">
-                <c:url value="/ranking/${ranking.id}/addTournament" var="postPath"/>
+                <c:url value="/update/ranking/${ranking.id}/addtournament" var="postPath"/>
                 <form:form modelAttribute="rankingPageForm" action="${postPath}" method="post">
                     <div class="col s6">
                         <div class="input-field">

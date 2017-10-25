@@ -54,7 +54,7 @@ public class TournamentController {
         return mav;
     }
 
-    @RequestMapping(value = "/games_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/paw-2017b-2/games_autocomplete", method = RequestMethod.GET)
     public @ResponseBody
     List<String> gamesAutocomplete(@RequestParam("query") String query) {
         return gs.findGameNames(query);
@@ -136,7 +136,7 @@ public class TournamentController {
         return mav;
     }
 
-    @RequestMapping( value = "/tournament/{tournamentId}/players", method = RequestMethod.POST)
+    @RequestMapping( value = "/update/tournament/{tournamentId}/players", method = RequestMethod.POST)
     public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId){
 
         if (errors.hasErrors()){
@@ -186,7 +186,7 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/"+ tournamentId);
     }
 
-    @RequestMapping(value = "/tournament/{tournamentId}/end", method = { RequestMethod.POST })
+    @RequestMapping(value = "/update/tournament/{tournamentId}/end", method = { RequestMethod.POST })
     public ModelAndView endTournament(@PathVariable long tournamentId) {
         ts.setStatus(tournamentId, Tournament.Status.FINISHED);
         LOGGER.info("Ended tournament {}", tournamentId);
@@ -221,7 +221,7 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/"+ tournamentId + "/players");
     }
 
-    @RequestMapping(value ="/tournament/{tournamentId}/generate", method = {RequestMethod.POST})
+    @RequestMapping(value ="/update/tournament/{tournamentId}/generate", method = {RequestMethod.POST})
     public ModelAndView generateBracket(@PathVariable long tournamentId){
         ts.generateBracket(tournamentId);
         ts.setStatus(tournamentId, Tournament.Status.STARTED);

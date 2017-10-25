@@ -4,7 +4,7 @@ $(document).ready(function() {
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/tournament_autocomplete?query=%QUERY',
+            url: '/paw-2017b-2/tournament_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
@@ -13,7 +13,7 @@ $(document).ready(function() {
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/ranking_autocomplete?query=%QUERY',
+            url: '/paw-2017b-2/ranking_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });

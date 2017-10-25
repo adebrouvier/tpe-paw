@@ -53,7 +53,7 @@ public class RankingPageController {
         return mav;
     }
 
-    @RequestMapping(value = "/ranking/{rankingId}/delete/{tournamentId}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/delete/ranking/{rankingId}/{tournamentId}", method = {RequestMethod.POST})
     public ModelAndView deleteTournament(@PathVariable long rankingId, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
         final Ranking r = rs.findById(rankingId);
         if (r == null) {
@@ -68,7 +68,7 @@ public class RankingPageController {
         return  new ModelAndView("redirect:/ranking/" + r.getId());
     }
 
-    @RequestMapping(value = "/ranking/{rankingId}/addTournament", method = {RequestMethod.POST})
+    @RequestMapping(value = "/update/ranking/{rankingId}/addtournament", method = {RequestMethod.POST})
     public ModelAndView addTournament(@PathVariable long rankingId, @Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {

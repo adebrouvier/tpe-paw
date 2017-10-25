@@ -22,7 +22,7 @@ $(document).ready(function(){
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/games_autocomplete?query=%QUERY',
+            url: '/paw-2017b-2/games_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
