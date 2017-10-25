@@ -89,6 +89,11 @@ public class TournamentServiceImpl implements TournamentService {
         generateSingleEliminationBracket(tournamentId, players);
     }
 
+    @Override
+    public boolean participatesIn(long userId, long tournamentId) {
+        return tournamentDao.participatesIn(userId, tournamentId);
+    }
+
     /**
      * Generates every match in the Tournament bracket.
      * Setting its initial standing, calculating seeds placement

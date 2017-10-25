@@ -156,15 +156,16 @@ public class TournamentController {
                 errors.rejectValue("username", "playerForm.error.username");
                 return tournament(playerForm, tournamentId);
             }else{ /* Player linked to user */
-                p = ps.create(playerForm.getPlayer(), user.getId());
+                if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
+                    p = ps.create(playerForm.getPlayer(), user.getId());
+                }else {
+                    errors.rejectValue("username", "playerForm.error.username.added");
+                    return tournament(playerForm, tournamentId);
+                }
             }
         }else{ /* Player is not linked to user */
             p = ps.create(playerForm.getPlayer());
         }
-
-        /*if (form.isRandomizeSeed()) {
-            Collections.shuffle(players);
-        }*/
 
         ps.addToTournament(p.getId(), tournamentId);
 

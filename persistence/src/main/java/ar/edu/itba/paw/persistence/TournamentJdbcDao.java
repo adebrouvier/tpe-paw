@@ -161,6 +161,16 @@ public class TournamentJdbcDao implements TournamentDao {
     }
 
     @Override
+    public boolean participatesIn(long userId, long tournamentId) {
+
+        final Integer count = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM participates_in NATURAL JOIN users WHERE tournament_id = ?" +
+                        "AND user_id = ?", Integer.class, tournamentId, userId);
+
+        return count > 0;
+    }
+
+    @Override
     public void setStatus(long tournamentId, Tournament.Status status) {
         jdbcTemplate.update("UPDATE tournament SET status = ? WHERE tournament_id = ?", status.toString(), tournamentId);
     }
