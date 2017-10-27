@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RankingForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class RankingController {
     private UserService us;
 
     @RequestMapping("/ranking")
-    public ModelAndView ranking(@ModelAttribute("rankingForm") final RankingForm rankingForm) {
+    public ModelAndView ranking(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("rankingForm") final RankingForm rankingForm) {
         final ModelAndView mav = new ModelAndView("ranking");
         LOGGER.debug("Access to ranking");
         return mav;
@@ -48,7 +49,7 @@ public class RankingController {
     public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return ranking(rankingForm);
+            return ranking(null,rankingForm);
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();

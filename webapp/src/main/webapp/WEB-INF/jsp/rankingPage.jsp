@@ -11,8 +11,8 @@
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/rankingPage.js"/>"></script>
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>    <script type="text/javascript" src="<c:url value="/resources/js/rankingPage.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${ranking.name}"/> - <spring:message code="ranking.title"/></title>
 </head>

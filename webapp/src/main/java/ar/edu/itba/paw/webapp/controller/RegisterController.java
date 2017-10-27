@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class RegisterController {
     private AuthenticationManager authenticationManager;
 
     @RequestMapping("/register")
-    public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm registerForm) {
+    public ModelAndView register(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("registerForm") final RegisterForm registerForm) {
         LOGGER.debug("Access to register");
         return new ModelAndView("register");
     }
@@ -46,7 +47,7 @@ public class RegisterController {
     @RequestMapping(value = "/registerUser", method = { RequestMethod.POST })
     public ModelAndView registerUser (@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors, HttpServletRequest request){
         if (errors.hasErrors()) {
-            return register(registerForm);
+            return register(null,registerForm);
         }
 
         User user;
@@ -55,7 +56,7 @@ public class RegisterController {
             user = us.create(registerForm.getUsername(), passwordEncoder.encode(registerForm.getPassword()));
         } catch (DuplicateUsernameException e){
             errors.rejectValue("username", "error.username");
-            return register(registerForm);
+            return register(null,registerForm);
         }
 
         LOGGER.info("Registered user {} with id {}", user.getName(), user.getId());

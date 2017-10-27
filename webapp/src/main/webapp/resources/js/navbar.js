@@ -18,13 +18,13 @@ $(document).ready(function() {
         }
     });
 
-    $('.input-field .typeahead').typeahead(null,
+    $('#search').typeahead(null,
         {
             name: 'tournaments',
             source: tournaments,
             limit: 5,
             templates: {
-                header: '<h6 class="category-name"><b>Tournament</b></h6>'
+                header: '<h6 class="category-name">Tournament</h6>'
             }
         },
         {
@@ -32,10 +32,17 @@ $(document).ready(function() {
             source: rankings,
             limit: 5,
             templates: {
-                header: '<h6 class="category-name"><b>Ranking</b></h6>'
+                header: '<h6 class="category-name">Ranking</h6>'
             }
         }
     ).on('typeahead:selected', function(e, data) {
         $("#searchForm").submit();
+    });
+
+    $('input#search.typeahead.tt-input').focus(function(){
+        $('#search-icon').css({"color":"#333333"});
+    });
+    $('input#search.typeahead.tt-input').focusout(function(){
+        $('#search-icon').css({"color":"#ffffff"});
     });
 });

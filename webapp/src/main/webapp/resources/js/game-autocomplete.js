@@ -27,7 +27,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.input-field .typeahead').typeahead(null, {
+    $('#game-search').typeahead(null, {
         name: 'sports',
         source: sports,
         templates: {

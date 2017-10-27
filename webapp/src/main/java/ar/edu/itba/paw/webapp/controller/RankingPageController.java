@@ -9,6 +9,7 @@ import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.TournamentPoints;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class RankingPageController {
     private UserService us;
 
     @RequestMapping("/ranking/{rankingId}")
-    public ModelAndView rankingPage(@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId){
+    public ModelAndView rankingPage(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId){
         LOGGER.debug("Access to ranking id {}", rankingId);
         final Ranking r = rs.findById(rankingId);
         if (r == null) {
@@ -72,7 +73,7 @@ public class RankingPageController {
     public ModelAndView addTournament(@PathVariable long rankingId, @Valid @ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return rankingPage(rankingPageForm, rankingId);
+            return rankingPage(null,rankingPageForm, rankingId);
         }
 
         final Ranking ranking = rs.findById(rankingId);
@@ -91,18 +92,18 @@ public class RankingPageController {
 
         if (tournament == null){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.exist");
-            return rankingPage(rankingPageForm, rankingId);
+            return rankingPage(null,rankingPageForm, rankingId);
         } else if (tournament.getGameId() != ranking.getGameId()){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.game");
-            return rankingPage(rankingPageForm, rankingId);
+            return rankingPage(null,rankingPageForm, rankingId);
         } else if (tournament.getStatus() != Tournament.Status.FINISHED){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.notFinished");
-            return rankingPage(rankingPageForm, rankingId);
+            return rankingPage(null,rankingPageForm, rankingId);
         } else{
             for(TournamentPoints tPoints: ranking.getTournaments()){
                 if(tournament.getId() == tPoints.getTournamentId()){
                     errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.duplicateTournament");
-                    return rankingPage(rankingPageForm,rankingId);
+                    return rankingPage(null,rankingPageForm,rankingId);
                 }
             }
         }

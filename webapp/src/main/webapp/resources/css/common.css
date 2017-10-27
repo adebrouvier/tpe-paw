@@ -290,7 +290,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     margin: 0 20px 5px 20px;
     padding: 3px 0;
     /*border-bottom: 1px solid #ccc;*/
-    background-color: whitesmoke;
+    font-weight: bold;
 }
 
 .tournament-tabs{
@@ -300,3 +300,36 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 .nav-user{
     padding: 0 15px 0 15px;
 }
+
+.input-field input[type=search]:focus {
+    color: #424242;
+    background-color: white !important;
+    border-bottom: 0 !important;
+    box-shadow: 0 0 0 0 #ffffff !important;
+    z-index: 0;
+}
+
+.input-field input[type=search] {
+    margin-bottom: 0;
+}
+
+#search-icon{
+    position: absolute;
+    left: 2rem;
+    top: -12px;
+    color: #ffffff;
+    z-index: 1;
+}
+
+.form-error-search {
+    color: red !important;
+    position: absolute;
+    left: 60px;
+    top: 40px;
+    margin: 0;
+}
+
+#game-search {
+    margin-bottom: 10px;
+}
+
