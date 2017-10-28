@@ -83,7 +83,7 @@ ${navbar}
                         <div class="input-field">
                             <form:label class="active" path="tournamentName"><spring:message code="ranking.tournaments"/>: </form:label>
                             <spring:message code="ranking.tournaments.placeholder" var="rankingTournamentsPlaceholder"/>
-                            <form:input cssClass="typeahead" path="tournamentName" type="text" placeholder="${rankingTournamentsPlaceholder}" autocomplete="off"/>
+                            <form:input id="tournament-search" cssClass="typeahead" path="tournamentName" type="text" placeholder="${rankingTournamentsPlaceholder}" autocomplete="off"/>
                             <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                         </div>
                     </div>

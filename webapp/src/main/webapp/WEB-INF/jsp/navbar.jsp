@@ -5,17 +5,16 @@
 
 <nav>
     <div class="nav-wrapper">
-        <c:url value="/searchParse" var="getPath"/>
-        <form:form class="left" modelAttribute="searchForm" action="${getPath}" method="get">
+        <c:url value="/search" var="getPath"/>
+        <form class="left" action="${getPath}" method="get">
 
             <div class="input-field" style="color: #333333">
                 <i id="search-icon" class="material-icons">search</i>
-                <form:errors path="query" cssClass="form-error-search" element="p"/>
                 <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
-                <form:input id="search" cssClass="typeahead" type="search" placeholder="${indexSearchPlaceholder}" path="query" autocomplete="off"/>
+                <input id="search" cssClass="typeahead" type="search" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
                 <input type="submit" style="visibility: hidden"/>
             </div>
-        </form:form>
+        </form>
         <a href="<c:url value="/"/>" class="brand-logo center"><spring:message code="header.name"/></a>
         <security:authorize access="isAnonymous()">
             <ul id="nav-mobile" class="right hide-on-med-and-down">

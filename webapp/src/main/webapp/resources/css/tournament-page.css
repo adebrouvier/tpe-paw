@@ -21,10 +21,7 @@
 }
 
 .tournament-container{
-    overflow: scroll;
     width: auto;
-    min-height: 800px;
-    max-height: 1000px;
     position: relative;
 }
 

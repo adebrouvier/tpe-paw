@@ -39,7 +39,7 @@ public class RegisterController {
     private AuthenticationManager authenticationManager;
 
     @RequestMapping("/register")
-    public ModelAndView register(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("registerForm") final RegisterForm registerForm) {
+    public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm registerForm) {
         LOGGER.debug("Access to register");
         return new ModelAndView("register");
     }
@@ -47,7 +47,7 @@ public class RegisterController {
     @RequestMapping(value = "/registerUser", method = { RequestMethod.POST })
     public ModelAndView registerUser (@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors, HttpServletRequest request){
         if (errors.hasErrors()) {
-            return register(null,registerForm);
+            return register(registerForm);
         }
 
         User user;
@@ -56,7 +56,7 @@ public class RegisterController {
             user = us.create(registerForm.getUsername(), passwordEncoder.encode(registerForm.getPassword()));
         } catch (DuplicateUsernameException e){
             errors.rejectValue("username", "error.username");
-            return register(null,registerForm);
+            return register(registerForm);
         }
 
         LOGGER.info("Registered user {} with id {}", user.getName(), user.getId());

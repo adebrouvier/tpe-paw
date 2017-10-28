@@ -39,7 +39,7 @@ public class RankingController {
     private UserService us;
 
     @RequestMapping("/ranking")
-    public ModelAndView ranking(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("rankingForm") final RankingForm rankingForm) {
+    public ModelAndView ranking(@ModelAttribute("rankingForm") final RankingForm rankingForm) {
         final ModelAndView mav = new ModelAndView("ranking");
         LOGGER.debug("Access to ranking");
         return mav;
@@ -49,7 +49,7 @@ public class RankingController {
     public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return ranking(null,rankingForm);
+            return ranking(rankingForm);
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();

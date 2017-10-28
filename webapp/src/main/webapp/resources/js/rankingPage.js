@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     });
 
-    $('.input-field .typeahead').typeahead(null,
+    $('#tournament-search').typeahead(null,
         {
             name: 'tournaments',
             source: tournaments,

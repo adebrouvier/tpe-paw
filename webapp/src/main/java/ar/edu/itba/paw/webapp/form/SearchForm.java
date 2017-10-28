@@ -8,8 +8,6 @@ import javax.validation.constraints.Size;
  */
 public class SearchForm {
 
-    @Size(max = 40)
-    @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String query;
 
     public String getQuery() {

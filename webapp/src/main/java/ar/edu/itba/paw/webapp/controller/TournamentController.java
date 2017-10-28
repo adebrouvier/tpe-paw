@@ -49,7 +49,7 @@ public class TournamentController {
     @Autowired PlayerMeController pmc;
 
     @RequestMapping("/tournament")
-    public ModelAndView tournament(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("tournamentForm") final TournamentForm form) {
+    public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
         LOGGER.debug("Tournament");
         return mav;
@@ -64,7 +64,7 @@ public class TournamentController {
     @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
     public ModelAndView create(@Valid@ModelAttribute("tournamentForm") final TournamentForm form,final BindingResult errors,@ModelAttribute("loggedUser") User loggedUser) {
         if (errors.hasErrors()) {
-            return tournament(null,form);
+            return tournament(form);
         }
 
         Game game = pmc.addGameImage(form.getGame());
@@ -75,7 +75,7 @@ public class TournamentController {
     }
 
     @RequestMapping("/tournament/{tournamentId}")
-    public ModelAndView tournament(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId){
+    public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId){
         final Tournament t = ts.findById(tournamentId);
         if (t == null) {
             return new ModelAndView("redirect:/404");
@@ -94,7 +94,7 @@ public class TournamentController {
     }
 
     @RequestMapping("/tournament/{tournamentId}/standings")
-    public ModelAndView tournament(@ModelAttribute("searchForm") final SearchForm searchForm,@PathVariable long tournamentId){
+    public ModelAndView tournament(@PathVariable long tournamentId){
         final Tournament t = ts.findById(tournamentId);
         final List<Standing> s = ts.getStandings(tournamentId);
         if (t == null) {
@@ -115,7 +115,7 @@ public class TournamentController {
     }
 
     @RequestMapping("/tournament/{tournamentId}/players")
-    public ModelAndView tournament(@ModelAttribute("searchForm") final SearchForm searchForm,@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId){
+    public ModelAndView tournament(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId){
         final Tournament t = ts.findById(tournamentId);
 
         if (t == null) {
@@ -141,7 +141,7 @@ public class TournamentController {
     public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
 
         if (errors.hasErrors()){
-            return tournament(null,playerForm, tournamentId);
+            return tournament(playerForm, tournamentId);
         }
 
         final Tournament tournament = ts.findById(tournamentId);
@@ -166,13 +166,13 @@ public class TournamentController {
             /* If user doesn't exist */
             if (user == null) {
                 errors.rejectValue("username", "playerForm.error.username");
-                return tournament(null,playerForm, tournamentId);
+                return tournament(playerForm, tournamentId);
             }else{ /* Player linked to user */
                 if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
                     p = ps.create(playerForm.getPlayer(), user.getId());
                 }else {
                     errors.rejectValue("username", "playerForm.error.username.added");
-                    return tournament(null,playerForm, tournamentId);
+                    return tournament(playerForm, tournamentId);
                 }
             }
         }else{ /* Player is not linked to user */
@@ -189,7 +189,7 @@ public class TournamentController {
                                final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return tournament(null,form,tournamentId);
+            return tournament(form,tournamentId);
         }
 
         final Tournament tournament = ts.findById(tournamentId);

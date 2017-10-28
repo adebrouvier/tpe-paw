@@ -66,8 +66,8 @@ ${navbar}
                     <c:if test="${tournament.status == 'NEW'}">
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
                     </c:if>
-                    <div class="tournament-container">
-                            <c:set var="roundSize" value="${tournament.players.size()/2}"/>
+                    <c:set var="roundSize" value="${tournament.players.size()/2}"/>
+                    <div class="tournament-container" style="height:<c:out value="${roundSize*60+44}"/>px;overflow-y: hidden;overflow-x: auto;" >
                             <c:set var="matchCount" value="1"/>
                             <c:set var="margin" value="0"/>
                             <c:set var="padding" value="15"/>
@@ -249,6 +249,7 @@ ${navbar}
                                 </c:if>
                                 <c:set var="matchCount" value="${matchCount+1}"/>
                                 </c:forEach>
+                                                </div>
                         </div>
                     </div>
                 </div>

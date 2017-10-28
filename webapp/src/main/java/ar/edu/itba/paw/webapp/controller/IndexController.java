@@ -28,7 +28,7 @@ public class IndexController {
     private RankingService rs;
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("searchForm") final SearchForm searchForm) {
+    public ModelAndView index() {
         LOGGER.debug("Access to index");
         final ModelAndView mav = new ModelAndView("index");
         int featuredTournaments = 5;
@@ -63,21 +63,4 @@ public class IndexController {
         return rs.findRankingNames(query);
     }
 
-    @RequestMapping(value = "/searchParse", method = { RequestMethod.GET })
-    public ModelAndView searchParse(@Valid @ModelAttribute("searchForm")
-                               final SearchForm form, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            return index(form);
-        }
-
-        String search = form.getQuery();
-        String param = "";
-        try {
-            param = URLEncoder.encode(search,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("redirect:/search?query=" + param);
-    }
 }
