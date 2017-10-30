@@ -23,8 +23,8 @@ $(document).ready(function(){
             axis: "y"
     });
 
-    $('form#addPlayer').submit(function(){
-        $('button#addButton').prop('disabled', true);
+    $('form').submit(function(){
+        $('button[type=submit]').prop('disabled', true);
     });
 
 });

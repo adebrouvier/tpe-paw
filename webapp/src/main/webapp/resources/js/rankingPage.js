@@ -25,4 +25,8 @@ $(document).ready(function() {
     $(".twitter-typeahead")
         .css("float", "none")
         .css("width", "100%");
+
+    $('form').submit(function(){
+        $('button[type=submit]').prop('disabled', true);
+    });
 });

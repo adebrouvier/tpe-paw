@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/game-autocomplete.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/ranking.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
 </head>
 <body>

@@ -67,7 +67,7 @@ ${navbar}
                             <c:if test="${ranking.userId == loggedUser.id}">
                             <c:url value="/delete/ranking/${ranking.id}/${tournament.tournamentId}" var="deletePath"/>
                             <form:form action="${deletePath}" method="post">
-                            <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
+                            <td><button class="btn transparent" type="submit"><i class="material-icons" style="color: black">delete</i></button></td>
                             </form:form>
                             </c:if>
                         </tr>
