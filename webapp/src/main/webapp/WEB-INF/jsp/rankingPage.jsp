@@ -7,6 +7,7 @@
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/ranking.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
@@ -52,7 +53,7 @@ ${navbar}
         <div class="center col s6">
             <div class="row">
                 <h4><spring:message code="rankingPage.tournaments"/></h4>
-                <table>
+                <table class="card">
                     <thead>
                         <tr>
                             <th><spring:message code="rankingPage.tournaments.table.name"/></th>
@@ -61,13 +62,13 @@ ${navbar}
                     </thead>
                     <tbody>
                     <c:forEach var="tournament" items="${ranking.tournaments}">
-                        <tr>
+                        <tr class="tournament-container">
                             <td><c:out value="${tournament.name}"/></td>
                             <td>${tournament.awardedPoints}</td>
                             <c:if test="${ranking.userId == loggedUser.id}">
                             <c:url value="/delete/ranking/${ranking.id}/${tournament.tournamentId}" var="deletePath"/>
                             <form:form action="${deletePath}" method="post">
-                            <td><button class="btn transparent" type="submit"><i class="material-icons" style="color: black">delete</i></button></td>
+                            <td><button class="btn transparent delete-btn" type="submit"><i class="material-icons">delete</i></button></td>
                             </form:form>
                             </c:if>
                         </tr>

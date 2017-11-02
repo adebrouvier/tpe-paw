@@ -29,14 +29,14 @@
                         <div class="input-field col s12">
                             <i class="material-icons prefix">account_circle</i>
                             <label for="username"><spring:message code="login.username"/>: </label>
-                            <input id="username" name="j_username" type="text"/>
+                            <input id="username" name="j_username" type="text" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">lock</i>
                             <label for="password"><spring:message code="login.password"/>: </label>
-                            <input id="password" type="password" name="j_password"/>
+                            <input id="password" type="password" name="j_password" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row">
