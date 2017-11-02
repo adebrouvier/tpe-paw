@@ -12,7 +12,7 @@ public interface TournamentDao {
      * @param id id of the tournament.
      * @return instance of the Tournament.
      */
-    public Tournament findById (long id);
+    Tournament findById(long id);
 
     /**
      * Creates a new Tournament with the specified
@@ -22,14 +22,14 @@ public interface TournamentDao {
      * @param userId id of the user that created the tournament.
      * @return instance of the Tournament.
      */
-    public Tournament create(String name, long gameId, long userId);
+    Tournament create(String name, long gameId, long userId);
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
      * @param featured number of featured tournaments
      * @return a list of tournaments.
      */
-    public List<Tournament> findFeaturedTournaments(int featured);
+    List<Tournament> findFeaturedTournaments(int featured);
 
     /**
      * Sets a Tournament status to either
@@ -37,20 +37,20 @@ public interface TournamentDao {
      * @param tournamentId id of the Tournament
      * @param status status of the Tournament
      */
-    public void setStatus(long tournamentId, Tournament.Status status);
+    void setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.
      * @return List of players with their respective standing.
      */
-    public List<Standing> getStandings(long tournamentId);
+    List<Standing> getStandings(long tournamentId);
 
     /**
      * Finds the name of matching existing tournament.
      * @param query term to search.
      * @return the list with the names.
      */
-    public List<String> findTournamentNames(String query);
+    List<String> findTournamentNames(String query);
 
     /**
      * Finds the name of matching existing tournament.
@@ -58,21 +58,21 @@ public interface TournamentDao {
      * @param gameId id of the game
      * @return the list with the names.
      */
-    public List<String> findTournamentNames(String query, long gameId);
+    List<String> findTournamentNames(String query, long gameId);
 
     /**
      * Finds a tournament with the specified name.
      * @param name the name of part of the name of the tournament.
      * @return a list of tournaments.
      */
-    public List<Tournament> findByName(String name);
+    List<Tournament> findByName(String name);
 
     /**
      * Find Tournament with specified name.
      * @param name of the Tournament.
      * @return instance of the Tournament.
      */
-    public Tournament getByName(String name);
+    Tournament getByName(String name);
 
 
     /**

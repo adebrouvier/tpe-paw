@@ -31,11 +31,7 @@ CREATE TABLE IF NOT EXISTS tournament (
 CREATE TABLE IF NOT EXISTS player (
   player_id SERIAL PRIMARY KEY,
   name varchar(25) NOT NULL,
-  user_id BIGINT REFERENCES users(user_id)
-);
-
-CREATE TABLE IF NOT EXISTS participates_in (
-  player_id BIGINT REFERENCES player(player_id),
+  user_id BIGINT REFERENCES users(user_id),
   tournament_id BIGINT REFERENCES tournament(tournament_id),
   seed INTEGER,
   standing INTEGER

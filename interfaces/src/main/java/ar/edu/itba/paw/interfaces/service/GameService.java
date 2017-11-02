@@ -11,21 +11,21 @@ public interface GameService {
      * @return every matching Game by name that was not
      * user generated.
      */
-    public List<String> findGameNames(String query);
+    List<String> findGameNames(String query);
 
     /**
      * Finds the game with the specified id.
      * @param id id of the Game.
      * @return instance of the Game.
      */
-    public Game findById(final long id);
+    Game findById(final long id);
 
     /**
      * Finds game with the specified name.
      * @param name of the Game.
      * @return instance of the Game.
      */
-    public Game findByName(final String name);
+    Game findByName(final String name);
 
     /**
      * Create new Game with specified name.
@@ -36,5 +36,5 @@ public interface GameService {
      *                      or not.
      * @return instance of the Game.
      */
-    public Game create(final String name, final boolean userGenerated);
+    Game create(final String name, final boolean userGenerated);
 }

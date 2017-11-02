@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface PlayerService {
      * Delete a player with a specified id.
      * @param id id of the player.
      */
-    public void delete(long id);
+    void delete(long id);
 
     /**
      * Remove player to a tournament.
@@ -18,7 +19,7 @@ public interface PlayerService {
      * @param playerId id of the player.
      * @return if can remove player to tournament.
      */
-    public boolean removeToTournament(long tournamentId, long playerId);
+    boolean removeFromTournament(long tournamentId, long playerId);
 
     /**
      * Change player seed.
@@ -27,14 +28,14 @@ public interface PlayerService {
      * @param playerNewSeed the new seed of the player.
      * @return if can change player seed.
      */
-    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed);
+    boolean changeSeed(long tournamentId, int playerOldSeed, int playerNewSeed);
 
     /**
      * Finds a player with a specified id.
      * @param id id of the player.
      * @return an instance of the player.
      */
-    public Player findById(long id);
+    Player findById(long id);
 
     /**
      * Finds the id of the player with an specific seed.
@@ -42,32 +43,23 @@ public interface PlayerService {
      * @param tournamentId id of the desired tournament.
      * @return id of the player.
      */
-    public long findBySeed(int seed, long tournamentId);
+    long findBySeed(int seed, long tournamentId);
 
     /**
      * Creates a player.
      * @param name name of the player.
      * @return an instance of the player.
      */
-    public Player create(String name);
+    Player create(String name);
 
     /**
      * Creates a player linked to a user
      *
      * @param name   of the player
-     * @param userId id of the user
+     * @param user id of the user
      * @return an instance of the player
      */
-    public Player create(String name, long userId);
-
-    /**
-     * Adds a player to a tournament.
-     * @param playerId id of the player.
-     * @param tournamentId id of the tournament.
-     * @param seed seed of the player.
-     * @return true if it can be added, false otherwise.
-     */
-    public boolean addToTournament(long playerId, long tournamentId, int seed);
+    Player create(String name, User user);
 
     /**
      * Sets every players standing in the tournament to its
@@ -84,7 +76,7 @@ public interface PlayerService {
      * @param tournamentId id of the Tournament
      * @return list of the Players participating
      */
-    public List<Player> getTournamentPlayers(long tournamentId);
+    List<Player> getTournamentPlayers(long tournamentId);
 
     /**
      * Adds Player to a Tournament both specified

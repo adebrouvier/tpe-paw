@@ -1,52 +1,49 @@
 package ar.edu.itba.paw.model;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "player")
 public class Player {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_player_id_seq")
+    @SequenceGenerator(sequenceName = "player_player_id_seq",
+            name = "player_player_id_seq", allocationSize = 1)
+    @Column(name = "player_id")
+    private Long id;
+
+    @Column(name = "name", length = 25, nullable = false)
     private String name;
-    private long id;
-    private long userId;
-    private String userName;
 
-    public Player(String name, long id) {
-        this.name = name;
-        this.id = id;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Tournament tournament;
+
+    @Column(name = "seed")
+    private Integer seed;
+
+    @Column(name = "standing")
+    private Integer standing;
+
+    Player (){
+        /* For Hibernate */
     }
 
-    public Player(String name, long id, long userId){
+    public Player(final String name) {
         this.name = name;
-        this.id = id;
-        this.userId = userId;
     }
 
-    public Player(String name, long id, long userId, String userName){
+    public Player(final String name, final User user) {
         this.name = name;
-        this.id = id;
-        this.userId = userId;
-        this.userName = userName;
-    }
-
-    public long getUserId() {
-        return userId;
+        this.user = user;
     }
 
     public boolean hasUser() {
-        if( userId == -1) {
-            return false;
-        }
-        else
-            return true;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
+        return user != null;
     }
 
     public String getName() {
@@ -57,12 +54,36 @@ public class Player {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser(){
+        return user;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public Integer getSeed() {
+        return seed;
+    }
+
+    public void setSeed(Integer seed) {
+        this.seed = seed;
+    }
+
+    public Integer getStanding() {
+        return standing;
+    }
+
+    public void setStanding(Integer standing) {
+        this.standing = standing;
     }
 
     @Override
@@ -72,7 +93,7 @@ public class Player {
 
         Player player = (Player) o;
 
-        return id == player.id;
+        return Objects.equals(id, player.id);
     }
 
     @Override

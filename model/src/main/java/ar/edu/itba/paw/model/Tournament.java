@@ -1,30 +1,52 @@
 package ar.edu.itba.paw.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "tournament")
 public class Tournament {
 
     public enum Status {NEW, STARTED, FINISHED}
 
     /**
+     * Id of the tournament
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_tournament_id_seq")
+    @SequenceGenerator(sequenceName = "tournament_tournament_id_seq",
+            name = "tournament_tournament_id_seq", allocationSize = 1)
+    @Column(name = "tournament_id")
+    private long id;
+
+    /**
      * Name of the tournament
      */
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     /**
      * Status of the tournament
      */
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     /**
      * List of all the players, including BYES
      */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "tournament")
     private List<Player> players;
+
+    /**
+     * Number of players, without counting byes
+     */
+    private int size;
 
     /**
      * List of every match, including BYES
      */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "tournament")
     private List<Match> matches;
 
     /**
@@ -33,43 +55,37 @@ public class Tournament {
     private int numberOfMatches;
 
     /**
-     * Id of the game that the tournament hosts
+     * Game that the tournament hosts
      */
-    private long gameId;
-
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Game game;
 
     /**
-     * Id of the user that created the tournament
+     * User that created the tournament
      */
-    private long userId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private User user;
 
-    /**
-     * Number of players, without counting byes
-     */
-    private int size;
-
-    /**
-     * Id of the tournament
-     */
-    private long id;
-
-    public Tournament(String name, long id, long gameId, Status status, long userId){
+    public Tournament(final String name, final Long id, final Game game, Status status, final User user){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
         this.id = id;
         this.status = status;
-        this.gameId = gameId;
-        this.userId = userId;
+        this.game = game;
+        this.user = user;
     }
 
-    public long getGameId() {
-        return gameId;
+    public Tournament (){
+        /* For Hibernate */
     }
 
-    public void setGameId(long gameId) {
-        this.gameId = gameId;
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(long gameId) {
+        this.game = game;
     }
 
     public String getName() { return name; }
@@ -124,20 +140,12 @@ public class Tournament {
 
     public void setStatus(Status status) { this.status = status; }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +24,14 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Transactional
     @Override
-    public boolean removeToTournament(long tournamentId, long playerId) {
-        return playerDao.removeToTournament(tournamentId, playerId);
+    public boolean removeFromTournament(long tournamentId, long playerId) {
+        return playerDao.removeFromTournament(tournamentId, playerId);
     }
 
     @Transactional
     @Override
-    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
-        return playerDao.changeSeedToTournament(tournamentId, playerOldSeed, playerNewSeed);
+    public boolean changeSeed(long tournamentId, int playerOldSeed, int playerNewSeed) {
+        return playerDao.changeSeed(tournamentId, playerOldSeed, playerNewSeed);
     }
 
     @Override
@@ -51,14 +52,8 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Transactional
     @Override
-    public Player create(String name, long userId) {
-        return playerDao.create(name, userId);
-    }
-
-    @Transactional
-    @Override
-    public boolean addToTournament(long playerId, long tournamentId,int seed) {
-        return playerDao.addToTournament(playerId, tournamentId,seed);
+    public Player create(String name, User user) {
+        return playerDao.create(name, user);
     }
 
     @Transactional

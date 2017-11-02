@@ -3,7 +3,7 @@ package ar.edu.itba.paw.interfaces.service;
 import ar.edu.itba.paw.model.Match;
 
 public interface MatchService {
-    public static final int BYE_WIN_SCORE = 1;
+    int BYE_WIN_SCORE = 1;
 
     /**
      * Creates a match with no defined participants.
@@ -14,7 +14,7 @@ public interface MatchService {
      * @param standing standing that the player would have if he loses the match.
      * @return the created match.
      */
-    public Match createEmpty(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId, final int standing);
+    Match createEmpty(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId, final int standing);
 
     /**
      * Creates a match between two players.
@@ -27,7 +27,7 @@ public interface MatchService {
      * @param standing standing that the player would have if he loses the match.
      * @return the created match.
      */
-    public Match create(final int matchId,final int nextMatchId,final boolean isNextMatchHome, final long tournamentId, final long homePlayerId, final long awayPlayerId, final int standing);
+    Match create(final int matchId, final int nextMatchId, final boolean isNextMatchHome, final long tournamentId, final long homePlayerId, final long awayPlayerId, final int standing);
 
     /**
      * Finds the Match with the specified id.
@@ -35,7 +35,7 @@ public interface MatchService {
      * @param tournamentId id of the tournament that the match belongs to.
      * @return the Match instance, or null of it doesn't exist.
      */
-    public Match findById(final int id, final long tournamentId);
+    Match findById(final int id, final long tournamentId);
 
     /**
      * Updates the score of the Match with the specified id.
@@ -48,5 +48,5 @@ public interface MatchService {
      * @param awayScore score of the away player.
      * @return the updated Match instance.
      */
-    public Match updateScore(final long tournamentId, final int matchId,final int homeScore, final int awayScore);
+    Match updateScore(final long tournamentId, final int matchId, final int homeScore, final int awayScore);
 }

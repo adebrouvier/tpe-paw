@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
 public class PlayerJdbcDao implements PlayerDao {
 
     private static Integer DOWN_OFFSET = -1, UP_OFFSET = 1;
@@ -46,7 +45,7 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public boolean removeToTournament(long tournamentId, long playerId) {
+    public boolean removeFromTournament(long tournamentId, long playerId) {
         String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
         if(!status.equals(Tournament.Status.NEW.toString())) {
             return false;
@@ -61,7 +60,7 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public boolean changeSeedToTournament(long tournamentId, int playerOldSeed, int playerNewSeed) {
+    public boolean changeSeed(long tournamentId, int playerOldSeed, int playerNewSeed) {
         String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
         if(!status.equals(Tournament.Status.NEW.toString())) {
             return false;
@@ -125,24 +124,6 @@ public class PlayerJdbcDao implements PlayerDao {
         args.put("name", name);
         final Number playerId = playerjdbcInsert.executeAndReturnKey(args);
         return new Player(name, playerId.longValue());
-    }
-
-    @Override
-    public boolean addToTournament(long playerId, long tournamentId, int seed) {
-
-        String status = jdbcTemplate.queryForObject("SELECT status FROM tournament WHERE tournament_id = ?",String.class, tournamentId);
-        if(!status.equals(Tournament.Status.NEW.toString())) {
-            return false;
-        }
-        final Map<String, Object> args = new HashMap<>();
-        args.put("player_id", playerId);
-        args.put("tournament_id", tournamentId);
-        args.put("seed", seed);
-        args.put("standing", PlayerDao.EMPTY_STANDING);
-
-        int numberOfRowsInserted = participatesInjdbcInsert.execute(args);
-
-        return numberOfRowsInserted == PlayerDao.SUCCESSFUL_INSERT;
     }
 
     @Override

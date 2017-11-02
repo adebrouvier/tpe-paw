@@ -9,5 +9,5 @@ public interface GameImageDao {
      * @param gameId id of the Game
      * @return a object that contain the image
      */
-    public GameImage findById(long gameId);
+    GameImage findById(long gameId);
 }

@@ -1,58 +1,66 @@
 package ar.edu.itba.paw.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "match")
 public class Match {
 
-    private long homePlayerId;
-    private long awayPlayerId;
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Player homePlayer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Player awayPlayer;
+
+    @Column(name = "home_player_score")
     private int homePlayerScore;
+
+    @Column(name = "away_player_score")
     private int awayPlayerScore;
-    private long id;
-    private long nextMatchId;
-    private long tournamentId;
-    private boolean isNextMatchHome;
+
+    private Match nextMatch;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Tournament tournament;
+
+    @Column(name = "next_match_home")
+    private Boolean nextMatchHome;
     private int standing;
 
-    public Match(long homePlayerId, long awayPlayerId, long id, long nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
-        this.homePlayerId = homePlayerId;
-        this.awayPlayerId = awayPlayerId;
-        this.id = id;
-        this.nextMatchId = nextMatchId;
-        this.tournamentId = tournamentId;
-        this.isNextMatchHome = isNextMatchHome;
+    Match(){
+        /* For Hibernate */
+    }
+
+    public Match (Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.nextMatch = nextMatch;
+        this.tournament = tournament;
+        this.nextMatchHome = nextMatchHome;
         this.standing = standing;
     }
 
-    public Match(int id, int nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
-        this.id = id;
-        this.nextMatchId = nextMatchId;
-        this.tournamentId = tournamentId;
-        this.isNextMatchHome = isNextMatchHome;
+    public Match (Player homePlayer, Player awayPlayer, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.homePlayer = homePlayer;
+        this.awayPlayer = awayPlayer;
+        this.nextMatch = nextMatch;
+        this.tournament = tournament;
+        this.nextMatchHome = nextMatchHome;
         this.standing = standing;
     }
 
-    public Match(long homePlayerId, long awayPlayerId, int homePlayerScore, int awayPlayerScore, long id, int nextMatchId,boolean isNextMatchHome, long tournamentId, int standing) {
-        this.homePlayerId = homePlayerId;
-        this.awayPlayerId = awayPlayerId;
+    public Match(Player homePlayer, Player awayPlayer, int homePlayerScore, int awayPlayerScore, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.homePlayer = homePlayer;
+        this.awayPlayer = awayPlayer;
         this.homePlayerScore = homePlayerScore;
         this.awayPlayerScore = awayPlayerScore;
-        this.id = id;
-        this.nextMatchId = nextMatchId;
-        this.tournamentId = tournamentId;
-        this.isNextMatchHome = isNextMatchHome;
+        this.nextMatch = nextMatch;
+        this.tournament = tournament;
+        this.nextMatchHome = nextMatchHome;
         this.standing = standing;
     }
 
-    public boolean isNextMatchHome() { return isNextMatchHome; }
-
-    public long getHomePlayerId() {
-        return homePlayerId;
-    }
-
-    public long getAwayPlayerId() {
-        return awayPlayerId;
-    }
+    public boolean isNextMatchHome() { return nextMatchHome; }
 
     public int getHomePlayerScore() {
         return homePlayerScore;
@@ -66,12 +74,12 @@ public class Match {
         return id;
     }
 
-    public long getNextMatchId() {
-        return nextMatchId;
+    public Match getNextMatch() {
+        return nextMatch;
     }
 
-    public long getTournamentId() {
-        return tournamentId;
+    public Tournament getTournament() {
+        return tournament;
     }
 
     public Player getHomePlayer() {
@@ -106,26 +114,26 @@ public class Match {
         Match match = (Match) o;
 
         if (id != match.id) return false;
-        return tournamentId == match.tournamentId;
+        return tournament.getId() == match.getTournament().getId();
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (tournamentId ^ (tournamentId >>> 32));
+        result = 31 * result + (int) (tournament.getId() ^ (tournament.getId() >>> 32));
         return result;
     }
 
     @Override
     public String toString() {
         return "Match{" +
-                "homePlayerId=" + homePlayerId +
-                ", awayPlayerId=" + awayPlayerId +
+                "homePlayer=" + homePlayer +
+                ", awayPlayer=" + awayPlayer +
                 ", homePlayerScore=" + homePlayerScore +
                 ", awayPlayerScore=" + awayPlayerScore +
                 ", id=" + id +
-                ", tournamentId=" + tournamentId +
-                ", nextMatchHome=" + isNextMatchHome +
+                ", tournament=" + tournament +
+                ", nextMatchHome=" + nextMatchHome +
                 '}';
     }
 }

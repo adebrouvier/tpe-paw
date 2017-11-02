@@ -10,14 +10,14 @@ public interface UserService {
 	 * @param id of the User
 	 * @return instance of the User
 	 */
-	public User findById(long id);
+	User findById(long id);
 
 	/**
 	 * Finds a User with the specified name
 	 * @param name of the User
 	 * @return instance of the User
 	 */
-	public User findByName(String name);
+	User findByName(String name);
 
 	/**
 	 * Creates a {@link User} with the specified
@@ -27,5 +27,5 @@ public interface UserService {
 	 * @return instance of the new User
 	 * @throws DuplicateUsernameException
 	 */
-	public User create(String name,String password) throws DuplicateUsernameException;
+	User create(String name, String password) throws DuplicateUsernameException;
 }

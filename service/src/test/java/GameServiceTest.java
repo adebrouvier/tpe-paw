@@ -75,7 +75,7 @@ public class GameServiceTest {
     }
 
     public Game generatedGame(String gameName, Boolean userGenerated) {
-        return new Game(1, gameName);
+        return new Game(gameName, userGenerated);
     }
     public List<String> generatedGameNames(String gameName, Boolean userGenerated) {
         List<String> gamesName = new ArrayList<>();

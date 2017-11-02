@@ -1,21 +1,44 @@
 package ar.edu.itba.paw.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "ranking")
 public class Ranking {
-    private long id;
-    private List<UserScore> users;
-    private List<TournamentPoints> tournaments;
-    private String name;
-    private long gameId;
-    private Game game;
-    private long userId;
 
-    public Ranking(long id, String name, long gameId, long userId){
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ranking_ranking_id_seq")
+    @SequenceGenerator(sequenceName = "ranking_ranking_id_seq",
+            name = "ranking_ranking_id_seq", allocationSize = 1)
+    @Column(name = "ranking_id")
+    private Long id;
+
+    @Column(name = "name", length = 100, nullable = false)
+    private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Game game;
+
+    /**
+     * User that created the Ranking
+     */
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private User user;
+
+    private List<UserScore> users;
+
+    private List<TournamentPoints> tournaments;
+
+    public Ranking (){
+        /* For Hibernate */
+    }
+
+    public Ranking(long id, String name, Game game, User user){
         this.id = id;
         this.name = name;
-        this.gameId = gameId;
-        this.userId = userId;
+        this.game = game;
+        this.user = user;
     }
 
     public Game getGame(){
@@ -24,14 +47,6 @@ public class Ranking {
 
     public void setGame(Game game){
         this.game = game;
-    }
-
-    public long getGameId() {
-        return gameId;
-    }
-
-    public void setGame(long gameId) {
-        this.gameId = gameId;
     }
 
     public long getId() {
@@ -66,15 +81,11 @@ public class Ranking {
         this.name = name;
     }
 
-    public void setGameId(long gameId) {
-        this.gameId = gameId;
+    public User getUser() {
+        return user;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
