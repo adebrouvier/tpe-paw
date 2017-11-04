@@ -66,11 +66,11 @@ public class Tournament {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
-    public Tournament(final String name, final Long id, final Game game, Status status, final User user){
+    public Tournament(final String name, final Game game, Status status, final User user){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
-        this.id = id;
+//        this.id = id;
         this.status = status;
         this.game = game;
         this.user = user;
