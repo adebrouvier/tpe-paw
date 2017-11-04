@@ -32,8 +32,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void setStatus(long tournamentId, Tournament.Status status) {
-        tournamentDao.setStatus(tournamentId, status);
+    public Tournament setStatus(long tournamentId, Tournament.Status status) {
+        return tournamentDao.setStatus(tournamentId, status);
     }
 
     @Transactional
@@ -83,7 +83,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         for (int i = playerCount; i < playerCount + byes; i++) {
             playerService.addToTournament(BYE_ID, tournamentId);
-            players.add(new Player(BYE_NAME, BYE_ID));
+            players.add(new Player(BYE_NAME));
         }
         generateSingleEliminationBracket(tournamentId, players);
     }

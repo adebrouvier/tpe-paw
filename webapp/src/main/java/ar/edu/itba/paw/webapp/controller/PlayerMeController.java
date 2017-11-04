@@ -3,7 +3,6 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.GameService;
 import ar.edu.itba.paw.interfaces.service.GameUrlImageService;
 import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.persistence.GameUrlImageJdbcDao;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -60,7 +59,7 @@ public class PlayerMeController {
                                     for (String part : arg) {
                                         urlImage = urlImage.append(part);
                                     }
-                                    guis.create(game.getGameId(), urlImage.toString());
+                                    guis.create(game.getId(), urlImage.toString());
                                 }
                             }
                         }

@@ -53,7 +53,7 @@ public interface TournamentService {
      * @param tournamentId id of the tournament.
      * @param status new status
      */
-    void setStatus(long tournamentId, Tournament.Status status);
+    Tournament setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.
