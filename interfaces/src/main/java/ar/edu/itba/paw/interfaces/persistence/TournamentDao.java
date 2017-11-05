@@ -37,7 +37,7 @@ public interface TournamentDao {
      * @param tournamentId id of the Tournament
      * @param status status of the Tournament
      */
-    void setStatus(long tournamentId, Tournament.Status status);
+    Tournament setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * @param tournamentId id of the Tournament.

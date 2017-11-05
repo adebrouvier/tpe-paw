@@ -23,7 +23,7 @@ public class UserHibernateDao implements UserDao {
     }
     @Override
     public User findByName(final String username) {
-        final TypedQuery<User> query = em.createQuery("from User as u where u.user_name = :username", User.class);
+        final TypedQuery<User> query = em.createQuery("from User as u where u.name = :username", User.class);
         query.setParameter("username", username);
         final List<User> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);

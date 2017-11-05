@@ -6,7 +6,13 @@ import javax.persistence.*;
 @Table(name = "match")
 public class Match {
 
-    private Long id;
+    @Id
+    @Column(name ="match_id")
+    private Integer id;
+
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Tournament tournament;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Player homePlayer;
@@ -20,27 +26,28 @@ public class Match {
     @Column(name = "away_player_score")
     private int awayPlayerScore;
 
+    @OneToOne(fetch = FetchType.EAGER)
     private Match nextMatch;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Tournament tournament;
 
     @Column(name = "next_match_home")
     private Boolean nextMatchHome;
+
     private int standing;
 
     Match(){
         /* For Hibernate */
     }
 
-    public Match (Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+    public Match (Integer id, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.id = id;
         this.nextMatch = nextMatch;
         this.tournament = tournament;
         this.nextMatchHome = nextMatchHome;
         this.standing = standing;
     }
 
-    public Match (Player homePlayer, Player awayPlayer, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+    public Match (Integer id, Player homePlayer, Player awayPlayer, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.id = id;
         this.homePlayer = homePlayer;
         this.awayPlayer = awayPlayer;
         this.nextMatch = nextMatch;
@@ -49,7 +56,8 @@ public class Match {
         this.standing = standing;
     }
 
-    public Match(Player homePlayer, Player awayPlayer, int homePlayerScore, int awayPlayerScore, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+    public Match(Integer id, Player homePlayer, Player awayPlayer, int homePlayerScore, int awayPlayerScore, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+        this.id = id;
         this.homePlayer = homePlayer;
         this.awayPlayer = awayPlayer;
         this.homePlayerScore = homePlayerScore;
@@ -113,14 +121,14 @@ public class Match {
 
         Match match = (Match) o;
 
-        if (id != match.id) return false;
-        return tournament.getId() == match.getTournament().getId();
+        if (!id.equals(match.id)) return false;
+        return tournament.equals(match.tournament);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (tournament.getId() ^ (tournament.getId() >>> 32));
+        int result = id.hashCode();
+        result = 31 * result + tournament.hashCode();
         return result;
     }
 
