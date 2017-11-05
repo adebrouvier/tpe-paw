@@ -41,6 +41,12 @@ public class Ranking {
         this.user = user;
     }
 
+    public Ranking(String name, Game game, User user) {
+        this.name = name;
+        this.game = game;
+        this.user = user;
+    }
+
     public Game getGame(){
         return game;
     }

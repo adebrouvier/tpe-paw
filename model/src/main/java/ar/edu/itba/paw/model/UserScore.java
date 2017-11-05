@@ -1,30 +1,57 @@
 package ar.edu.itba.paw.model;
 
-public class UserScore {
-    /*This could be only the id*/
-    private long userId;
-    private int points;
-    private String userName;
+import javax.persistence.*;
 
-    public UserScore(long userId, int points){
+@Entity
+@Table(name = "ranking_players")
+@SecondaryTable(name="users", pkJoinColumns={
+        @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="user_id")})
+public class UserScore {
+
+    @Column(name = "points")
+    private int points;
+
+    @Column(name = "ranking_id")
+    private long rankingId;
+
+    @Column(name = "user_id")
+    private long userId;
+
+    @Column(table = "users", name = "user_name")
+    private long name;
+
+    public UserScore(){
+        /* for hibernate */
+    }
+
+    public UserScore(long rankingId, long userId, int points){
+        this.rankingId = rankingId;
         this.userId = userId;
         this.points = points;
+    }
+
+    public long getRankingId() {
+        return rankingId;
+    }
+
+    public void setRankingId(long rankingId) {
+        this.rankingId = rankingId;
     }
 
     public long getUserId() {
         return userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public long getName() {
+        return name;
+    }
+
+    public void setName(long name) {
+        this.name = name;
     }
 
     public int getPoints() {
