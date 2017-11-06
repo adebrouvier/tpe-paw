@@ -120,7 +120,7 @@ public class RankingHibernateDao implements RankingDao{
         for (Player player : t.getPlayers()) {
             userId = player.getUser().getId();
             if (userId != 0) {
-                standing = em.createQuery("SELECT standing FROM participates_in WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
+                standing = em.createQuery("SELECT standing FROM player WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
                         .setParameter("playerId", player.getId())
                         .setParameter("tournamentId", tournamentId)
                         .getFirstResult();
@@ -235,7 +235,7 @@ public class RankingHibernateDao implements RankingDao{
                 if (player.hasUser()) {
                     userId = player.getUser().getId();
                     if (userId != 0) {
-                        standing = em.createQuery("SELECT standing FROM participates_in WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
+                        standing = em.createQuery("SELECT standing FROM player WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
                                 .setParameter("playerId", player.getId())
                                 .setParameter("tournamentId", tournament.getId())
                                 .getFirstResult();
@@ -271,7 +271,7 @@ public class RankingHibernateDao implements RankingDao{
     @Override
     public List<Ranking> findFeaturedRankings(int featured) {
 
-        final List<Ranking> list = em.createQuery("SELECT * FROM ranking ORDER BY ranking_id DESC LIMIT :featured", Ranking.class)
+        final List<Ranking> list = em.createQuery("FROM ranking ORDER BY ranking_id DESC LIMIT :featured", Ranking.class)
                 .setParameter("featured", featured)
                 .getResultList();
 

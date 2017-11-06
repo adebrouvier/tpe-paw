@@ -26,8 +26,10 @@ public class Ranking {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
+    @ManyToMany(mappedBy = "users")
     private List<UserScore> users;
 
+    @ManyToMany(mappedBy = "tournament")
     private List<TournamentPoints> tournaments;
 
     public Ranking (){

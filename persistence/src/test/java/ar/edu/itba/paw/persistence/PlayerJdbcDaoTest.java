@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
 public class PlayerJdbcDaoTest {
-
+/*
     @Autowired
     private DataSource ds;
 
@@ -74,5 +74,5 @@ public class PlayerJdbcDaoTest {
     public void testGetTournamentPlayers() {
         playerDao.getTournamentPlayers(1);
     }
-
+*/
 }

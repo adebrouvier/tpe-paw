@@ -3,21 +3,21 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "game_image")
-public class GameImage {
+@Table(name = "game_url_image")
+public class GameUrlImage {
 
     @Id
     @Column(name = "game_id")
     private long id;
 
-    @Column(name = "image")
-    private byte[] image;
+    @Column(name = "url_image")
+    private String image;
 
-    public GameImage() {
+    public GameUrlImage() {
         /* for hibernate */
     }
 
-    public GameImage(long id, byte[] image) {
+    public GameUrlImage(long id, String image) {
         this.id = id;
         this.image = image;
     }
@@ -30,11 +30,11 @@ public class GameImage {
         this.id = id;
     }
 
-    public byte[] getImage() {
+    public String getUrlImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setUrlImage(String image) {
         this.image = image;
     }
 }

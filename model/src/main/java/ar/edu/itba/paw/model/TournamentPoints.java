@@ -11,9 +11,11 @@ public class TournamentPoints {
     @Column(name = "awarded_points")
     private int awardedPoints;
 
+    @Id
     @Column(name = "ranking_id")
     private long rankingId;
 
+    @Id
     @Column(name = "tournament_id")
     private long tournamentId;
 

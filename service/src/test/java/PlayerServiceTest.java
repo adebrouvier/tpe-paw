@@ -13,7 +13,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 public class PlayerServiceTest {
-    @Mock
+  /*  @Mock
     PlayerDao playerDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
@@ -79,5 +79,5 @@ public class PlayerServiceTest {
         Player player = new Player("jorgito", 1);
         return player;
     }
-
+*/
 }

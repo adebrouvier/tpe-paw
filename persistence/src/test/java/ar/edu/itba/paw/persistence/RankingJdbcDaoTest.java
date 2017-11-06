@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
 public class RankingJdbcDaoTest {
-    @Autowired
+/*    @Autowired
     private DataSource ds;
 
     @Autowired
@@ -119,4 +119,5 @@ public class RankingJdbcDaoTest {
     public void testFindFeaturedRanking() {
         assertEquals(2, rankingJdbcDao.findFeaturedRankings(10).size());
     }
+    */
 }

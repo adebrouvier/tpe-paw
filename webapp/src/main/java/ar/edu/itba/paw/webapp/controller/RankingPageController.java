@@ -59,7 +59,7 @@ public class RankingPageController {
         if (r == null) {
             return new ModelAndView("redirect:/404");
         }
-        if (r.getUserId() != loggedUser.getId()){
+        if (r.getUser().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to add tournament to ranking {}", loggedUser.getId(), rankingId);
             return new ModelAndView("redirect:/403");
         }
@@ -81,18 +81,18 @@ public class RankingPageController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (ranking.getUserId() != loggedUser.getId()){
+        if (ranking.getUser().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to add tournament to ranking {}", loggedUser.getId(), rankingId);
             return new ModelAndView("redirect:/403");
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
-        final Tournament tournament = ts.getByNameAndGameId(rankingPageForm.getTournamentName(), ranking.getGameId());
+        final Tournament tournament = ts.getByNameAndGameId(rankingPageForm.getTournamentName(), ranking.getGame().getId());
 
         if (tournament == null){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.exist");
             return rankingPage(rankingPageForm, rankingId);
-        } else if (tournament.getGameId() != ranking.getGameId()){
+        } else if (tournament.getGame().getId() != ranking.getGame().getId()){
             errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.game");
             return rankingPage(rankingPageForm, rankingId);
         } else if (tournament.getStatus() != Tournament.Status.FINISHED){

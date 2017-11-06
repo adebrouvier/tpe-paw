@@ -20,7 +20,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class RankingServiceTest {
-    @Mock
+/*    @Mock
     RankingDao rankingDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
@@ -84,6 +84,6 @@ public class RankingServiceTest {
         }
         return rank;
     }
-
+*/
 
 }

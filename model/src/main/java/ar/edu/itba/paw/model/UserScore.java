@@ -11,9 +11,11 @@ public class UserScore {
     @Column(name = "points")
     private int points;
 
+    @Id
     @Column(name = "ranking_id")
     private long rankingId;
 
+    @Id
     @Column(name = "user_id")
     private long userId;
 
