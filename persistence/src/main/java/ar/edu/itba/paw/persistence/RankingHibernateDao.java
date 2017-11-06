@@ -32,29 +32,7 @@ public class RankingHibernateDao implements RankingDao{
 
     @Override
     public Ranking findById(long rankingId) {
-        Ranking ranking = em.find(Ranking.class, rankingId);
-        if(ranking == null) {
-            return null;
-        }
-
-        ranking.setUsers(getRankingUsers(rankingId));
-        ranking.setTournaments(getRankingTournaments(rankingId));
-        return ranking;
-    }
-
-    private List<UserScore> getRankingUsers(long rankingId) {
-
-        TypedQuery<UserScore> users =  em.createQuery("SELECT u.name, r.user_id, r.points, r.ranking_id FROM ranking_players AS r NATURAL JOIN users AS u WHERE r.ranking_id = :rankingId ORDER BY r.points DESC", UserScore.class)
-                .setParameter("rankingId",rankingId);
-        return users.getResultList();
-
-    }
-
-    private List<TournamentPoints> getRankingTournaments(long rankingId) {
-        TypedQuery<TournamentPoints> tournamentsPoints = em.createQuery("SELECT t.name, r.tournament_id, r.awarded_points, r.ranking_id FROM ranking_tournaments AS r NATURAL JOIN tournament AS t WHERE r.ranking_id = :rankingId", TournamentPoints.class)
-                .setParameter("rankingId", rankingId);
-        return tournamentsPoints.getResultList();
-
+        return em.find(Ranking.class, rankingId);
     }
 
     @Override
@@ -73,7 +51,7 @@ public class RankingHibernateDao implements RankingDao{
         StringBuilder sb = new StringBuilder(term.toLowerCase());
         sb.insert(0, "%");
         sb.append("%");
-        final TypedQuery<Ranking> list = em.createQuery("FROM ranking WHERE lower(name) LIKE :query", Ranking.class).setParameter("query", sb.toString());
+        final TypedQuery<Ranking> list = em.createQuery("FROM Ranking WHERE lower(name) LIKE :query", Ranking.class).setParameter("query", sb.toString());
         List<Ranking> rankings = list.getResultList();
 
         if (rankings == null || rankings.isEmpty()) {
@@ -88,7 +66,7 @@ public class RankingHibernateDao implements RankingDao{
         StringBuilder sb = new StringBuilder(query.toLowerCase());
         sb.insert(0, "%");
         sb.append("%");
-        final TypedQuery<String> list = em.createQuery("SELECT name FROM ranking WHERE lower(name) LIKE :query", String.class)
+        final TypedQuery<String> list = em.createQuery("SELECT name FROM Ranking WHERE lower(name) LIKE :query", String.class)
                 .setParameter("query", sb.toString());
         List<String> rankings = list.getResultList();
 
@@ -101,41 +79,41 @@ public class RankingHibernateDao implements RankingDao{
 
     @Override
     public void delete(long rankingId, long tournamentId) {
-        int awardedPoints = em.createQuery("SELECT awarded_points FROM ranking_tournaments WHERE ranking_id = :rankingId AND tournament_id = :tournamentId", Integer.class)
+        final Tournament tournament = tournamentDao.findById(tournamentId);
+        final Ranking ranking = findById(rankingId);
+        int awardedPoints = em.createQuery("SELECT awardedPoints FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", Integer.class)
                 .setParameter("rankingId", rankingId)
                 .setParameter("tournamentId",tournamentId)
                 .getFirstResult();
-        TournamentPoints tournamentPoints = new TournamentPoints(rankingId, tournamentId, awardedPoints);
+        TournamentPoints tournamentPoints = new TournamentPoints(ranking, tournament, awardedPoints);
         em.remove(tournamentPoints);
-        //jdbcTemplate.update("DELETE FROM ranking_tournaments WHERE ranking_id = ? AND tournament_id = ?", rankingId, tournamentId);
-        deleteUsersFromRanking(rankingId, tournamentId, awardedPoints);
+        deleteUsersFromRanking(ranking, tournament, awardedPoints);
     }
 
-    private void deleteUsersFromRanking(long rankingId, long tournamentId, int awardedPoints) {
-        Tournament t = tournamentDao.findById(tournamentId);
+    private void deleteUsersFromRanking(Ranking ranking, Tournament tournament, int awardedPoints) {
         int standing;
         int score;
         int existingScore;
-        long userId;
-        for (Player player : t.getPlayers()) {
-            userId = player.getUser().getId();
-            if (userId != 0) {
-                standing = em.createQuery("SELECT standing FROM player WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
+        User user;
+        for (Player player : tournament.getPlayers()) {
+            user = player.getUser();
+            if (user.getId() != 0) {
+                standing = em.createQuery("SELECT standing FROM Player WHERE id = :playerId AND tournament = :tournamentId", Integer.class)
                         .setParameter("playerId", player.getId())
-                        .setParameter("tournamentId", tournamentId)
+                        .setParameter("tournamentId", tournament.getId())
                         .getFirstResult();
                 score = standingHandler(standing, awardedPoints);
-                existingScore = em.createQuery("SELECT points FROM ranking_players WHERE ranking_id = :rankingId AND user_id = :userId", Integer.class)
-                        .setParameter("rankingId", rankingId)
-                        .setParameter("userId", userId)
+                existingScore = em.createQuery("SELECT points FROM UserScore WHERE ranking.id = :rankingId AND user.id = :userId", Integer.class)
+                        .setParameter("rankingId", ranking.getId())
+                        .setParameter("userId", user.getId())
                         .getFirstResult();
                 if (score == existingScore) {
-                    UserScore userScore = new UserScore(rankingId, userId, score);
+                    UserScore userScore = new UserScore(ranking, user, score);
                     em.remove(userScore);
                     //jdbcTemplate.update("DELETE FROM ranking_players WHERE ranking_id = ? AND user_id = ?", rankingId, userId);
                 } else {
                     int newScore = (existingScore - score);
-                    UserScore userScore = new UserScore(rankingId, userId, newScore);
+                    UserScore userScore = new UserScore(ranking, user, newScore);
                     em.merge(userScore);
                     //jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?", existingScore - score, rankingId, userId);
                 }
@@ -186,8 +164,8 @@ public class RankingHibernateDao implements RankingDao{
 
         }
 
-        addTournamentToRanking(rankingId, filteredTournaments);
-        addUsersToRanking(rankingId, filteredTournaments);
+        addTournamentToRanking(r, filteredTournaments);
+        addUsersToRanking(r, filteredTournaments);
         return findById(rankingId);
     }
 
@@ -196,7 +174,7 @@ public class RankingHibernateDao implements RankingDao{
             if(ranking.getTournaments().size() == 0) return true;
             boolean alreadyAddedToRankingFlag = false;
             for(TournamentPoints tPoints: ranking.getTournaments()){
-                if(tPoints.getTournamentId() == tournament.getId()) alreadyAddedToRankingFlag = true;
+                if(tPoints.getTournament().getId() == tournament.getId()) alreadyAddedToRankingFlag = true;
             }
             return !alreadyAddedToRankingFlag;
         }
@@ -205,9 +183,9 @@ public class RankingHibernateDao implements RankingDao{
         }
     }
 
-    private void addTournamentToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
+    private void addTournamentToRanking(Ranking ranking, Map<Tournament, Integer> tournaments) {
         for (Tournament tournament : tournaments.keySet()) {
-            TournamentPoints tp = new TournamentPoints(rankingId, tournament.getId(), tournaments.get(tournament));
+            TournamentPoints tp = new TournamentPoints(ranking, tournament, tournaments.get(tournament));
             em.persist(tp);
         }
 
@@ -217,53 +195,52 @@ public class RankingHibernateDao implements RankingDao{
      * Adds the user scores on the listed tournaments, taking
      * into account their standings.
      *
-     * @param rankingId   id of the ranking.
+     * @param ranking   id of the ranking.
      * @param tournaments tournaments and their respective points.
      */
-    private void addUsersToRanking(long rankingId, Map<Tournament, Integer> tournaments) {
-        Map<Long, Integer> existingScores = new HashMap<>();
-        Map<Long, Integer> newUserScores = new HashMap<>();
-        Ranking r = findById(rankingId);
-        for(UserScore tempScores:r.getUsers()){
-            existingScores.put(tempScores.getUserId(),tempScores.getPoints());
+    private void addUsersToRanking(Ranking ranking, Map<Tournament, Integer> tournaments) {
+        Map<User, Integer> existingScores = new HashMap<>();
+        Map<User, Integer> newUserScores = new HashMap<>();
+        for(UserScore tempScores:ranking.getUsers()){
+            existingScores.put(tempScores.getUser(),tempScores.getPoints());
         }
         int standing, userScore, tournamentScore;
-        Long userId;
+        User user;
         for (Tournament tournament : tournaments.keySet()) {
             tournamentScore = tournaments.get(tournament);
             for (Player player : tournament.getPlayers()) {
                 if (player.hasUser()) {
-                    userId = player.getUser().getId();
-                    if (userId != 0) {
-                        standing = em.createQuery("SELECT standing FROM player WHERE player_id = :playerId AND tournament_id = :tournamentId", Integer.class)
+                    user = player.getUser();
+                    if (user.getId() != 0) {
+                        standing = em.createQuery("SELECT standing FROM Player WHERE id = :playerId AND tournament = :tournamentId", Integer.class)
                                 .setParameter("playerId", player.getId())
                                 .setParameter("tournamentId", tournament.getId())
                                 .getFirstResult();
                         userScore = standingHandler(standing, tournamentScore);
-                        if (existingScores.containsKey(userId)) { // Is user already in the ranking
-                            existingScores.put(userId,userScore + existingScores.get(userId));
+                        if (existingScores.containsKey(user)) { // Is user already in the ranking
+                            existingScores.put(user,userScore + existingScores.get(user));
                         } else {
-                            newUserScores.put(userId, userScore);
+                            newUserScores.put(user, userScore);
                         }
                     }
                 }
             }
         }
-        addPointsToExistingUsers(existingScores, rankingId);
-        addNewUsersToRanking(newUserScores,rankingId);
+        addPointsToExistingUsers(existingScores, ranking);
+        addNewUsersToRanking(newUserScores,ranking);
     }
 
-    private void addPointsToExistingUsers(Map<Long, Integer> points, long rankingId) {
-        for(Map.Entry<Long,Integer> entry : points.entrySet()){
-            UserScore us = new UserScore(rankingId, entry.getKey(), entry.getValue());
+    private void addPointsToExistingUsers(Map<User, Integer> points, Ranking ranking) {
+        for(Map.Entry<User,Integer> entry : points.entrySet()){
+            UserScore us = new UserScore(ranking, entry.getKey(), entry.getValue());
             em.merge(us);
             //jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",entry.getValue(), rankingId,entry.getKey());
         }
     }
 
-    private void addNewUsersToRanking(Map<Long, Integer> newUsers, long rankingId) {
-        for (Map.Entry<Long, Integer> entry : newUsers.entrySet()) {
-            UserScore us = new UserScore(rankingId, entry.getKey(), entry.getValue());
+    private void addNewUsersToRanking(Map<User, Integer> newUsers, Ranking ranking) {
+        for (Map.Entry<User, Integer> entry : newUsers.entrySet()) {
+            UserScore us = new UserScore(ranking, entry.getKey(), entry.getValue());
             em.persist(us);
         }
     }
@@ -271,16 +248,12 @@ public class RankingHibernateDao implements RankingDao{
     @Override
     public List<Ranking> findFeaturedRankings(int featured) {
 
-        final List<Ranking> list = em.createQuery("FROM ranking ORDER BY ranking_id DESC LIMIT :featured", Ranking.class)
-                .setParameter("featured", featured)
+        final List<Ranking> list = em.createQuery("FROM Ranking ORDER BY id DESC", Ranking.class)
+                .setMaxResults(featured)
                 .getResultList();
 
         if (list.isEmpty()) {
             return null;
-        }
-
-        for (Ranking r : list) {
-            r.setGame(gameDao.findById(r.getGame().getId()));
         }
 
         return list;

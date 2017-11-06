@@ -16,6 +16,12 @@ public class Game {
     @Column(name = "name", length = 60, unique = true, nullable = false)
     private String name;
 
+    @OneToOne
+    private GameImage gameImage;
+
+    @OneToOne
+    private GameUrlImage gameUrlImage;
+
     @Column(name = "user_generated")
     private Boolean userGenerated;
 

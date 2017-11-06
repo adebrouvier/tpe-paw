@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "match")
+@IdClass(MatchPK.class)
 public class Match {
 
     @Id
@@ -12,19 +13,22 @@ public class Match {
 
     @Id
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "home_player_id")
     private Player homePlayer;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "away_player_id")
     private Player awayPlayer;
 
     @Column(name = "home_player_score")
-    private int homePlayerScore;
+    private Integer homePlayerScore;
 
     @Column(name = "away_player_score")
-    private int awayPlayerScore;
+    private Integer awayPlayerScore;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Match nextMatch;
@@ -70,11 +74,11 @@ public class Match {
 
     public boolean isNextMatchHome() { return nextMatchHome; }
 
-    public int getHomePlayerScore() {
+    public Integer getHomePlayerScore() {
         return homePlayerScore;
     }
 
-    public int getAwayPlayerScore() {
+    public Integer getAwayPlayerScore() {
         return awayPlayerScore;
     }
 

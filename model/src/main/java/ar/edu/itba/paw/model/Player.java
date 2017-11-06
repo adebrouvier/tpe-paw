@@ -21,6 +21,7 @@ public class Player {
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @Column(name = "seed")
@@ -33,13 +34,15 @@ public class Player {
         /* For Hibernate */
     }
 
-    public Player(final String name) {
+    public Player(final String name, final Tournament tournament) {
         this.name = name;
+        this.tournament = tournament;
     }
 
-    public Player(final String name, final User user) {
+    public Player(final String name, final User user, Tournament tournament) {
         this.name = name;
         this.user = user;
+        this.tournament = tournament;
     }
 
     public boolean hasUser() {
@@ -84,6 +87,14 @@ public class Player {
 
     public void setStanding(Integer standing) {
         this.standing = standing;
+    }
+
+    public Tournament getTournament(){
+        return this.tournament;
+    }
+
+    public void setTournament(Tournament tournament){
+        this.tournament = tournament;
     }
 
     @Override

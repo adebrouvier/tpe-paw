@@ -100,7 +100,7 @@ public class RankingPageController {
             return rankingPage(rankingPageForm, rankingId);
         } else{
             for(TournamentPoints tPoints: ranking.getTournaments()){
-                if(tournament.getId() == tPoints.getTournamentId()){
+                if(tournament.getId() == tPoints.getTournament().getId()){
                     errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.duplicateTournament");
                     return rankingPage(rankingPageForm,rankingId);
                 }

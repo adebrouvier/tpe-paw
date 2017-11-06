@@ -92,9 +92,9 @@ public interface TournamentService {
 
     /**
      * Generates bracket for the specified Tournament
-     * @param tournamentId id of the Tournament
+     * @param tournament Tournament where the bracket will be generated
      */
-    void generateBracket(long tournamentId);
+    void generateBracket(Tournament tournament);
 
     /**
      * Checks if an user is already participating in a Tournament.

@@ -2,58 +2,43 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 
-@Entity
 @Table(name = "ranking_tournaments")
-@SecondaryTable(name="tournament", pkJoinColumns={
-        @PrimaryKeyJoinColumn(name="tournament_id", referencedColumnName="tournament_id")})
 public class TournamentPoints {
 
     @Column(name = "awarded_points")
     private int awardedPoints;
 
-    @Id
-    @Column(name = "ranking_id")
-    private long rankingId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Ranking ranking;
 
     @Id
-    @Column(name = "tournament_id")
-    private long tournamentId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Tournament tournament;
 
-    @Column(table = "tournament", name = "name")
-    private String tournamentName;
-
-    public TournamentPoints() {
+    TournamentPoints() {
         /* for Hibernate */
     }
 
-    public TournamentPoints(long rankingId,long tournamentId,int awardedPoints){
-        this.rankingId = rankingId;
-        this.tournamentId = tournamentId;
+    public TournamentPoints(Ranking ranking, Tournament tournament, int awardedPoints){
+        this.ranking = ranking;
+        this.tournament = tournament;
         this.awardedPoints = awardedPoints;
     }
 
-    public long getRankingId() {
-        return rankingId;
+    public Ranking getRanking() {
+        return ranking;
     }
 
-    public void setRankingId(long rankingId) {
-        this.rankingId = rankingId;
+    public void setRanking(Ranking ranking) {
+        this.ranking = ranking;
     }
 
-    public long getTournamentId() {
-        return tournamentId;
+    public Tournament getTournament() {
+        return tournament;
     }
 
-    public void setTournamentId(long tournamentId) {
-        this.tournamentId = tournamentId;
-    }
-
-    public String getTournamentName() {
-        return tournamentName;
-    }
-
-    public void setTournamentName(String tournamentName) {
-        this.tournamentName = tournamentName;
+    public void setTournament(Tournament tournamentId) {
+        this.tournament = tournament;
     }
 
     public int getAwardedPoints() {

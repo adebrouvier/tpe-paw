@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public interface PlayerDao {
      * @param name name of the player.
      * @return an instance of the player.
      */
-    Player create(String name);
+    Player create(String name, Tournament tournament);
 
     /**
      * Find every Player that participates in
@@ -84,7 +85,7 @@ public interface PlayerDao {
      * @param user id of the User
      * @return an instance of the new Player
      */
-    Player create(String name, User user);
+    Player create(String name, User user, Tournament tournament);
 
     /**
      * Adds a Player to a Tournament

@@ -18,7 +18,7 @@
 ${navbar}
 <main>
 <div class="image-container" >
-    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value="${game.urlImage}"></c:out>') center center"></div>
+    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value=""></c:out>') center center"></div>
 </div>
 <div class="container">
     <div class="row">
@@ -38,7 +38,7 @@ ${navbar}
             </div>
             <div class="row">
                 <div class="col s12">
-                    <c:if test="${loggedUser.id == tournament.userId}">
+                    <c:if test="${loggedUser.id == tournament.creator.id}">
                     <div class="center">
 
                         <c:url value="/update/tournament/${tournament.id}/end" var="endPath"/>
@@ -145,7 +145,7 @@ ${navbar}
                                     </div>
 
                                     <c:choose>
-                                        <c:when test="${loggedUser.id == tournament.userId && (match.awayPlayerId != -1 && match.awayPlayerId != 0 && match.homePlayerId != 0 && tournament.status == 'STARTED')}">
+                                        <c:when test="${loggedUser.id == tournament.creator.id && (match.awayPlayer.id != -1 && match.awayPlayer.id != 0 && match.homePlayer.id != 0 && tournament.status == 'STARTED')}">
                                             <div id="modal-${match.id}" class="modal match-modal">
 
                                                 <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>

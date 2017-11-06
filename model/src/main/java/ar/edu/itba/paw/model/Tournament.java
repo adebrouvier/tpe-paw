@@ -35,48 +35,39 @@ public class Tournament {
     /**
      * List of all the players, including BYES
      */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "tournament")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "tournament")
     private List<Player> players;
-
-    /**
-     * Number of players, without counting byes
-     */
-    private int size;
 
     /**
      * List of every match, including BYES
      */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "tournament")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "tournament")
     private List<Match> matches;
-
-    /**
-     * Count of matches, without BYES
-     */
-    private int numberOfMatches;
 
     /**
      * Game that the tournament hosts
      */
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "game_id")
     private Game game;
 
     /**
      * User that created the tournament
      */
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User user;
+    @JoinColumn(name = "user_id")
+    private User creator;
 
-    public Tournament(final String name, final Game game, Status status, final User user){
+    public Tournament(final String name, final Game game, Status status, final User creator){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.name = name;
-//        this.id = id;
         this.status = status;
         this.game = game;
-        this.user = user;
+        this.creator = creator;
     }
 
-    public Tournament (){
+    Tournament (){
         /* For Hibernate */
     }
 
@@ -104,6 +95,10 @@ public class Tournament {
         return matches;
     }
 
+    public void setMatches(List<Match> matches){
+        this.matches = matches;
+    }
+
     public long getId() {
         return id;
     }
@@ -112,40 +107,16 @@ public class Tournament {
         this.id = id;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size){
-        this.size = size;
-    }
-
-    public int getNumberOfMatches() {
-        return numberOfMatches;
-    }
-
-    public void setNumberOfMatches(int numberOfMatches) {
-        this.numberOfMatches = numberOfMatches;
-    }
-
-    public void addPlayer(List<Player> players){
-        this.players.addAll(players);
-    }
-
-    public void addMatch(List<Match> matches){
-        this.matches.addAll(matches);
-    }
-
     public Status getStatus() { return status; }
 
     public void setStatus(Status status) { this.status = status; }
 
-    public User getUser() {
-        return user;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreator(User user) {
+        this.creator = user;
     }
 
     @Override

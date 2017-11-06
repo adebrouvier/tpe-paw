@@ -74,7 +74,9 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Transactional
     @Override
-    public void generateBracket(long tournamentId){
+    public void generateBracket(Tournament tournament){
+
+        long tournamentId = tournament.getId();
 
         List<Player> players = playerService.getTournamentPlayers(tournamentId);
         int playerCount = players.size();
@@ -83,7 +85,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         for (int i = playerCount; i < playerCount + byes; i++) {
             playerService.addToTournament(BYE_ID, tournamentId);
-            players.add(new Player(BYE_NAME));
+            players.add(new Player(BYE_NAME, tournament));
         }
         generateSingleEliminationBracket(tournamentId, players);
     }

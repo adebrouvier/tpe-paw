@@ -26,15 +26,15 @@ public class PlayerHibernateDao implements PlayerDao{
     private TournamentDao tournamentDao;
 
     @Override
-    public Player create(String name) {
-        final Player player = new Player(name);
+    public Player create(String name, Tournament tournament) {
+        final Player player = new Player(name, tournament);
         em.persist(player);
         return player;
     }
 
     @Override
-    public Player create(String name, User user) {
-        final Player player = new Player(name, user);
+    public Player create(String name, User user, Tournament tournament) {
+        final Player player = new Player(name, user, tournament);
         em.persist(player);
         return player;
     }

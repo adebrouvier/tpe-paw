@@ -3,7 +3,6 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Table(name = "ranking")
 public class Ranking {
 
@@ -26,21 +25,14 @@ public class Ranking {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
-    @ManyToMany(mappedBy = "users")
-    private List<UserScore> users;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ranking")
+    private List<UserScore> userScores;
 
-    @ManyToMany(mappedBy = "tournament")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ranking")
     private List<TournamentPoints> tournaments;
 
-    public Ranking (){
+    Ranking (){
         /* For Hibernate */
-    }
-
-    public Ranking(long id, String name, Game game, User user){
-        this.id = id;
-        this.name = name;
-        this.game = game;
-        this.user = user;
     }
 
     public Ranking(String name, Game game, User user) {
@@ -62,11 +54,11 @@ public class Ranking {
     }
 
     public List<UserScore> getUsers() {
-        return users;
+        return userScores;
     }
 
-    public void setUsers(List<UserScore> users) {
-        this.users = users;
+    public void setUsers(List<UserScore> userScores) {
+        this.userScores = userScores;
     }
 
     public List<TournamentPoints> getTournaments() {

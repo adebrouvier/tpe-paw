@@ -15,16 +15,16 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>${tournament.size}</td>
-                    <td>${tournament.numberOfMatches}</td>
-                    <td><c:if test="${game.name == ''}">
+                    <td>${tournament.players.size()}</td>
+                    <td>${tournament.matches.size()}</td>
+                    <td><c:if test="${tournament.game.name == ''}">
                         <spring:message code="tournament.undefined.game"/>
                     </c:if>
-                        <c:if test="${game.name != null}">
-                            <c:out value="${game.name}"/>
+                        <c:if test="${tournament.game.name != null}">
+                            <c:out value="${tournament.game.name}"/>
                         </c:if>
                     </td>
-                    <td><c:out value="${creator.name}"/></td>
+                    <td><c:out value="${tournament.creator.name}"/></td>
                 </tr>
                 </tbody>
             </table>

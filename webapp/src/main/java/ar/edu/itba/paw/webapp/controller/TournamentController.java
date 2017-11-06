@@ -81,13 +81,6 @@ public class TournamentController {
         }
         LOGGER.debug("Access to tournament id {}", tournamentId);
         final ModelAndView mav = new ModelAndView("tournament-page");
-        final Game game = gs.findById(t.getId());
-        if(game == null) {
-            mav.addObject("game", new Game("", false));
-        }
-        final User creator = us.findById(t.getId());
-        mav.addObject("creator", creator);
-        mav.addObject("game", game);
         mav.addObject("tournament", t);
         return mav;
     }
@@ -100,15 +93,7 @@ public class TournamentController {
         }
         LOGGER.debug("Access to tournament {} standings", t.getId());
         final ModelAndView mav = new ModelAndView("standings");
-        final Game game = gs.findById(t.getId());
-        if(game == null) {
-            mav.addObject("game", new Game("", false));
-        }
-        final User creator = t.getUser();
-        mav.addObject("creator", creator);
-        mav.addObject("game", game);
         mav.addObject("tournament", t);
-        mav.addObject("standings", t.getPlayers());
         return mav;
     }
 
@@ -121,17 +106,7 @@ public class TournamentController {
         }
         LOGGER.debug("Access to tournament id {} players", tournamentId);
         final ModelAndView mav = new ModelAndView("players");
-        final Game game = gs.findById(t.getGame().getId());
-        if(game == null) {
-            mav.addObject("game", new Game("", false));
-        }
-        final List<Player> playerList = ps.getTournamentPlayers(tournamentId);
-        final User creator = t.getUser();
-        mav.addObject("creator", creator);
-        mav.addObject("game", game);
         mav.addObject("tournament", t);
-        mav.addObject("players", playerList);
-
         return mav;
     }
 
@@ -148,7 +123,7 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to add player to tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
@@ -167,14 +142,14 @@ public class TournamentController {
                 return tournament(playerForm, tournamentId);
             }else{ /* Player linked to user */
                 if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
-                    p = ps.create(playerForm.getPlayer(), user);
+                    p = ps.create(playerForm.getPlayer(), user, tournament);
                 }else {
                     errors.rejectValue("username", "playerForm.error.username.added");
                     return tournament(playerForm, tournamentId);
                 }
             }
         }else{ /* Player is not linked to user */
-            p = ps.create(playerForm.getPlayer());
+            p = ps.create(playerForm.getPlayer(), tournament);
         }
 
         ps.addToTournament(p.getId(), tournamentId);
@@ -196,7 +171,7 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to update match on tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
@@ -216,7 +191,7 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to end the tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
@@ -246,7 +221,7 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to remove player to tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
@@ -267,7 +242,7 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to swap player to tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
@@ -286,12 +261,12 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (tournament.getUser().getId() != loggedUser.getId()){
+        if (tournament.getCreator().getId() != loggedUser.getId()){
             LOGGER.warn("Unauthorized User {} tried to generate the tournament {}", loggedUser.getId(), tournamentId);
             return new ModelAndView("redirect:/403");
         }
 
-        ts.generateBracket(tournamentId);
+        ts.generateBracket(tournament);
         ts.setStatus(tournamentId, Tournament.Status.STARTED);
         LOGGER.debug("Generated bracket for tournament {}", tournamentId);
         return new ModelAndView("redirect:/tournament/" + tournamentId);

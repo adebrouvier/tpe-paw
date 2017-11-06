@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,14 +47,14 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Transactional
     @Override
-    public Player create(String name) {
-        return playerDao.create(name);
+    public Player create(String name, Tournament tournament) {
+        return playerDao.create(name, tournament);
     }
 
     @Transactional
     @Override
-    public Player create(String name, User user) {
-        return playerDao.create(name, user);
+    public Player create(String name, User user, Tournament tournament) {
+        return playerDao.create(name, user, tournament);
     }
 
     @Transactional

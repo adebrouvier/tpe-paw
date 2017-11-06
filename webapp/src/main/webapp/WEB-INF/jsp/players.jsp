@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
+<head>
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
@@ -19,7 +20,7 @@
 ${navbar}
 <main>
 <div class="image-container" >
-    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value="${game.urlImage}"></c:out>') center center"></div>
+    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value=""></c:out>') center center"></div>
 </div>
 <div class="container">
     <div class="row">
@@ -37,7 +38,7 @@ ${navbar}
                     </ul>
                 </div>
             </div>
-            <c:if test="${tournament.status == 'NEW' && tournament.userId == loggedUser.id}">
+            <c:if test="${tournament.status == 'NEW' && tournament.creator.id == loggedUser.id}">
                 <div class="row">
                     <div class="players">
                         <div class="col s12">
@@ -63,7 +64,7 @@ ${navbar}
                                 </div>
                             </form:form>
                             <div class="row center">
-                                <c:if test="${tournament.status == 'NEW' && tournament.size >= 2}">
+                                <c:if test="${tournament.status == 'NEW' && tournament.players.size() >= 2}">
                                     <form action="<c:url value="/update/tournament/${tournament.id}/generate"/>" method="post">
                                         <button type="submit" class="btn btn-primary light-blue darken-4"><spring:message code="tournament.players.generate"/></button>
                                     </form>
@@ -77,7 +78,7 @@ ${navbar}
                                             <li>
                                                 <div class="player-container">
                                         <span class="player-seed">
-                                            <c:out value="${seed}"></c:out>
+                                            <c:out value="${player.seed}"/>
                                         </span>
                                                     <span class="move">
                                                 <i class="tiny material-icons">unfold_more</i>
@@ -85,8 +86,8 @@ ${navbar}
                                                     <span class="player-name">
                                             <c:out value="${player.name}"/>
                                         </span>
-                                                    <c:if test="${player.userName != null}">
-                                                        <span class="user-name">- <c:out value="${player.userName}"/>
+                                                    <c:if test="${player.user.name != null}">
+                                                        <span class="user-name">- <c:out value="${player.user.name}"/>
                                                         </span>
                                                     </c:if>
 
@@ -108,7 +109,7 @@ ${navbar}
                     </div>
                 </div>
             </c:if>
-            <c:if test="${players.size() == 0 && tournament.userId != loggedUser.id}">
+            <c:if test="${players.size() == 0 && tournament.creator.id != loggedUser.id}">
                 <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/></h5>
             </c:if>
             <c:if test="${tournament.status != 'NEW'}">
@@ -127,17 +128,17 @@ ${navbar}
 
                                     <tbody>
                                     <c:set var="seed" value="1"/>
-                                    <c:forEach var="player" items="${players}">
+                                    <c:forEach var="player" items="${tournament.players}">
                                         <c:if test="${player.id != -1}">
                                             <tr>
                                                 <td class="player-seed">
-                                                    <c:out value="${seed}"></c:out>
+                                                    <c:out value="${player.seed}"/>
                                                 </td>
                                                 <td class="player-name">
                                                     <c:out value="${player.name}"/>
                                                 </td>
                                                 <td>
-                                                    <c:out value="${player.userName}"/>
+                                                    <c:out value="${player.user.name}"/>
                                                 </td>
                                             </tr>
                                             <c:set var="seed" value="${seed+1}"/>

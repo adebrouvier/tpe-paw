@@ -67,8 +67,8 @@ ${navbar}
             <tr>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><c:out value="${tournament.name}"/></a></td>
                 <td><c:out value="${tournament.game.name}"/></td>
-                <td>${tournament.size}</td>
-                <td>${tournament.numberOfMatches}</td>
+                <td>${tournament.players.size()}</td>
+                <td>${tournament.matches.size()}</td>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
             </tr>
         </c:forEach>

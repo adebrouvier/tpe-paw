@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface PlayerService {
      * @param name name of the player.
      * @return an instance of the player.
      */
-    Player create(String name);
+    Player create(String name, Tournament tournament);
 
     /**
      * Creates a player linked to a user
@@ -59,7 +60,7 @@ public interface PlayerService {
      * @param user id of the user
      * @return an instance of the player
      */
-    Player create(String name, User user);
+    Player create(String name, User user, Tournament tournament);
 
     /**
      * Sets every players standing in the tournament to its

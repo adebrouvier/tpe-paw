@@ -46,8 +46,8 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Override
     public List<Tournament> findFeaturedTournaments(int featured) {
-        final TypedQuery<Tournament> query = em.createQuery("from Tournament as t ORDER BY t.id DESC LIMIT :featured", Tournament.class);
-        query.setParameter("featured", featured);
+        final TypedQuery<Tournament> query = em.createQuery("from Tournament as t ORDER BY t.id DESC", Tournament.class)
+                .setMaxResults(featured);
         final List<Tournament> list = query.getResultList();
         return list.isEmpty() ? null : list;
     }
@@ -79,7 +79,7 @@ public class TournamentHibernateDao implements TournamentDao{
         TypedQuery<String> query = em.createQuery("from Tournament as t " +
                 "WHERE lower(t.name) LIKE :name AND game.id = :gameId", String.class);
         query.setParameter("name", sb.toString());
-        query.setParameter("game", gameId);
+        query.setParameter("gameId", gameId);
 
         return query.getResultList();
     }
@@ -119,16 +119,15 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Override
     public boolean participatesIn(long userId, long tournamentId) {
-        TypedQuery<Integer> query = em.createQuery("SELECT count(*) FROM Player WHERE " +
-                "tournament.id = :tournamentId and user.id = :userId", Integer.class);
+        TypedQuery<Integer> query = em.createQuery("SELECT count(*) FROM Player as p WHERE " +
+                "p.tournament.id = :tournamentId and p.user.id = :userId", Integer.class);
         List<Integer> list = query.getResultList();
         return !list.isEmpty();
     }
 
     @Override
     public Tournament getByNameAndGameId(String name, long gameId) {
-        TypedQuery<Tournament> query = em.createQuery("from Tournament as t WHERE t.name = :name" +
-                "AND t.game.id = :gameId AND t.status = :status", Tournament.class);
+        TypedQuery<Tournament> query = em.createQuery("from Tournament as t WHERE t.name = :name AND t.game.id = :gameId AND t.status = :status", Tournament.class);
         query.setParameter("name", name);
         query.setParameter("gameId", gameId);
         query.setParameter("status", Tournament.Status.FINISHED);

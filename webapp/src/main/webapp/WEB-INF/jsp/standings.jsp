@@ -16,7 +16,7 @@
     <c:import var="navbar" url="navbar.jsp"/>
     ${navbar}
     <div class="image-container" >
-        <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value="${game.urlImage}"></c:out>') center center"></div>
+        <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value=""></c:out>') center center"></div>
     </div>
     <div class="container">
         <div class="row">
@@ -34,10 +34,10 @@
                         </ul>
                     </div>
                 </div>
-                <c:if test="${standings.size() == 0}">
+                <c:if test="${tournament.players.size() == 0}">
                     <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/> </h5>
                 </c:if>
-                <c:if test="${(standings.size() != 0)}">
+                <c:if test="${tournament.players.size() != 0}">
                 <div class="row standings">
                     <table class="centered striped">
                         <thead>
@@ -47,17 +47,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="rank" items="${standings}">
+                        <c:forEach var="player" items="${tournament.players}">
                             <tr>
                                 <c:choose>
-                                    <c:when test="${rank.position == 0}">
+                                    <c:when test="${player.standing == 0}">
                                         <td >-</td>
                                     </c:when>
-                                    <c:when test="${rank.position != 0}">
-                                        <td>${rank.position}&deg;</td>
+                                    <c:when test="${player.standing != 0}">
+                                        <td>${player.standing}&deg;</td>
                                     </c:when>
                                 </c:choose>
-                                <td>${rank.playerName}</td>
+                                <td>${player.name}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
