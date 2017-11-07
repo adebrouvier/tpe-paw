@@ -8,33 +8,46 @@ public class GameUrlImage {
 
     @Id
     @Column(name = "game_id")
-    private long id;
+    private Long gameId;
+
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
 
     @Column(name = "url_image")
-    private String image;
+    private String urlImage;
 
     public GameUrlImage() {
         /* for hibernate */
     }
 
-    public GameUrlImage(long id, String image) {
-        this.id = id;
-        this.image = image;
+    public GameUrlImage(Game game, String ulrImage) {
+        this.game = game;
+        this.urlImage = ulrImage;
     }
 
-    public long getId() {
-        return id;
+    public Game getGame() {
+        return this.game;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 
     public String getUrlImage() {
-        return image;
+        return urlImage;
     }
 
-    public void setUrlImage(String image) {
-        this.image = image;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }

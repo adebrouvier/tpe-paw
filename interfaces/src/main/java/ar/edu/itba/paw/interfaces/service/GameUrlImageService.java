@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.model.Game;
+
 public interface GameUrlImageService {
 
     /**
@@ -11,8 +13,8 @@ public interface GameUrlImageService {
 
     /**
      * Create a url that locate the game image
-     * @param gameId id of the Game
+     * @param game id of the Game
      * @param url the url of the image
      */
-    void create(long gameId, String url);
+    void create(Game game, String url);
 }

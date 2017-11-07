@@ -20,7 +20,7 @@
 ${navbar}
 <main>
 <div class="image-container" >
-    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value=""></c:out>') center center"></div>
+    <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value="${tournament.game.gameUrlImage.urlImage}"/>') center center"></div>
 </div>
 <div class="container">
     <div class="row">

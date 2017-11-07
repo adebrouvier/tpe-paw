@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS game (
 );
 
 CREATE TABLE IF NOT EXISTS game_url_image (
-  game_id BIGINT REFERENCES game(game_id),
+  game_id BIGINT PRIMARY KEY REFERENCES game(game_id),
   url_image TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS game_image(
-  game_id BIGINT REFERENCES game(game_id),
+  game_id BIGINT PRIMARY KEY REFERENCES game(game_id),
   image BYTEA NOT NULL
 );
 

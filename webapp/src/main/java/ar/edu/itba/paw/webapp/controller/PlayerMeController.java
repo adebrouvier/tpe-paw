@@ -59,7 +59,7 @@ public class PlayerMeController {
                                     for (String part : arg) {
                                         urlImage = urlImage.append(part);
                                     }
-                                    guis.create(game.getId(), urlImage.toString());
+                                    guis.create(game, urlImage.toString());
                                 }
                             }
                         }

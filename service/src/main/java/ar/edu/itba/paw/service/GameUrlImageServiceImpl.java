@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.persistence.GameUrlImageDao;
 import ar.edu.itba.paw.interfaces.service.GameUrlImageService;
+import ar.edu.itba.paw.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class GameUrlImageServiceImpl implements GameUrlImageService {
 
     @Transactional
     @Override
-    public void create(long gameId, String url) {
-        gameUrlImageDao.create(gameId, url);
+    public void create(Game game, String url) {
+        gameUrlImageDao.create(game, url);
     }
 }
