@@ -18,6 +18,7 @@ public class Player {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)

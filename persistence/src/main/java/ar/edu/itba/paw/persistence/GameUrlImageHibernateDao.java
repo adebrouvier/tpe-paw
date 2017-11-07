@@ -16,7 +16,7 @@ public class GameUrlImageHibernateDao implements GameUrlImageDao {
 
     @Override
     public void create(Game game, String url) {
-        GameUrlImage gui = new GameUrlImage(game, url);
+        GameUrlImage gui = new GameUrlImage(game.getId(), url);
         em.persist(gui);
     }
 

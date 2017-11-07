@@ -10,11 +10,6 @@ public class GameImage {
     @Column(name = "game_id")
     private Long gameId;
 
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "game_id")
-    private Game game;
-
     @Column(name = "image")
     private byte[] image;
 
@@ -22,17 +17,9 @@ public class GameImage {
         /* for hibernate */
     }
 
-    public GameImage(Game game,byte[] image) {
-        this.game = game;
+    public GameImage(Long gameId,byte[] image) {
+        this.gameId = gameId;
         this.image = image;
-    }
-
-    public Game getGame() {
-        return this.game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public Long getGameId() {

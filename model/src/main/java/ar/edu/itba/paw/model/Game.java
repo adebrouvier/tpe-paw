@@ -60,4 +60,34 @@ public class Game {
         return name;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getUserGenerated() {
+        return userGenerated;
+    }
+
+    public void setUserGenerated(Boolean userGenerated) {
+        this.userGenerated = userGenerated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game)) return false;
+
+        Game game = (Game) o;
+
+        return id.equals(game.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
