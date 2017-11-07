@@ -52,6 +52,42 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping("/user/{userId}/creates")
+    public ModelAndView userCreates(@PathVariable long userId){
+        final User u = us.findById(userId);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("user-create");
+
+        mav.addObject("user", u);
+        return mav;
+    }
+
+    @RequestMapping("/user/{userId}/followers")
+    public ModelAndView userFollowers(@PathVariable long userId){
+        final User u = us.findById(userId);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("user-followers");
+
+        mav.addObject("user", u);
+        return mav;
+    }
+
+    @RequestMapping("/user/{userId}/followed")
+    public ModelAndView userFollowed(@PathVariable long userId){
+        final User u = us.findById(userId);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("user-followed");
+
+        mav.addObject("user", u);
+        return mav;
+    }
+
     @ResponseBody
     @RequestMapping(value="/profile-image/{userId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] avatar(@PathVariable(value="userId") final long userId) throws IOException {
