@@ -5,7 +5,6 @@ import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,18 +52,12 @@ public class TournamentHibernateDao implements TournamentDao{
     }
 
     @Override
-    public List<Standing> getStandings(long tournamentId) {
-        //Not necessary anymore
-        return null;
-    }
-
-    @Override
     public List<String> findTournamentNames(String name) {
         StringBuilder sb = new StringBuilder(name.toLowerCase());
         sb.insert(0,"%");
         sb.append("%");
 
-        TypedQuery<String> query = em.createQuery("from Tournament as t WHERE lower(t.name) LIKE :name", String.class);
+        TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t WHERE lower(t.name) LIKE :name", String.class);
         query.setParameter("name", sb.toString());
 
         return query.getResultList();
@@ -76,7 +69,7 @@ public class TournamentHibernateDao implements TournamentDao{
         sb.insert(0,"%");
         sb.append("%");
 
-        TypedQuery<String> query = em.createQuery("from Tournament as t " +
+        TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t " +
                 "WHERE lower(t.name) LIKE :name AND game.id = :gameId", String.class);
         query.setParameter("name", sb.toString());
         query.setParameter("gameId", gameId);
@@ -112,6 +105,7 @@ public class TournamentHibernateDao implements TournamentDao{
 
         if (t != null) {
             t.setStatus(status);
+            em.merge(t);
         }
 
         return t;
@@ -119,9 +113,11 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Override
     public boolean participatesIn(long userId, long tournamentId) {
-        TypedQuery<Integer> query = em.createQuery("SELECT count(*) FROM Player as p WHERE " +
-                "p.tournament.id = :tournamentId and p.user.id = :userId", Integer.class);
-        List<Integer> list = query.getResultList();
+        TypedQuery<Long> query = em.createQuery("SELECT count(*) FROM Player as p WHERE " +
+                "p.tournament.id = :tournamentId and p.user.id = :userId", Long.class)
+                .setParameter("tournamentId", tournamentId)
+                .setParameter("userId", userId);
+        List<Long> list = query.getResultList();
         return !list.isEmpty();
     }
 

@@ -4,8 +4,6 @@ import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 
-import java.util.List;
-
 public interface PlayerService {
 
     /**
@@ -70,14 +68,6 @@ public interface PlayerService {
      * @param tournamentId id of the tournament.
      */
     void setDefaultStanding(int standing, long tournamentId);
-
-    /**
-     * Gets every Player that participates
-     * in the Tournament specified with the id
-     * @param tournamentId id of the Tournament
-     * @return list of the Players participating
-     */
-    List<Player> getTournamentPlayers(long tournamentId);
 
     /**
      * Adds Player to a Tournament both specified

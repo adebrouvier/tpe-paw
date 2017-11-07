@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
 @Table(name = "ranking")
 public class Ranking {
 
@@ -17,18 +18,20 @@ public class Ranking {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn (name = "game_id")
     private Game game;
 
     /**
      * User that created the Ranking
      */
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ranking")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
     private List<UserScore> userScores;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ranking")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
     private List<TournamentPoints> tournaments;
 
     Ranking (){
@@ -53,11 +56,11 @@ public class Ranking {
         return id;
     }
 
-    public List<UserScore> getUsers() {
+    public List<UserScore> getUserScores() {
         return userScores;
     }
 
-    public void setUsers(List<UserScore> userScores) {
+    public void setUserScores(List<UserScore> userScores) {
         this.userScores = userScores;
     }
 
@@ -87,5 +90,20 @@ public class Ranking {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ranking ranking = (Ranking) o;
+
+        return id.equals(ranking.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

@@ -23,7 +23,7 @@ ${navbar}
     <div class="row">
         <div class="col offset-s3 s6">
             <h2><spring:message code="ranking.greeting" arguments="${ranking.name}"/></h2>
-            <h3 id="ranking-game" data-game="<c:out value="${ranking.gameId}"/>"><c:out value="${ranking.game.name}"/></h3>
+            <h3 id="ranking-game" data-game="<c:out value="${ranking.game.id}"/>"><c:out value="${ranking.game.name}"/></h3>
         </div>
     </div>
 </div>
@@ -39,10 +39,10 @@ ${navbar}
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${ranking.users}">
+                <c:forEach var="userScore" items="${ranking.userScores}">
                     <tr>
-                        <td><c:out value="${user.userName}"/></td>
-                        <td>${user.points}</td>
+                        <td><c:out value="${userScore.user.name}"/></td>
+                        <td>${userScore.points}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -59,12 +59,12 @@ ${navbar}
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="tournament" items="${ranking.tournaments}">
+                    <c:forEach var="tournamentPoints" items="${ranking.tournaments}">
                         <tr>
-                            <td><c:out value="${tournament.name}"/></td>
-                            <td>${tournament.awardedPoints}</td>
-                            <c:if test="${ranking.userId == loggedUser.id}">
-                            <c:url value="/delete/ranking/${ranking.id}/${tournament.tournamentId}" var="deletePath"/>
+                            <td><c:out value="${tournamentPoints.tournament.name}"/></td>
+                            <td>${tournamentPoints.awardedPoints}</td>
+                            <c:if test="${ranking.user.id == loggedUser.id}">
+                            <c:url value="/delete/ranking/${ranking.id}/${tournamentPoints.tournament.id}" var="deletePath"/>
                             <form:form action="${deletePath}" method="post">
                             <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
                             </form:form>
@@ -74,7 +74,7 @@ ${navbar}
                     </tbody>
                 </table>
             </div>
-            <c:if test="${loggedUser.id == ranking.userId}">
+            <c:if test="${loggedUser.id == ranking.user.id}">
             <div class="row">
                 <c:url value="/update/ranking/${ranking.id}/addtournament" var="postPath"/>
                 <form:form modelAttribute="rankingPageForm" action="${postPath}" method="post">

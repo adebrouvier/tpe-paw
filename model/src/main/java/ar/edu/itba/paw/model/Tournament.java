@@ -33,7 +33,7 @@ public class Tournament {
     private Status status;
 
     /**
-     * List of all the players, including BYES
+     * List of all the players, without BYES
      */
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "tournament")
     private List<Player> players;
@@ -42,6 +42,7 @@ public class Tournament {
      * List of every match, including BYES
      */
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "tournament")
+    @OrderBy("id ASC")
     private List<Match> matches;
 
     /**
@@ -117,6 +118,10 @@ public class Tournament {
 
     public void setCreator(User user) {
         this.creator = user;
+    }
+
+    public int getFullSize(){
+        return (int) Math.pow(2, Math.ceil((Math.log(players.size()) / Math.log(2))));
     }
 
     @Override

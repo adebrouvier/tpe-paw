@@ -34,7 +34,7 @@ public class IndexController {
         int featuredTournaments = 5;
         int featuredRankings = 5;
         mav.addObject("tournaments", ts.findFeaturedTournaments(featuredTournaments));
-        //mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
+        mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
         return mav;
     }
 

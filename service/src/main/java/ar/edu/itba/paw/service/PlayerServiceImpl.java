@@ -63,11 +63,6 @@ public class PlayerServiceImpl implements PlayerService{
         playerDao.setDefaultStanding(standing, tournamentId);
     }
 
-    @Override
-    public List<Player> getTournamentPlayers(long tournamentId){
-        return playerDao.getTournamentPlayers(tournamentId);
-    }
-
     @Transactional
     @Override
     public void addToTournament(long playerId, long tournamentId) {

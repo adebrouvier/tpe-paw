@@ -201,7 +201,7 @@ public class RankingHibernateDao implements RankingDao{
     private void addUsersToRanking(Ranking ranking, Map<Tournament, Integer> tournaments) {
         Map<User, Integer> existingScores = new HashMap<>();
         Map<User, Integer> newUserScores = new HashMap<>();
-        for(UserScore tempScores:ranking.getUsers()){
+        for(UserScore tempScores:ranking.getUserScores()){
             existingScores.put(tempScores.getUser(),tempScores.getPoints());
         }
         int standing, userScore, tournamentScore;

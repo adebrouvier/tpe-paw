@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
-import ar.edu.itba.paw.model.Standing;
 import ar.edu.itba.paw.model.Tournament;
 
 import java.util.List;
@@ -38,12 +37,6 @@ public interface TournamentDao {
      * @param status status of the Tournament
      */
     Tournament setStatus(long tournamentId, Tournament.Status status);
-
-    /**
-     * @param tournamentId id of the Tournament.
-     * @return List of players with their respective standing.
-     */
-    List<Standing> getStandings(long tournamentId);
 
     /**
      * Finds the name of matching existing tournament.

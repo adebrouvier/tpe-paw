@@ -50,10 +50,10 @@
                         <c:forEach var="player" items="${tournament.players}">
                             <tr>
                                 <c:choose>
-                                    <c:when test="${player.standing == 0}">
+                                    <c:when test="${player.standing == 0 || player.standing == null}">
                                         <td >-</td>
                                     </c:when>
-                                    <c:when test="${player.standing != 0}">
+                                    <c:when test="${player.standing > 0}">
                                         <td>${player.standing}&deg;</td>
                                     </c:when>
                                 </c:choose>

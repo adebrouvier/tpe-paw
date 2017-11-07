@@ -73,7 +73,7 @@ ${navbar}
                             <div class="row">
                                 <ul id="sortable">
                                     <c:set var="seed" value="1"/>
-                                    <c:forEach var="player" items="${players}">
+                                    <c:forEach var="player" items="${tournament.players}">
                                         <c:if test="${player.id != -1}">
                                             <li>
                                                 <div class="player-container">
@@ -109,7 +109,7 @@ ${navbar}
                     </div>
                 </div>
             </c:if>
-            <c:if test="${players.size() == 0 && tournament.creator.id != loggedUser.id}">
+            <c:if test="${tournament.players.size() == 0 && tournament.creator.id != loggedUser.id}">
                 <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/></h5>
             </c:if>
             <c:if test="${tournament.status != 'NEW'}">

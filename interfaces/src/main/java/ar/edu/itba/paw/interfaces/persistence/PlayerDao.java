@@ -62,15 +62,6 @@ public interface PlayerDao {
     Player create(String name, Tournament tournament);
 
     /**
-     * Find every Player that participates in
-     * the specified Tournament.
-     * @param tournamentId id of the Tournament.
-     * @return list of the Players participating
-     * in the Tournament.
-     */
-    List<Player> getTournamentPlayers(long tournamentId);
-
-    /**
      * Sets every players standing in the tournament to its
      * starting one.
      * @param standing default for the start of the tournament.

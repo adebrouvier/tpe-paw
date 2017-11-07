@@ -47,7 +47,7 @@ public class PlayerHibernateDao implements PlayerDao{
     @Override
     public long findBySeed(int seed, long tournamentId) {
         final TypedQuery<Long> query = em.createQuery("select p.id from Player as p " +
-                "where p.tournament = :tournament_id and p.seed = :seed", Long.class);
+                "where p.tournament.id = :tournament_id and p.seed = :seed", Long.class);
         query.setParameter("seed", seed);
         query.setParameter("tournament_id", tournamentId);
         return query.getSingleResult();
@@ -55,18 +55,10 @@ public class PlayerHibernateDao implements PlayerDao{
 
     @Override
     public void delete(long id) {
-        final Query q = em.createQuery("DELETE from Player as p where p.id = :id");
-        q.setParameter("id", id);
-        q.executeUpdate();
-    }
-
-    @Override
-    public List<Player> getTournamentPlayers(long tournamentId) {
-        final TypedQuery<Player> query = em.createQuery("from Player as p " +
-                "where p.tournament = :tournament_id", Player.class);
-        query.setParameter("tournament_id", tournamentId);
-        //TODO: check if null or empty list
-        return query.getResultList();
+        Player player = findById(id);
+        if (player != null) {
+            em.remove(player);
+        }
     }
 
     @Override
@@ -88,18 +80,15 @@ public class PlayerHibernateDao implements PlayerDao{
         int removedSeed = p.getSeed();
 
         /* Update the seed of the other players */
-        final Query updateSeed = em.createQuery("UPDATE Player as p SET p.seed = p.seed + :offset " +
-                "WHERE p.seed > :seed AND p.tournament = :tournament");
+        final Query updateSeed = em.createQuery("UPDATE Player as p SET p.seed = (p.seed + :offset)" +
+                "WHERE p.seed > :seed AND p.tournament.id = :tournamentId");
         updateSeed.setParameter("offset", DOWN_OFFSET);
         updateSeed.setParameter("seed", removedSeed);
-        updateSeed.setParameter("tournament", tournamentId);
+        updateSeed.setParameter("tournamentId", tournamentId);
         updateSeed.executeUpdate();
 
         /* Delete the player */
-        final Query update = em.createQuery("DELETE FROM Player as p WHERE p.tournament = :tournament AND p.id = :player_id ");
-        update.setParameter("tournament", tournamentId);
-        update.setParameter("player_id", playerId);
-        update.executeUpdate();
+        em.remove(p);
         return true;
     }
 
@@ -119,38 +108,38 @@ public class PlayerHibernateDao implements PlayerDao{
         }
 
         Query q;
+        Long playerId = findBySeed(playerOldSeed, tournamentId);
 
         if(playerOldSeed < playerNewSeed) {
             q = em.createQuery("UPDATE Player as p SET p.seed = p.seed + :offset " +
-                    "WHERE p.tournament = :tournament AND p.seed > :old_seed AND p.seed <= :new_seed");
-            q.setParameter("offset", DOWN_OFFSET);
-            q.setParameter("tournament", tournamentId);
-            q.setParameter("old_seed", playerOldSeed);
-            q.setParameter("new_seed", playerNewSeed);
+                    "WHERE p.tournament.id = :tournament AND p.seed > :old_seed AND p.seed <= :new_seed")
+                    .setParameter("offset", DOWN_OFFSET)
+                    .setParameter("tournament", tournamentId)
+                    .setParameter("old_seed", playerOldSeed)
+                    .setParameter("new_seed", playerNewSeed);
             q.executeUpdate();
 
         } else {
             q = em.createQuery("UPDATE Player as p SET p.seed = p.seed + :offset " +
-                    "WHERE p.tournament = :tournament AND p.seed >= :new_seed AND p.seed < :old_seed");
-            q.setParameter("offset", UP_OFFSET);
-            q.setParameter("tournament", tournamentId);
-            q.setParameter("old_seed", playerOldSeed);
-            q.setParameter("new_seed", playerNewSeed);
+                    "WHERE p.tournament.id = :tournament AND p.seed >= :new_seed AND p.seed < :old_seed")
+                        .setParameter("offset", UP_OFFSET)
+                        .setParameter("tournament", tournamentId)
+                        .setParameter("old_seed", playerOldSeed)
+                        .setParameter("new_seed", playerNewSeed);
             q.executeUpdate();
         }
         /* Change player seed */
-        Long playerId = findBySeed(playerOldSeed, tournamentId);
-        q = em.createQuery("UPDATE Player as p SET p.seed = :new_seed WHERE p.tournament = :tournament AND p.id = :id");
-        q.setParameter("new_seed", playerNewSeed);
-        q.setParameter("tournament", tournamentId);
-        q.setParameter("id", playerId);
+        q = em.createQuery("UPDATE Player as p SET p.seed = :new_seed WHERE p.tournament.id = :tournament AND p.id = :id")
+                .setParameter("new_seed", playerNewSeed)
+                .setParameter("tournament", tournamentId)
+                .setParameter("id", playerId);
         q.executeUpdate();
         return true;
     }
 
     @Override
     public void setDefaultStanding(int standing, long tournamentId) {
-        final Query query = em.createQuery("update Player as p set p.standing = :standing where p.tournament = :tournament");
+        final Query query = em.createQuery("update Player as p set p.standing = :standing where p.tournament.id = :tournament");
         query.setParameter("standing", standing);
         query.setParameter("tournament", tournamentId);
         query.executeUpdate();
@@ -159,11 +148,11 @@ public class PlayerHibernateDao implements PlayerDao{
     @Override
     public void addToTournament(long playerId, long tournamentId) {
         int seed = getNextSeed(tournamentId);
-        final Query query = em.createQuery("update Player as p set p.tournament = :tournament, p.seed = :seed where p.id = :player_id");
-        query.setParameter("tournament", tournamentId);
-        query.setParameter("seed", seed);
-        query.setParameter("player_id", playerId);
-        query.executeUpdate();
+        Player p = findById(playerId);
+        if (p != null){
+            p.setSeed(seed);
+            em.merge(p);
+        }
     }
 
     /**
@@ -173,7 +162,7 @@ public class PlayerHibernateDao implements PlayerDao{
      */
     private int getNextSeed(long tournamentId) {
         final TypedQuery<Integer> query = em.createQuery("select COALESCE(max(p.seed), 0) from Player as p " +
-                "where p.tournament = :tournament_id", Integer.class);
+                "where p.tournament.id = :tournament_id", Integer.class);
         query.setParameter("tournament_id", tournamentId);
         return 1 + query.getSingleResult();
     }

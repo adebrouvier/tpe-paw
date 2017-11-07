@@ -63,7 +63,7 @@ ${navbar}
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
                     </c:if>
                     <div class="tournament-container">
-                            <c:set var="roundSize" value="${tournament.players.size()/2}"/>
+                            <c:set var="roundSize" value="${tournament.fullSize/2}"/>
                             <c:set var="matchCount" value="1"/>
                             <c:set var="margin" value="0"/>
                             <c:set var="padding" value="15"/>

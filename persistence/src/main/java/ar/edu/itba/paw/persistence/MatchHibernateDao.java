@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.service.MatchService;
+import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Match;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
@@ -49,7 +50,7 @@ public class MatchHibernateDao implements MatchDao{
         Match nextMach = findById(nextMatchId, tournamentId);
         Tournament tournament = tournamentDao.findById(tournamentId);
 
-        if (awayPlayerId == -1) { /*Checks if there is a BYE*/
+        if (awayPlayerId == TournamentService.BYE_ID) { /*Checks if there is a BYE*/
             homeScore = MatchService.BYE_WIN_SCORE;
             updateNextMatch(tournamentId, nextMatchId, homeScore,0, homePlayerId, awayPlayerId, isNextMatchHome);
         }
@@ -57,8 +58,8 @@ public class MatchHibernateDao implements MatchDao{
         final Match match = new Match(matchId, homePlayer, awayPlayer, homeScore, 0, nextMach, isNextMatchHome, tournament, standing);
         em.persist(match);
 
-        if (awayPlayerId == -1) {
-            updateStanding(homePlayerId, matchId, tournamentId);
+        if (awayPlayerId == TournamentService.BYE_ID) {
+            updateStanding(homePlayer, matchId, tournamentId);
         }
 
         return match;
@@ -67,8 +68,8 @@ public class MatchHibernateDao implements MatchDao{
     @Override
     public Match findById(int id, long tournamentId) {
         final TypedQuery<Match> query = em.createQuery("from Match as m " +
-                "where m.id = :id and m.tournament = :tournament", Match.class);
-        query.setParameter("name", id);
+                "where m.id = :id and m.tournament.id = :tournament", Match.class);
+        query.setParameter("id", id);
         query.setParameter("tournament", tournamentId);
         final List<Match> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
@@ -77,7 +78,7 @@ public class MatchHibernateDao implements MatchDao{
     @Override
     public List<Match> getTournamentMatches(long tournamentId) {
         final TypedQuery<Match> query = em.createQuery("from Match as m " +
-                "where m.tournament = :tournament", Match.class);
+                "where m.tournament.id = :tournament", Match.class);
         query.setParameter("tournament", tournamentId);
         return query.getResultList();
     }
@@ -95,27 +96,26 @@ public class MatchHibernateDao implements MatchDao{
             return null;
         }
 
-        /* Update the score of the match */
-        Query q = em.createQuery("UPDATE Match as m SET m.homePlayerScore = :homeScore, m.awayPlayerScore = :awayScore " +
-                "WHERE m.id = :matchId AND m.tournament.id = :tournamentId");
-        q.setParameter("homeScore", homeScore);
-        q.setParameter("awayScore", awayScore);
-        q.setParameter("matchId", matchId);
-        q.setParameter("tournamentId", tournamentId);
-        q.executeUpdate();
+        int previousHomeScore = match.getHomePlayerScore();
+        int previousAwayScore = match.getAwayPlayerScore();
 
-        if((homeScore > awayScore) && (match.getHomePlayerScore() < match.getAwayPlayerScore())) {
+        /* Update the score of the match */
+        match.setHomePlayerScore(homeScore);
+        match.setAwayPlayerScore(awayScore);
+        em.merge(match);
+
+        if((homeScore > awayScore) && (previousHomeScore < previousAwayScore)) {
             updateRecursiveStanding(match.getAwayPlayer().getId(),matchId,match.getNextMatch().getId(),tournamentId);
             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
-        } else if((homeScore < awayScore) && (match.getHomePlayerScore() > match.getAwayPlayerScore())) {
+        } else if((homeScore < awayScore) && (previousHomeScore > previousAwayScore)) {
             updateRecursiveStanding(match.getHomePlayer().getId(),matchId,match.getNextMatch().getId(),tournamentId);
             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
         }
 
         if (homeScore > awayScore)
-            updateStanding(match.getHomePlayer().getId(),matchId,tournamentId);
+            updateStanding(match.getHomePlayer(), matchId, tournamentId);
         else if (homeScore < awayScore){
-            updateStanding(match.getAwayPlayer().getId(),matchId,tournamentId);
+            updateStanding(match.getAwayPlayer(), matchId, tournamentId);
         }
 
         updateNextMatch(tournamentId,match.getNextMatch().getId(),homeScore,awayScore,match.getHomePlayer().getId(),match.getAwayPlayer().getId(),match.isNextMatchHome());
@@ -129,29 +129,22 @@ public class MatchHibernateDao implements MatchDao{
             return;
         }
 
-        long winnerId = 0;
+        Player winner = null;
 
         if (homeScore > awayScore) {
-            winnerId = homePlayerId;
+            winner = playerDao.findById(homePlayerId);
         } else if (awayScore > homeScore){
-            winnerId = awayPlayerId;
+            winner = playerDao.findById(awayPlayerId);
         }
 
-        Query q;
+        Match nextMatch = findById((int) nextMatchId, tournamentId);
 
         if (nextMatchHome) {
-            //TODO: might not work
-            q = em.createQuery("UPDATE Match as m SET m.homePlayer = :home_player WHERE m.id = :id AND m.tournament = :tournament");
-            q.setParameter("home_player", winnerId);
-            q.setParameter("id", nextMatchId);
-            q.setParameter("tournament", tournamentId);
-            q.executeUpdate();
+            nextMatch.setHomePlayer(winner);
+            em.merge(nextMatch);
         } else {
-            q = em.createQuery("UPDATE Match as m SET m.awayPlayer = :away_player WHERE m.id = :id AND m.tournament = :tournament");
-            q.setParameter("away_player", winnerId);
-            q.setParameter("id", nextMatchId);
-            q.setParameter("tournament", tournamentId);
-            q.executeUpdate();
+            nextMatch.setAwayPlayer(winner);
+            em.merge(nextMatch);
         }
 
     }
@@ -163,34 +156,31 @@ public class MatchHibernateDao implements MatchDao{
         }
 
         Match match = findById((int)matchId, tournamentId);
+        int previousHomeScore = match.getHomePlayerScore();
+        int previousAwayScore = match.getAwayPlayerScore();
         if(match != null) {
             if(match.getId() != 0) {
                 if(nextMatchHome) {
                     if(match.getHomePlayer().getId() != 0) {
-                        Query q = em.createQuery("UPDATE Match SET homePlayer = null," +
-                                " homePlayerScore = :homeScore, awayPlayerScore = :awayScore " +
-                                "WHERE id = :matchId AND tournament = :tournamentId");
-                        q.setParameter("homeScore", 0);
-                        q.setParameter("awayScore", 0);
-                        q.setParameter("matchId", matchId);
-                        q.setParameter("tournamentId", tournamentId);
-                        q.executeUpdate();
-                        if(match.getHomePlayerScore() < match.getAwayPlayerScore()) {
+                        //TODO: hacer efectivo el null
+                        match.setHomePlayer(null);
+                        match.setHomePlayerScore(0);
+                        match.setAwayPlayerScore(0);
+                        em.merge(match);
+                        em.flush();
+                        if(previousHomeScore < previousAwayScore) {
                             updateRecursiveStanding(match.getAwayPlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
                         }
                         updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
                     }
                 } else {
                     if(match.getAwayPlayer().getId() != 0) {
-                        Query q = em.createQuery("UPDATE Match SET awayPlayer = null," +
-                                " homePlayerScore = :homeScore, awayPlayerScore = :awayScore " +
-                                "WHERE id = :matchId AND tournament = :tournamentId");
-                        q.setParameter("homeScore", 0);
-                        q.setParameter("awayScore", 0);
-                        q.setParameter("matchId", matchId);
-                        q.setParameter("tournamentId", tournamentId);
-                        q.executeUpdate();
-                        if(match.getHomePlayerScore() > match.getAwayPlayerScore()) {
+                        match.setAwayPlayer(null);
+                        match.setHomePlayerScore(0);
+                        match.setAwayPlayerScore(0);
+                        em.merge(match);
+                        em.flush();
+                        if(previousHomeScore > previousAwayScore) {
                             updateRecursiveStanding(match.getHomePlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
                         }
                         updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
@@ -201,20 +191,16 @@ public class MatchHibernateDao implements MatchDao{
         }
     }
 
-    private void updateStanding(long playerId, long matchId, long tournamentId) {
+    private void updateStanding(Player player, long matchId, long tournamentId) {
         final Match m = findById((int) matchId, tournamentId);
-        Query q = em.createQuery("UPDATE Player as p SET p.standing = :standing " +
-                "WHERE p.id = :playerId AND p.tournament = :tournamentId");
-        q.setParameter("tournamentId", tournamentId);
-        q.setParameter("playerId", playerId);
-        q.setParameter("standing", m.getStanding());
-        q.executeUpdate();
+        player.setStanding(m.getStanding());
+        em.merge(player);
     }
 
     private void updateRecursiveStanding(long playerId, long matchId, long nextMatchId, long tournamentId) {
         final Match m = findById((int) matchId, tournamentId);
         Query q = em.createQuery("UPDATE Player as p SET p.standing = :standing " +
-                "WHERE p.id = :playerId AND p.tournament = :tournamentId");
+                "WHERE p.id = :playerId AND p.tournament.id = :tournamentId");
         q.setParameter("tournamentId", tournamentId);
         q.setParameter("playerId", playerId);
 
