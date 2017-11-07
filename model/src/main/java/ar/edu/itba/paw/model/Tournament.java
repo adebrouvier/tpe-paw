@@ -36,6 +36,7 @@ public class Tournament {
      * List of all the players, without BYES
      */
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "tournament")
+    @OrderBy("seed ASC")
     private List<Player> players;
 
     /**

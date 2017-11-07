@@ -92,12 +92,23 @@ public class MatchHibernateDao implements MatchDao{
             return null;
         }
 
-        if(match.getHomePlayer().getId() == EMPTY || match.getAwayPlayer().getId() == EMPTY) {
+
+        if(match.getHomePlayer() == null || match.getAwayPlayer() == null) {
             return null;
         }
 
-        int previousHomeScore = match.getHomePlayerScore();
-        int previousAwayScore = match.getAwayPlayerScore();
+        int previousHomeScore;
+        int previousAwayScore;
+        if(match.getHomePlayerScore() == null) {
+            previousHomeScore = 0;
+        } else {
+            previousHomeScore = match.getHomePlayerScore();
+        }
+        if(match.getAwayPlayerScore() == null) {
+            previousAwayScore = 0;
+        } else {
+            previousAwayScore = match.getAwayPlayerScore();
+        }
 
         /* Update the score of the match */
         match.setHomePlayerScore(homeScore);
@@ -118,7 +129,9 @@ public class MatchHibernateDao implements MatchDao{
             updateStanding(match.getAwayPlayer(), matchId, tournamentId);
         }
 
-        updateNextMatch(tournamentId,match.getNextMatch().getId(),homeScore,awayScore,match.getHomePlayer().getId(),match.getAwayPlayer().getId(),match.isNextMatchHome());
+        if(match.getNextMatch() != null) {
+            updateNextMatch(tournamentId,match.getNextMatch().getId(),homeScore,awayScore,match.getHomePlayer().getId(),match.getAwayPlayer().getId(),match.isNextMatchHome());
+        }
 
         return findById(matchId, tournamentId);
     }
@@ -156,8 +169,18 @@ public class MatchHibernateDao implements MatchDao{
         }
 
         Match match = findById((int)matchId, tournamentId);
-        int previousHomeScore = match.getHomePlayerScore();
-        int previousAwayScore = match.getAwayPlayerScore();
+        int previousHomeScore;
+        int previousAwayScore;
+        if(match.getHomePlayerScore() == null) {
+            previousHomeScore = 0;
+        } else {
+            previousHomeScore = match.getHomePlayerScore();
+        }
+        if(match.getAwayPlayerScore() == null) {
+            previousAwayScore = 0;
+        } else {
+            previousAwayScore = match.getAwayPlayerScore();
+        }
         if(match != null) {
             if(match.getId() != 0) {
                 if(nextMatchHome) {
@@ -171,7 +194,9 @@ public class MatchHibernateDao implements MatchDao{
                         if(previousHomeScore < previousAwayScore) {
                             updateRecursiveStanding(match.getAwayPlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
                         }
-                        updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
+                        if(match.getNextMatch() != null) {
+                            updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
+                        }
                     }
                 } else {
                     if(match.getAwayPlayer().getId() != 0) {
@@ -183,7 +208,9 @@ public class MatchHibernateDao implements MatchDao{
                         if(previousHomeScore > previousAwayScore) {
                             updateRecursiveStanding(match.getHomePlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
                         }
-                        updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
+                        if(match.getNextMatch() != null) {
+                            updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
+                        }
                     }
                 }
             }

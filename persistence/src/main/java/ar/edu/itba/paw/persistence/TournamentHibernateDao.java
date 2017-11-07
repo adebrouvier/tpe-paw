@@ -113,12 +113,11 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Override
     public boolean participatesIn(long userId, long tournamentId) {
-        TypedQuery<Long> query = em.createQuery("SELECT count(*) FROM Player as p WHERE " +
-                "p.tournament.id = :tournamentId and p.user.id = :userId", Long.class)
+        return em.createQuery("SELECT CASE WHEN (COUNT(*) > 0)  THEN TRUE ELSE FALSE END FROM Player as p WHERE " +
+                "p.tournament.id = :tournamentId AND p.user.id = :userId", Boolean.class)
                 .setParameter("tournamentId", tournamentId)
-                .setParameter("userId", userId);
-        List<Long> list = query.getResultList();
-        return !list.isEmpty();
+                .setParameter("userId", userId)
+                .getSingleResult();
     }
 
     @Override
