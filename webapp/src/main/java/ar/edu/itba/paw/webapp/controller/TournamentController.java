@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,7 @@ public class TournamentController {
         return mav;
     }
 
-    @RequestMapping(value = "/paw-2017b-2/games_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/games_autocomplete", method = RequestMethod.GET)
     public @ResponseBody
     List<String> gamesAutocomplete(@RequestParam("query") String query) {
         return gs.findGameNames(query);

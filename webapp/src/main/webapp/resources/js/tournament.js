@@ -8,4 +8,8 @@ $(document).ready(function(){
     //Initialize modal
     $('.modal').modal();
 
+    $('form').submit(function(){
+        $('button[type=submit]').prop('disabled', true);
+    });
+
 });

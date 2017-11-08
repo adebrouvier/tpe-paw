@@ -28,7 +28,7 @@ public class IndexController {
     private RankingService rs;
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("searchForm") final SearchForm searchForm) {
+    public ModelAndView index() {
         LOGGER.debug("Access to index");
         final ModelAndView mav = new ModelAndView("index");
         int featuredTournaments = 5;
@@ -43,7 +43,7 @@ public class IndexController {
      * @param query term to search
      * @return an array of tournament names
      */
-    @RequestMapping(value = "/paw-2017b-2/tournament_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/tournament_autocomplete", method = RequestMethod.GET)
     public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query, @RequestParam(value = "game", required = false) Long game) {
 
         if (game == null){
@@ -58,26 +58,9 @@ public class IndexController {
      * @param query term to search
      * @return an array of ranking names
      */
-    @RequestMapping(value = "/paw-2017b-2/ranking_autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "/ranking_autocomplete", method = RequestMethod.GET)
     public @ResponseBody List<String> rankingAutocomplete(@RequestParam("query") String query) {
         return rs.findRankingNames(query);
     }
 
-    @RequestMapping(value = "/searchParse", method = { RequestMethod.GET })
-    public ModelAndView searchParse(@Valid @ModelAttribute("searchForm")
-                               final SearchForm form, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            return index(form);
-        }
-
-        String search = form.getQuery();
-        String param = "";
-        try {
-            param = URLEncoder.encode(search,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("redirect:/search?query=" + param);
-    }
 }

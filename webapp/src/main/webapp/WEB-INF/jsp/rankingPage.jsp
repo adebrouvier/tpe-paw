@@ -7,12 +7,14 @@
     <link rel="stylesheet"
     href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/ranking.css"/>"/>
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/rankingPage.js"/>"></script>
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>    <script type="text/javascript" src="<c:url value="/resources/js/rankingPage.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${ranking.name}"/> - <spring:message code="ranking.title"/></title>
 </head>
 <body>
@@ -51,7 +53,7 @@ ${navbar}
         <div class="center col s6">
             <div class="row">
                 <h4><spring:message code="rankingPage.tournaments"/></h4>
-                <table>
+                <table class="card">
                     <thead>
                         <tr>
                             <th><spring:message code="rankingPage.tournaments.table.name"/></th>
@@ -60,13 +62,13 @@ ${navbar}
                     </thead>
                     <tbody>
                     <c:forEach var="tournamentPoints" items="${ranking.tournaments}">
-                        <tr>
+                        <tr class="tournament-container">
                             <td><c:out value="${tournamentPoints.tournament.name}"/></td>
                             <td>${tournamentPoints.awardedPoints}</td>
                             <c:if test="${ranking.user.id == loggedUser.id}">
                             <c:url value="/delete/ranking/${ranking.id}/${tournamentPoints.tournament.id}" var="deletePath"/>
                             <form:form action="${deletePath}" method="post">
-                            <td><button class="btn" type="submit"><i class="material-icons">delete</i></button></td>
+                            <td><button class="btn transparent delete-btn" type="submit"><i class="material-icons">delete</i></button></td>
                             </form:form>
                             </c:if>
                         </tr>
@@ -82,7 +84,7 @@ ${navbar}
                         <div class="input-field">
                             <form:label class="active" path="tournamentName"><spring:message code="ranking.tournaments"/>: </form:label>
                             <spring:message code="ranking.tournaments.placeholder" var="rankingTournamentsPlaceholder"/>
-                            <form:input cssClass="typeahead" path="tournamentName" type="text" placeholder="${rankingTournamentsPlaceholder}" autocomplete="off"/>
+                            <form:input id="tournament-search" cssClass="typeahead" path="tournamentName" type="text" placeholder="${rankingTournamentsPlaceholder}" autocomplete="off"/>
                             <form:errors path="tournamentName" cssClass="form-error" element="p"/>
                         </div>
                     </div>

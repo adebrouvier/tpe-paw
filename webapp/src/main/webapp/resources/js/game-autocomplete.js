@@ -22,12 +22,12 @@ $(document).ready(function(){
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/paw-2017b-2/games_autocomplete?query=%QUERY',
+            url: contextPath + '/games_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
 
-    $('.input-field .typeahead').typeahead(null, {
+    $('#game-search').typeahead(null, {
         name: 'sports',
         source: sports,
         templates: {

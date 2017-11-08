@@ -14,6 +14,9 @@
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/game-autocomplete.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/ranking.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
 </head>
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
@@ -39,7 +42,7 @@ ${navbar}
                                 <div class="input-field">
                                     <form:label class="active" path="game"><spring:message code="ranking.create.game"/>: </form:label>
                                     <spring:message code="ranking.create.game.placeholder" var="rankingGamePlaceholder"/>
-                                    <form:input placeholder="${rankingGamePlaceholder}" type="text" cssClass="typeahead"
+                                    <form:input id="game-search" placeholder="${rankingGamePlaceholder}" type="text" cssClass="typeahead"
                                                 path="game" autocomplete="off"/>
                                     <form:errors path="game" cssClass="form-error" element="p"/>
                                 </div>

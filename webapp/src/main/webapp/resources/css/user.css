@@ -1,0 +1,29 @@
+.user-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #01579b;
+    background-size: cover;
+}
+.user-section-center {
+    margin: 0 auto;
+    display: table;
+}
+
+.user-section {
+    margin-left: 2%;
+}
+
+.section-icons {
+    margin-right: 2%;
+}
+
+.user-section-content {
+    margin: 0 5%;
+}
+
+.card-style:hover {
+    border: 1px solid #0288d1 !important;
+    /*background-color: #0288d1;
+    color: white;*/
+}

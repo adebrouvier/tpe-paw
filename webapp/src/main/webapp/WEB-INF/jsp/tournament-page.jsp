@@ -9,8 +9,12 @@
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/tournament-page.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
+    <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="header.name"/></title>
 </head>
 <body>
@@ -62,8 +66,8 @@ ${navbar}
                     <c:if test="${tournament.status == 'NEW'}">
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
                     </c:if>
-                    <div class="tournament-container">
-                            <c:set var="roundSize" value="${tournament.fullSize/2}"/>
+                    <c:set var="roundSize" value="${tournament.fullSize/2}"/>
+                    <div class="tournament-container" style="height:<c:out value="${roundSize*60+44}"/>px;overflow-y: hidden;overflow-x: auto;" >
                             <c:set var="matchCount" value="1"/>
                             <c:set var="margin" value="0"/>
                             <c:set var="padding" value="15"/>
@@ -245,6 +249,7 @@ ${navbar}
                                 </c:if>
                                 <c:set var="matchCount" value="${matchCount+1}"/>
                                 </c:forEach>
+                                                </div>
                         </div>
                     </div>
                 </div>

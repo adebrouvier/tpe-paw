@@ -9,6 +9,7 @@ import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.TournamentPoints;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
+import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
