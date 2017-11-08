@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,9 +32,11 @@ public class Ranking {
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
+    @Fetch(FetchMode.SELECT)
     private List<UserScore> userScores;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
+    @Fetch (FetchMode.SELECT)
     private List<TournamentPoints> tournaments;
 
     Ranking (){

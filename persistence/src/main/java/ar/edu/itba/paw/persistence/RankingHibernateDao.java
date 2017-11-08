@@ -81,40 +81,33 @@ public class RankingHibernateDao implements RankingDao{
     public void delete(long rankingId, long tournamentId) {
         final Tournament tournament = tournamentDao.findById(tournamentId);
         final Ranking ranking = findById(rankingId);
-        int awardedPoints = em.createQuery("SELECT awardedPoints FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", Integer.class)
+        TournamentPoints tournamentPoints = em.createQuery("FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", TournamentPoints.class)
                 .setParameter("rankingId", rankingId)
                 .setParameter("tournamentId",tournamentId)
-                .getFirstResult();
-        TournamentPoints tournamentPoints = new TournamentPoints(ranking, tournament, awardedPoints);
-        em.remove(tournamentPoints);
+                .getResultList().get(0);
+        int awardedPoints = tournamentPoints.getAwardedPoints();
+        em.remove(em.contains(tournamentPoints) ? tournamentPoints : em.merge(tournamentPoints));
         deleteUsersFromRanking(ranking, tournament, awardedPoints);
     }
 
     private void deleteUsersFromRanking(Ranking ranking, Tournament tournament, int awardedPoints) {
-        int standing;
-        int score;
-        int existingScore;
-        User user;
         for (Player player : tournament.getPlayers()) {
-            user = player.getUser();
-            if (user.getId() != 0) {
-                standing = em.createQuery("SELECT standing FROM Player WHERE id = :playerId AND tournament = :tournamentId", Integer.class)
-                        .setParameter("playerId", player.getId())
-                        .setParameter("tournamentId", tournament.getId())
-                        .getFirstResult();
-                score = standingHandler(standing, awardedPoints);
-                existingScore = em.createQuery("SELECT points FROM UserScore WHERE ranking.id = :rankingId AND user.id = :userId", Integer.class)
+            User user = player.getUser();
+            /* If the player has an associated User */
+            if (user != null) {
+                int standing = player.getStanding();
+                int score = standingHandler(standing, awardedPoints);
+                UserScore existingScore = em.createQuery("FROM UserScore WHERE ranking.id = :rankingId AND user.id = :userId", UserScore.class)
                         .setParameter("rankingId", ranking.getId())
                         .setParameter("userId", user.getId())
-                        .getFirstResult();
-                if (score == existingScore) {
-                    UserScore userScore = new UserScore(ranking, user, score);
-                    em.remove(userScore);
+                        .getResultList().get(0);
+                if (score == existingScore.getPoints()) {
+                    em.remove(em.contains(existingScore) ? existingScore : em.merge(existingScore));
                     //jdbcTemplate.update("DELETE FROM ranking_players WHERE ranking_id = ? AND user_id = ?", rankingId, userId);
                 } else {
-                    int newScore = (existingScore - score);
-                    UserScore userScore = new UserScore(ranking, user, newScore);
-                    em.merge(userScore);
+                    int newScore = (existingScore.getPoints() - score);
+                    existingScore.setPoints(newScore);
+                    em.merge(existingScore);
                     //jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?", existingScore - score, rankingId, userId);
                 }
             }
@@ -186,9 +179,8 @@ public class RankingHibernateDao implements RankingDao{
     private void addTournamentToRanking(Ranking ranking, Map<Tournament, Integer> tournaments) {
         for (Tournament tournament : tournaments.keySet()) {
             TournamentPoints tp = new TournamentPoints(ranking, tournament, tournaments.get(tournament));
-            em.persist(tp);
+            em.merge(tp);
         }
-
     }
 
     /**
@@ -212,10 +204,7 @@ public class RankingHibernateDao implements RankingDao{
                 if (player.hasUser()) {
                     user = player.getUser();
                     if (user.getId() != 0) {
-                        standing = em.createQuery("SELECT standing FROM Player WHERE id = :playerId AND tournament = :tournamentId", Integer.class)
-                                .setParameter("playerId", player.getId())
-                                .setParameter("tournamentId", tournament.getId())
-                                .getFirstResult();
+                        standing = player.getStanding();
                         userScore = standingHandler(standing, tournamentScore);
                         if (existingScores.containsKey(user)) { // Is user already in the ranking
                             existingScores.put(user,userScore + existingScores.get(user));
@@ -241,7 +230,7 @@ public class RankingHibernateDao implements RankingDao{
     private void addNewUsersToRanking(Map<User, Integer> newUsers, Ranking ranking) {
         for (Map.Entry<User, Integer> entry : newUsers.entrySet()) {
             UserScore us = new UserScore(ranking, entry.getKey(), entry.getValue());
-            em.persist(us);
+            em.merge(us);
         }
     }
 

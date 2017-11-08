@@ -43,7 +43,7 @@ public class TournamentPoints {
         return tournament;
     }
 
-    public void setTournament(Tournament tournamentId) {
+    public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
 
@@ -55,4 +55,21 @@ public class TournamentPoints {
         this.awardedPoints = awardedPoints;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TournamentPoints that = (TournamentPoints) o;
+
+        if (ranking != null ? !ranking.equals(that.ranking) : that.ranking != null) return false;
+        return tournament != null ? tournament.equals(that.tournament) : that.tournament == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ranking != null ? ranking.hashCode() : 0;
+        result = 31 * result + (tournament != null ? tournament.hashCode() : 0);
+        return result;
+    }
 }
