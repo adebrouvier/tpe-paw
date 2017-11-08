@@ -85,6 +85,11 @@ CREATE TABLE IF NOT EXISTS ranking_players (
   points BIGINT
 );
 
+CREATE TABLE IF NOT EXISTS user_image (
+  user_id BIGINT PRIMARY KEY REFERENCES user(user_id),
+  image BYTEA NOT NULL
+);
+
 /*
 MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
 WHEN MATCHED THEN UPDATE SET player_id = -1

@@ -117,7 +117,7 @@ ${navbar}
                 <c:when test="${tournament.players.size() == 0 && tournament.creator.id != loggedUser.id}">
                     <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/></h5>
                 </c:when>
-                <c:when test="${tournament.status != 'NEW' || (tournament.userId != loggedUser.id && players.size() != 0)}">
+                <c:when test="${tournament.status != 'NEW' || (tournament.creator.id != loggedUser.id && tournament.players.size() != 0)}">
                     <div class="row">
                         <div class="players">
                             <div class="col s12">

@@ -2,23 +2,27 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.interfaces.service.UserImageService;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.Ranking;
+
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.UserImage;
+import ar.edu.itba.paw.webapp.form.UserImageForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -31,6 +35,9 @@ public class UserController {
 
     @Autowired
     private RankingService rs;
+
+    @Autowired
+    private UserImageService uis;
 
     @Autowired
     private ApplicationContext appContext;
@@ -49,6 +56,44 @@ public class UserController {
         mav.addObject("user", u);
         //mav.addObject("rankings", rankings);
         //mav.addObject("tournaments", tournaments);
+        return mav;
+    }
+
+    @RequestMapping(value = "/updateImage/{userId}", method = {RequestMethod.POST})
+    public final ModelAndView updateImage(@Valid@ModelAttribute("userImageForm") final UserImageForm form, final BindingResult errors,
+                                        @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
+        if(errors.hasErrors()){
+            return userSettings(form, userId);
+        }
+
+        User u = us.findById(userId);
+
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if(userId != loggedUser.getId()) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        try {
+            uis.updateImage(u, form.getImage().getBytes());
+        } catch (IOException e) {
+
+        }
+
+        return new ModelAndView("redirect:/user/" + userId);
+    }
+
+    @RequestMapping("/user/{userId}/settings")
+    public ModelAndView userSettings(@ModelAttribute("userImageForm") final UserImageForm form, @PathVariable long userId){
+        final User u = us.findById(userId);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("user-config");
+
+        mav.addObject("user", u);
         return mav;
     }
 
@@ -92,12 +137,29 @@ public class UserController {
     @RequestMapping(value="/profile-image/{userId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] avatar(@PathVariable(value="userId") final long userId) throws IOException {
 
-        Resource r = appContext.getResource("/resources/img/user-profile-image.jpg");
-        long l = r.contentLength();
-        byte[] ans = new byte[(int)l];
-        r.getInputStream().read(ans);
-        return ans;
-
+        UserImage ui = uis.findById(userId);
+        if(ui != null) {
+            return ui.getImage();
+        } else {
+            Resource r = appContext.getResource("/resources/img/user-profile-image.jpg");
+            long l = r.contentLength();
+            byte[] ans = new byte[(int)l];
+            r.getInputStream().read(ans);
+            return ans;
+        }
     }
 
+
+    @ModelAttribute("loggedUser")
+    public User loggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return us.findByName(username);
+    }
 }

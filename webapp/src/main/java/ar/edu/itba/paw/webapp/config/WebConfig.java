@@ -17,6 +17,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -31,6 +33,13 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 public class WebConfig {
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver mr = new CommonsMultipartResolver();
+		return mr;
+	}
+
 	@Bean 
 	public ViewResolver viewResolver() {
 		final InternalResourceViewResolver viewResolver =
