@@ -58,7 +58,7 @@ public interface TournamentDao {
      * @param name the name of part of the name of the tournament.
      * @return a list of tournaments.
      */
-    List<Tournament> findByName(String name);
+    List<Tournament> findByName(String name, String game);
 
     /**
      * Find Tournament with specified name.

@@ -78,14 +78,22 @@ public class TournamentHibernateDao implements TournamentDao{
     }
 
     @Override
-    public List<Tournament> findByName(String name) {
+    public List<Tournament> findByName(String name, String game) {
 
         StringBuilder sb = new StringBuilder(name.toLowerCase());
         sb.insert(0,"%");
         sb.append("%");
 
-        TypedQuery<Tournament> query = em.createQuery("from Tournament as t WHERE lower(t.name) LIKE :name", Tournament.class);
+        if (game != null) {
+            if (game.equals("")) {
+                game = null;
+            }
+        }
+
+        TypedQuery<Tournament> query = em.createQuery("from Tournament as t WHERE lower(t.name) LIKE :name " +
+                "AND (:game is null or game.name = :game)", Tournament.class);
         query.setParameter("name", sb.toString());
+        query.setParameter("game", game);
         List<Tournament> list = query.getResultList();
 
         return list.isEmpty() ? null : list;

@@ -47,11 +47,21 @@ public class RankingHibernateDao implements RankingDao{
     }
 
     @Override
-    public List<Ranking> findByName(String term) {
+    public List<Ranking> findByName(String term, String game) {
         StringBuilder sb = new StringBuilder(term.toLowerCase());
         sb.insert(0, "%");
         sb.append("%");
-        final TypedQuery<Ranking> list = em.createQuery("FROM Ranking WHERE lower(name) LIKE :query", Ranking.class).setParameter("query", sb.toString());
+
+        if (game != null){
+            if (game.equals("")){
+                game = null;
+            }
+        }
+
+        final TypedQuery<Ranking> list = em.createQuery("FROM Ranking WHERE lower(name) LIKE :query" +
+                " AND (:game is null or game.name = :game)", Ranking.class)
+                .setParameter("query", sb.toString())
+                .setParameter("game", game);
         List<Ranking> rankings = list.getResultList();
 
         if (rankings == null || rankings.isEmpty()) {

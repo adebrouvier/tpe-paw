@@ -29,8 +29,8 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public List<Ranking> findByName(String term) {
-        return rankingDao.findByName(term);
+    public List<Ranking> findByName(String term, String game) {
+        return rankingDao.findByName(term, game);
     }
 
     @Override

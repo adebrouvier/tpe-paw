@@ -35,11 +35,10 @@ public class GameHibernateDao implements GameDao{
         return list.isEmpty() ? null : list.get(0);
     }
 
-    //TODO: check if this works
     @Override
     public List<String> findGameNames(String term) {
-        final TypedQuery<String> query = em.createQuery("select g.name from Game as g where g.name = :term", String.class);
-        query.setParameter("term", term);
+        final TypedQuery<String> query = em.createQuery("select g.name from Game as g where g.name LIKE :term", String.class);
+        query.setParameter("term", term.concat("%"));
         return query.getResultList();
     }
 }

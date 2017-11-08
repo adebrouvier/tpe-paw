@@ -44,9 +44,10 @@ public interface RankingDao {
     /**
      * Searches for a {@link Ranking}
      * @param term name of part of the name
+     * @param game
      * @return a list of matching rankings
      */
-     List<Ranking> findByName(String term);
+     List<Ranking> findByName(String term, String game);
 
     /**
      * Searchs by a partially completed name for a Ranking that

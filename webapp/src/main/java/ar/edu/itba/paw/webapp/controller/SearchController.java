@@ -4,12 +4,10 @@ import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +29,8 @@ public class SearchController {
     private RankingService rs;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView search(@RequestParam(value = "query",required = false) String query){
+    public ModelAndView search(@RequestParam(value = "query", required = false) String query,
+                               @RequestParam(value = "game", required = false) String game){
 
         LOGGER.debug("Access to search");
 
@@ -47,8 +46,8 @@ public class SearchController {
             e.printStackTrace();
         }
 
-        List<Tournament> tournamentList = ts.findByName(term);
-        List<Ranking> rankingList = rs.findByName(term);
+        List<Tournament> tournamentList = ts.findByName(term, game);
+        List<Ranking> rankingList = rs.findByName(term, game);
         ModelAndView mav = new ModelAndView("search");
         mav.addObject("tournamentResults", tournamentList);
         mav.addObject("rankingResults", rankingList);

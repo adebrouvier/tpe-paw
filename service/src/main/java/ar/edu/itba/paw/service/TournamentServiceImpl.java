@@ -60,8 +60,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Tournament> findByName(String name) {
-        return tournamentDao.findByName(name);
+    public List<Tournament> findByName(String name, String game) {
+        return tournamentDao.findByName(name, game);
     }
 
     @Override

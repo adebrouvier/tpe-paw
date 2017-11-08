@@ -11,7 +11,7 @@
             <div class="input-field" style="color: #333333">
                 <i id="search-icon" class="material-icons">search</i>
                 <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
-                <input id="search" cssClass="typeahead" type="search" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
+                <input id="search" class="typeahead" type="search" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
                 <input type="submit" style="visibility: hidden"/>
             </div>
         </form>

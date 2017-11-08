@@ -12,6 +12,7 @@
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/search.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><spring:message code="search.title"/> - <spring:message code="header.name"/></title>
 </head>
@@ -21,6 +22,24 @@ ${navbar}
 <main>
 <div class="container">
     <h3><spring:message code="search.header"/></h3>
+    <div class="row">
+        <c:url value="/search" var="getPath"/>
+        <form class="left" action="${getPath}" method="get">
+            <div class="row valign-wrapper">
+                <div class="col s2 ">
+                    <button class="btn" type="submit"><i class="tiny material-icons">search</i></button>
+                </div>
+                <div class="input-field col s5">
+                    <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
+                    <input id="search-page-input" class="typeahead" type="text" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
+                </div>
+                <div class="input-field col s5">
+                    <input name="game" type="text" id="game-filter" autocomplete="off">
+                    <label class="active" for="game-filter"><spring:message code="search.table.game"/></label>
+                </div>
+            </div>
+        </form>
+    </div>
     <c:set var="nOfResults" value="${tournamentResults.size() + rankingResults.size()}"/>
     <c:choose>
         <c:when test="${nOfResults == 0}">
@@ -72,6 +91,7 @@ ${navbar}
                     <thead>
                     <tr>
                         <th><spring:message code="search.table.name"/></th>
+                        <th><spring:message code="search.table.game"/></th>
                         <th><spring:message code="search.table.page"/></th>
                     </tr>
                     </thead>
@@ -79,6 +99,7 @@ ${navbar}
                     <c:forEach var="ranking" items="${rankingResults}">
                         <tr>
                             <td><c:out value="${ranking.name}"/></td>
+                            <td><c:out value="${ranking.game.name}"/></td>
                             <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
                         </tr>
                     </c:forEach>
