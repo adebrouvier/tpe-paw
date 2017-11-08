@@ -105,6 +105,16 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentDao.getByNameAndGameId(tournamentName, gameId);
     }
 
+    @Override
+    public List<Tournament> findTournamentByUser(long userId) {
+        return tournamentDao.findTournamentByUser(userId);
+    }
+
+    @Override
+    public List<Tournament> findTournamentByParticipant(long participantId) {
+        return tournamentDao.findTournamentByParticipant(participantId);
+    }
+
     /**
      * Generates every match in the Tournament bracket.
      * Setting its initial standing, calculating seeds placement

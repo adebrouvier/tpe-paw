@@ -257,4 +257,12 @@ public class RankingHibernateDao implements RankingDao{
 
         return list;
     }
+
+    @Override
+    public List<Ranking> findRankingByUser(long userId) {
+            TypedQuery<Ranking> q = em.createQuery("from Ranking where user.id = :userId", Ranking.class)
+                    .setParameter("userId", userId);
+            List<Ranking> list = q.getResultList();
+            return list.isEmpty() ? null : list;
+    }
 }

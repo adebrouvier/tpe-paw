@@ -28,41 +28,26 @@ ${navbar}
                     <div class="col s12">
                         <ul class="tabs">
                             <li class="tab col s3"><a class="active" href="#">participates</a></li>
-                            <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/creates"/>">creates</a></li>
+                            <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/creates"/>">created</a></li>
                             <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followers"/>">followers</a></li>
                             <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followed"/>">followed</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col s8 m8 l8 card card-style">
+            <c:forEach var="tournament" items="${tournaments}">
+            <div class="col s8 m8 l8 right card card-style">
                 <div class="card-content">
                     <div class="card-title">
-                        super tournament - mario bross
+                        <c:out value="${tournament.name}"/> - <c:out value="${tournament.game.name}"/>
                     </div>
-                    <p>
-                        #position 5
-                    </p>
                 </div>
                 <div class="card-action">
-                    <a href="#">Go Standings</a>
-                    <a href="#">Go brackets</a>
+                    <a href="<c:url value="/tournament/${tournament.id}"/>">Bracket</a>
+                    <a href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a>
                 </div>
             </div>
-            <div class="col s8 m8 l8 card card-style">
-                <div class="card-content">
-                    <div class="card-title">
-                        super tournament - mario bross
-                    </div>
-                    <p>
-                        #position 5
-                    </p>
-                </div>
-                <div class="card-action">
-                    <a href="#">Go Standings</a>
-                    <a href="#">Go brackets</a>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 

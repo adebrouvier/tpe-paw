@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class RankingPageForm {
 
@@ -13,6 +10,7 @@ public class RankingPageForm {
 
     @NotNull
     @Min(value = 10L)
+    @Digits(integer = 5, fraction = 0)
     private Integer points;
 
     public String getTournamentName() {

@@ -1,11 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
-
-import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.UserFavoriteGame;
-import ar.edu.itba.paw.model.UserImage;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -55,17 +51,14 @@ public class UserController {
         if(u == null) {
             return new ModelAndView("redirect:/404");
         }
-        //final List<Tournament> tournaments = ts.findUserTournament(userId);
-        //final List<Ranking> rankings = rs.findUserRanking(userId);
-
         final ModelAndView mav = new ModelAndView("user-page");
+        final List<Tournament> tournaments = ts.findTournamentByParticipant(userId);
 
         mav.addObject("user", u);
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
-        //mav.addObject("rankings", rankings);
-        //mav.addObject("tournaments", tournaments);
+        mav.addObject("tournaments", tournaments);
         return mav;
     }
 
@@ -132,9 +125,13 @@ public class UserController {
         if (u == null) {
             return new ModelAndView("redirect:/404");
         }
+        final List<Tournament> tournaments = ts.findTournamentByUser(userId);
+        final List<Ranking> rankings = rs.findRankingByUser(userId);
         final ModelAndView mav = new ModelAndView("user-create");
 
         mav.addObject("user", u);
+        mav.addObject("rankings", rankings);
+        mav.addObject("tournaments", tournaments);
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);

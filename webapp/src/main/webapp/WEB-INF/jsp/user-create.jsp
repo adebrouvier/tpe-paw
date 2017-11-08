@@ -35,6 +35,19 @@ ${navbar}
                     </div>
                 </div>
             </div>
+            <c:forEach var="tournament" items="${tournaments}">
+                <div class="col s8 m8 l8 right card card-style">
+                    <div class="card-content">
+                        <div class="card-title">
+                            <c:out value="${tournament.name}"/> - <c:out value="${tournament.game.name}"/>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <a href="<c:url value="/tournament/${tournament.id}"/>">Bracket</a>
+                        <a href="<c:url value="/tournament/${tournament.id}/standings"/>">Standings</a>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
     </div>
 

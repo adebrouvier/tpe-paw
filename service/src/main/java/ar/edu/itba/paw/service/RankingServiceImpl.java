@@ -49,6 +49,11 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findFeaturedRankings(featured);
     }
 
+    @Override
+    public List<Ranking> findRankingByUser(long userId) {
+        return rankingDao.findRankingByUser(userId);
+    }
+
     @Transactional
     @Override
     public void delete(long rankingId, long tournamentId) {

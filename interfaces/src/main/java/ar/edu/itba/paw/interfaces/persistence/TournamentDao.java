@@ -84,4 +84,8 @@ public interface TournamentDao {
      * @return a tournament.
      */
     Tournament getByNameAndGameId(String tournamentName, long gameId);
+
+    List<Tournament> findTournamentByUser(long userId);
+
+    List<Tournament> findTournamentByParticipant(long participantId);
 }

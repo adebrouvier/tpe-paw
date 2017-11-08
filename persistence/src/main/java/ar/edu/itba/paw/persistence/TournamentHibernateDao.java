@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.Game;
+import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,5 +137,22 @@ public class TournamentHibernateDao implements TournamentDao{
         query.setParameter("status", Tournament.Status.FINISHED);
         List<Tournament> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public List<Tournament> findTournamentByUser(long userId) {
+        TypedQuery<Tournament> q = em.createQuery("from Tournament where creator.id = :userId", Tournament.class)
+                .setParameter("userId", userId);
+        List<Tournament> list = q.getResultList();
+        return list.isEmpty() ? null : list;
+    }
+
+    @Override
+    public List<Tournament> findTournamentByParticipant(long participantId) {
+
+        TypedQuery<Tournament> q = em.createQuery("SELECT t FROM Tournament as t, Player as p WHERE p.tournament.id = t.id AND p.user.id = :participantId", Tournament.class)
+                            .setParameter("participantId",participantId);
+
+        return q.getResultList();
     }
 }
