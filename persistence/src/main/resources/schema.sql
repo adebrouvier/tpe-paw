@@ -4,6 +4,8 @@ user_name varchar(100) UNIQUE,
 password varchar(100)
 );
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS description varchar(200);
+
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
   name varchar(60) UNIQUE NOT NULL,
@@ -88,6 +90,12 @@ CREATE TABLE IF NOT EXISTS ranking_players (
 CREATE TABLE IF NOT EXISTS user_image (
   user_id BIGINT PRIMARY KEY REFERENCES user(user_id),
   image BYTEA NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS user_favorite_game (
+  user_id NOT NULL REFERENCES user(user_id),
+  game_id NOT NULL REFERENCES game(game_id),
+  PRIMARY KEY (user_id, game_id)
 );
 
 /*

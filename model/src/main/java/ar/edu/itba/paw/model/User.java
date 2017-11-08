@@ -19,6 +19,9 @@ public class User {
     @Column(name = "password", length = 100, nullable = false)
 	private String password;
 
+    @Column(name = "description", length = 200)
+	private String description;
+
     User(){
 		/* For Hibernate */
     }
@@ -26,6 +29,18 @@ public class User {
 	public User(final String name, final String password) {
 		this.name = name;
 		this.password = password;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public long getId() {

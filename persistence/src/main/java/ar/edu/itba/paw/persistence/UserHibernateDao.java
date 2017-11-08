@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,5 +33,15 @@ public class UserHibernateDao implements UserDao {
     @Override
     public User findById(long id) {
         return em.find(User.class, id);
+    }
+
+    @Transactional
+    @Override
+    public void updateDescription(User user, String description) {
+        if(user == null) {
+            return;
+        }
+        user.setDescription(description);
+        em.merge(user);
     }
 }

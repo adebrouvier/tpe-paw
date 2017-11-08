@@ -1,3 +1,11 @@
+$(document).ready(function() {
+    Materialize.updateTextFields();
+
+    var dataTextarea = $('#description-text-area').attr('data-textarea');
+    document.getElementById("description-textarea").defaultValue = dataTextarea.toString();
+    $('#description-text-area').removeAttr('data-textarea');
+});
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

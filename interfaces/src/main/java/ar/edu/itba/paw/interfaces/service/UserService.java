@@ -13,6 +13,13 @@ public interface UserService {
 	User findById(long id);
 
 	/**
+	 * Add a description to user
+	 * @param user the User
+	 * @param description the new description of the User
+	 */
+	void updateDescription(User user, String description);
+
+	/**
 	 * Finds a User with the specified name
 	 * @param name of the User
 	 * @return instance of the User

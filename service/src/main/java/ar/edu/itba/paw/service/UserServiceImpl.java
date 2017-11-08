@@ -10,14 +10,19 @@ import ar.edu.itba.paw.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserServiceImpl implements UserService {	
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserDao userDao;
 
 	@Override
 	public User findById(long id) {
 		return userDao.findById(id);
+	}
+
+	@Override
+	public void updateDescription(User user, String description) {
+		userDao.updateDescription(user, description);
 	}
 
 	@Override
