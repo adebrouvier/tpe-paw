@@ -76,6 +76,9 @@ public class UserController {
             return new ModelAndView("redirect:/403");
         }
 
+        if(form.getImage() == null || form.getImage().getSize() == 0) {
+            return userSettings(form, userId);
+        }
         try {
             uis.updateImage(u, form.getImage().getBytes());
         } catch (IOException e) {

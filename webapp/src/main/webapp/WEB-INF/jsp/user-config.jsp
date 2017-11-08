@@ -13,20 +13,9 @@
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/user-config.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
-    <script type="text/javascript">
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
     <title><c:out value="${user.name}"> </c:out> - <spring:message code="header.name"/></title>
 </head>
 <body>
@@ -35,19 +24,24 @@ ${navbar}
 <main>
     <div class="container">
 
-         <c:url value="/updateImage/${user.id}" var="postPath"/>
-        <form:form modelAttribute="userImageForm" action="${postPath}" method="post" enctype="multipart/form-data">
-
-            <form:input onchange="readURL(this);"  id="user-image" autocomplete="off" type="file" path="image" accept="image/*"/>
-            <img id="blah" src="/profile-image/${user.id}" style="
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid #01579b;
-    background-size: cover;" />
-            <form:button class="btn btn-primary light-blue darken-4" type="submit">update</form:button>
-
-        </form:form>
+        <div class="row">
+            <div class="col offset-s4 offset-m4 offset-l4 s4 m4 l4 card">
+                <c:url value="/updateImage/${user.id}" var="postPath"/>
+                <form:form modelAttribute="userImageForm" action="${postPath}" method="post" enctype="multipart/form-data">
+                    <div class="user-section-center" style="padding-bottom: 20px">
+                        <img id="user-preview" src="/profile-image/${user.id}" class="user-img" />
+                    </div>
+                    <div class="user-section-center">
+                        <form:label cssClass="btn btn-primary light-blue darken-4 fileContainer" for="file" path="image">add image
+                            <form:input placeholder="pepeps" class="file-input" onchange="readURL(this);" autocomplete="off" type="file" path="image" accept="image/*"/>
+                        </form:label>
+                    </div>
+                    <div class=right style="padding-top: 50px;padding-bottom: 20px">
+                        <form:button class="btn btn-primary light-blue darken-4" type="submit">update</form:button>
+                    </div>
+                </form:form>
+            </div>
+        </div>
 
     </div>
 
