@@ -63,4 +63,18 @@ public class UserFollowHibernateDao implements UserFollowDao{
     public boolean isFollow(User follower, User followed) {
         return findById(follower, followed) != null;
     }
+
+    @Override
+    public List<UserFollow> getFollowers(User user) {
+        if(user == null) {
+            return null;
+        }
+        List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollowedId = :userId", UserFollow.class)
+                .setParameter("userId", user.getId())
+                .getResultList();
+        if(list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
+    }
 }

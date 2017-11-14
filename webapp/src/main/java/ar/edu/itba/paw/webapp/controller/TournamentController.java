@@ -48,6 +48,9 @@ public class TournamentController {
     @Autowired
     private PlayerMeController pmc;
 
+    @Autowired
+    private NotificationService ns;
+
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
@@ -144,6 +147,7 @@ public class TournamentController {
             }else{ /* Player linked to user */
                 if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
                     p = ps.create(playerForm.getPlayer(), user, tournament);
+                    ns.createParticipatesInNotifications(user, tournament);
                 }else {
                     errors.rejectValue("username", "playerForm.error.username.added");
                     return tournament(playerForm, tournamentId);

@@ -72,7 +72,7 @@ public class UserController {
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
         mav.addObject("tournaments", tournaments);
-        mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
+        mav.addObject("isFollow", ufs.isFollow(loggedUser(), u));
         return mav;
     }
 
@@ -89,7 +89,7 @@ public class UserController {
             return new ModelAndView("redirect:/403");
         }
 
-        ufs.create(u, loggedUser);
+        ufs.create(loggedUser, u);
 
         return new ModelAndView("redirect:/user/" + userId);
     }
@@ -107,7 +107,7 @@ public class UserController {
             return new ModelAndView("redirect:/403");
         }
 
-        ufs.delete(u, loggedUser);
+        ufs.delete(loggedUser, u);
 
         return new ModelAndView("redirect:/user/" + userId);
     }

@@ -103,6 +103,15 @@ CREATE TABLE IF NOT EXISTS user_follow (
   user_followed_id BIGINT REFERENCES user(user_id),
   PRIMARY KEY (user_follower_id, user_followed_id)
 );
+
+CREATE TABLE IF NOT EXISTS notification (
+  notification_id SERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES user(user_id),
+  type VARCHAR(40) NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  date TIMESTAMP,
+  description TEXT
+);
 /*
 MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
 WHEN MATCHED THEN UPDATE SET player_id = -1
