@@ -5,6 +5,22 @@
     border: 2px solid #01579b;
     background-size: cover;
 }
+
+/*.user-img {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+    padding-top: 25%;
+}
+.user-img-container {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 2px solid #01579b;
+    overflow: hidden;
+} */
 .user-section-center {
     margin: 0 auto;
     display: table;

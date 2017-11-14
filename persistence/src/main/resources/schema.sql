@@ -98,6 +98,11 @@ CREATE TABLE IF NOT EXISTS user_favorite_game (
   PRIMARY KEY (user_id, game_id)
 );
 
+CREATE TABLE IF NOT EXISTS user_follow (
+  user_follower_id BIGINT REFERENCES user(user_id),
+  user_followed_id BIGINT REFERENCES user(user_id),
+  PRIMARY KEY (user_follower_id, user_followed_id)
+);
 /*
 MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
 WHEN MATCHED THEN UPDATE SET player_id = -1

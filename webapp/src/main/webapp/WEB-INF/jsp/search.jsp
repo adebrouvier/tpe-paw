@@ -27,11 +27,11 @@ ${navbar}
         <form class="left" action="${getPath}" method="get">
             <div class="row valign-wrapper">
                 <div class="col s2 ">
-                    <button class="btn" type="submit"><i class="tiny material-icons">search</i></button>
+                    <button class="btn light-blue darken-4" type="submit"><i class="tiny material-icons">search</i></button>
                 </div>
                 <div class="input-field col s5">
                     <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
-                    <input id="search-page-input" class="typeahead" type="text" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
+                    <input id="search" class="typeahead" type="text" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
                 </div>
                 <div class="input-field col s5">
                     <input name="game" type="text" id="game-filter" autocomplete="off">

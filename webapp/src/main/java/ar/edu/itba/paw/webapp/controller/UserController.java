@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -43,7 +44,19 @@ public class UserController {
     PlayerMeController pmc;
 
     @Autowired
+    UserFollowService ufs;
+
+    @Autowired
     private ApplicationContext appContext;
+
+    @RequestMapping("/user/name/{userName}")
+    public ModelAndView user(@PathVariable String userName){
+        final User u = us.findByName(userName);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        return new ModelAndView("redirect:/user/" + u.getId());
+    }
 
     @RequestMapping("/user/{userId}")
     public ModelAndView user(@PathVariable long userId){
@@ -59,7 +72,44 @@ public class UserController {
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
         mav.addObject("tournaments", tournaments);
+        mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
         return mav;
+    }
+
+    @NotNull
+    @RequestMapping(value = "user/{userId}/follow")
+    public final ModelAndView followUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
+        User u = us.findById(userId);
+
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if(loggedUser == null || userId == loggedUser.getId()) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        ufs.create(u, loggedUser);
+
+        return new ModelAndView("redirect:/user/" + userId);
+    }
+
+    @NotNull
+    @RequestMapping(value = "user/{userId}/unfollow")
+    public final ModelAndView unfollowUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
+        User u = us.findById(userId);
+
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        if(loggedUser == null || userId == loggedUser.getId()) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        ufs.delete(u, loggedUser);
+
+        return new ModelAndView("redirect:/user/" + userId);
     }
 
     @RequestMapping(value = "/update/{userId}", method = {RequestMethod.POST})
@@ -132,6 +182,7 @@ public class UserController {
         mav.addObject("user", u);
         mav.addObject("rankings", rankings);
         mav.addObject("tournaments", tournaments);
+        mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);

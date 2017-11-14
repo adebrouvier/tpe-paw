@@ -9,16 +9,25 @@
         </c:if>
         <div class="section">
             <div style="padding-top: 40px">
-                <img class="user-img user-section-center" src="/profile-image/<c:out value='${user.id}'/>"/>
+                <div class="user-img-container user-section-center">
+                    <img class="user-img user-section-center" src="/profile-image/<c:out value='${user.id}'/>"/>
+                </div>
                 <span class="user-section-center">
                     <h5><c:out value="${user.name}"/></h5>
                 </span>
-               <%-- <button class="btn user-section-center light-blue darken-4"> follow</button> --%>
+                <c:if test="${loggedUser != null && loggedUser.id != user.id}">
+                    <c:if test="${isFollow}">
+                        <a class="btn user-section-center light-blue darken-4" href="/user/<c:out value='${user.id}'/>/unfollow" >unfollow</a>
+                    </c:if>
+                    <c:if test="${!isFollow}">
+                        <a class="btn user-section-center light-blue darken-4" href="/user/<c:out value='${user.id}'/>/follow" >follow</a>
+                    </c:if>
+                </c:if>
             </div>
         </div>
         <div class="divider"></div>
         <div class="section ">
-            <h6 class="user-section"><i class="tiny material-icons section-icons">info_outline</i><b>Perdonal information</b></h6>
+            <h6 class="user-section"><i class="tiny material-icons section-icons">info_outline</i><b>Personal information</b></h6>
             <p class="user-section-content"><c:out value="${user.description}"/></p>
         </div>
         <div class="divider"></div>
