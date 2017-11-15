@@ -41,10 +41,10 @@ public class UserController {
     private UserFavoriteGameService ufgs;
 
     @Autowired
-    PlayerMeController pmc;
+    private PlayerMeController pmc;
 
     @Autowired
-    UserFollowService ufs;
+    private UserFollowService ufs;
 
     @Autowired
     private ApplicationContext appContext;

@@ -20,11 +20,11 @@ import static org.junit.Assert.assertNull;
 
 public class GameServiceTest {
     @Mock
-    GameDao gameDao;
+    private GameDao gameDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
-    GameServiceImpl gameService;
+    private GameServiceImpl gameService;
 
     @Before
     public void setUp() {
@@ -74,10 +74,10 @@ public class GameServiceTest {
         assertNull(brawlers);
     }
 
-    public Game generatedGame(String gameName, Boolean userGenerated) {
+    private Game generatedGame(String gameName, Boolean userGenerated) {
         return new Game(gameName, userGenerated);
     }
-    public List<String> generatedGameNames(String gameName, Boolean userGenerated) {
+    private List<String> generatedGameNames(String gameName, Boolean userGenerated) {
         List<String> gamesName = new ArrayList<>();
         gamesName.add(gameName);
         return gamesName;
