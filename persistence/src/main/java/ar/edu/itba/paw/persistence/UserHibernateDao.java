@@ -44,4 +44,10 @@ public class UserHibernateDao implements UserDao {
         user.setDescription(description);
         em.merge(user);
     }
+
+    public void updateSocialProfiles(int userId, User.SocialNetworks networks, String link) {
+        User user = findById(userId);
+        user.setSocialNetwork(networks, link);
+        em.merge(user);
+    }
 }

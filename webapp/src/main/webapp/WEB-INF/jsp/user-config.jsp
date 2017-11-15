@@ -56,6 +56,33 @@ ${navbar}
                             <form:errors path="game" cssClass="form-error" element="p"/>
                         </div>
                     </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
+                            <form:label class="active" path="game">Twitch:</form:label>
+                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
+                                        autocomplete="off" value="${gameName}"/>
+                            <form:errors path="game" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
+                            <form:label class="active" path="game">Twitter:</form:label>
+                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
+                                        autocomplete="off" value="${gameName}"/>
+                            <form:errors path="game" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
+                            <form:label class="active" path="game">Facebook:</form:label>
+                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
+                                        autocomplete="off" value="${gameName}"/>
+                            <form:errors path="game" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
                     <div class=right style="padding-top: 50px;padding-bottom: 20px;padding-right: 20px">
                         <form:button class="btn btn-primary light-blue darken-4" type="submit">save</form:button>
                     </div>

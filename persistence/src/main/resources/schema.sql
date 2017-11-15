@@ -1,7 +1,10 @@
 CREATE TABLE IF NOT EXISTS users (
 user_id SERIAL PRIMARY KEY,
 user_name varchar(100) UNIQUE,
-password varchar(100)
+password varchar(100),
+twitch VARCHAR(200),
+facebook VARCHAR(200),
+twitter VARCHAR(200)
 );
 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS description varchar(200);
@@ -64,6 +67,7 @@ CREATE TABLE IF NOT EXISTS match (
   standing INTEGER,
   next_match_id BIGINT,
   next_match_home BOOLEAN,
+  vod_link VARCHAR(200),
   UNIQUE (match_id, tournament_id),
   FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
 );

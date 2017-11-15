@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
+	public enum SocialNetworks {TWITTER, FACEBOOK, TWITCH};
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
 	@SequenceGenerator(sequenceName = "users_user_id_seq",
@@ -18,6 +20,15 @@ public class User {
 
     @Column(name = "password", length = 100, nullable = false)
 	private String password;
+
+    @Column(name = "twitch", length = 200, nullable = true)
+	private String twitch;
+
+    @Column(name = "facebook", length = 200, nullable = true)
+	private String facebook;
+
+    @Column(name = "twitter", length = 200, nullable = true)
+	private String twitter;
 
     @Column(name = "description", length = 200)
 	private String description;
@@ -53,6 +64,14 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setSocialNetwork(User.SocialNetworks network, String link) {
+    	switch (network) {
+			case FACEBOOK: this.facebook = link;
+			case TWITTER: this.twitter = link;
+			case TWITCH: this.twitch = link;
+		}
 	}
 
 	@Override

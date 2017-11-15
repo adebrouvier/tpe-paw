@@ -29,10 +29,19 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
 public class PlayerJdbcDaoTest {
-/*
+
+
+
     @Autowired
     private DataSource ds;
 
+    @Autowired
+    private  PlayerHibernateDao playerDao;
+
+    
+
+
+    /*
     @Autowired
     private PlayerJdbcDao playerDao;
     private JdbcTemplate jdbcTemplate;

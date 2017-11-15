@@ -83,6 +83,12 @@ public class MatchHibernateDao implements MatchDao{
         return query.getResultList();
     }
 
+    public void addVideoOnDemand(String link, long tournamentId, int matchId) {
+        Match match = findById(matchId, tournamentId);
+        match.setLinkToVideoOnDemand(link);
+        em.merge(match);
+    }
+
     @Override
     public Match updateScore(long tournamentId, int matchId, int homeScore, int awayScore) {
 

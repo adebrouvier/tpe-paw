@@ -36,6 +36,9 @@ public class Match {
     @Column(name = "next_match_home")
     private Boolean nextMatchHome;
 
+    @Column(name = "vod_link")
+    private String videoOnDemandLink;
+
     private int standing;
 
     Match(){
@@ -117,6 +120,8 @@ public class Match {
     public void setHomePlayerScore(int score) { this.homePlayerScore = score; }
 
     public void setAwayPlayerScore(int score) { this.awayPlayerScore = score; }
+
+    public void setLinkToVideoOnDemand(String link) {   this.videoOnDemandLink = link;  }
 
     @Override
     public boolean equals(Object o) {
