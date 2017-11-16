@@ -46,6 +46,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/remove/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/delete/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/swap/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/comment/**").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().formLogin().usernameParameter("j_username")
                 .passwordParameter("j_password")

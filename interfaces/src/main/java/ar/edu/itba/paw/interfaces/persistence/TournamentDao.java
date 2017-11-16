@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
+import ar.edu.itba.paw.model.Comment;
 import ar.edu.itba.paw.model.Tournament;
 
 import java.util.List;
@@ -88,4 +89,6 @@ public interface TournamentDao {
     List<Tournament> findTournamentByUser(long userId);
 
     List<Tournament> findTournamentByParticipant(long participantId);
+
+    void addComment(long tournamentId, Comment comment);
 }

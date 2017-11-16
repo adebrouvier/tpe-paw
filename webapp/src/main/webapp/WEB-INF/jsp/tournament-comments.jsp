@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <link rel="stylesheet"
@@ -18,7 +19,7 @@
 <body>
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
-    <main>
+<main>
     <div class="image-container" >
         <div class="image-effect" style="background: linear-gradient(rgba(38, 42, 53, 0.25) 65%, rgb(38, 42, 53) 100%), url('<c:out value="${tournament.game.gameUrlImage.urlImage}"/>') center center"></div>
     </div>
@@ -33,47 +34,38 @@ ${navbar}
                     <div class="col s12">
                         <ul class="tabs">
                             <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
-                            <li class="tab col s3"><a class="active" href="#"><spring:message code="tournament.standings"/></a></li>
+                            <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
                             <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>"><spring:message code="tournament.players"/></a></li>
-                            <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/comments"/>"><spring:message code="tournament.comments"/></a></li>
+                            <li class="tab col s3"><a class="active" href="#"><spring:message code="tournament.comments"/></a></li>
                         </ul>
                     </div>
                 </div>
-                <c:if test="${tournament.players.size() == 0}">
-                    <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/> </h5>
-                </c:if>
-                <c:if test="${tournament.players.size() != 0}">
-                <div class="row standings">
-                    <table class="centered striped">
-                        <thead>
-                        <tr>
-                            <th><spring:message code="tournament.standings.table.rank"/></th>
-                            <th><spring:message code="tournament.standings.table.player"/></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="player" items="${tournament.players}">
-                            <tr>
-                                <c:choose>
-                                    <c:when test="${player.standing == 0 || player.standing == null}">
-                                        <td >-</td>
-                                    </c:when>
-                                    <c:when test="${player.standing > 0}">
-                                        <td>${player.standing}&deg;</td>
-                                    </c:when>
-                                </c:choose>
-                                <td>${player.name}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                <div>
+                    <c:forEach var="comment" items="${tournament.comments}">
+                        <div class="card">
+                            <div class="card-content">
+                                <p>${comment.comment}</p>
+                                <hr>
+                                <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <c:url value="/comment/tournament/${tournament.id}/" var="endPath"/>
+                    <form:form modelAttribute="commentForm" action="${endPath}" method="post">
+                        <div class="input-field">
+                            <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
+                            <form:errors path="comment" cssClass="form-error" element="p"/>
+                        </div>
+                        <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                code="tournament.comment"/></button>
+                    </form:form>
+
                 </div>
-                </c:if>
             </div>
         </div>
     </div>
-    </main>
-    <c:import var="footer" url="footer.jsp"/>
-    ${footer}
+</main>
+<c:import var="footer" url="footer.jsp"/>
+${footer}
 </body>
 </html>

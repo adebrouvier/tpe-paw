@@ -4,10 +4,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
-import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,5 +151,17 @@ public class TournamentHibernateDao implements TournamentDao{
                             .setParameter("participantId",participantId);
 
         return q.getResultList();
+    }
+
+    @Override
+    public void addComment(long tournamentId, Comment comment) {
+        Tournament t = findById(tournamentId);
+
+        if (t == null){
+            return;
+        }
+
+        t.addComment(comment);
+        em.merge(t);
     }
 }

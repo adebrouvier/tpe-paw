@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
+import ar.edu.itba.paw.model.Comment;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,12 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public List<Tournament> findTournamentByParticipant(long participantId) {
         return tournamentDao.findTournamentByParticipant(participantId);
+    }
+
+    @Override
+    @Transactional
+    public void addComment(long tournamentId, Comment comment) {
+        tournamentDao.addComment(tournamentId, comment);
     }
 
     /**

@@ -36,9 +36,10 @@ ${navbar}
             <div class="row tournament-tabs">
                 <div class="col s12">
                     <ul class="tabs">
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
-                        <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
+                        <li class="tab col s3"><a class="active" href="#"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/comments"/>"><spring:message code="tournament.comments"/></a></li>
                     </ul>
                 </div>
             </div>

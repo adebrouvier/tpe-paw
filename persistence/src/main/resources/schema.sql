@@ -88,32 +88,35 @@ CREATE TABLE IF NOT EXISTS ranking_players (
 );
 
 CREATE TABLE IF NOT EXISTS user_image (
-  user_id BIGINT PRIMARY KEY REFERENCES user(user_id),
+  user_id BIGINT PRIMARY KEY REFERENCES users(user_id),
   image BYTEA NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_favorite_game (
-  user_id NOT NULL REFERENCES user(user_id),
-  game_id NOT NULL REFERENCES game(game_id),
+  user_id BIGINT NOT NULL REFERENCES users(user_id),
+  game_id BIGINT NOT NULL REFERENCES game(game_id),
   PRIMARY KEY (user_id, game_id)
 );
 
 CREATE TABLE IF NOT EXISTS user_follow (
-  user_follower_id BIGINT REFERENCES user(user_id),
-  user_followed_id BIGINT REFERENCES user(user_id),
+  user_follower_id BIGINT REFERENCES users(user_id),
+  user_followed_id BIGINT REFERENCES users(user_id),
   PRIMARY KEY (user_follower_id, user_followed_id)
 );
 
 CREATE TABLE IF NOT EXISTS notification (
   notification_id SERIAL PRIMARY KEY,
-  user_id BIGINT REFERENCES user(user_id),
+  user_id BIGINT REFERENCES users(user_id),
   type VARCHAR(40) NOT NULL,
   is_read BOOLEAN DEFAULT FALSE,
   date TIMESTAMP,
   description TEXT
 );
-/*
-MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)
-WHEN MATCHED THEN UPDATE SET player_id = -1
-  WHEN NOT MATCHED THEN
-  INSERT (player_id, name) values (-1, 'bye');*/
+
+CREATE TABLE comment (
+  comment_id SERIAL PRIMARY KEY,
+  creator_id BIGINT REFERENCES users(user_id),
+  date TIMESTAMP,
+  parent BIGINT REFERENCES comment(comment_id),
+  comment VARCHAR(280)
+);

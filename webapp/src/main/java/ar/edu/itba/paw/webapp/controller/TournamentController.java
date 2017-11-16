@@ -2,9 +2,9 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.webapp.form.CommentForm;
 import ar.edu.itba.paw.webapp.form.MatchForm;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
-import ar.edu.itba.paw.webapp.form.SearchForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -50,6 +53,9 @@ public class TournamentController {
 
     @Autowired
     private NotificationService ns;
+
+    @Autowired
+    private CommentService cs;
 
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
@@ -277,6 +283,41 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
+    @RequestMapping("/tournament/{tournamentId}/comments")
+    public ModelAndView comments(@PathVariable("tournamentId") long tournamentId, @ModelAttribute("commentForm") CommentForm form){
+
+        Tournament t = ts.findById(tournamentId);
+
+        if (t == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        LOGGER.debug("Access to tournament {} comments", t.getId());
+
+        ModelAndView mav = new ModelAndView("tournament-comments");
+        mav.addObject("tournament", t);
+        return mav;
+    }
+
+    @RequestMapping(value = "/comment/tournament/{tournamentId}/", method = RequestMethod.POST)
+    public ModelAndView addComment(@PathVariable("tournamentId") long tournamentId, @ModelAttribute("loggedUser") User loggedUser,
+                                   @Valid @ModelAttribute("commentForm") final CommentForm form, final BindingResult errors){
+
+        if (errors.hasErrors()){
+            return comments(tournamentId, form);
+        }
+
+        Tournament t = ts.findById(tournamentId);
+
+        if (t == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        final Comment comment = cs.create(loggedUser, new Date(), form.getComment());
+        ts.addComment(t.getId(), comment);
+
+        return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
+    }
 
     /*
        Empty strings as null for optional fields
