@@ -6,13 +6,8 @@
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
-    <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
-    <script type="text/javascript"
-            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
-    <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
@@ -44,22 +39,26 @@ ${navbar}
                     <c:forEach var="comment" items="${tournament.comments}">
                         <div class="card">
                             <div class="card-content">
-                                <p>${comment.comment}</p>
+                                <div><c:out value="${comment.comment}"/></div>
                                 <hr>
                                 <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
                             </div>
                         </div>
                     </c:forEach>
                     <c:url value="/comment/tournament/${tournament.id}/" var="endPath"/>
-                    <form:form modelAttribute="commentForm" action="${endPath}" method="post">
-                        <div class="input-field">
-                            <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
-                            <form:errors path="comment" cssClass="form-error" element="p"/>
+                    <div class="card">
+                        <div class="card-content">
+                        <form:form modelAttribute="commentForm" action="${endPath}" method="post">
+                            <div class="input-field">
+                                <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
+                                <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
+                                <form:errors path="comment" cssClass="form-error" element="p"/>
+                            </div>
+                            <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                    code="tournament.comment.submit"/></button>
+                        </form:form>
                         </div>
-                        <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
-                                code="tournament.comment"/></button>
-                    </form:form>
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,5 +66,11 @@ ${navbar}
 </main>
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
+<script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+<script type="text/javascript"
+        src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/tournament-comments.js"/>"></script>
 </body>
 </html>
