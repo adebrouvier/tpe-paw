@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -12,8 +13,44 @@ public class UserUpdateForm {
     @Size(min = 0, max = 200)
     private String description;
 
+    @Pattern(regexp = "|(https://www.twitch.tv/|https://twitch.tv/|twitch.tv/|www.twitch.tv/)[a-zA-Z0-9@:!$&'()*+,;=%\\-._~\\[\\]/?\"#]*")
+    @Size(min = 0, max = 2000)
+    private String twitchUrl;
+
+    @Pattern(regexp = "|(https://www.twitter.com/|https://twitter.com/|twitter.com/|www.twitter.com/)[a-zA-Z0-9@:!$&'()*+,;=%\\-._~\\[\\]/?\"#]*")
+    @Size(min = 0, max = 2000)
+    private String twitterUrl;
+
+    @Pattern(regexp = "|(https://www.youtube.com/|https://youtube.com/|youtube.com/|www.youtube.com/)[a-zA-Z0-9@:!$&'()*+,;=%\\-._~\\[\\]/?\"#]*")
+    @Size(min = 0, max = 2000)
+    private String youtubeUrl;
+
     @Size(min = 0, max = 60)
     private String game;
+
+    public String getTwitchUrl() {
+        return twitchUrl;
+    }
+
+    public void setTwitchUrl(String twitchUrl) {
+        this.twitchUrl = twitchUrl;
+    }
+
+    public String getTwitterUrl() {
+        return twitterUrl;
+    }
+
+    public void setTwitterUrl(String twitterUrl) {
+        this.twitterUrl = twitterUrl;
+    }
+
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
+
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
 
     public String getDescription() {
         return description;

@@ -22,6 +22,15 @@ public class User {
     @Column(name = "description", length = 200)
 	private String description;
 
+    @Column(name = "twitch_utl", length = 2000)
+	private String twitchUrl;
+
+	@Column(name = "twitter_utl", length = 2000)
+	private String twitterUrl;
+
+	@Column(name = "youtube_utl", length = 2000)
+	private String youtubeUrl;
+
     User(){
 		/* For Hibernate */
     }
@@ -53,6 +62,30 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getTwitchUrl() {
+		return twitchUrl;
+	}
+
+	public void setTwitchUrl(String twitchUrl) {
+		this.twitchUrl = twitchUrl;
+	}
+
+	public String getTwitterUrl() {
+		return twitterUrl;
+	}
+
+	public void setTwitterUrl(String twitterUrl) {
+		this.twitterUrl = twitterUrl;
+	}
+
+	public String getYoutubeUrl() {
+		return youtubeUrl;
+	}
+
+	public void setYoutubeUrl(String youtubeUrl) {
+		this.youtubeUrl = youtubeUrl;
 	}
 
 	@Override

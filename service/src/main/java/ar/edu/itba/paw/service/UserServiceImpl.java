@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateDescription(User user, String description) {
-		userDao.updateDescription(user, description);
+	public void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl) {
+		userDao.updateDescription(user, description, twitchUrl, twitterUrl, youtubeUrl);
 	}
 
 	@Override

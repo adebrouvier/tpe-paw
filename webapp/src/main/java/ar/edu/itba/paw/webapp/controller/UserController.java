@@ -137,7 +137,7 @@ public class UserController {
             }
         }
 
-        us.updateDescription(u, form.getDescription());
+        us.updateDescription(u, form.getDescription(),form.getTwitchUrl(),form.getTwitterUrl(),form.getYoutubeUrl());
 
         Game g = gs.findByName(form.getGame());
         if(g == null) {
