@@ -1,7 +1,10 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
+import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.User;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -35,4 +38,6 @@ public interface UserService {
 	 * @throws DuplicateUsernameException
 	 */
 	User create(String name, String password) throws DuplicateUsernameException;
+
+    List<TopUserDTO> findTopWinners(int top);
 }

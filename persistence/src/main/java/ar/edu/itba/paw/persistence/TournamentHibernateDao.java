@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 
+import ar.edu.itba.paw.interfaces.persistence.CommentDao;
 import ar.edu.itba.paw.interfaces.persistence.GameDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
@@ -22,6 +23,9 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CommentDao commentDao;
 
     @PersistenceContext
     private EntityManager em;
@@ -163,5 +167,18 @@ public class TournamentHibernateDao implements TournamentDao{
 
         t.addComment(comment);
         em.merge(t);
+    }
+
+    @Override
+    public void addReply(long tournamentId, Comment reply, long parentId) {
+
+        final Comment parent = commentDao.findById(parentId);
+
+        if (parent == null){
+            return;
+        }
+
+        parent.addChildren(reply);
+        em.merge(parent);
     }
 }

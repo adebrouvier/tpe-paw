@@ -122,6 +122,12 @@ public class TournamentServiceImpl implements TournamentService {
         tournamentDao.addComment(tournamentId, comment);
     }
 
+    @Override
+    @Transactional
+    public void addReply(long tournamentId, Comment reply, long parentId) {
+        tournamentDao.addReply(tournamentId, reply, parentId);
+    }
+
     /**
      * Generates every match in the Tournament bracket.
      * Setting its initial standing, calculating seeds placement

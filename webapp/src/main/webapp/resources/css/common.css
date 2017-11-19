@@ -333,3 +333,11 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     margin-bottom: 10px;
 }
 
+.comment{
+    word-wrap: break-word;
+}
+
+.child-comment{
+    margin-left: 60px;
+}
+

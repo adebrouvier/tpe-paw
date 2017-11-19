@@ -2,10 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.webapp.form.CommentForm;
-import ar.edu.itba.paw.webapp.form.MatchForm;
-import ar.edu.itba.paw.webapp.form.PlayerForm;
-import ar.edu.itba.paw.webapp.form.TournamentForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,19 +143,14 @@ public class TournamentController {
         if (username != null) {
             user = us.findByName(playerForm.getUsername());
 
-            /* If user doesn't exist */
-            if (user == null) {
-                errors.rejectValue("username", "playerForm.error.username");
+            if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
+                p = ps.create(playerForm.getPlayer(), user, tournament);
+                ns.createParticipatesInNotifications(user, tournament);
+            }else {
+                errors.rejectValue("username", "playerForm.error.username.added");
                 return tournament(playerForm, tournamentId);
-            }else{ /* Player linked to user */
-                if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
-                    p = ps.create(playerForm.getPlayer(), user, tournament);
-                    ns.createParticipatesInNotifications(user, tournament);
-                }else {
-                    errors.rejectValue("username", "playerForm.error.username.added");
-                    return tournament(playerForm, tournamentId);
-                }
             }
+
         }else{ /* Player is not linked to user */
             p = ps.create(playerForm.getPlayer(), tournament);
         }
@@ -284,7 +276,8 @@ public class TournamentController {
     }
 
     @RequestMapping("/tournament/{tournamentId}/comments")
-    public ModelAndView comments(@PathVariable("tournamentId") long tournamentId, @ModelAttribute("commentForm") CommentForm form){
+    public ModelAndView comments(@PathVariable("tournamentId") long tournamentId, @ModelAttribute("commentForm") CommentForm form,
+                                 @ModelAttribute("replyForm") ReplyForm replyForm){
 
         Tournament t = ts.findById(tournamentId);
 
@@ -304,7 +297,7 @@ public class TournamentController {
                                    @Valid @ModelAttribute("commentForm") final CommentForm form, final BindingResult errors){
 
         if (errors.hasErrors()){
-            return comments(tournamentId, form);
+            return comments(tournamentId, form, null);
         }
 
         Tournament t = ts.findById(tournamentId);
@@ -315,6 +308,28 @@ public class TournamentController {
 
         final Comment comment = cs.create(loggedUser, new Date(), form.getComment());
         ts.addComment(t.getId(), comment);
+
+        return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
+    }
+
+    @RequestMapping(value = "/reply/{parentId}/tournament/{tournamentId}", method = RequestMethod.POST)
+    public ModelAndView replyComment(@PathVariable("tournamentId") long tournamentId, @PathVariable("parentId") long parentId, @ModelAttribute("loggedUser") User loggedUser,
+                                   @Valid @ModelAttribute("replyForm") final ReplyForm form, final BindingResult errors){
+
+        if (errors.hasErrors()){
+            return comments(tournamentId, null, form);
+        }
+
+        Comment parent = cs.findById(parentId);
+
+        Tournament t = ts.findById(tournamentId);
+
+        if (t == null | parent == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        final Comment reply = cs.create(loggedUser, new Date(), form.getReply(), parent);
+        ts.addReply(t.getId(), reply, parentId);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
     }

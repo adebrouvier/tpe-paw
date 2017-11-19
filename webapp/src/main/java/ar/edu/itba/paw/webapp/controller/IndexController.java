@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class IndexController {
     @Autowired
     private RankingService rs;
 
+    @Autowired
+    private UserService us;
+
     @RequestMapping("/")
     public ModelAndView index() {
         LOGGER.debug("Access to index");
@@ -35,6 +39,7 @@ public class IndexController {
         int featuredRankings = 5;
         mav.addObject("tournaments", ts.findFeaturedTournaments(featuredTournaments));
         mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
+        mav.addObject("topUsers", us.findTopWinners(5));
         return mav;
     }
 

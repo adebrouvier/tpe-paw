@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,19 @@ public class Comment {
         this.creator = creator;
         this.date = date;
         this.comment = comment;
+        this.children = new ArrayList<>();
+    }
+
+    public Comment (User creator, Date date, String comment, Comment parent){
+        this.creator = creator;
+        this.date = date;
+        this.comment = comment;
+        this.parent = parent;
+        this.children = new ArrayList<>();
+    }
+
+    public Long getId(){
+        return id;
     }
 
     public User getCreator() {
@@ -78,6 +92,14 @@ public class Comment {
         if (!this.children.contains(child)){
             this.children.add(child);
         }
+    }
+
+    public List<Comment> getChildren(){
+        return this.children;
+    }
+
+    public void setChildren(List<Comment> children){
+        this.children = children;
     }
 
     @Override

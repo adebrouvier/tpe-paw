@@ -1,10 +1,13 @@
 package ar.edu.itba.paw.webapp.form;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.Size;
 
 public class CommentForm {
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
+    @NotBlank
     private String comment;
 
     public String getComment(){

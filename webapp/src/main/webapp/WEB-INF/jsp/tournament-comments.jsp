@@ -39,24 +39,48 @@ ${navbar}
                     <c:forEach var="comment" items="${tournament.comments}">
                         <div class="card">
                             <div class="card-content">
-                                <div><c:out value="${comment.comment}"/></div>
+                                <div class="comment"><pre><c:out value="${comment.comment}"/></pre></div>
                                 <hr>
                                 <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
+                                <a class="waves-effect waves-light btn modal-trigger light-blue darken-4" href="#modal-${comment.id}"><spring:message code="tournament.comment.reply"/></a>
+                                <c:url value="/reply/${comment.id}/tournament/${tournament.id}" var="endPath"/>
+                                <div id="modal-${comment.id}" class="modal bottom-sheet">
+                                    <div class="modal-content">
+                                        <form:form modelAttribute="replyForm" action="${endPath}" method="post">
+                                            <div class="input-field">
+                                                <form:label cssClass="active" path="reply"><spring:message code="tournament.comment"/></form:label>
+                                                <form:textarea cssClass="materialize-textarea" type="text" path="reply"/>
+                                                <form:errors path="reply" cssClass="form-error" element="p"/>
+                                            </div>
+                                            <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                                    code="tournament.comment.reply"/></button>
+                                        </form:form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <c:forEach var="child" items="${comment.children}">
+                            <div class="card child-comment">
+                                <div class="card-content">
+                                    <div class="comment"><pre><c:out value="${child.comment}"/></pre></div>
+                                    <hr>
+                                    <span><a href="<c:url value="/user/${child.creator.id}"/>">${child.creator.name}</a> - ${child.date.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </c:forEach>
                     <c:url value="/comment/tournament/${tournament.id}/" var="endPath"/>
                     <div class="card">
                         <div class="card-content">
-                        <form:form modelAttribute="commentForm" action="${endPath}" method="post">
-                            <div class="input-field">
-                                <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
-                                <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
-                                <form:errors path="comment" cssClass="form-error" element="p"/>
-                            </div>
-                            <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
-                                    code="tournament.comment.submit"/></button>
-                        </form:form>
+                            <form:form modelAttribute="commentForm" action="${endPath}" method="post">
+                                <div class="input-field">
+                                    <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
+                                    <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
+                                    <form:errors path="comment" cssClass="form-error" element="p"/>
+                                </div>
+                                <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                        code="tournament.comment.submit"/></button>
+                            </form:form>
                         </div>
                     </div>
                 </div>

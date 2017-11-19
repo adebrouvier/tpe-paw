@@ -22,4 +22,6 @@ public interface CommentDao {
      * @return the comment
      */
     Comment findById(long id);
+
+    Comment create(User creator, Date date, String comment, Comment parent);
 }

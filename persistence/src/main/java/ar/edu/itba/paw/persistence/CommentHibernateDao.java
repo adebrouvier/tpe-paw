@@ -26,4 +26,12 @@ public class CommentHibernateDao implements CommentDao{
         return em.find(Comment.class, id);
     }
 
+    @Override
+    public Comment create(User creator, Date date, String comment, Comment parent) {
+
+        final Comment c = new Comment(creator, date, comment, parent);
+        em.persist(c);
+        return c;
+    }
+
 }

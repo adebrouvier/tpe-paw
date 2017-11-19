@@ -112,4 +112,6 @@ public interface TournamentService {
     List<Tournament> findTournamentByParticipant(long participantId);
 
     void addComment(long tournamentId, Comment comment);
+
+    void addReply(long tournamentId, Comment reply, long parentId);
 }

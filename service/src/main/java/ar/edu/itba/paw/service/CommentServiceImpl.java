@@ -23,6 +23,12 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    @Transactional
+    public Comment create(User creator, Date date, String comment, Comment parent) {
+        return commentDao.create(creator, date, comment, parent);
+    }
+
+    @Override
     public Comment findById(long id) {
         return commentDao.findById(id);
     }
