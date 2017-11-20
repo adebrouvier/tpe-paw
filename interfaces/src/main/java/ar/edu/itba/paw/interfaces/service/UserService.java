@@ -35,9 +35,8 @@ public interface UserService {
 	 * @param name of the User
 	 * @param password of the User
 	 * @return instance of the new User
-	 * @throws DuplicateUsernameException
 	 */
-	User create(String name, String password) throws DuplicateUsernameException;
+	User create(String name, String password);
 
     List<TopUserDTO> findTopWinners(int top);
 }

@@ -120,3 +120,9 @@ CREATE TABLE comment (
   parent BIGINT REFERENCES comment(comment_id),
   comment VARCHAR(280)
 );
+
+CREATE TABLE IF NOT EXISTS inscription (
+  user_id BIGINT REFERENCES users(user_id),
+  tournament_id BIGINT REFERENCES tournament(tournament_id),
+  PRIMARY KEY (user_id, tournament_id)
+);

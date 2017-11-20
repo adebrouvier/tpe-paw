@@ -36,7 +36,7 @@ public interface UserDao {
 	 * @return instance of the new User
 	 * @throws DuplicateUsernameException
 	 */
-	User create(String name, String password) throws DuplicateUsernameException;
+	User create(String name, String password);
 
     List<TopUserDTO> findTopWinners(int top);
 }

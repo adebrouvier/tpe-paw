@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public User create(String name,String password) throws DuplicateUsernameException {
+	public User create(String name,String password) {
 		return userDao.create(name,password);
 	}
 

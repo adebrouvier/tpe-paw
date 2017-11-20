@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +52,9 @@ public class TournamentController {
     @Autowired
     private CommentService cs;
 
+    @Autowired
+    private InscriptionService is;
+
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
@@ -87,8 +88,19 @@ public class TournamentController {
             return new ModelAndView("redirect:/404");
         }
         LOGGER.debug("Access to tournament id {}", tournamentId);
+
+        final List<Inscription> inscriptions = is.finByTournamentId(tournamentId);
+
+        boolean signedUp = false;
+
+        if (loggedUser() != null) {
+            signedUp = is.findByIds(loggedUser().getId(), tournamentId) != null;
+        }
+
         final ModelAndView mav = new ModelAndView("tournament-page");
         mav.addObject("tournament", t);
+        mav.addObject("inscriptions", inscriptions);
+        mav.addObject("signedUp", signedUp);
         return mav;
     }
 
@@ -111,9 +123,13 @@ public class TournamentController {
         if (t == null) {
             return new ModelAndView("redirect:/404");
         }
+
+        final List<Inscription> inscriptions = is.finByTournamentId(tournamentId);
+
         LOGGER.debug("Access to tournament id {} players", tournamentId);
         final ModelAndView mav = new ModelAndView("players");
         mav.addObject("tournament", t);
+        mav.addObject("inscriptions", inscriptions);
         return mav;
     }
 
@@ -332,6 +348,73 @@ public class TournamentController {
         ts.addReply(t.getId(), reply, parentId);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
+    }
+
+    @RequestMapping(value = "/request/tournament/{tournamentId}", method = RequestMethod.POST)
+    public ModelAndView requestJoin(@PathVariable("tournamentId") long tournamentId,
+                                    @ModelAttribute("loggedUser") User loggedUser){
+
+        Tournament t = ts.findById(tournamentId);
+
+        if (t == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (loggedUser == null){
+            return new ModelAndView("redirect:/403");
+        }
+
+        if (is.findByIds(loggedUser.getId(), t.getId()) == null) {
+            is.create(loggedUser, t);
+        }else{
+            return new ModelAndView("redirect:/404");
+        }
+
+        return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
+    }
+
+    @RequestMapping(value = "/accept/user/{userId}/tournament/{tournamentId}", method = RequestMethod.POST)
+    public ModelAndView acceptJoinRequest(@PathVariable long userId, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
+
+        final Tournament t = ts.findById(tournamentId);
+
+        final User u = us.findById(userId);
+
+        if (t == null || u == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        /* remove from pending list  */
+        is.delete(tournamentId, userId);
+
+        Player p;
+
+        if (!ts.participatesIn(u.getId(), tournamentId)) { /* user isn't participating */
+            p = ps.create(u.getName(), u, t);
+        }else{
+            return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
+        }
+
+        ps.addToTournament(p.getId(), t.getId());
+
+        return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
+    }
+
+    @RequestMapping(value = "/reject/user/{userId}/tournament/{tournamentId}", method = RequestMethod.POST)
+    public ModelAndView rejectJoinRequest(@PathVariable long userId, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
+
+        final Tournament t = ts.findById(tournamentId);
+
+        final User u = us.findById(userId);
+
+        if (t == null || u == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        /* remove from pending list  */
+        is.delete(tournamentId, userId);
+
+        return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
 
     /*
