@@ -20,6 +20,10 @@ public class ExistingUserValidator implements ConstraintValidator<ExistingUser,S
     public boolean isValid(String userField,
                            ConstraintValidatorContext cxt) {
 
+        if (userField == null || userField == ""){
+            return true;
+        }
+
         User u = userService.findByName(userField);
 
         return u != null;
