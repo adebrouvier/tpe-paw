@@ -20,7 +20,11 @@ public class ExistingUserValidator implements ConstraintValidator<ExistingUser,S
     public boolean isValid(String userField,
                            ConstraintValidatorContext cxt) {
 
-        if (userField == null || userField == ""){
+        if (userField == null){
+            return true;
+        }
+
+        if (userField.equals("")){
             return true;
         }
 
