@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
@@ -54,8 +55,8 @@ ${navbar}
             <tr>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><c:out value="${tournament.name}"/></a></td>
                 <td><c:out value="${tournament.game.name}"/></td>
-                <td>${tournament.players.size()}</td>
-                <td>${tournament.matches.size()}</td>
+                <td>${fn:length(tournament.players)}</td>
+                <td>${fn:length(tournament.matches)}</td>
                 <td><a href="<c:url value = "/tournament/${tournament.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
             </tr>
         </c:forEach>
@@ -81,8 +82,8 @@ ${navbar}
         </tbody>
     </table>
     <div class="row">
-        <h4><spring:message code="index.topChampions.title"/></h4>
         <div class="col s4 offset-s4">
+            <h5><spring:message code="index.topChampions.title"/></h5>
             <table>
                 <thead>
                     <tr>
@@ -111,7 +112,7 @@ ${navbar}
                                 </c:otherwise>
                             </c:choose>
                        </td>
-                        <td><a href="/user/${winner.user.id}"><c:out value="${winner.user.name}"/></a></td>
+                        <td><a href="<c:url value="/user/${winner.user.id}"/>"><c:out value="${winner.user.name}"/></a></td>
                         <td><c:out value="${winner.wins}"/></td>
                     </tr>
                 </c:forEach>
