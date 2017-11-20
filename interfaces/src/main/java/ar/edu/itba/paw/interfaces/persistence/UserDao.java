@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
+import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.User;
+
+import java.util.List;
 
 public interface UserDao {
 
@@ -36,6 +39,7 @@ public interface UserDao {
 	 * @return instance of the new User
 	 * @throws DuplicateUsernameException
 	 */
-	User create(String name, String password) throws DuplicateUsernameException;
+	User create(String name, String password);
 
+    List<TopUserDTO> findTopWinners(int top);
 }

@@ -34,9 +34,10 @@ ${navbar}
             <div class="row tournament-tabs">
                 <div class="col s12">
                     <ul class="tabs">
-                        <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a class="active" href="#"><spring:message code="tournament.bracket"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/players"/>"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/comments"/>"><spring:message code="tournament.comments"/></a></li>
                     </ul>
                 </div>
             </div>
@@ -64,7 +65,20 @@ ${navbar}
                     </c:if>
                     <h4><spring:message code="tournament.bracket"/></h4>
                     <c:if test="${tournament.status == 'NEW'}">
+                        <c:if test="${loggedUser.id == tournament.creator.id}">
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
+                        </c:if>
+                        <c:if test="${loggedUser != null && loggedUser.id != tournament.creator.id && !signedUp}">
+                            <h6><spring:message code="tournament.join.new"/></h6>
+                            <c:url value="/request/tournament/${tournament.id}" var="endPath"/>
+                            <form:form action="${endPath}" method="post">
+                                <c:if test="${tournament.status == 'NEW'}">
+                                    <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
+                                        <spring:message code="tournament.join"/>
+                                    </button>
+                                </c:if>
+                            </form:form>
+                        </c:if>
                     </c:if>
                     <c:set var="roundSize" value="${tournament.fullSize/2}"/>
                     <div class="tournament-container" style="height:<c:out value="${roundSize*60+44}"/>px;overflow-y: hidden;overflow-x: auto;" >

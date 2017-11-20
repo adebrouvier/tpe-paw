@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <link rel="stylesheet"
@@ -36,9 +37,10 @@ ${navbar}
             <div class="row tournament-tabs">
                 <div class="col s12">
                     <ul class="tabs">
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
-                        <li class="tab col s4"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
-                        <li class="tab col s4"><a class="active" href="#"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a></li>
+                        <li class="tab col s3"><a class="active" href="#"><spring:message code="tournament.players"/></a></li>
+                        <li class="tab col s3"><a target="_self" href="<c:url value="/tournament/${tournament.id}/comments"/>"><spring:message code="tournament.comments"/></a></li>
                     </ul>
                 </div>
             </div>
@@ -76,45 +78,80 @@ ${navbar}
                                     </c:if>
                                 </div>
                                 <div class="row">
-                                    <ul id="sortable">
-                                        <c:set var="seed" value="1"/>
-                                        <c:forEach var="player" items="${tournament.players}">
-                                            <c:if test="${player.id != -1}">
-                                                <li>
-                                                    <div class="player-container">
-                                        <span class="player-seed">
-                                            <c:out value="${player.seed}"/>
-                                        </span>
-                                                        <span class="move">
-                                                <i class="tiny material-icons">unfold_more</i>
-                                        </span>
-                                                        <span class="player-name">
-                                            <c:out value="${player.name}"/>
-                                        </span>
-                                                        <c:if test="${player.user.name != null}">
-                                                        <span class="user-name">- <c:out value="${player.user.name}"/>
-                                                        </span>
-                                                        </c:if>
-
-                                                        <form style="width: 0;height: 0; margin: 0; padding: 0; display: inline" id="<c:out value="${seed}"/>" action="<c:url value="/remove/player/${tournament.id}/${player.id}"/>" method="POST">
-                                                            <a href="#" onclick="$('#<c:out value="${seed}"/>').submit()" >
-                                                <span class="player-remove">
-                                                    <i class="tiny material-icons">delete</i>
-                                                </span>
-                                                            </a>
-                                                        </form>
-                                                    </div>
-                                                </li>
-                                                <c:set var="seed" value="${seed+1}"/>
-                                            </c:if>
-                                        </c:forEach>
-                                    </ul>
+                                    <div class="col s12">
+                                        <h4>Players</h4>
+                                        <ul id="sortable">
+                                            <c:set var="seed" value="1"/>
+                                            <c:forEach var="player" items="${tournament.players}">
+                                                <c:if test="${player.id != -1}">
+                                                    <li>
+                                                        <div class="player-container">
+                                                            <span class="player-seed">
+                                                                <c:out value="${player.seed}"/>
+                                                            </span>
+                                                            <span class="move">
+                                                                <i class="tiny material-icons">unfold_more</i>
+                                                            </span>
+                                                            <span class="player-name">
+                                                                <c:out value="${player.name}"/>
+                                                            </span>
+                                                            <c:if test="${player.user.name != null}">
+                                                            <span class="user-name">- <c:out value="${player.user.name}"/></span>
+                                                            </c:if>
+                                                            <form style="width: 0;height: 0; margin: 0; padding: 0; display: inline" id="<c:out value="${seed}"/>" action="<c:url value="/remove/player/${tournament.id}/${player.id}"/>" method="POST">
+                                                                <a href="#" onclick="$('#<c:out value="${seed}"/>').submit()" >
+                                                                    <span class="player-remove">
+                                                                        <i class="tiny material-icons">delete</i>
+                                                                    </span>
+                                                                </a>
+                                                            </form>
+                                                        </div>
+                                                    </li>
+                                                    <c:set var="seed" value="${seed+1}"/>
+                                                </c:if>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col s12">
+                                        <h5>Awaiting for confirmation</h5>
+                                        <ul>
+                                        <c:choose>
+                                            <c:when test="${fn:length(inscriptions) > 0}">
+                                                <c:forEach var="inscription" items="${inscriptions}">
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col s1">
+                                                                <c:out value="${inscription.user.name}"/>
+                                                            </div>
+                                                            <div class="col s1">
+                                                                <form action="<c:url value="/accept/user/${inscription.user.id}/tournament/${tournament.id}"/>" method="post">
+                                                                    <button type="submit" class="btn btn-primary green"><i class="material-icons">check</i></button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="col s1">
+                                                                <form action="<c:url value="/reject/user/${inscription.user.id}/tournament/${tournament.id}"/>" method="post">
+                                                                    <button type="submit" class="btn btn-primary red"><i class="material-icons">close</i></button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:when test="${empty inscriptions}">
+                                                <spring:message code="tournament.players.noInscriptions"/>
+                                            </c:when>
+                                        </c:choose>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </c:when>
-                <c:when test="${tournament.players.size() == 0 && tournament.creator.id != loggedUser.id}">
+                <c:when test="${empty tournament.players && tournament.creator.id != loggedUser.id}">
                     <h5 class="center" style="margin-top: 30px;margin-bottom: 100px;"><spring:message code="tournament.info.noPlayers"/></h5>
                 </c:when>
                 <c:when test="${tournament.status != 'NEW' || (tournament.creator.id != loggedUser.id && tournament.players.size() != 0)}">

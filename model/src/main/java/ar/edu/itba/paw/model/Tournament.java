@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +63,14 @@ public class Tournament {
     @JoinColumn(name = "user_id")
     private User creator;
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
+    private List<Comment> comments;
+
     public Tournament(final String name, final Game game, Status status, final User creator){
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
+        this.comments = new ArrayList<>();
         this.name = name;
         this.status = status;
         this.game = game;
@@ -123,6 +131,20 @@ public class Tournament {
 
     public int getFullSize(){
         return (int) Math.pow(2, Math.ceil((Math.log(players.size()) / Math.log(2))));
+    }
+
+    public List<Comment> getComments(){
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments){
+        this.comments = comments;
+    }
+
+    public void addComment (Comment comment){
+        if (!comments.contains(comment)) {
+            comments.add(comment);
+        }
     }
 
     @Override
