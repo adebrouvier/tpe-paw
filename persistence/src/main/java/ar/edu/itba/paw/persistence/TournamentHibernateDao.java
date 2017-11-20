@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.persistence.CommentDao;
-import ar.edu.itba.paw.interfaces.persistence.GameDao;
-import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
-import ar.edu.itba.paw.interfaces.persistence.UserDao;
+import ar.edu.itba.paw.interfaces.persistence.*;
 import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +23,9 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Autowired
     private CommentDao commentDao;
+
+    @Autowired
+    private NotificationDao notificationDao;
 
     @PersistenceContext
     private EntityManager em;
@@ -116,6 +116,27 @@ public class TournamentHibernateDao implements TournamentDao{
         if (t != null) {
             t.setStatus(status);
             em.merge(t);
+        }
+
+        if(t.getStatus().equals(Tournament.Status.FINISHED)) {
+            for(Player player : t.getPlayers()) {
+                User u = player.getUser();
+                if(player.getStanding() == 1) {
+                    if(u != null) {
+                        notificationDao.createFisrtPlaceNotifications(u, t);
+                    }
+                }
+                if(player.getStanding() == 2) {
+                    if(u != null) {
+                        notificationDao.createSecondPlaceNotifications(u, t);
+                    }
+                }
+                if(player.getStanding() == 3) {
+                    if(u != null) {
+                        notificationDao.createThirdPlaceNotifications(u, t);
+                    }
+                }
+            }
         }
 
         return t;

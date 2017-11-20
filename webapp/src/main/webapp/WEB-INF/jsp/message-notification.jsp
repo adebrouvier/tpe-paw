@@ -8,10 +8,37 @@
             <div class="card-content">
                 <c:if test="${notification.type eq 'PARTICIPATES_IN_TOURNAMENT'}">
                     <div class="row valign-wrapper" style="margin-bottom: 0">
-                        <div class="col s2">
+                        <div class="col s1">
                             <img class="notification-icon" src="<c:out value="/resources/img/trophy-add.jpg"/>"></div>
-                        <div class="col s10">
+                        <div class="col s11">
                             <span><b><a href="/user/<c:out value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.addUser"/> <b><a href="/tournament/<c:out value="${notification.decodeDescription.get(2)}/players"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${notification.type eq 'FIRST_PLACE'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:out value="/resources/img/trophy-first.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><b><a href="/user/<c:out value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.firstPlace"/> <b><a href="/tournament/<c:out value="${notification.decodeDescription.get(2)}"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${notification.type eq 'SECOND_PLACE'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:out value="/resources/img/trophy-second.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><b><a href="/user/<c:out value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.secondPlace"/> <b><a href="/tournament/<c:out value="${notification.decodeDescription.get(2)}"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${notification.type eq 'THIRD_PLACE'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:out value="/resources/img/trophy-third.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><b><a href="/user/<c:out value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.thirdPlace"/> <b><a href="/tournament/<c:out value="${notification.decodeDescription.get(2)}"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
                         </div>
                     </div>
                 </c:if>

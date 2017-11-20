@@ -41,13 +41,60 @@ public class NotificationHibernateDao implements NotificationDao{
                 em.persist(notification);
             }
         }
-        /*em.createQuery("insert into Notification (user.id, type, date, description) " +
-                "SELECT uf.userFollowerId, :type, :date, :description FROM UserFollow AS uf WHERE uf.userFollowedId = :userId")
-                .setParameter("type", Notification.Types.PARTICIPATES_IN_TOURNAMENT.toString())
-                .setParameter("date", date)
-                .setParameter("description", description)
-                .setParameter("userId", userFollowed.getId())
-                .executeUpdate();*/
+    }
+
+    @Override
+    public void createFisrtPlaceNotifications(User user, Tournament tournament) {
+        if(user == null || tournament == null) {
+            return;
+        }
+        String description = Notification.encodeDescription(Notification.Types.FIRST_PLACE, user, tournament, null);
+        Date date = new Date();
+        Notification notification = new Notification(Notification.Types.FIRST_PLACE.toString(), false, date, description);
+
+        List<UserFollow> list = userFollowDao.getFollowers(user);
+        if(list != null) {
+            for (UserFollow userFollow : list) {
+                notification.setUser(userFollow.getUserFollower());
+                em.persist(notification);
+            }
+        }
+    }
+
+    @Override
+    public void createSecondPlaceNotifications(User user, Tournament tournament) {
+        if(user == null || tournament == null) {
+            return;
+        }
+        String description = Notification.encodeDescription(Notification.Types.SECOND_PLACE, user, tournament, null);
+        Date date = new Date();
+        Notification notification = new Notification(Notification.Types.SECOND_PLACE.toString(), false, date, description);
+
+        List<UserFollow> list = userFollowDao.getFollowers(user);
+        if(list != null) {
+            for (UserFollow userFollow : list) {
+                notification.setUser(userFollow.getUserFollower());
+                em.persist(notification);
+            }
+        }
+    }
+
+    @Override
+    public void createThirdPlaceNotifications(User user, Tournament tournament) {
+        if(user == null || tournament == null) {
+            return;
+        }
+        String description = Notification.encodeDescription(Notification.Types.THIRD_PLACE, user, tournament, null);
+        Date date = new Date();
+        Notification notification = new Notification(Notification.Types.THIRD_PLACE.toString(), false, date, description);
+
+        List<UserFollow> list = userFollowDao.getFollowers(user);
+        if(list != null) {
+            for (UserFollow userFollow : list) {
+                notification.setUser(userFollow.getUserFollower());
+                em.persist(notification);
+            }
+        }
     }
 
     @Override
