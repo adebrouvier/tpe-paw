@@ -27,8 +27,15 @@ public class UserHibernateDao implements UserDao {
     public User findByName(final String username) {
         final TypedQuery<User> query = em.createQuery("from User as u where u.name = :username", User.class);
         query.setParameter("username", username);
+        Long unreadNotifications = em.createQuery("SELECT count(*) FROM Notification AS n WHERE n.user.name LIKE :username AND n.isRead = false", Long.class)
+                .setParameter("username", username).getSingleResult();
         final List<User> list = query.getResultList();
-        return list.isEmpty() ? null : list.get(0);
+        if(list.isEmpty()) {
+            return null;
+        }
+        User u = list.get(0);
+        u.setUnreadNotifications(unreadNotifications.intValue());
+        return u;
     }
 
     @Override

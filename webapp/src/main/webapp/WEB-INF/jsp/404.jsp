@@ -13,6 +13,7 @@
 ${navbar}
 <div class="container center">
     <h4><spring:message code="404"/></h4>
+    <img src="/resources/img/error-404.png" style="width: 250px; height: 150px">
     <p>
         <spring:message code="404.message"/></p>
     <a href="<c:url value = "/"/>" class="btn waves-effect waves-light light-blue darken-4"><spring:message code="404.return"/></a>

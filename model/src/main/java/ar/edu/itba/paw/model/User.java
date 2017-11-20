@@ -31,6 +31,9 @@ public class User {
 	@Column(name = "youtube_utl", length = 2000)
 	private String youtubeUrl;
 
+	@Transient
+	private int unreadNotifications;
+
     User(){
 		/* For Hibernate */
     }
@@ -86,6 +89,14 @@ public class User {
 
 	public void setYoutubeUrl(String youtubeUrl) {
 		this.youtubeUrl = youtubeUrl;
+	}
+
+	public int getUnreadNotifications() {
+		return unreadNotifications;
+	}
+
+	public void setUnreadNotifications(int unreadNotifications) {
+		this.unreadNotifications = unreadNotifications;
 	}
 
 	@Override

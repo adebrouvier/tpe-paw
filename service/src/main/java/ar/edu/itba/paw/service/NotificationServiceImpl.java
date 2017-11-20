@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public List<Notification> getNotifications(User owner) {
-        return notificationDao.getNotifications(owner);
+    public List<Notification> getNotifications(User owner, int page) {
+        return notificationDao.getNotifications(owner, page);
     }
 }

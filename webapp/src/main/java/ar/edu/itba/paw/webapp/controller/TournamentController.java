@@ -52,8 +52,9 @@ public class TournamentController {
     private NotificationService ns;
 
     @RequestMapping("/tournament")
-    public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
+    public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form, @ModelAttribute("loggedUser") User loggedUser) {
         final ModelAndView mav = new ModelAndView("tournament");
+        mav.addObject("loggedUser", loggedUser);
         LOGGER.debug("Tournament");
         return mav;
     }
@@ -67,7 +68,7 @@ public class TournamentController {
     @RequestMapping(value = "/create/tournament", method = { RequestMethod.POST })
     public ModelAndView create(@Valid@ModelAttribute("tournamentForm") final TournamentForm form,final BindingResult errors,@ModelAttribute("loggedUser") User loggedUser) {
         if (errors.hasErrors()) {
-            return tournament(form);
+            return tournament(form, loggedUser);
         }
 
         Game game = pmc.addGameImage(form.getGame());
@@ -78,7 +79,7 @@ public class TournamentController {
     }
 
     @RequestMapping("/tournament/{tournamentId}")
-    public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId){
+    public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
         final Tournament t = ts.findById(tournamentId);
         if (t == null) {
             return new ModelAndView("redirect:/404");
@@ -86,11 +87,12 @@ public class TournamentController {
         LOGGER.debug("Access to tournament id {}", tournamentId);
         final ModelAndView mav = new ModelAndView("tournament-page");
         mav.addObject("tournament", t);
+        mav.addObject("loggedUser", loggedUser);
         return mav;
     }
 
     @RequestMapping("/tournament/{tournamentId}/standings")
-    public ModelAndView tournament(@PathVariable long tournamentId){
+    public ModelAndView tournament(@PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
         final Tournament t = ts.findById(tournamentId);
         if (t == null) {
             return new ModelAndView("redirect:/404");
@@ -98,11 +100,12 @@ public class TournamentController {
         LOGGER.debug("Access to tournament {} standings", t.getId());
         final ModelAndView mav = new ModelAndView("standings");
         mav.addObject("tournament", t);
+        mav.addObject("loggedUser", loggedUser);
         return mav;
     }
 
     @RequestMapping("/tournament/{tournamentId}/players")
-    public ModelAndView tournament(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId){
+    public ModelAndView tournament(@ModelAttribute("playerForm") PlayerForm playerForm, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
         final Tournament t = ts.findById(tournamentId);
 
         if (t == null) {
@@ -111,6 +114,7 @@ public class TournamentController {
         LOGGER.debug("Access to tournament id {} players", tournamentId);
         final ModelAndView mav = new ModelAndView("players");
         mav.addObject("tournament", t);
+        mav.addObject("loggedUser", loggedUser);
         return mav;
     }
 
@@ -118,7 +122,7 @@ public class TournamentController {
     public ModelAndView addPlayer(@Valid@ModelAttribute("playerForm") PlayerForm playerForm, final BindingResult errors, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
 
         if (errors.hasErrors()){
-            return tournament(playerForm, tournamentId);
+            return tournament(playerForm, tournamentId, loggedUser);
         }
 
         final Tournament tournament = ts.findById(tournamentId);
@@ -143,14 +147,14 @@ public class TournamentController {
             /* If user doesn't exist */
             if (user == null) {
                 errors.rejectValue("username", "playerForm.error.username");
-                return tournament(playerForm, tournamentId);
+                return tournament(playerForm, tournamentId, loggedUser);
             }else{ /* Player linked to user */
                 if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
                     p = ps.create(playerForm.getPlayer(), user, tournament);
                     ns.createParticipatesInNotifications(user, tournament);
                 }else {
                     errors.rejectValue("username", "playerForm.error.username.added");
-                    return tournament(playerForm, tournamentId);
+                    return tournament(playerForm, tournamentId, loggedUser);
                 }
             }
         }else{ /* Player is not linked to user */
@@ -167,7 +171,7 @@ public class TournamentController {
                                final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return tournament(form,tournamentId);
+            return tournament(form,tournamentId, loggedUser);
         }
 
         final Tournament tournament = ts.findById(tournamentId);

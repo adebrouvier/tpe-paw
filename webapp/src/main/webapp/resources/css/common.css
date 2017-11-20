@@ -333,3 +333,11 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     margin-bottom: 10px;
 }
 
+#new-notification {
+    color: white;
+    vertical-align: top;
+    display: inline;
+    padding: 1px 3px 1px 4px;
+    margin-left: 0px;
+    border-radius: 3px;
+}

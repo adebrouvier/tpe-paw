@@ -10,5 +10,5 @@ public interface NotificationDao {
 
     public void createParticipatesInNotifications(User userFollowed, Tournament tournament);
     public List<Notification> getRecentNotifications(User owner);
-    public List<Notification> getNotifications(User owner);
+    public List<Notification> getNotifications(User owner, int page);
 }
