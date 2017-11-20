@@ -24,7 +24,21 @@
         </security:authorize>
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
-                <li><a href="/user/<security:authentication property="principal.username"/>/notifications"><i class="small material-icons">notifications</i></a></li>
+                <li>
+                    <a href="/user/<security:authentication property="principal.username"/>/notifications" style="height: 65px; padding-top: 4px">
+                        <i class="small material-icons" style="display: inline-flex">notifications</i>
+                        <c:if test="${loggedUser.unreadNotifications > 0 && (notifications == null || notifications.size() == 0)}">
+                            <span id="new-notification" class="badge red">
+                                <c:if test="${loggedUser.unreadNotifications > 99}">
+                                    +99
+                                </c:if>
+                                <c:if test="${loggedUser.unreadNotifications <= 99}">
+                                    <c:out value="${loggedUser.unreadNotifications}"/>
+                                </c:if>
+                            </span>
+                        </c:if>
+                    </a>
+                </li>
                 <li class="nav-user"><a href="/user/name/<security:authentication property="principal.username" />"><security:authentication property="principal.username" /></a></li>
                 <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>

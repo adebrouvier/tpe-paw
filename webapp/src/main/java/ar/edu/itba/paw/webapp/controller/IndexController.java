@@ -2,10 +2,14 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
+import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +31,18 @@ public class IndexController {
     @Autowired
     private RankingService rs;
 
+    @Autowired
+    private UserService us;
+
     @RequestMapping("/")
-    public ModelAndView index() {
+    public ModelAndView index(@ModelAttribute("loggedUser") User loggedUser) {
         LOGGER.debug("Access to index");
         final ModelAndView mav = new ModelAndView("index");
         int featuredTournaments = 5;
         int featuredRankings = 5;
         mav.addObject("tournaments", ts.findFeaturedTournaments(featuredTournaments));
         mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
+        mav.addObject("loggedUser", loggedUser);
         return mav;
     }
 
@@ -63,4 +71,16 @@ public class IndexController {
         return rs.findRankingNames(query);
     }
 
+    @ModelAttribute("loggedUser")
+    public User loggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return us.findByName(username);
+    }
 }

@@ -11,7 +11,8 @@
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <div class="container center">
-    <h2><spring:message code="403.message"/></h2>
+    <h4><spring:message code="403.message"/></h4>
+    <img src="/resources/img/error-403.png" style="width: 330px; height: 150px">
 </div>
 <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
 <script type="text/javascript"

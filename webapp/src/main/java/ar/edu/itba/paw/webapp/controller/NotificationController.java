@@ -37,9 +37,26 @@ public class NotificationController {
 
         final ModelAndView mav = new ModelAndView("notifications");
 
-        List<Notification> notifications = ns.getNotifications(u);
+        List<Notification> notifications = ns.getNotifications(u,0);
         mav.addObject("notifications", notifications);
         mav.addObject("user", u);
+        mav.addObject("loggedUser", loggedUser);
+        return mav;
+    }
+
+
+    @RequestMapping("/user/notifications/{page}")
+    public ModelAndView notification(@ModelAttribute("loggedUser") User loggedUser,@PathVariable int page){
+
+        if(loggedUser == null) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        final ModelAndView mav = new ModelAndView("message-notification");
+
+        List<Notification> notifications = ns.getNotifications(loggedUser(), page);
+        mav.addObject("notifications", notifications);
+        mav.addObject("user", loggedUser);
         return mav;
     }
 

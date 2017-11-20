@@ -50,16 +50,18 @@ public class UserController {
     private ApplicationContext appContext;
 
     @RequestMapping("/user/name/{userName}")
-    public ModelAndView user(@PathVariable String userName){
+    public ModelAndView user(@PathVariable String userName, @ModelAttribute("loggedUser") User loggedUser){
         final User u = us.findByName(userName);
         if(u == null) {
             return new ModelAndView("redirect:/404");
         }
-        return new ModelAndView("redirect:/user/" + u.getId());
+        ModelAndView mav = new ModelAndView("redirect:/user/" + u.getId());
+        mav.addObject("loggedUser", loggedUser);
+        return mav;
     }
 
     @RequestMapping("/user/{userId}")
-    public ModelAndView user(@PathVariable long userId){
+    public ModelAndView user(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
         final User u = us.findById(userId);
         if(u == null) {
             return new ModelAndView("redirect:/404");
@@ -73,6 +75,8 @@ public class UserController {
         mav.addObject("favoritesGames", list);
         mav.addObject("tournaments", tournaments);
         mav.addObject("isFollow", ufs.isFollow(loggedUser(), u));
+        mav.addObject("loggedUser", loggedUser);
+
         return mav;
     }
 
@@ -116,7 +120,7 @@ public class UserController {
     public final ModelAndView updateImage(@Valid@ModelAttribute("userUpdateForm") final UserUpdateForm form, final BindingResult errors,
                                           @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
         if(errors.hasErrors()){
-            return userSettings(form, userId);
+            return userSettings(form, userId, loggedUser);
         }
 
         User u = us.findById(userId);
@@ -152,10 +156,14 @@ public class UserController {
     }
 
     @RequestMapping("/user/{userId}/settings")
-    public ModelAndView userSettings(@ModelAttribute("userUpdateForm") final UserUpdateForm form, @PathVariable long userId){
+    public ModelAndView userSettings(@ModelAttribute("userUpdateForm") final UserUpdateForm form, @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
         final User u = us.findById(userId);
         if(u == null) {
             return new ModelAndView("redirect:/404");
+        }
+
+        if(loggedUser == null || loggedUser.getId() != u.getId()) {
+            return new ModelAndView("redirect:/403");
         }
         final ModelAndView mav = new ModelAndView("user-config");
 
@@ -166,11 +174,13 @@ public class UserController {
             mav.addObject("gameName", fg.get(0).getGame().getName());
         }
         mav.addObject("user", u);
+        mav.addObject("loggedUser", loggedUser);
+
         return mav;
     }
 
     @RequestMapping("/user/{userId}/creates")
-    public ModelAndView userCreates(@PathVariable long userId) {
+    public ModelAndView userCreates(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findById(userId);
         if (u == null) {
             return new ModelAndView("redirect:/404");
@@ -186,6 +196,8 @@ public class UserController {
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
+        mav.addObject("loggedUser", loggedUser);
+
         return mav;
     }
 

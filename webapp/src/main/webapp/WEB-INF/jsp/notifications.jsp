@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
+    <link rel="stylesheet"
+          href="<c:url value="/resources/css/notifications.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
@@ -14,6 +16,7 @@
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/notification.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${user.name}"> </c:out> - <spring:message code="header.name"/></title>
 </head>
@@ -21,34 +24,31 @@
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <main>
-    <c:forEach var="notification" items="${notifications}">
-        <div>
-
-            <p>
-            <c:out value="${notification.user.name}"/>
-            </p>
-
-            <p>
-            <c:out value="${notification.isRead}"/>
-            </p>
-
-            <p>
-            <c:out value="${notification.date}"/>
-            </p>
-
-            <p>
-            <c:out value="${notification.type}"/>
-            </p>
-
-
-            <p>
-            <c:out value="${notification.notificationId}"/>
-            </p>
-            <p>
-                <c:out value="${notification.decodeDescription.get(0)}${notification.decodeDescription.get(1)}${notification.decodeDescription.get(2)}${notification.decodeDescription.get(3)}"/>
-            </p>
+    <div class="container" id="content-box">
+        <div class="row" id="content-wrapper">
+            <c:forEach var="notification" items="${notifications}">
+                    <div class="col offset-s2 s8">
+                        <div class="card">
+                            <div class="card-content">
+                                <c:if test="${notification.type eq 'PARTICIPATES_IN_TOURNAMENT'}">
+                                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                                        <div class="col s2">
+                                            <img class="notification-icon" src="<c:out value="/resources/img/trophy-add.jpg"/>"></div>
+                                        <div class="col s10">
+                                            <span><b><a href="/user/<c:out value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.addUser"/> <b><a href="/tournament/<c:out value="${notification.decodeDescription.get(2)}/players"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                                        </div>
+                                    </div>
+                                </c:if>
+                            </div>
+                            <div class="card-action">
+                                <span class="grey-text"><c:out value="${notification.date.toLocaleString()}"/></span>
+                            </div>
+                        </div>
+                    </div>
+            </c:forEach>
         </div>
-    </c:forEach>
+
+    </div>
 </main>
 </body>
 </html>

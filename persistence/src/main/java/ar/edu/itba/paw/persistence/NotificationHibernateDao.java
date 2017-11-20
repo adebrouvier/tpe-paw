@@ -65,17 +65,25 @@ public class NotificationHibernateDao implements NotificationDao{
         return list;
     }
 
+    @Transactional
     @Override
-    public List<Notification> getNotifications(User owner) {
+    public List<Notification> getNotifications(User owner, int page) {
         if(owner == null) {
             return null;
         }
-        List<Notification> list = em.createQuery("FROM Notification as n WHERE n.user.id = :userId", Notification.class)
+        List<Notification> list = em.createQuery("FROM Notification as n WHERE n.user.id = :userId ORDER BY n.date DESC", Notification.class)
                 .setParameter("userId", owner.getId())
+                .setMaxResults(5)
+                .setFirstResult(page*5)
                 .getResultList();
+
         if(list == null || list.isEmpty()) {
             return null;
         }
+
+        em.createQuery("UPDATE Notification AS n SET n.isRead = true WHERE n.user.id = :userId")
+                .setParameter("userId", owner.getId())
+                .executeUpdate();
         return list;
     }
 }
