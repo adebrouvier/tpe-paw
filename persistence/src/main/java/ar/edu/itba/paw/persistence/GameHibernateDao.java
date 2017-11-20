@@ -41,4 +41,7 @@ public class GameHibernateDao implements GameDao{
         query.setParameter("term", term.concat("%"));
         return query.getResultList();
     }
+    public EntityManager getEntityManager() {
+        return em;
+    }
 }

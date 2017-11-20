@@ -77,7 +77,7 @@ public class Tournament {
         return game;
     }
 
-    public void setGame(long gameId) {
+    public void setGame(Game game) {
         this.game = game;
     }
 

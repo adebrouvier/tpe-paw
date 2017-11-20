@@ -43,7 +43,7 @@ public class SearchController {
         try {
             term = URLDecoder.decode(query,"UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOGGER.error("UTF-8 decode error");
         }
 
         List<Tournament> tournamentList = ts.findByName(term, game);

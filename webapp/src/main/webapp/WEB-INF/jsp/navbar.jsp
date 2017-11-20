@@ -24,6 +24,7 @@
         </security:authorize>
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
+                <li><a href="/user/<security:authentication property="principal.username"/>/notifications"><i class="small material-icons">notifications</i></a></li>
                 <li class="nav-user"><a href="/user/name/<security:authentication property="principal.username" />"><security:authentication property="principal.username" /></a></li>
                 <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>

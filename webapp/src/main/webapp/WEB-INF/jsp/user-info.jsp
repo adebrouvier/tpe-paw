@@ -25,17 +25,39 @@
                 </c:if>
             </div>
         </div>
-        <div class="divider"></div>
-        <div class="section ">
-            <h6 class="user-section"><i class="tiny material-icons section-icons">info_outline</i><b>Personal information</b></h6>
-            <p class="user-section-content"><c:out value="${user.description}"/></p>
-        </div>
-        <div class="divider"></div>
-        <div class="section ">
-            <h6 class="user-section"><i class="tiny material-icons section-icons">games</i><b>Favorite Game</b></h6>
-            <c:forEach var="games" items="${favoritesGames}">
-                <p class="user-section-content"><c:out value="${games.game.name}"/></p>
-            </c:forEach>
-        </div>
+        <c:if test="${user.description != null || user.twitchUrl != null || user.twitterUrl != null || user.youtubeUrl != null}">
+            <div class="divider"></div>
+            <div class="section ">
+                <h6 class="user-section"><i class="tiny material-icons section-icons">info_outline</i><b>Personal information</b></h6>
+                <c:if test="${user.description != null}">
+                    <p class="user-section-content"><c:out value="${user.description}"/></p></br>
+                </c:if>
+                <c:if test="${user.twitchUrl != null}">
+                    <a class="user-section-content" href="<c:url value="${user.twitchUrl}"/>" >Twitch</a></br>
+                </c:if>
+                <c:if test="${user.twitterUrl != null}">
+                    <a class="user-section-content" href="<c:url value="${user.twitterUrl}"/>">Twitter</a></br>
+                </c:if>
+                <c:if test="${user.youtubeUrl != null}">
+                    <a class="user-section-content" href="<c:url value="${user.youtubeUrl}"/>">Youtube</a></br>
+                </c:if>
+            </div>
+        </c:if>
+        <c:if test="${user.description == null && loggedUser.id == user.id}">
+            <div class="divider"></div>
+            <div class="section ">
+                <h6 class="user-section"><b>mensaje de editar perfil</b></h6>
+            </div>
+        </c:if>
+        <c:if test="${favoriteGames.size() != 0}">
+            <div class="divider"></div>
+            <div class="section ">
+                <h6 class="user-section"><i class="tiny material-icons section-icons">games</i><b>Favorite Game</b></h6>
+                <c:forEach var="games" items="${favoritesGames}">
+                    <p class="user-section-content"><c:out value="${games.game.name}"/></p>
+                </c:forEach>
+            </div>
+        </c:if>
+
     </div>
 </div>

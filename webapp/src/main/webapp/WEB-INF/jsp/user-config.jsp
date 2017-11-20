@@ -50,6 +50,30 @@ ${navbar}
                     <div class="divider"></div>
                     <div class="section" style="margin: 10px 40px">
                         <div class="input-field">
+                            <form:label class="active" path="twitchUrl">Twitch Channel:</form:label>
+                            <form:input type="text" path="twitchUrl" autocomplete="off" value="${user.twitchUrl}"/>
+                            <form:errors path="twitchUrl" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
+                            <form:label class="active" path="twitterUrl">Twitter Profile:</form:label>
+                            <form:input type="text" path="twitterUrl" autocomplete="off" value="${user.twitterUrl}"/>
+                            <form:errors path="twitterUrl" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
+                            <form:label class="active" path="youtubeUrl">Youtube Channel:</form:label>
+                            <form:input type="text" path="youtubeUrl" autocomplete="off" value="${user.youtubeUrl}"/>
+                            <form:errors path="youtubeUrl" cssClass="form-error" element="p"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section" style="margin: 10px 40px">
+                        <div class="input-field">
                             <form:label class="active" path="game"><spring:message code="tournament.create.game"/>:</form:label>
                             <form:input id="game-search" type="text" cssClass="typeahead" path="game"
                                         autocomplete="off" value="${gameName}"/>

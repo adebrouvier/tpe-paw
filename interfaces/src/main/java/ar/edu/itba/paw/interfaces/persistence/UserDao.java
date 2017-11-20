@@ -15,8 +15,11 @@ public interface UserDao {
 	 * Add a description to user
 	 * @param user the User
 	 * @param description the new description of the User
+	 * @param twitchUrl the twitch channel url
+	 * @param twitterUrl the twitter profile url
+	 * @param youtubeUrl the youtube channel url
 	 */
-	void updateDescription(User user, String description);
+	void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl);
 
 	/**
 	 * Finds a User with the specified name

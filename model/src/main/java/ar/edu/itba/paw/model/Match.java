@@ -39,6 +39,15 @@ public class Match {
     @Column(name = "vod_link")
     private String videoOnDemandLink;
 
+    @Column(name = "map")
+    private String map;
+
+    @Column(name = "home_player_character")
+    private String homePlayerCharacter;
+
+    @Column(name = "away_player_character")
+    private String awayPlayerCharacter;
+
     private int standing;
 
     Match(){
@@ -152,5 +161,37 @@ public class Match {
                 ", tournament=" + tournament +
                 ", nextMatchHome=" + nextMatchHome +
                 '}';
+    }
+
+    public String getVideoOnDemandLink() {
+        return videoOnDemandLink;
+    }
+
+    public void setVideoOnDemandLink(String videoOnDemandLink) {
+        this.videoOnDemandLink = videoOnDemandLink;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public String getHomePlayerCharacter() {
+        return homePlayerCharacter;
+    }
+
+    public void setHomePlayerCharacter(String homePlayerCharacter) {
+        this.homePlayerCharacter = homePlayerCharacter;
+    }
+
+    public String getAwayPlayerCharacter() {
+        return awayPlayerCharacter;
+    }
+
+    public void setAwayPlayerCharacter(String awayPlayerCharacter) {
+        this.awayPlayerCharacter = awayPlayerCharacter;
     }
 }

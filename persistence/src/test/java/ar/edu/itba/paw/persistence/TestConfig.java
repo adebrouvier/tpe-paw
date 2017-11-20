@@ -21,29 +21,6 @@ import java.util.Properties;
 public class TestConfig {
 
     @Bean
-    public PlatformTransactionManager transactionManager(
-            final EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
-        factoryBean.setDataSource(dataSource());
-        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        factoryBean.setJpaVendorAdapter(vendorAdapter);
-        final Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto","update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-        //TODO: Si ponen esto en prod, hay tabla!!!
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("format_hsqldb", "true");
-        factoryBean.setJpaProperties(properties);
-        return factoryBean;
-    }
-
-    @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(JDBCDriver.class);
@@ -51,5 +28,25 @@ public class TestConfig {
         ds.setUsername("ha");
         ds.setPassword("");
         return ds;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(
+            final EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityTestManagerFactory() {
+        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
+        factoryBean.setDataSource(dataSource());
+        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+        final Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto","update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+        factoryBean.setJpaProperties(properties);
+        return factoryBean;
     }
 }

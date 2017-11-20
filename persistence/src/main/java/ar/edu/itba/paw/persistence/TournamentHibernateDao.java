@@ -155,4 +155,8 @@ public class TournamentHibernateDao implements TournamentDao{
 
         return q.getResultList();
     }
+
+    public EntityManager getEntityManager() {
+        return em;
+    }
 }

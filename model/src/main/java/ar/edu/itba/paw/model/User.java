@@ -6,8 +6,6 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-	public enum SocialNetworks {TWITTER, FACEBOOK, TWITCH};
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
 	@SequenceGenerator(sequenceName = "users_user_id_seq",
@@ -21,17 +19,17 @@ public class User {
     @Column(name = "password", length = 100, nullable = false)
 	private String password;
 
-    @Column(name = "twitch", length = 200, nullable = true)
-	private String twitch;
-
-    @Column(name = "facebook", length = 200, nullable = true)
-	private String facebook;
-
-    @Column(name = "twitter", length = 200, nullable = true)
-	private String twitter;
-
     @Column(name = "description", length = 200)
 	private String description;
+
+    @Column(name = "twitch_utl", length = 2000)
+	private String twitchUrl;
+
+	@Column(name = "twitter_utl", length = 2000)
+	private String twitterUrl;
+
+	@Column(name = "youtube_utl", length = 2000)
+	private String youtubeUrl;
 
     User(){
 		/* For Hibernate */
@@ -66,12 +64,28 @@ public class User {
 		return password;
 	}
 
-	public void setSocialNetwork(User.SocialNetworks network, String link) {
-    	switch (network) {
-			case FACEBOOK: this.facebook = link;
-			case TWITTER: this.twitter = link;
-			case TWITCH: this.twitch = link;
-		}
+	public String getTwitchUrl() {
+		return twitchUrl;
+	}
+
+	public void setTwitchUrl(String twitchUrl) {
+		this.twitchUrl = twitchUrl;
+	}
+
+	public String getTwitterUrl() {
+		return twitterUrl;
+	}
+
+	public void setTwitterUrl(String twitterUrl) {
+		this.twitterUrl = twitterUrl;
+	}
+
+	public String getYoutubeUrl() {
+		return youtubeUrl;
+	}
+
+	public void setYoutubeUrl(String youtubeUrl) {
+		this.youtubeUrl = youtubeUrl;
 	}
 
 	@Override

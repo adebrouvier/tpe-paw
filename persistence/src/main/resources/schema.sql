@@ -8,6 +8,9 @@ twitter VARCHAR(200)
 );
 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS description varchar(200);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS twitch_url VARCHAR(2000);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS twitter_url VARCHAR(2000);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS youtube_url VARCHAR(2000);
 
 CREATE TABLE IF NOT EXISTS game (
   game_id SERIAL PRIMARY KEY,
@@ -67,10 +70,15 @@ CREATE TABLE IF NOT EXISTS match (
   standing INTEGER,
   next_match_id BIGINT,
   next_match_home BOOLEAN,
-  vod_link VARCHAR(200),
   UNIQUE (match_id, tournament_id),
   FOREIGN KEY (next_match_id,tournament_id) REFERENCES match (match_id,tournament_id)
 );
+
+ALTER TABLE match ADD COLUMN IF NOT EXISTS map varchar(200);
+ALTER TABLE match ADD COLUMN IF NOT EXISTS home_player_character VARCHAR(2000);
+ALTER TABLE match ADD COLUMN IF NOT EXISTS away_player_character VARCHAR(2000);
+ALTER TABLE match ADD COLUMN IF NOT EXISTS vod_link VARCHAR(2000);
+
 
 CREATE TABLE IF NOT EXISTS ranking (
   ranking_id SERIAL PRIMARY KEY,
@@ -106,6 +114,15 @@ CREATE TABLE IF NOT EXISTS user_follow (
   user_follower_id BIGINT REFERENCES user(user_id),
   user_followed_id BIGINT REFERENCES user(user_id),
   PRIMARY KEY (user_follower_id, user_followed_id)
+);
+
+CREATE TABLE IF NOT EXISTS notification (
+  notification_id SERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES user(user_id),
+  type VARCHAR(40) NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  date TIMESTAMP,
+  description TEXT
 );
 /*
 MERGE INTO player AS P USING (VALUES -1, 'bye') AS S (player_id, name) ON ( P.player_id = S.player_id)

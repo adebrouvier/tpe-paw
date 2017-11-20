@@ -25,4 +25,10 @@ public class ErrorController {
         LOGGER.debug("Access to 403 page");
         return new ModelAndView("403");
     }
+
+    @RequestMapping("/500")
+    public ModelAndView internalError() {
+        LOGGER.error("Access to 500 page");
+        return new ModelAndView("500");
+    }
 }

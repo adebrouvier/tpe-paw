@@ -48,6 +48,9 @@ public class TournamentController {
     @Autowired
     private PlayerMeController pmc;
 
+    @Autowired
+    private NotificationService ns;
+
     @RequestMapping("/tournament")
     public ModelAndView tournament(@ModelAttribute("tournamentForm") final TournamentForm form) {
         final ModelAndView mav = new ModelAndView("tournament");
@@ -144,6 +147,7 @@ public class TournamentController {
             }else{ /* Player linked to user */
                 if (!ts.participatesIn(user.getId(), tournamentId)) { /* user isn't participating */
                     p = ps.create(playerForm.getPlayer(), user, tournament);
+                    ns.createParticipatesInNotifications(user, tournament);
                 }else {
                     errors.rejectValue("username", "playerForm.error.username.added");
                     return tournament(playerForm, tournamentId);
@@ -178,6 +182,11 @@ public class TournamentController {
         }
 
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
+        if(!form.getMap().isEmpty()) ms.setVODLink(form.getMap(),tournamentId, matchId);
+        if(!form.getHomePlayerCharacter().isEmpty()) ms.setHomePlayerCharacter(form.getVodLink(),tournamentId, matchId);
+        if(!form.getAwayPlayerCharacter().isEmpty()) ms.setAwayPlayerCharacter(form.getVodLink(),tournamentId, matchId);
+        if(!form.getVodLink().isEmpty()) ms.setVODLink(form.getVodLink(),tournamentId, matchId);
+
         LOGGER.info("Updated score of match {} from tournament {}", matchId, tournamentId);
 
         return new ModelAndView("redirect:/tournament/"+ tournamentId);

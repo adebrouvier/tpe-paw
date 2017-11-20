@@ -22,6 +22,7 @@ public class UserHibernateDao implements UserDao {
         em.persist(user);
         return user;
     }
+
     @Override
     public User findByName(final String username) {
         final TypedQuery<User> query = em.createQuery("from User as u where u.name = :username", User.class);
@@ -37,17 +38,28 @@ public class UserHibernateDao implements UserDao {
 
     @Transactional
     @Override
-    public void updateDescription(User user, String description) {
+    public void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl) {
         if(user == null) {
             return;
         }
         user.setDescription(description);
+        user.setTwitchUrl(addHttpsToUrl(twitchUrl));
+        user.setTwitterUrl(addHttpsToUrl(twitterUrl));
+        user.setYoutubeUrl(addHttpsToUrl(youtubeUrl));
         em.merge(user);
     }
-
-    public void updateSocialProfiles(int userId, User.SocialNetworks networks, String link) {
-        User user = findById(userId);
-        user.setSocialNetwork(networks, link);
-        em.merge(user);
+    
+    private String addHttpsToUrl(String url) {
+        if(url == null || url.isEmpty()) {
+            return null;
+        }
+        char c = url.toLowerCase().charAt(0);
+        if(c == 'y' || c == 't' || c == 'w') {
+            return "https://" + url;
+        }
+        return url;
+    }
+    public EntityManager getEntityManager() {
+        return em;
     }
 }

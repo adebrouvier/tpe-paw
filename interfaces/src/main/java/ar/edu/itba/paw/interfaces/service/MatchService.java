@@ -49,4 +49,12 @@ public interface MatchService {
      * @return the updated Match instance.
      */
     Match updateScore(final long tournamentId, final int matchId, final int homeScore, final int awayScore);
+
+    void setVODLink(final String link, final long tournamentId, final int matchId);
+
+    void setMap(final String mapName, final long tournamentId, final int matchId);
+
+    void setHomePlayerCharacter(final String characterName, final long tournamentId, final int matchId);
+
+    void setAwayPlayerCharacter(final String characterName, final long tournamentId, final int matchId);
 }

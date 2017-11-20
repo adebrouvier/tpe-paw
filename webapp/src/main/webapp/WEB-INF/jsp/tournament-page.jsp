@@ -180,6 +180,29 @@ ${navbar}
                                                                     </div>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td class="modal-player-name">
+                                                                    <div><c:out value="${match.homePlayer.name}"/></div>
+                                                                </td>
+                                                                <td class="modal-player-score">
+                                                                    <div class="input-field inline">
+                                                                        <form:label path="home-character-${match.id}"/>
+                                                                        <form:input min="0" id="home-character-${match.id}" type="text" cssClass="score-input" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
+                                                                        <form:errors path="homePlayerCharacter" cssClass="formError" element="p"/>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="modal-player-name">
+                                                                    <div><c:out value="${match.awayPlayer.name}"/></div>
+                                                                </td>
+                                                                <td class="modal-player-score">
+                                                                    <div class="input-field inline">
+                                                                        <form:input min="0" id="away-character-${match.id}" type="text" cssClass="score-input" path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
+                                                                        <form:errors path="awayPlayerCharacter" cssClass="formError" element="p"/>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>

@@ -265,4 +265,8 @@ public class RankingHibernateDao implements RankingDao{
             List<Ranking> list = q.getResultList();
             return list.isEmpty() ? null : list;
     }
+
+    public EntityManager getEntityManager() {
+        return em;
+    }
 }

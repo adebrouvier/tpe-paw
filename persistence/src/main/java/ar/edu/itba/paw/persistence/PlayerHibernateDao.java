@@ -166,4 +166,7 @@ public class PlayerHibernateDao implements PlayerDao{
         query.setParameter("tournament_id", tournamentId);
         return 1 + query.getSingleResult();
     }
+    public EntityManager getEntityManager() {
+        return em;
+    }
 }

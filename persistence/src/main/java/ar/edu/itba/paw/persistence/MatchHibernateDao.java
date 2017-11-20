@@ -83,9 +83,31 @@ public class MatchHibernateDao implements MatchDao{
         return query.getResultList();
     }
 
+    @Override
     public void addVideoOnDemand(String link, long tournamentId, int matchId) {
         Match match = findById(matchId, tournamentId);
         match.setLinkToVideoOnDemand(link);
+        em.merge(match);
+    }
+
+    @Override
+    public void addMap(String mapName, long tournamentId, int matchId) {
+        Match match = findById(matchId, tournamentId);
+        match.setMap(mapName);
+        em.merge(match);
+    }
+
+    @Override
+    public void addHomePlayerCharacter(String characterName, long tournamentId, int matchId) {
+        Match match = findById(matchId, tournamentId);
+        match.setMap(characterName);
+        em.merge(match);
+    }
+
+    @Override
+    public void addAwayPlayerCharacter(String characterName, long tournamentId, int matchId) {
+        Match match = findById(matchId, tournamentId);
+        match.setMap(characterName);
         em.merge(match);
     }
 
@@ -243,5 +265,9 @@ public class MatchHibernateDao implements MatchDao{
             q.setParameter("standing", (m.getStanding()*2)-1);
         }
         q.executeUpdate();
+    }
+
+    public EntityManager getEntityManager() {
+        return em;
     }
 }

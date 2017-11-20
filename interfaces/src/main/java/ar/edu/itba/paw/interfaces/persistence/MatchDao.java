@@ -58,4 +58,12 @@ public interface MatchDao {
      * Tournament.
      */
     List<Match> getTournamentMatches(long tournamentId);
+
+    void addVideoOnDemand(final String link, final long tournamentId, final int matchId);
+
+    void addMap(final String mapName, final long tournamentId, final int matchId);
+
+    void addHomePlayerCharacter(final String characterName, final long tournamentId, final int matchId);
+
+    void addAwayPlayerCharacter(final String characterName, final long tournamentId, final int matchId);
 }
