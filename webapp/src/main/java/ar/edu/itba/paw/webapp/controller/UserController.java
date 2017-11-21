@@ -67,7 +67,7 @@ public class UserController {
             return new ModelAndView("redirect:/404");
         }
         final ModelAndView mav = new ModelAndView("user-page");
-        final List<Tournament> tournaments = ts.findTournamentByParticipant(userId);
+        final List<Tournament> tournaments = ts.findTournamentByParticipant(userId, 0);
 
         mav.addObject("user", u);
 
@@ -76,6 +76,22 @@ public class UserController {
         mav.addObject("tournaments", tournaments);
         mav.addObject("isFollow", ufs.isFollow(loggedUser(), u));
         mav.addObject("loggedUser", loggedUser);
+
+        return mav;
+    }
+
+
+    @RequestMapping("/user/{userId}/{page}")
+    public ModelAndView userPagination(@PathVariable long userId, @PathVariable int page){
+        final User u = us.findById(userId);
+        if(u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final ModelAndView mav = new ModelAndView("message-user-page");
+        final List<Tournament> tournaments = ts.findTournamentByParticipant(userId, page);
+
+        mav.addObject("user", u);
+        mav.addObject("tournaments", tournaments);
 
         return mav;
     }
@@ -185,7 +201,7 @@ public class UserController {
         if (u == null) {
             return new ModelAndView("redirect:/404");
         }
-        final List<Tournament> tournaments = ts.findTournamentByUser(userId);
+        final List<Tournament> tournaments = ts.findTournamentByUser(userId, 0);
         final List<Ranking> rankings = rs.findRankingByUser(userId);
         final ModelAndView mav = new ModelAndView("user-create");
 
@@ -197,6 +213,23 @@ public class UserController {
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
         mav.addObject("loggedUser", loggedUser);
+
+        return mav;
+    }
+
+    @RequestMapping("/user/{userId}/{page}/creates")
+    public ModelAndView userCreatesPagination(@PathVariable long userId, @PathVariable int page) {
+        final User u = us.findById(userId);
+        if (u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final List<Tournament> tournaments = ts.findTournamentByUser(userId, page);
+        //final List<Ranking> rankings = rs.findRankingByUser(userId, page);
+        final ModelAndView mav = new ModelAndView("message-user-create");
+
+        mav.addObject("user", u);
+        //mav.addObject("rankings", rankings);
+        mav.addObject("tournaments", tournaments);
 
         return mav;
     }

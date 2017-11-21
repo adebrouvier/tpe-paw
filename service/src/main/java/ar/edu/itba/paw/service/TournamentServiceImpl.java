@@ -107,13 +107,13 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Tournament> findTournamentByUser(long userId) {
-        return tournamentDao.findTournamentByUser(userId);
+    public List<Tournament> findTournamentByUser(long userId, int page) {
+        return tournamentDao.findTournamentByUser(userId, page);
     }
 
     @Override
-    public List<Tournament> findTournamentByParticipant(long participantId) {
-        return tournamentDao.findTournamentByParticipant(participantId);
+    public List<Tournament> findTournamentByParticipant(long participantId, int page) {
+        return tournamentDao.findTournamentByParticipant(participantId, page);
     }
 
     @Override

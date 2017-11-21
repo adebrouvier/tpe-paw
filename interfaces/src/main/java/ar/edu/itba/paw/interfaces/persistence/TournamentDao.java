@@ -86,9 +86,9 @@ public interface TournamentDao {
      */
     Tournament getByNameAndGameId(String tournamentName, long gameId);
 
-    List<Tournament> findTournamentByUser(long userId);
+    List<Tournament> findTournamentByUser(long userId, int page);
 
-    List<Tournament> findTournamentByParticipant(long participantId);
+    List<Tournament> findTournamentByParticipant(long participantId, int page);
 
     void addComment(long tournamentId, Comment comment);
 
