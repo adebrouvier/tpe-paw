@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,5 +30,11 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public List<Notification> getNotifications(User owner, int page) {
         return notificationDao.getNotifications(owner, page);
+    }
+
+    @Transactional
+    @Override
+    public void createAcceptJoinNotification(User acceptedUser, Tournament tournament) {
+        notificationDao.createAcceptJoinNotification(acceptedUser, tournament);
     }
 }
