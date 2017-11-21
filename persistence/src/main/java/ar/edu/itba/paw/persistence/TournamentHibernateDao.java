@@ -162,18 +162,22 @@ public class TournamentHibernateDao implements TournamentDao{
     }
 
     @Override
-    public List<Tournament> findTournamentByUser(long userId) {
+    public List<Tournament> findTournamentByUser(long userId, int page) {
         TypedQuery<Tournament> q = em.createQuery("from Tournament where creator.id = :userId", Tournament.class)
-                .setParameter("userId", userId);
+                .setParameter("userId", userId)
+                .setFirstResult(page*5)
+                .setMaxResults(5);
         List<Tournament> list = q.getResultList();
         return list.isEmpty() ? null : list;
     }
 
     @Override
-    public List<Tournament> findTournamentByParticipant(long participantId) {
+    public List<Tournament> findTournamentByParticipant(long participantId, int page) {
 
         TypedQuery<Tournament> q = em.createQuery("SELECT t FROM Tournament as t, Player as p WHERE p.tournament.id = t.id AND p.user.id = :participantId", Tournament.class)
-                            .setParameter("participantId",participantId);
+                .setFirstResult(page*5)
+                .setMaxResults(5)
+                .setParameter("participantId",participantId);
 
         return q.getResultList();
     }
