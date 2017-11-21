@@ -14,4 +14,5 @@ public interface NotificationDao {
     public void createThirdPlaceNotifications(User user, Tournament tournament);
     public List<Notification> getRecentNotifications(User owner);
     public List<Notification> getNotifications(User owner, int page);
+    public void createAcceptJoinNotification(User acceptedUser, Tournament tournament);
 }

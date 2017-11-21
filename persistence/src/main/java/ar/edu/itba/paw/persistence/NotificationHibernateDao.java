@@ -133,4 +133,17 @@ public class NotificationHibernateDao implements NotificationDao{
                 .executeUpdate();
         return list;
     }
+
+    @Override
+    public void createAcceptJoinNotification(User acceptedUser, Tournament tournament) {
+        if(acceptedUser == null || tournament == null) {
+            return;
+        }
+        String description = Notification.encodeDescription(Notification.Types.ACCEPT_JOIN_TOURNAMENT, null, tournament, null);
+        Date date = new Date();
+        Notification notification = new Notification(Notification.Types.ACCEPT_JOIN_TOURNAMENT.toString(), false, date, description);
+
+        notification.setUser(acceptedUser);
+        em.persist(notification);
+    }
 }
