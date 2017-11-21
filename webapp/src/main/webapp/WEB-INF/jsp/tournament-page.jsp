@@ -244,7 +244,7 @@ ${navbar}
                                                             <td class="modal-player-name">
                                                                 <c:choose>
                                                                     <c:when test="${match.homePlayer.id != null}">
-                                                                        <div><c:out value="${match.homePlayer.name}"/></div>
+                                                                        <div><c:out value="${match.homePlayer.name}"/><c:if test="${match.homePlayerCharacter!=null && match.homePlayerCharacter.length()<25}">(<c:out value="${match.homePlayerCharacter}"/>)</c:if></div>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div><spring:message code="tournament.modal.tbd"/></div>
@@ -261,7 +261,7 @@ ${navbar}
                                                             <td class="modal-player-name">
                                                                 <c:choose>
                                                                     <c:when test="${match.awayPlayer.id != null}">
-                                                                        <div><c:out value="${match.awayPlayer.name}"/></div>
+                                                                        <div><c:out value="${match.awayPlayer.name}"/><c:if test="${match.awayPlayerCharacter!=null && match.awayPlayerCharacter.length()<25}">(<c:out value="${match.awayPlayerCharacter}"/>)</c:if></div>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div><spring:message code="tournament.modal.tbd"/></div>
@@ -274,8 +274,18 @@ ${navbar}
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <td class="modal-top-player">
+                                                                <div>
+                                                                    <c:if test="${match.map!=null}"><spring:message code="match.map"/>: <c:out value="${match.map}"/></c:if>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                         </tbody>
-                                                        <a href = "${match.videoOnDemandLink}" class="btn light-blue darken-4 waves-effect waves-light"><spring:message code="match.VOD"/></a>
+                                                        <c:if test="${match.videoOnDemandLink!=null}">
+                                                        <a href = "${match.videoOnDemandLink}" class="btn light-blue darken-4 waves-effect waves-light"><spring:message code="match.VOD"/>
+                                                        </a>
+                                                        </c:if>
                                                     </table>
                                                     <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                                                     <form:form modelAttribute="matchForm" action="${postPath}" method="post">
