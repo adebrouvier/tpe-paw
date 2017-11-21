@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "notification")
 public class Notification {
 
-    public enum Types {PARTICIPATES_IN_TOURNAMENT,FIRST_PLACE,SECOND_PLACE,THIRD_PLACE};
+    public enum Types {PARTICIPATES_IN_TOURNAMENT,FIRST_PLACE,SECOND_PLACE,THIRD_PLACE,ACCEPT_JOIN_TOURNAMENT};
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_notification_id_seq")
@@ -99,7 +99,7 @@ public class Notification {
 
     public List<String> getDecodeDescription() {
         if(decodeDescription == null) {
-            decodeDescription(Notification.Types.valueOf(this.type));
+            decodeDescription();
         }
         return decodeDescription;
     }
@@ -115,6 +115,8 @@ public class Notification {
             case SECOND_PLACE:
             case THIRD_PLACE:
                 return encodeUserAndTournament(user, tournament);
+            case ACCEPT_JOIN_TOURNAMENT:
+                return encodeTournament(tournament);
             default:
                 return null;
         }
@@ -129,18 +131,15 @@ public class Notification {
         return str;
     }
 
-    public void decodeDescription(Notification.Types type) {
-        switch (type) {
-            case PARTICIPATES_IN_TOURNAMENT:
-            case FIRST_PLACE:
-            case SECOND_PLACE:
-            case THIRD_PLACE:
-                decodeUserAndTournament();
-                break;
+    private static String encodeTournament(Tournament tournament) {
+        if (tournament == null) {
+            return null;
         }
+        String str = String.valueOf(tournament.getId()) + "/" + tournament.getName();
+        return str;
     }
 
-    private void decodeUserAndTournament() {
+    private void decodeDescription() {
         String[] args = description.split("/");
         List<String> list = new ArrayList<>();
         int size = args.length;
@@ -149,4 +148,5 @@ public class Notification {
         }
         this.decodeDescription = list;
     }
+
 }

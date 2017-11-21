@@ -405,6 +405,8 @@ public class TournamentController {
 
         ps.addToTournament(p.getId(), t.getId());
 
+        ns.createAcceptJoinNotification(u, t);
+
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
 
