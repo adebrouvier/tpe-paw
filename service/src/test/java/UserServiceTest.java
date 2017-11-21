@@ -19,27 +19,30 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class UserServiceTest {
-/*    @Mock
+    @Mock
     UserDao userDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
     UserServiceImpl userServiceImpl;
-
+    private final String TOURNAMENT_NAME = "Torneo";
+    private final int MATCH_ID = 1;
+    private final String PASSWORD = "serenito";
+    private final String USERNAME = "postre";
 
     @Before
     public void setUp() throws DuplicateUsernameException {
-        Mockito.when(userDao.findById(1)).thenReturn(new User(1,"Jorge","Macros"));
+        Mockito.when(userDao.findById(1)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.findById(123)).thenReturn(null);
-        Mockito.when(userDao.create("Mama", "NombreDeMiHijo")).thenReturn(new User(1, "Mama", "NombreDeMiHijo"));
+        Mockito.when(userDao.create(USERNAME, PASSWORD)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.create("NombreYaUsado", "Lalala")).thenThrow(new DuplicateUsernameException());
-        Mockito.when(userDao.findByName("Mama")).thenReturn(new User(1, "Mama", "NombreDeMiHijo"));
+        Mockito.when(userDao.findByName(USERNAME)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.findByName("NoExisto")).thenReturn(null);
     }
 
     @Test
     public void testCreateUserSuccess() throws DuplicateUsernameException {
-        assertNotNull(userServiceImpl.create("Mama", "NombreDeMiHijo"));
+        assertNotNull(userServiceImpl.create(USERNAME, PASSWORD));
     }
 
     @Test(expected = DuplicateUsernameException.class)
@@ -55,5 +58,5 @@ public class UserServiceTest {
     @Test
     public void testFindUserByIdFailure() {
         assertNull(userServiceImpl.findById(123));
-    } */
+    }
 }

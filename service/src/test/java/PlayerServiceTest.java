@@ -1,6 +1,7 @@
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.model.Player;
+import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.service.PlayerServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,35 +14,36 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 public class PlayerServiceTest {
-  /*  @Mock
+   @Mock
     PlayerDao playerDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
     PlayerServiceImpl playerServiceImpl;
 
+    private final Tournament TOURNAMENT = new Tournament("A",null, Tournament.Status.STARTED,null);
+    private final String PLAYER = "jorgito";
+
     @Before
     public void setUp() {
-        Mockito.when(playerDao.create("jorgito")).thenReturn(createPlayer());
-        Mockito.when(playerDao.create(null)).thenReturn(null);
+        Mockito.when(playerDao.create(PLAYER, TOURNAMENT)).thenReturn(createPlayer());
+        Mockito.when(playerDao.create(PLAYER, null)).thenReturn(null);
         Mockito.when(playerDao.findBySeed(1,1)).thenReturn((long)1);
         Mockito.when(playerDao.findBySeed(19,1)).thenReturn((long)PlayerDao.EMPTY);
-        Mockito.when(playerDao.addToTournament(1,1,1)).thenReturn(true);
-        Mockito.when(playerDao.addToTournament(1,1,13)).thenReturn(false);
         Mockito.when(playerDao.findById(1)).thenReturn(createPlayer());
         Mockito.when(playerDao.findById(233)).thenReturn(null);
     }
 
     @Test
     public void testCreate() {
-        Player player = playerServiceImpl.create("jorgito");
-        Assert.assertEquals("jorgito", player.getName());
-        Mockito.verify(playerDao).create("jorgito");
+        Player player = playerServiceImpl.create(PLAYER, TOURNAMENT);
+        Assert.assertEquals(PLAYER, player.getName());
+        Mockito.verify(playerDao).create(PLAYER, TOURNAMENT);
     }
 
     @Test
     public void testCreateNull() {
-        Player player = playerServiceImpl.create(null);
+        Player player = playerServiceImpl.create(PLAYER, null);
         Assert.assertNull(player);
     }
 
@@ -56,16 +58,6 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void testAddToTournamentFailure() {
-        Assert.assertEquals(false, playerServiceImpl.addToTournament(1,1,13));
-    }
-
-    @Test
-    public void testAddToTournamentSuccess() {
-        Assert.assertEquals(true, playerServiceImpl.addToTournament(1,1,1));
-    }
-
-    @Test
     public void testPlayerFoundById() {
         Assert.assertNotNull(playerServiceImpl.findById(1));
     }
@@ -76,8 +68,8 @@ public class PlayerServiceTest {
     }
 
     private Player createPlayer() {
-        Player player = new Player("jorgito", 1);
+        Player player = new Player(PLAYER, TOURNAMENT);
         return player;
     }
-*/
+
 }

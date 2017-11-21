@@ -1,10 +1,8 @@
+
 CREATE TABLE IF NOT EXISTS users (
-user_id SERIAL PRIMARY KEY,
-user_name varchar(100) UNIQUE,
-password varchar(100),
-twitch VARCHAR(200),
-facebook VARCHAR(200),
-twitter VARCHAR(200)
+  user_id IDENTITY PRIMARY KEY,
+  user_name varchar(100) UNIQUE,
+  password varchar(100)
 );
 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS description varchar(200);

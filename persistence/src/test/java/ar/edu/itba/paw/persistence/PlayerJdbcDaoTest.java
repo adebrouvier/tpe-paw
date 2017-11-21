@@ -1,8 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
+import org.hibernate.exception.ConstraintViolationException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,11 +19,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,58 +40,72 @@ import static org.junit.Assert.assertNotNull;
 @Sql("classpath:schema.sql")
 public class PlayerJdbcDaoTest {
 
-
+    @PersistenceContext
+    EntityManager em;
 
     @Autowired
     private DataSource ds;
 
     @Autowired
-    private  PlayerHibernateDao playerDao;
-
-    
-
-
-    /*
+    private MatchHibernateDao matchDao;
     @Autowired
-    private PlayerJdbcDao playerDao;
-    private JdbcTemplate jdbcTemplate;
+    private PlayerHibernateDao playerDao;
+    @Autowired
+    private TournamentHibernateDao tournamentDao;
+    @Autowired
+    private UserHibernateDao userDao;
+    @Autowired
+    private GameHibernateDao gameDao;
 
+    private int flag;
+    private int MATCH_ID = 1;
+    private long TOURNAMENT_ID = 1;
 
     @Before
-    public void setUp() {
-        jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "participates_in");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournament");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "player");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "game");
-        jdbcTemplate.execute("INSERT INTO users VALUES (1, 'Pibe', 'contraseña')");
-        jdbcTemplate.execute("INSERT INTO users VALUES (2, 'Pibe2', 'contraseña')");
-        jdbcTemplate.execute("INSERT INTO player VALUES (1, 'Jugador1', 1)");
-        jdbcTemplate.execute("INSERT INTO player VALUES (2,  'Jugador2', 2)");
-        jdbcTemplate.execute("INSERT INTO game VALUES (1, 'Smash', true)");
-        jdbcTemplate.execute("INSERT INTO game VALUES (2, 'Smosh', true)");
-        jdbcTemplate.execute("INSERT INTO tournament VALUES (1, 'NEW', 'Torneo', 1, 1)");
-        jdbcTemplate.execute("INSERT INTO tournament VALUES (2, 'NEW', 'Torneo2', 2, 2)");
-        jdbcTemplate.execute("INSERT INTO participates_in VALUES (1,1,1,3)");
-        jdbcTemplate.execute("INSERT INTO participates_in VALUES (2,1,1,3)");
+    public void setUp() throws ConstraintViolationException {
+
+        User user = new User("Pibe", "contraseña");
+        User user2 = new User("Pibe2", "contraseña");
+        Game game = new Game("Smash", true);
+        Tournament tournament = new Tournament("Torneo", game, Tournament.Status.STARTED, user);
+        Tournament tournament2 = new Tournament("Torneo2", game, Tournament.Status.STARTED, user);
+        Player player = new Player("Jugador1", tournament);
+        Player player2 = new Player("Jugador2", tournament);
+        Match match = new Match(MATCH_ID,player, player2,0,0, null, false, tournament,1);
+        Match match1 = new Match(MATCH_ID+1,player,player2,0,0, match, true, tournament,2);
+        final Map<Tournament, Integer> criteria = new HashMap<>();
+        criteria.put(tournamentDao.findById(1), 100);
+        Ranking ranking = new Ranking("Ranking", game,user);
+        List<UserScore> userScoreList = new ArrayList<>();
+        userScoreList.add(new UserScore(ranking, user,100));
+        ranking.setUserScores(userScoreList);
+        List<TournamentPoints> tournamentPoints = new ArrayList<>();
+        tournamentPoints.add(new TournamentPoints(ranking, tournament, 1000));
+        ranking.setTournaments(tournamentPoints);
+        em.persist(user);
+        em.persist(user2);
+        em.persist(game);
+        em.persist(tournament);
+        em.persist(tournament2);
+        em.persist(player);
+        em.persist(player2);
+        em.persist(match);
+        em.persist(match1);
+        em.persist(ranking);
+        em.flush();
     }
 
     @Test
+    @Transactional
     public void testCreate() {
-        final Player player = playerDao.create("Jorge");
+        final Player player = playerDao.create("Jorge", tournamentDao.findFeaturedTournaments(1).get(0));
         assertNotNull(player);
-        assertEquals(3, JdbcTestUtils.countRowsInTable(jdbcTemplate, "player"));
     }
 
     @Test
+    @Transactional
     public void testFindById() {
-        assertNotNull(playerDao.findById(1));
+        assertNull(playerDao.findById(18));
     }
 
-    @Test
-    public void testGetTournamentPlayers() {
-        playerDao.getTournamentPlayers(1);
-    }
-*/
 }

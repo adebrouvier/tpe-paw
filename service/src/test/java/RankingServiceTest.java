@@ -1,7 +1,5 @@
 import ar.edu.itba.paw.interfaces.persistence.RankingDao;
-import ar.edu.itba.paw.model.Ranking;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.UserScore;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.service.RankingServiceImpl;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,40 +12,38 @@ import org.mockito.junit.MockitoRule;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class RankingServiceTest {
-/*    @Mock
+    @Mock
     RankingDao rankingDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
     RankingServiceImpl rankingService;
 
-   Map<Tournament, Integer> tournaments;
+    private final String GAME = "Smash";
+
+    private final Map<Tournament, Integer> tournaments = new HashMap<>();
     @Before
     public void setUp() {
-        Mockito.when(rankingDao.create("ranking", tournaments, "Smash", 1)).thenReturn(standardRanking(1));
+        Mockito.when(rankingDao.create("ranking", tournaments, GAME, 1)).thenReturn(standardRanking(1));
         Mockito.when(rankingDao.addTournaments(1, tournaments)).thenReturn(standardRanking(1));
         Mockito.when(rankingDao.findById(1)).thenReturn(standardRanking(1));
-        Mockito.when(rankingDao.findByName("ranking")).thenReturn(standardRankings());
+        Mockito.when(rankingDao.findByName("ranking",  GAME)).thenReturn(standardRankings());
     }
 
     @Test
     public void testCreate() {
-        Ranking ranking = rankingService.create("ranking", tournaments, "Smash", 1);
+        Ranking ranking = rankingService.create("ranking", tournaments, GAME, 1);
         assertEquals("ranking", ranking.getName());
-        assertEquals(200, ranking.getUsers().get(1).getPoints());
+        assertEquals(200, ranking.getUserScores().get(1).getPoints());
     }
 
-    @Test
-    public void testAddTournament() {
-        Ranking ranking = rankingService.addTournaments(1, tournaments);
-        assertEquals(1, ranking.getId());
-    }
 
     @Test
     public void testFindMethodSuccess() {
@@ -57,23 +53,23 @@ public class RankingServiceTest {
 
     @Test
     public void testGetPoints() {
-        assertEquals(200, rankingService.findById(1).getUsers().get(1).getPoints());
+        assertEquals(200, rankingService.findById(1).getUserScores().get(1).getPoints());
     }
 
     @Test
     public void testGetRankingsSuccess() {
-        List<Ranking> rankings = rankingService.findByName("ranking");
+        List<Ranking> rankings = rankingService.findByName("ranking", GAME);
         assertEquals(10, rankings.size());
-        assertEquals(200, rankings.get(2).getUsers().get(1).getPoints());
+        assertEquals(200, rankings.get(2).getUserScores().get(1).getPoints());
     }
 
     private Ranking standardRanking(int id) {
-        Ranking rank = new Ranking(id,"ranking", 1, 1);
+        Ranking rank = new Ranking("ranking", null, null);
         List<UserScore> userScores = new ArrayList<>();
-        userScores.add(new UserScore(1, 100));
-        userScores.add(new UserScore(2,200));
-        userScores.add(new UserScore(3, 40));
-        rank.setUsers(userScores);
+        userScores.add(new UserScore(rank, new User("Alexis", "Moragues"), 100));
+        userScores.add(new UserScore(rank, new User("Alexis2", "Moragues"),200));
+        userScores.add(new UserScore(rank,  new User("Alexis3", "Moragues"),40));
+        rank.setUserScores(userScores);
         return rank;
     }
 
@@ -84,6 +80,5 @@ public class RankingServiceTest {
         }
         return rank;
     }
-*/
 
 }

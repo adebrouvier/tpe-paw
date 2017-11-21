@@ -36,21 +36,25 @@ public class MatchServiceImpl implements MatchService{
         return matchDao.updateScore(tournamentId,matchId,localScore,visitorScore);
     }
 
+    @Transactional
     @Override
     public void setVODLink(String link, long tournamentId, int matchId) {
         matchDao.addVideoOnDemand(link, tournamentId, matchId);
     }
 
+    @Transactional
     @Override
     public void setMap(String mapName, long tournamentId, int matchId) {
         matchDao.addMap(mapName, tournamentId, matchId);
     }
 
+    @Transactional
     @Override
     public void setHomePlayerCharacter(String characterName, long tournamentId, int matchId) {
         matchDao.addHomePlayerCharacter(characterName, tournamentId, matchId);
     }
 
+    @Transactional
     @Override
     public void setAwayPlayerCharacter(String characterName, long tournamentId, int matchId) {
         matchDao.addAwayPlayerCharacter(characterName, tournamentId, matchId);

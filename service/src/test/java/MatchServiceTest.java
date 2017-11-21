@@ -1,7 +1,9 @@
 import ar.edu.itba.paw.interfaces.persistence.MatchDao;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Match;
+import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.MatchServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatchServiceTest {
-/*
+
     @Mock
     MatchDao matchDao;
 
@@ -26,6 +28,11 @@ public class MatchServiceTest {
 
     @InjectMocks
     MatchServiceImpl matchServiceImpl;
+
+    private final String TOURNAMENT_NAME = "Torneo";
+    private final int MATCH_ID = 1;
+    private final String PASSWORD = "serenito";
+    private final String USERNAME = "postre";
 
     @Before
     public void setUp() {
@@ -46,19 +53,19 @@ public class MatchServiceTest {
     @Test
     public void testCorrectTournamentIdCreation() {
         Match match = matchServiceImpl.create(1,2,true,10,3,4,17);
-        Assert.assertEquals(10, match.getTournamentId());
+        Assert.assertEquals(0, match.getTournament().getId());
     }
 
     @Test
     public void testCorrectHomePlayerIdCreation() {
         Match match = matchServiceImpl.create(1,2,true,10,3,4,17);
-        Assert.assertEquals(3, match.getHomePlayerId());
+        Assert.assertEquals(new Player(USERNAME, null, null), match.getHomePlayer());
     }
 
     @Test
     public void testCorrectAwayPlayerIdCreation() {
         Match match = matchServiceImpl.create(1,2,true,10,3,4,17);
-        Assert.assertEquals(4, match.getAwayPlayerId());
+        Assert.assertEquals(new Player(USERNAME, null, null), match.getAwayPlayer());
     }
 
     @Test
@@ -71,42 +78,38 @@ public class MatchServiceTest {
     public void testCreateEmptyCorrect() {
         Match match = matchServiceImpl.createEmpty(1,2,true,10, 17);
         Assert.assertEquals(1, match.getId());
-        Assert.assertEquals(2, match.getNextMatchId());
         Assert.assertEquals(true, match.isNextMatchHome());
-        Assert.assertEquals(10, match.getTournamentId());
-        Assert.assertEquals(17, match.getStanding());
+        Assert.assertEquals(0, match.getTournament().getId());
+        Assert.assertEquals(2, match.getStanding());
     }
 
     @Test
     public void testFindByIdCorrect() {
         Match match = matchServiceImpl.findById(1,10);
         Assert.assertEquals(1, match.getId());
-        Assert.assertEquals(2, match.getNextMatchId());
         Assert.assertEquals(true, match.isNextMatchHome());
-        Assert.assertEquals(10, match.getTournamentId());
-        Assert.assertEquals(3, match.getHomePlayerId());
-        Assert.assertEquals(4, match.getAwayPlayerId());
+        Assert.assertEquals(0, match.getTournament().getId());
+        Assert.assertEquals(new Player(USERNAME, null, null), match.getHomePlayer());
+        Assert.assertEquals(new Player(PASSWORD, null, null), match.getAwayPlayer());
     }
 
     @Test
     public void testUpdateCorrect() {
         Match match = matchServiceImpl.updateScore(10,1,1,0);
         Assert.assertEquals(1, match.getId());
-        Assert.assertEquals(2, match.getNextMatchId());
         Assert.assertEquals(true, match.isNextMatchHome());
-        Assert.assertEquals(10, match.getTournamentId());
-        Assert.assertEquals(3, match.getHomePlayerId());
-        Assert.assertEquals(4, match.getAwayPlayerId());
+        Assert.assertEquals(1, (long)match.getHomePlayerScore());
     }
 
     @Test
     public void testCreateFinalMatch() {
         Match match = matchServiceImpl.create(1, TournamentService.NO_PARENT,TournamentService.FINAL_NEXT_MATCH_HOME,10,3,4,17);
-        Assert.assertEquals(TournamentService.NO_PARENT, match.getNextMatchId());
+        Assert.assertNull(match.getNextMatch());
     }
 
     private Match mockMatch(int homePlayerId, int awayPlayerId, int matchId, int nextMatchId, boolean nextMatchHome, int tournamentId, int standing) {
-        return new Match(homePlayerId, awayPlayerId, matchId, nextMatchId, nextMatchHome, tournamentId, standing);
+
+        return new Match(MATCH_ID,new Player(USERNAME,null,null),new Player(PASSWORD, null,null), null,true, new Tournament(TOURNAMENT_NAME,null, Tournament.Status.STARTED,new User(USERNAME, PASSWORD)), 2);
     }
 
     private List<Match> mockMatches(int homePlayerId, int awayPlayerId, boolean nextMatchHome, int tournamentId, int standing) {
@@ -118,8 +121,8 @@ public class MatchServiceTest {
     }
 
     private Match mockMatchUpdated(int homeScore, int awayScore) {
-        Match match =  new Match(3, 4, 1, 2, true, 10, 0);
+        Match match =  new Match(MATCH_ID,null,true,new Tournament(TOURNAMENT_NAME,null, Tournament.Status.STARTED,new User(USERNAME, PASSWORD)),1);
         match.setHomePlayerScore(1);
         return match;
-    }*/
+    }
 }

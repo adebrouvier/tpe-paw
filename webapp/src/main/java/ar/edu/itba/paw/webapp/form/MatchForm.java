@@ -31,7 +31,7 @@ public class MatchForm {
     private String awayPlayerCharacter;
 
     @Size (min = 0, max = 2000)
-    @Pattern(regexp = "[a-zA-Z0-9]+")
+    @Pattern(regexp = "|(https://www.youtube.com/|https://youtube.com/|youtube.com/|www.youtube.com/)[a-zA-Z0-9@:!$&'()*+,;=%\\-._~\\[\\]/?\"#]*")
     private String vodLink;
 
     public int getHomeResult() {

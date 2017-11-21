@@ -186,11 +186,10 @@ public class TournamentController {
         }
 
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
-        if(!form.getMap().isEmpty()) ms.setVODLink(form.getMap(),tournamentId, matchId);
-        if(!form.getHomePlayerCharacter().isEmpty()) ms.setHomePlayerCharacter(form.getVodLink(),tournamentId, matchId);
-        if(!form.getAwayPlayerCharacter().isEmpty()) ms.setAwayPlayerCharacter(form.getVodLink(),tournamentId, matchId);
-        if(!form.getVodLink().isEmpty()) ms.setVODLink(form.getVodLink(),tournamentId, matchId);
-
+        if(form.getHomePlayerCharacter()!=null) ms.setHomePlayerCharacter(form.getHomePlayerCharacter(), tournamentId, matchId);
+        if(form.getAwayPlayerCharacter()!=null) ms.setAwayPlayerCharacter(form.getAwayPlayerCharacter(), tournamentId, matchId);
+        if(form.getMap()!=null) ms.setMap(form.getMap(), tournamentId, matchId);
+        if(form.getVodLink()!=null) ms.setVODLink(form.getVodLink(), tournamentId, matchId);
         LOGGER.info("Updated score of match {} from tournament {}", matchId, tournamentId);
 
         return new ModelAndView("redirect:/tournament/"+ tournamentId);

@@ -1,62 +1,56 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
+import ar.edu.itba.paw.interfaces.persistence.*;
 import ar.edu.itba.paw.model.*;
-import org.hibernate.exception.ConstraintViolationException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class TournamentJdbcDaoTest {
-
-    @PersistenceContext
-    EntityManager em;
-
+public class RankingDaoTest {
     @Autowired
     private DataSource ds;
 
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
-    private MatchHibernateDao matchDao;
+    private MatchDao matchDao;
     @Autowired
-    private PlayerHibernateDao playerDao;
+    private PlayerDao playerDao;
     @Autowired
-    private TournamentHibernateDao tournamentDao;
+    private TournamentDao tournamentDao;
     @Autowired
-    private UserHibernateDao userDao;
+    private RankingDao rankingDao;
     @Autowired
-    private GameHibernateDao gameDao;
-
-    private int flag;
+    private UserDao userDao;
+    @Autowired
+    private GameDao gameDao;
     private int MATCH_ID = 1;
-    private long TOURNAMENT_ID = 1;
+    private int TOURNAMENT_ID = 1;
+
 
     @Before
-    public void setUp() throws ConstraintViolationException {
-
+    public void setUp() {
         User user = new User("Pibe", "contraseña");
         User user2 = new User("Pibe2", "contraseña");
         Game game = new Game("Smash", true);
@@ -64,8 +58,8 @@ public class TournamentJdbcDaoTest {
         Tournament tournament2 = new Tournament("Torneo2", game, Tournament.Status.STARTED, user);
         Player player = new Player("Jugador1", tournament);
         Player player2 = new Player("Jugador2", tournament);
-        Match match = new Match(MATCH_ID,player, player2,0,0, null, false, tournament,1);
-        Match match1 = new Match(MATCH_ID+1,player,player2,0,0, match, true, tournament,2);
+        Match match = new Match(MATCH_ID, null,false, tournament,1);
+        Match match1 = new Match(MATCH_ID+1, match, true, tournament,2);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tournamentDao.findById(1), 100);
         Ranking ranking = new Ranking("Ranking", game,user);
@@ -88,70 +82,46 @@ public class TournamentJdbcDaoTest {
         em.flush();
     }
 
+    @Test
+    @Transactional
+    public void testFindRankingByIdSuccess() {
 
-
-
+        Ranking ranking = rankingDao.findById(rankingDao.findFeaturedRankings(1).get(0).getId());
+        assertNotNull(ranking);
+    }
 
     @Test
     @Transactional
-    public void testFindTournamentSuccess() throws DuplicateUsernameException {
-        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
-        Tournament tournament = tournamentDao.findById(tournamentID);
-        assertNotNull(tournament);
+    public void testFindRankingByIdFailure() {
+        assertNull(rankingDao.findById(123));
     }
 
 
     @Test
     @Transactional
-    public void testFindTournamentFailure() {
-        assertNull(tournamentDao.findById(233));
+    public void testGetPointsCorrectly() {
+        Ranking ranking = rankingDao.findFeaturedRankings(1).get(0);
+        assertEquals(100, ranking.getUserScores().get(0).getPoints());
+        ;
     }
 
     @Test
     @Transactional
-    public void testFinish() {
-        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
-        Tournament tournament = tournamentDao.setStatus(tournamentID, Tournament.Status.FINISHED);
-        assertEquals(Tournament.Status.FINISHED, tournament.getStatus());
+    public void testGetTournamentPointValue() {
+        Ranking ranking = rankingDao.findFeaturedRankings(1).get(0);
+        assertEquals(1000, ranking.getTournaments().get(0).getAwardedPoints());
     }
 
     @Test
     @Transactional
-    public void testGetTournamentByNameSuccess() {
-        assertNotNull(tournamentDao.getByName("Torneo"));
+    public void testFindRankingsByName() {
+        assertEquals(1, rankingDao.findRankingNames("Ran").size());
     }
 
     @Test
     @Transactional
-    public void testGetTournamentByNameFailure() {
-        assertNull(tournamentDao.getByName("asdasd"));
+    public void testFindFeaturedRanking() {
+        assertEquals(1, rankingDao.findFeaturedRankings(10).size());
     }
 
-    @Test
-    @Transactional
-    public void testStartTournamentStatus() {
-        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
-        Tournament tournament = tournamentDao.setStatus(tournamentID, Tournament.Status.STARTED);
-
-        assertEquals(Tournament.Status.STARTED, tournament.getStatus());
-    }
-
-    @Test
-    @Transactional
-    public void testSearchByNameQuery() {
-       assertEquals(2, tournamentDao.findTournamentNames("tor").size());
-    }
-
-    @Test
-    @Transactional
-    public void testSearchByGameQuery() {
-        assertEquals(0, tournamentDao.findTournamentNames("tor", 1).size());
-    }
-
-
-    @Test
-    @Transactional
-    public void testParticipatesIn() {
-        assertEquals(false, tournamentDao.participatesIn(4,1));
-    }
 }

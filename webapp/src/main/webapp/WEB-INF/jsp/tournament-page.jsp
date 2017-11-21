@@ -54,7 +54,8 @@ ${navbar}
                                 </button>
                             </c:if>
                             <c:if test="${tournament.status == 'FINISHED'}">
-                                <button class="btn light-blue darken-4 waves-effect waves-light disabled" type="submit">
+                                <button class="btn light-blue darken-4 waves-effect waves-l
+                                ight disabled" type="submit">
                                     <spring:message code="tournament.finished"/>
                                     <i class="material-icons right "></i>
                                 </button>
@@ -111,10 +112,12 @@ ${navbar}
                                             <div class="bracket">
                                                 <div class="players-name">
                                                     <div class="home-player-name">
-                                                        <c:out value="${match.homePlayer.name}"> </c:out>
+                                                        <c:out value="${match.homePlayer.name}"></c:out>
+                                                        <c:if test="${match.homePlayerCharacter.length()!=null && match.homePlayerCharacter.length()<10}"><c:out value="(${match.homePlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                     <div class="away-player-name">
-                                                        <c:out value="${match.awayPlayer.name}"> </c:out>
+                                                        <c:out value="${match.awayPlayer.name}"></c:out>
+                                                        <c:if test="${match.awayPlayerCharacter.length()!=null && match.awayPlayerCharacter.length()<10}"><c:out value="(${match.awayPlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                 </div>
                                                 <div class="players-score">
@@ -180,31 +183,33 @@ ${navbar}
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td class="modal-player-name">
-                                                                    <div><c:out value="${match.homePlayer.name}"/></div>
-                                                                </td>
-                                                                <td class="modal-player-score">
-                                                                    <div class="input-field inline">
-                                                                        <form:label path="home-character-${match.id}"/>
-                                                                        <form:input min="0" id="home-character-${match.id}" type="text" cssClass="score-input" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
-                                                                        <form:errors path="homePlayerCharacter" cssClass="formError" element="p"/>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="modal-player-name">
-                                                                    <div><c:out value="${match.awayPlayer.name}"/></div>
-                                                                </td>
-                                                                <td class="modal-player-score">
-                                                                    <div class="input-field inline">
-                                                                        <form:input min="0" id="away-character-${match.id}" type="text" cssClass="score-input" path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
-                                                                        <form:errors path="awayPlayerCharacter" cssClass="formError" element="p"/>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
                                                             </tbody>
                                                         </table>
+                                                        <div class="divider"></div>
+                                                            <div class="input-field inline">
+                                                                        <form:label path="homePlayerCharacter">${match.homePlayer.name}<spring:message code="match.character"/>: </form:label>
+                                                                        <form:input min="0" id="home-character-${match.id}" type="text" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
+                                                                        <form:errors path="homePlayerCharacter" cssClass="formError" element="p"/>
+                                                            </div>
+                                                        <div class="divider"></div>
+                                                                <div class="input-field inline">
+                                                                    <form:label path="awayPlayerCharacter">${match.awayPlayer.name}<spring:message code="match.character"/>: </form:label>
+                                                                    <form:input min="0" id="away-character-${match.id}" type="text"  path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
+                                                                    <form:errors path="awayPlayerCharacter" cssClass="formError" element="p"/>
+                                                                </div>
+                                                        <div class="divider"></div>
+                                                                <div class="input-field inline">
+                                                                    <form:label path="map"><spring:message code="match.map"/>: </form:label>
+                                                                    <form:input min="0" id="map-${match.id}" type="text"  path="map" value="${match.map}"/>
+                                                                    <form:errors path="map" cssClass="formError" element="p"/>
+                                                                </div>
+                                                        <div class="divider"></div>
+                                                                <div class="input-field inline">
+                                                                    <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
+                                                                    <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
+                                                                    <form:errors path="vodLink" cssClass="formError" element="p"/>
+                                                                </div>
+                                                        <div class="divider"></div>
                                                     </div>
                                                     <div class="modal-footer">
                                                        <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
@@ -256,7 +261,22 @@ ${navbar}
                                                             </td>
                                                         </tr>
                                                         </tbody>
+                                                        <a href = "${match.videoOnDemandLink}" class="btn light-blue darken-4 waves-effect waves-light"><spring:message code="match.VOD"/></a>
                                                     </table>
+                                                    <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
+                                                    <form:form modelAttribute="matchForm" action="${postPath}" method="post">
+                                                        <div class="input-field inline">
+                                                            <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
+                                                            <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
+                                                            <form:errors path="vodLink" cssClass="formError" element="p"/>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
+                                                                <spring:message code="tournament.update"/>
+                                                                <i class="material-icons right">update</i>
+                                                            </button>
+                                                        </div>
+                                                    </form:form>
                                                 </div>
                                             </div>
                                         </c:otherwise>

@@ -10,6 +10,7 @@ import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -84,13 +85,17 @@ public class MatchHibernateDao implements MatchDao{
     }
 
     @Override
+    @Transactional
     public void addVideoOnDemand(String link, long tournamentId, int matchId) {
+
         Match match = findById(matchId, tournamentId);
-        match.setLinkToVideoOnDemand(link);
+
+        match.setLinkToVideoOnDemand(addHttpsToUrl(link));
         em.merge(match);
     }
 
     @Override
+    @Transactional
     public void addMap(String mapName, long tournamentId, int matchId) {
         Match match = findById(matchId, tournamentId);
         match.setMap(mapName);
@@ -98,16 +103,17 @@ public class MatchHibernateDao implements MatchDao{
     }
 
     @Override
+    @Transactional
     public void addHomePlayerCharacter(String characterName, long tournamentId, int matchId) {
         Match match = findById(matchId, tournamentId);
-        match.setMap(characterName);
+        match.setHomePlayerCharacter(characterName);
         em.merge(match);
     }
 
     @Override
     public void addAwayPlayerCharacter(String characterName, long tournamentId, int matchId) {
         Match match = findById(matchId, tournamentId);
-        match.setMap(characterName);
+        match.setAwayPlayerCharacter(characterName);
         em.merge(match);
     }
 
@@ -265,6 +271,17 @@ public class MatchHibernateDao implements MatchDao{
             q.setParameter("standing", (m.getStanding()*2)-1);
         }
         q.executeUpdate();
+    }
+
+    private String addHttpsToUrl(String url) {
+        if(url == null || url.isEmpty()) {
+            return null;
+        }
+        char c = url.toLowerCase().charAt(0);
+        if(c == 'y' || c == 't' || c == 'w') {
+            return "https://" + url;
+        }
+        return url;
     }
 
     public EntityManager getEntityManager() {
