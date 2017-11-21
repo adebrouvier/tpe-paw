@@ -23,36 +23,39 @@
 ${navbar}
 <main>
     <div class="container center">
-        <h3><spring:message code="tournament.create.title"/></h3>
         <div class="row">
-            <div class="col offset-s3 s6">
-                <c:url value="/create/tournament" var="postPath"/>
-                <form:form modelAttribute="tournamentForm" action="${postPath}" method="post">
-                <div class="input-field">
-                    <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
-                    <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
-                    <form:input placeholder="${tournamentNamePlaceholder}" type="text" path="tournamentName"
-                                autocomplete="off"/>
-                    <form:errors path="tournamentName" cssClass="form-error" element="p"/>
-                </div>
-
-                <div class="input-field">
-                    <form:label class="active" path="game"><spring:message code="tournament.create.game"/>:
-                    </form:label>
-                    <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
-                    <form:input id="game-search" placeholder="${gamePlaceholder}" type="text" cssClass="typeahead" path="game"
-                                autocomplete="off"/>
-                    <form:errors path="game" cssClass="form-error" element="p"/>
-                </div>
+            <div class="col s12 card">
                 <div class="row">
-                </div>
+                    <h3><spring:message code="tournament.create.title"/></h3>
+                    <div class="col offset-s3 s6">
+                        <c:url value="/create/tournament" var="postPath"/>
+                        <form:form modelAttribute="tournamentForm" action="${postPath}" method="post">
+                        <div class="input-field row">
+                            <form:label path="tournamentName"><spring:message code="tournament.create.name"/>: </form:label>
+                            <spring:message code="tournament.create.name.placeholder" var="tournamentNamePlaceholder"/>
+                            <form:input placeholder="${tournamentNamePlaceholder}" type="text" path="tournamentName"
+                                        autocomplete="off"/>
+                            <form:errors path="tournamentName" cssClass="form-error" element="p"/>
+                        </div>
 
-                <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
-                        code="tournament.create.submit"/></button>
+                        <div class="input-field row">
+                            <form:label class="active" path="game"><spring:message code="tournament.create.game"/>:
+                            </form:label>
+                            <spring:message code="tournament.create.game.placeholder" var="gamePlaceholder"/>
+                            <form:input id="game-search" placeholder="${gamePlaceholder}" type="text" cssClass="typeahead" path="game"
+                                        autocomplete="off"/>
+                            <form:errors path="game" cssClass="form-error" element="p"/>
+                        </div>
+
+                        <div class="row">
+                            <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                    code="tournament.create.submit"/></button>
+                        </div>
+                        </form:form>
+                    </div>
+                </div>
             </div>
-            </form:form>
         </div>
-    </div>
     </div>
 </main>
 <c:import var="footer" url="footer.jsp"/>
