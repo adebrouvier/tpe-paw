@@ -5,22 +5,26 @@
 <div class="col s4 m4 l4">
     <div class="card">
         <c:if test="${loggedUser.id == user.id}">
-            <a class="btn right light-blue darken-4" style="padding: 0 10px" href="/user/<c:url value="${user.id}"/>/settings"><i class="small material-icons">edit</i></a>
+            <a class="btn right light-blue darken-4" style="padding: 0 10px" href="<c:url value="/user/${user.id}/settings"/>"><i class="small material-icons">edit</i></a>
         </c:if>
         <div class="section">
             <div style="padding-top: 40px">
                 <div class="user-img-container user-section-center">
-                    <img class="user-img user-section-center" src="/profile-image/<c:url value='${user.id}'/>"/>
+                    <img class="user-img user-section-center" src="<c:url value="/profile-image/${user.id}"/>"/>
                 </div>
-                <span class="user-section-center">
+                <div class="user-section-center">
                     <h5><c:out value="${user.name}"/></h5>
-                </span>
+                </div>
                 <c:if test="${loggedUser != null && loggedUser.id != user.id}">
                     <c:if test="${isFollow}">
-                        <a class="btn user-section-center light-blue darken-4" href="/user/<c:url value='${user.id}'/>/unfollow" ><spring:message code="user.unfollow"/></a>
+                        <form action="<c:url value='/user/${user.id}/unfollow'/>" method="post">
+                            <button type="submit" class="user-section-center btn btn-primary light-blue darken-4"><spring:message code="user.unfollow"/></button>
+                        </form>
                     </c:if>
                     <c:if test="${!isFollow}">
-                        <a class="btn user-section-center light-blue darken-4" href="/user/<c:url value='${user.id}'/>/follow" ><spring:message code="user.follow"/></a>
+                        <form action="<c:url value='/user/${user.id}/follow'/>" method="post">
+                            <button type="submit" class="user-section-center btn btn-primary light-blue darken-4"><spring:message code="user.follow"/></button>
+                        </form>
                     </c:if>
                 </c:if>
             </div>
@@ -36,7 +40,7 @@
                     <a href="<c:url value="${user.twitchUrl}"/>" >
                         <div class="row valign-wrapper user-section-content">
                             <div class="col s1" style="padding: 0">
-                                <img src="/resources/img/twitch-icon.png" class="user-social-icon">
+                                <img src="<c:url value="/resources/img/twitch-icon.png"/>" class="user-social-icon">
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
@@ -50,11 +54,11 @@
                     <a href="<c:url value="${user.twitterUrl}"/>" >
                         <div class="row valign-wrapper user-section-content">
                             <div class="col s1" style="padding: 0">
-                                <img src="/resources/img/twitter-icon.png" class="user-social-icon">
+                                <img src="<c:url value="/resources/img/twitter-icon.png"/>" class="user-social-icon">
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
-                                    Twitch
+                                    Twitter
                                 </span>
                             </div>
                         </div>
@@ -64,11 +68,11 @@
                     <a href="<c:url value="${user.youtubeUrl}"/>" >
                         <div class="row valign-wrapper user-section-content">
                             <div class="col s1" style="padding: 0">
-                                <img src="/resources/img/youtube-icon.png" class="user-social-youtube-icon">
+                                <img src="<c:url value="/resources/img/youtube-icon.png"/>" class="user-social-youtube-icon">
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
-                                    Twitch
+                                    Youtube
                                 </span>
                             </div>
                         </div>

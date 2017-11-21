@@ -29,7 +29,7 @@ ${navbar}
                     <div class="col s12">
                         <ul class="tabs">
                             <li class="tab col s6"><a target="_self" href="<c:url value="/user/${user.id}"/>"><spring:message code="user.participates"/></a></li>
-                            <li class="tab col s6"><a class="active" href="#"><spring:message code="user.creates"/></a></li>
+                            <li class="tab col s6"><a class="active" href="#"><spring:message code="user.created"/></a></li>
                            <%-- <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followers"/>">followers</a></li>
                             <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followed"/>">followed</a></li> --%>
                         </ul>

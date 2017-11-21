@@ -39,7 +39,7 @@
                         </c:if>
                     </a>
                 </li>
-                <li class="nav-user"><a href="/user/name/<security:authentication property="principal.username" />"><security:authentication property="principal.username" /></a></li>
+                <li class="nav-user"><a href="<c:url value="/user/${loggedUser.id}" />"><c:out value="${loggedUser.name}"/></a></li>
                 <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>
         </security:authorize>

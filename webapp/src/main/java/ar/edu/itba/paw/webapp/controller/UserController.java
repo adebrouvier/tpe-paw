@@ -97,7 +97,7 @@ public class UserController {
     }
 
     @NotNull
-    @RequestMapping(value = "user/{userId}/follow")
+    @RequestMapping(value = "user/{userId}/follow", method = {RequestMethod.POST})
     public final ModelAndView followUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         User u = us.findById(userId);
 
@@ -115,7 +115,7 @@ public class UserController {
     }
 
     @NotNull
-    @RequestMapping(value = "user/{userId}/unfollow")
+    @RequestMapping(value = "user/{userId}/unfollow", method = {RequestMethod.POST})
     public final ModelAndView unfollowUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         User u = us.findById(userId);
 
