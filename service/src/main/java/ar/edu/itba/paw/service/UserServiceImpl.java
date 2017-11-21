@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
+import ar.edu.itba.paw.model.TopUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,8 @@ import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,8 +35,13 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public User create(String name,String password) throws DuplicateUsernameException {
+	public User create(String name,String password) {
 		return userDao.create(name,password);
+	}
+
+	@Override
+	public List<TopUserDTO> findTopWinners(int top) {
+		return userDao.findTopWinners(top);
 	}
 
 }

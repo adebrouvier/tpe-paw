@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
 import ar.edu.itba.paw.webapp.form.validation.FieldMatch;
+import ar.edu.itba.paw.webapp.form.validation.UniqueUsername;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -13,6 +14,7 @@ public class RegisterForm {
 
     @Size(min = 6, max = 100)
     @Pattern(regexp = "[a-zA-Z0-9]+")
+    @UniqueUsername
     private String username;
 
     @Size(min = 6, max = 100)

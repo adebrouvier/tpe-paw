@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "notification")
 public class Notification {
 
-    public enum Types {PARTICIPATES_IN_TOURNAMENT};
+    public enum Types {PARTICIPATES_IN_TOURNAMENT,FIRST_PLACE,SECOND_PLACE,THIRD_PLACE};
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_notification_id_seq")
@@ -36,7 +36,7 @@ public class Notification {
     private String description;
 
     @Transient
-    List<String> decodeDescription;
+    List<String> decodeDescription = null;
 
     public Notification() {
         /* for Hibernate */
@@ -98,7 +98,9 @@ public class Notification {
     }
 
     public List<String> getDecodeDescription() {
-        decodeDescription(Notification.Types.valueOf(this.type));
+        if(decodeDescription == null) {
+            decodeDescription(Notification.Types.valueOf(this.type));
+        }
         return decodeDescription;
     }
 
@@ -109,13 +111,16 @@ public class Notification {
     public static String encodeDescription(Notification.Types type, User user, Tournament tournament, Ranking ranking) {
         switch (type) {
             case PARTICIPATES_IN_TOURNAMENT:
-                return encodeParticipatesInTournament(user, tournament);
+            case FIRST_PLACE:
+            case SECOND_PLACE:
+            case THIRD_PLACE:
+                return encodeUserAndTournament(user, tournament);
             default:
                 return null;
         }
     }
 
-    private static String encodeParticipatesInTournament(User user, Tournament tournament) {
+    private static String encodeUserAndTournament(User user, Tournament tournament) {
         if (user == null || tournament == null) {
             return null;
         }
@@ -127,12 +132,15 @@ public class Notification {
     public void decodeDescription(Notification.Types type) {
         switch (type) {
             case PARTICIPATES_IN_TOURNAMENT:
-                decodeParticipatesInTournament();
+            case FIRST_PLACE:
+            case SECOND_PLACE:
+            case THIRD_PLACE:
+                decodeUserAndTournament();
                 break;
         }
     }
 
-    private void decodeParticipatesInTournament() {
+    private void decodeUserAndTournament() {
         String[] args = description.split("/");
         List<String> list = new ArrayList<>();
         int size = args.length;

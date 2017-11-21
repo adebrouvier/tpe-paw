@@ -50,14 +50,7 @@ public class RegisterController {
             return register(registerForm);
         }
 
-        User user;
-
-        try {
-            user = us.create(registerForm.getUsername(), passwordEncoder.encode(registerForm.getPassword()));
-        } catch (DuplicateUsernameException e){
-            errors.rejectValue("username", "error.username");
-            return register(registerForm);
-        }
+        User user = us.create(registerForm.getUsername(), passwordEncoder.encode(registerForm.getPassword()));
 
         LOGGER.info("Registered user {} with id {}", user.getName(), user.getId());
 

@@ -91,10 +91,17 @@ public class RankingHibernateDao implements RankingDao{
     public void delete(long rankingId, long tournamentId) {
         final Tournament tournament = tournamentDao.findById(tournamentId);
         final Ranking ranking = findById(rankingId);
-        TournamentPoints tournamentPoints = em.createQuery("FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", TournamentPoints.class)
+        if (tournament == null || ranking == null){
+            return;
+        }
+        List<TournamentPoints> tournamentPointsList = em.createQuery("FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", TournamentPoints.class)
                 .setParameter("rankingId", rankingId)
                 .setParameter("tournamentId",tournamentId)
-                .getResultList().get(0);
+                .getResultList();
+        if (tournamentPointsList.isEmpty()){
+            return;
+        }
+        TournamentPoints tournamentPoints = tournamentPointsList.get(0);
         int awardedPoints = tournamentPoints.getAwardedPoints();
         em.remove(em.contains(tournamentPoints) ? tournamentPoints : em.merge(tournamentPoints));
         deleteUsersFromRanking(ranking, tournament, awardedPoints);

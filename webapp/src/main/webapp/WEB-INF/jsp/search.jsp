@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <link rel="stylesheet"
@@ -92,18 +93,20 @@ ${navbar}
                     <tr>
                         <th><spring:message code="search.table.name"/></th>
                         <th><spring:message code="search.table.game"/></th>
+                        <th><spring:message code="search.table.tournaments"/></th>
                         <th><spring:message code="search.table.page"/></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="ranking" items="${rankingResults}">
                         <tr>
-                            <td><c:out value="${ranking.name}"/></td>
+                            <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><c:out value="${ranking.name}"/></a></td>
                             <td><c:out value="${ranking.game.name}"/></td>
+                            <td><c:out value="${fn:length(ranking.userScores)}"/></td>
                             <td><a href="<c:url value = "/ranking/${ranking.id}"/>"><i class="material-icons black-text">info_outline</i></a></td>
                         </tr>
                     </c:forEach>
-                    <c:if test="${rankingResults.size() == 0 || rankingResults == null}">
+                    <c:if test="${empty rankingResults || rankingResults == null}">
                         <tr>
                             <td><spring:message code="search.notfound" /></td>
                             <td></td>

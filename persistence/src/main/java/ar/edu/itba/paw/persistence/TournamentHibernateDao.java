@@ -1,13 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.persistence.GameDao;
-import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
-import ar.edu.itba.paw.interfaces.persistence.UserDao;
-import ar.edu.itba.paw.model.Game;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.interfaces.persistence.*;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +20,12 @@ public class TournamentHibernateDao implements TournamentDao{
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CommentDao commentDao;
+
+    @Autowired
+    private NotificationDao notificationDao;
 
     @PersistenceContext
     private EntityManager em;
@@ -117,6 +118,27 @@ public class TournamentHibernateDao implements TournamentDao{
             em.merge(t);
         }
 
+        if(t.getStatus().equals(Tournament.Status.FINISHED)) {
+            for(Player player : t.getPlayers()) {
+                User u = player.getUser();
+                if(player.getStanding() == 1) {
+                    if(u != null) {
+                        notificationDao.createFisrtPlaceNotifications(u, t);
+                    }
+                }
+                if(player.getStanding() == 2) {
+                    if(u != null) {
+                        notificationDao.createSecondPlaceNotifications(u, t);
+                    }
+                }
+                if(player.getStanding() == 3) {
+                    if(u != null) {
+                        notificationDao.createThirdPlaceNotifications(u, t);
+                    }
+                }
+            }
+        }
+
         return t;
     }
 
@@ -154,6 +176,31 @@ public class TournamentHibernateDao implements TournamentDao{
                             .setParameter("participantId",participantId);
 
         return q.getResultList();
+    }
+
+    @Override
+    public void addComment(long tournamentId, Comment comment) {
+        Tournament t = findById(tournamentId);
+
+        if (t == null){
+            return;
+        }
+
+        t.addComment(comment);
+        em.merge(t);
+    }
+
+    @Override
+    public void addReply(long tournamentId, Comment reply, long parentId) {
+
+        final Comment parent = commentDao.findById(parentId);
+
+        if (parent == null){
+            return;
+        }
+
+        parent.addChildren(reply);
+        em.merge(parent);
     }
 
     public EntityManager getEntityManager() {

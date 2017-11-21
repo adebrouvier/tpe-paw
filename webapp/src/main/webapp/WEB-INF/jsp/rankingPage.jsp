@@ -21,12 +21,11 @@
 <c:import var="navbar" url="navbar.jsp"/>
 ${navbar}
 <main>
-<div class="container center col 6">
+<div class="container">
     <div class="row">
-        <div class="col offset-s3 s6">
-            <h2><spring:message code="ranking.greeting" arguments="${ranking.name}"/></h2>
-            <h3 id="ranking-game" data-game="<c:out value="${ranking.game.id}"/>"><c:out value="${ranking.game.name}"/></h3>
-        </div>
+        <c:import var="rankingInfo" url="ranking-info.jsp"/>
+        ${rankingInfo}
+        <span id="ranking-game" data-game="<c:out value="${ranking.game.id}"/>"></span>
     </div>
 </div>
 <div class="container">
@@ -41,19 +40,24 @@ ${navbar}
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="userScore" items="${ranking.userScores}">
-                    <tr>
-                        <td><c:out value="${userScore.user.name}"/></td>
-                        <td>${userScore.points}</td>
-                    </tr>
-                </c:forEach>
+                <c:if test="${not empty ranking.userScores}">
+                    <c:forEach var="userScore" items="${ranking.userScores}">
+                        <tr>
+                            <td><c:out value="${userScore.user.name}"/></td>
+                            <td>${userScore.points}</td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty ranking.userScores}">
+                    <tr><td><spring:message code="ranking.table.empty"/></td></tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
         <div class="center col s6">
             <div class="row">
                 <h4><spring:message code="rankingPage.tournaments"/></h4>
-                <table class="card">
+                <table>
                     <thead>
                         <tr>
                             <th><spring:message code="rankingPage.tournaments.table.name"/></th>
@@ -61,18 +65,25 @@ ${navbar}
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="tournamentPoints" items="${ranking.tournaments}">
-                        <tr class="tournament-container">
-                            <td><c:out value="${tournamentPoints.tournament.name}"/></td>
-                            <td>${tournamentPoints.awardedPoints}</td>
-                            <c:if test="${ranking.user.id == loggedUser.id}">
-                            <c:url value="/delete/ranking/${ranking.id}/${tournamentPoints.tournament.id}" var="deletePath"/>
-                            <form:form action="${deletePath}" method="post">
-                            <td><button class="btn transparent delete-btn" type="submit"><i class="material-icons">delete</i></button></td>
-                            </form:form>
-                            </c:if>
-                        </tr>
-                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${not empty ranking.tournaments}">
+                            <c:forEach var="tournamentPoints" items="${ranking.tournaments}">
+                                <tr class="tournament-container">
+                                    <td><c:out value="${tournamentPoints.tournament.name}"/></td>
+                                    <td>${tournamentPoints.awardedPoints}</td>
+                                    <c:if test="${ranking.user.id == loggedUser.id}">
+                                    <c:url value="/delete/ranking/${ranking.id}/${tournamentPoints.tournament.id}" var="deletePath"/>
+                                    <form:form action="${deletePath}" method="post">
+                                    <td><button class="btn transparent delete-btn" type="submit"><i class="material-icons">delete</i></button></td>
+                                    </form:form>
+                                    </c:if>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr><td><spring:message code="rankingPage.tournaments.table.empty"/></td></tr>
+                        </c:otherwise>
+                    </c:choose>
                     </tbody>
                 </table>
             </div>

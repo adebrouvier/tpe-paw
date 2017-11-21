@@ -33,6 +33,7 @@ public class Ranking {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
     @Fetch(FetchMode.SELECT)
+    @OrderBy("points DESC")
     private List<UserScore> userScores;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
