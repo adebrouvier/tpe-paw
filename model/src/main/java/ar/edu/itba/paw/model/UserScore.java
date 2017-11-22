@@ -20,11 +20,11 @@ public class UserScore {
     @JoinColumn(name = "user_id")
     private User user;
 
-    UserScore(){
+    UserScore() {
         /* for hibernate */
     }
 
-    public UserScore(Ranking ranking, User user, int points){
+    public UserScore(Ranking ranking, User user, int points) {
         this.ranking = ranking;
         this.user = user;
         this.points = points;

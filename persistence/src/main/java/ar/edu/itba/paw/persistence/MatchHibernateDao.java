@@ -19,7 +19,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class MatchHibernateDao implements MatchDao{
+public class MatchHibernateDao implements MatchDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -50,7 +50,7 @@ public class MatchHibernateDao implements MatchDao{
 
         if (awayPlayerId == TournamentService.BYE_ID) { /*Checks if there is a BYE*/
             homeScore = MatchService.BYE_WIN_SCORE;
-            updateNextMatch(tournamentId, nextMatchId, homeScore,0, homePlayerId, awayPlayerId, isNextMatchHome);
+            updateNextMatch(tournamentId, nextMatchId, homeScore, 0, homePlayerId, awayPlayerId, isNextMatchHome);
         }
 
         final Match match = new Match(matchId, homePlayer, awayPlayer, homeScore, 0, nextMach, isNextMatchHome, tournament, standing);
@@ -119,23 +119,23 @@ public class MatchHibernateDao implements MatchDao{
 
         Match match = findById(matchId, tournamentId);
 
-        if (match == null){
+        if (match == null) {
             return null;
         }
 
 
-        if(match.getHomePlayer() == null || match.getAwayPlayer() == null) {
+        if (match.getHomePlayer() == null || match.getAwayPlayer() == null) {
             return null;
         }
 
         int previousHomeScore;
         int previousAwayScore;
-        if(match.getHomePlayerScore() == null) {
+        if (match.getHomePlayerScore() == null) {
             previousHomeScore = 0;
         } else {
             previousHomeScore = match.getHomePlayerScore();
         }
-        if(match.getAwayPlayerScore() == null) {
+        if (match.getAwayPlayerScore() == null) {
             previousAwayScore = 0;
         } else {
             previousAwayScore = match.getAwayPlayerScore();
@@ -146,30 +146,30 @@ public class MatchHibernateDao implements MatchDao{
         match.setAwayPlayerScore(awayScore);
         em.merge(match);
 
-        if((homeScore > awayScore) && (previousHomeScore < previousAwayScore)) {
-            updateRecursiveStanding(match.getAwayPlayer().getId(),matchId,match.getNextMatch().getId(),tournamentId);
+        if ((homeScore > awayScore) && (previousHomeScore < previousAwayScore)) {
+            updateRecursiveStanding(match.getAwayPlayer().getId(), matchId, match.getNextMatch().getId(), tournamentId);
             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
-        } else if((homeScore < awayScore) && (previousHomeScore > previousAwayScore)) {
-            updateRecursiveStanding(match.getHomePlayer().getId(),matchId,match.getNextMatch().getId(),tournamentId);
+        } else if ((homeScore < awayScore) && (previousHomeScore > previousAwayScore)) {
+            updateRecursiveStanding(match.getHomePlayer().getId(), matchId, match.getNextMatch().getId(), tournamentId);
             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
         }
 
         if (homeScore > awayScore)
             updateStanding(match.getHomePlayer(), matchId, tournamentId);
-        else if (homeScore < awayScore){
+        else if (homeScore < awayScore) {
             updateStanding(match.getAwayPlayer(), matchId, tournamentId);
         }
 
-        if(match.getNextMatch() != null) {
-            updateNextMatch(tournamentId,match.getNextMatch().getId(),homeScore,awayScore,match.getHomePlayer().getId(),match.getAwayPlayer().getId(),match.isNextMatchHome());
+        if (match.getNextMatch() != null) {
+            updateNextMatch(tournamentId, match.getNextMatch().getId(), homeScore, awayScore, match.getHomePlayer().getId(), match.getAwayPlayer().getId(), match.isNextMatchHome());
         }
 
         return findById(matchId, tournamentId);
     }
 
-    private void updateNextMatch(long tournamentId, long nextMatchId, int homeScore, int awayScore, long homePlayerId, long awayPlayerId, boolean nextMatchHome){
+    private void updateNextMatch(long tournamentId, long nextMatchId, int homeScore, int awayScore, long homePlayerId, long awayPlayerId, boolean nextMatchHome) {
 
-        if(nextMatchId == 0 || homeScore == awayScore) {
+        if (nextMatchId == 0 || homeScore == awayScore) {
             return;
         }
 
@@ -177,7 +177,7 @@ public class MatchHibernateDao implements MatchDao{
 
         if (homeScore > awayScore) {
             winner = playerDao.findById(homePlayerId);
-        } else if (awayScore > homeScore){
+        } else if (awayScore > homeScore) {
             winner = playerDao.findById(awayPlayerId);
         }
 
@@ -195,50 +195,50 @@ public class MatchHibernateDao implements MatchDao{
 
     private void updateRecursive(long tournamentId, long matchId, boolean nextMatchHome) {
 
-        if(matchId == 0) {
+        if (matchId == 0) {
             return;
         }
 
-        Match match = findById((int)matchId, tournamentId);
+        Match match = findById((int) matchId, tournamentId);
         int previousHomeScore;
         int previousAwayScore;
-        if(match.getHomePlayerScore() == null) {
+        if (match.getHomePlayerScore() == null) {
             previousHomeScore = 0;
         } else {
             previousHomeScore = match.getHomePlayerScore();
         }
-        if(match.getAwayPlayerScore() == null) {
+        if (match.getAwayPlayerScore() == null) {
             previousAwayScore = 0;
         } else {
             previousAwayScore = match.getAwayPlayerScore();
         }
-        if(match != null) {
-            if(match.getId() != 0) {
-                if(nextMatchHome) {
-                    if(match.getHomePlayer().getId() != 0) {
+        if (match != null) {
+            if (match.getId() != 0) {
+                if (nextMatchHome) {
+                    if (match.getHomePlayer().getId() != 0) {
                         match.setHomePlayer(null);
                         match.setHomePlayerScore(0);
                         match.setAwayPlayerScore(0);
                         em.merge(match);
                         em.flush();
-                        if(previousHomeScore < previousAwayScore) {
-                            updateRecursiveStanding(match.getAwayPlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
+                        if (previousHomeScore < previousAwayScore) {
+                            updateRecursiveStanding(match.getAwayPlayer().getId(), matchId, match.getNextMatch().getId(), tournamentId);
                         }
-                        if(match.getNextMatch() != null) {
+                        if (match.getNextMatch() != null) {
                             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
                         }
                     }
                 } else {
-                    if(match.getAwayPlayer().getId() != 0) {
+                    if (match.getAwayPlayer().getId() != 0) {
                         match.setAwayPlayer(null);
                         match.setHomePlayerScore(0);
                         match.setAwayPlayerScore(0);
                         em.merge(match);
                         em.flush();
-                        if(previousHomeScore > previousAwayScore) {
-                            updateRecursiveStanding(match.getHomePlayer().getId(),matchId, match.getNextMatch().getId(),tournamentId);
+                        if (previousHomeScore > previousAwayScore) {
+                            updateRecursiveStanding(match.getHomePlayer().getId(), matchId, match.getNextMatch().getId(), tournamentId);
                         }
-                        if(match.getNextMatch() != null) {
+                        if (match.getNextMatch() != null) {
                             updateRecursive(tournamentId, match.getNextMatch().getId(), match.isNextMatchHome());
                         }
                     }
@@ -261,20 +261,20 @@ public class MatchHibernateDao implements MatchDao{
         q.setParameter("tournamentId", tournamentId);
         q.setParameter("playerId", playerId);
 
-        if(nextMatchId == 0) {
-            q.setParameter("standing", m.getStanding()*2);
+        if (nextMatchId == 0) {
+            q.setParameter("standing", m.getStanding() * 2);
         } else {
-            q.setParameter("standing", (m.getStanding()*2)-1);
+            q.setParameter("standing", (m.getStanding() * 2) - 1);
         }
         q.executeUpdate();
     }
 
     private String addHttpsToUrl(String url) {
-        if(url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty()) {
             return null;
         }
         char c = url.toLowerCase().charAt(0);
-        if(c == 'y' || c == 't' || c == 'w') {
+        if (c == 'y' || c == 't' || c == 'w') {
             return "https://" + url;
         }
         return url;

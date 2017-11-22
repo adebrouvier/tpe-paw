@@ -1,11 +1,11 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     //Initialize modal
     $('.modal').modal();
-    var leng = $('.tournament-container2').length.toString()*260;
-    $('#tournament-container2').css({"width":"400px"});
+    var leng = $('.tournament-container2').length.toString() * 260;
+    $('#tournament-container2').css({"width": "400px"});
 
-    $('form').submit(function(){
+    $('form').submit(function () {
         $('button[type=submit]').prop('disabled', true);
     });
 

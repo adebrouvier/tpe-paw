@@ -15,6 +15,7 @@ public interface GameService {
 
     /**
      * Finds the game with the specified id.
+     *
      * @param id id of the Game.
      * @return instance of the Game.
      */
@@ -22,6 +23,7 @@ public interface GameService {
 
     /**
      * Finds game with the specified name.
+     *
      * @param name of the Game.
      * @return instance of the Game.
      */
@@ -31,7 +33,8 @@ public interface GameService {
      * Create new Game with specified name.
      * It also adds if it was user generated or
      * not.
-     * @param name of the game.
+     *
+     * @param name          of the game.
      * @param userGenerated if it was created by the user
      *                      or not.
      * @return instance of the Game.

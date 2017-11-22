@@ -7,7 +7,7 @@
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
-    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
+    <script type="text/javascript">contextPath = '<%=request.getContextPath()%>';</script>
 
     <title><spring:message code="match.edit.title"/> - <spring:message code="header.name"/></title>
 </head>
@@ -23,43 +23,48 @@ ${navbar}
                 <form:form modelAttribute="matchDataForm" action="${postPath}" method="post">
                     <div class="row">
                         <div class="input-field inline col s8">
-                            <form:label path="homePlayerCharacter">${match.homePlayer.name}<spring:message code="match.character"/>: </form:label>
-                            <form:input min="0" id="home-character-${match.id}" type="text" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
+                            <form:label path="homePlayerCharacter">${match.homePlayer.name}<spring:message
+                                    code="match.character"/>: </form:label>
+                            <form:input min="0" id="home-character-${match.id}" type="text" path="homePlayerCharacter"
+                                        value="${match.homePlayerCharacter}"/>
                             <form:errors path="homePlayerCharacter" cssClass="form-error" element="p"/>
                         </div>
                     </div>
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field inline col s8">
-                            <form:label path="awayPlayerCharacter">${match.awayPlayer.name}<spring:message code="match.character"/>: </form:label>
-                            <form:input min="0" id="away-character-${match.id}" type="text"  path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
+                            <form:label path="awayPlayerCharacter">${match.awayPlayer.name}<spring:message
+                                    code="match.character"/>: </form:label>
+                            <form:input min="0" id="away-character-${match.id}" type="text" path="awayPlayerCharacter"
+                                        value="${match.awayPlayerCharacter}"/>
                             <form:errors path="awayPlayerCharacter" cssClass="form-error" element="p"/>
                         </div>
                     </div>
-                        <div class="divider"></div>
+                    <div class="divider"></div>
                     <div class="row">
                         <div class="input-field inline col s8">
                             <i class="material-icons prefix">location_on</i>
                             <form:label path="map"><spring:message code="match.map"/>: </form:label>
-                            <form:input min="0" id="map-${match.id}" type="text"  path="map" value="${match.map}"/>
+                            <form:input min="0" id="map-${match.id}" type="text" path="map" value="${match.map}"/>
                             <form:errors path="map" cssClass="form-error" element="p"/>
                         </div>
                     </div>
-                        <div class="divider"></div>
+                    <div class="divider"></div>
                     <div class="row">
                         <div class="input-field inline col s8">
                             <i class="material-icons prefix">ondemand_video</i>
                             <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
-                            <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
+                            <form:input min="0" id="VOD-${match.id}" type="text" path="vodLink"
+                                        value="${match.videoOnDemandLink}"/>
                             <form:errors path="vodLink" cssClass="form-error" element="p"/>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col s12 center">
+                    <div class="row">
+                        <div class="col s12 center">
                             <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
                                     code="match.edit.save"/></button>
-                            </div>
                         </div>
+                    </div>
                 </form:form>
             </div>
         </div>
@@ -68,7 +73,8 @@ ${navbar}
 <c:import var="footer" url="footer.jsp"/>
 ${footer}
 <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+<script type="text/javascript"
+        src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
 <script type="text/javascript"
         src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>

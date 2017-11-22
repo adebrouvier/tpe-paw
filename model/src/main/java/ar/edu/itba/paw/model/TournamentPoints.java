@@ -24,7 +24,7 @@ public class TournamentPoints {
         /* for Hibernate */
     }
 
-    public TournamentPoints(Ranking ranking, Tournament tournament, int awardedPoints){
+    public TournamentPoints(Ranking ranking, Tournament tournament, int awardedPoints) {
         this.ranking = ranking;
         this.tournament = tournament;
         this.awardedPoints = awardedPoints;

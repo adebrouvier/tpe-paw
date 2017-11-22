@@ -42,8 +42,8 @@ public class RegisterController {
         return new ModelAndView("register");
     }
 
-    @RequestMapping(value = "/registerUser", method = { RequestMethod.POST })
-    public ModelAndView registerUser (@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors, HttpServletRequest request){
+    @RequestMapping(value = "/registerUser", method = {RequestMethod.POST})
+    public ModelAndView registerUser(@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors, HttpServletRequest request) {
         if (errors.hasErrors()) {
             return register(registerForm);
         }

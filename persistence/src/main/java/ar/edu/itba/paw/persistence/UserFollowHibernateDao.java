@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserFollowHibernateDao implements UserFollowDao{
+public class UserFollowHibernateDao implements UserFollowDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -19,12 +19,12 @@ public class UserFollowHibernateDao implements UserFollowDao{
     @Transactional
     @Override
     public void create(User follower, User followed) {
-        if(follower == null || followed == null) {
+        if (follower == null || followed == null) {
             return;
         }
 
         UserFollow u = findById(follower, followed);
-        if(u == null) {
+        if (u == null) {
             u = new UserFollow(follower.getId(), followed.getId());
             em.persist(u);
         }
@@ -32,14 +32,14 @@ public class UserFollowHibernateDao implements UserFollowDao{
 
     @Override
     public UserFollow findById(User follower, User followed) {
-        if(follower == null || followed == null) {
+        if (follower == null || followed == null) {
             return null;
         }
         List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollower.id = :userFollowerId AND u.userFollowed.id = :userFollowedId", UserFollow.class)
                 .setParameter("userFollowerId", follower.getId())
                 .setParameter("userFollowedId", followed.getId())
                 .getResultList();
-        if(list == null || list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
 
@@ -49,12 +49,12 @@ public class UserFollowHibernateDao implements UserFollowDao{
     @Transactional
     @Override
     public void delete(User follower, User followed) {
-        if(follower == null || followed == null) {
+        if (follower == null || followed == null) {
             return;
         }
 
         UserFollow u = findById(follower, followed);
-        if(u != null) {
+        if (u != null) {
             em.remove(u);
         }
     }
@@ -66,13 +66,13 @@ public class UserFollowHibernateDao implements UserFollowDao{
 
     @Override
     public List<UserFollow> getFollowers(User user) {
-        if(user == null) {
+        if (user == null) {
             return null;
         }
         List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollowedId = :userId", UserFollow.class)
                 .setParameter("userId", user.getId())
                 .getResultList();
-        if(list == null || list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         return list;

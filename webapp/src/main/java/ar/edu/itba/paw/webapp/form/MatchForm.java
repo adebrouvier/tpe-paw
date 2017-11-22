@@ -9,11 +9,11 @@ import javax.validation.constraints.Min;
 public class MatchForm {
 
     @Min(value = 0L)
-    @Digits(integer = 3,fraction = 0)
+    @Digits(integer = 3, fraction = 0)
     private int homeResult;
 
     @Min(value = 0L)
-    @Digits(integer = 3,fraction = 0)
+    @Digits(integer = 3, fraction = 0)
     private int awayResult;
 
     public int getHomeResult() {

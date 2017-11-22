@@ -24,7 +24,8 @@
                             <c:out value="${tournament.game.name}"/>
                         </c:if>
                     </td>
-                    <td><a href="<c:url value="/user/${tournament.creator.id}"/>"><c:out value="${tournament.creator.name}"/></a></td>
+                    <td><a href="<c:url value="/user/${tournament.creator.id}"/>"><c:out
+                            value="${tournament.creator.name}"/></a></td>
                 </tr>
                 </tbody>
             </table>

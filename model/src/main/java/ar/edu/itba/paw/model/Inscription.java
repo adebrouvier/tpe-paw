@@ -17,11 +17,11 @@ public class Inscription {
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
-    Inscription(){
+    Inscription() {
         /*For Hibernate*/
     }
 
-    public Inscription(User user, Tournament tournament){
+    public Inscription(User user, Tournament tournament) {
         this.user = user;
         this.tournament = tournament;
     }

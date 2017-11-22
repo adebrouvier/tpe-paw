@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class InscriptionServiceImpl implements InscriptionService{
+public class InscriptionServiceImpl implements InscriptionService {
 
     @Autowired
     private InscriptionDao inscriptionDao;

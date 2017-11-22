@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Match {
 
     @Id
-    @Column(name ="match_id")
+    @Column(name = "match_id")
     private Integer id;
 
     @Id
@@ -50,11 +50,11 @@ public class Match {
 
     private int standing;
 
-    Match(){
+    Match() {
         /* For Hibernate */
     }
 
-    public Match (Integer id, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+    public Match(Integer id, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
         this.id = id;
         this.nextMatch = nextMatch;
         this.tournament = tournament;
@@ -62,7 +62,7 @@ public class Match {
         this.standing = standing;
     }
 
-    public Match (Integer id, Player homePlayer, Player awayPlayer, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
+    public Match(Integer id, Player homePlayer, Player awayPlayer, Match nextMatch, boolean nextMatchHome, Tournament tournament, int standing) {
         this.id = id;
         this.homePlayer = homePlayer;
         this.awayPlayer = awayPlayer;
@@ -84,7 +84,9 @@ public class Match {
         this.standing = standing;
     }
 
-    public boolean isNextMatchHome() { return nextMatchHome; }
+    public boolean isNextMatchHome() {
+        return nextMatchHome;
+    }
 
     public Integer getHomePlayerScore() {
         return homePlayerScore;
@@ -126,11 +128,17 @@ public class Match {
         this.awayPlayer = awayPlayer;
     }
 
-    public void setHomePlayerScore(int score) { this.homePlayerScore = score; }
+    public void setHomePlayerScore(int score) {
+        this.homePlayerScore = score;
+    }
 
-    public void setAwayPlayerScore(int score) { this.awayPlayerScore = score; }
+    public void setAwayPlayerScore(int score) {
+        this.awayPlayerScore = score;
+    }
 
-    public void setLinkToVideoOnDemand(String link) {   this.videoOnDemandLink = link;  }
+    public void setLinkToVideoOnDemand(String link) {
+        this.videoOnDemandLink = link;
+    }
 
     @Override
     public boolean equals(Object o) {

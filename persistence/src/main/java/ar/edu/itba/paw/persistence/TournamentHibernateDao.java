@@ -13,7 +13,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class TournamentHibernateDao implements TournamentDao{
+public class TournamentHibernateDao implements TournamentDao {
 
     @Autowired
     private GameDao gameDao;
@@ -38,7 +38,7 @@ public class TournamentHibernateDao implements TournamentDao{
         final Tournament tournament = new Tournament(name, game, Tournament.Status.NEW, user);
         em.persist(tournament);
         return tournament;
-}
+    }
 
     @Override
     public Tournament findById(long id) {
@@ -56,7 +56,7 @@ public class TournamentHibernateDao implements TournamentDao{
     @Override
     public List<String> findTournamentNames(String name) {
         StringBuilder sb = new StringBuilder(name.toLowerCase());
-        sb.insert(0,"%");
+        sb.insert(0, "%");
         sb.append("%");
 
         TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t WHERE lower(t.name) LIKE :name", String.class);
@@ -68,7 +68,7 @@ public class TournamentHibernateDao implements TournamentDao{
     @Override
     public List<String> findTournamentNames(String term, long gameId) {
         StringBuilder sb = new StringBuilder(term.toLowerCase());
-        sb.insert(0,"%");
+        sb.insert(0, "%");
         sb.append("%");
 
         TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t " +
@@ -83,7 +83,7 @@ public class TournamentHibernateDao implements TournamentDao{
     public List<Tournament> findByName(String name, String game) {
 
         StringBuilder sb = new StringBuilder(name.toLowerCase());
-        sb.insert(0,"%");
+        sb.insert(0, "%");
         sb.append("%");
 
         if (game != null) {
@@ -118,21 +118,21 @@ public class TournamentHibernateDao implements TournamentDao{
             em.merge(t);
         }
 
-        if(t.getStatus().equals(Tournament.Status.FINISHED)) {
-            for(Player player : t.getPlayers()) {
+        if (t.getStatus().equals(Tournament.Status.FINISHED)) {
+            for (Player player : t.getPlayers()) {
                 User u = player.getUser();
-                if(player.getStanding() == 1) {
-                    if(u != null) {
+                if (player.getStanding() == 1) {
+                    if (u != null) {
                         notificationDao.createFisrtPlaceNotifications(u, t);
                     }
                 }
-                if(player.getStanding() == 2) {
-                    if(u != null) {
+                if (player.getStanding() == 2) {
+                    if (u != null) {
                         notificationDao.createSecondPlaceNotifications(u, t);
                     }
                 }
-                if(player.getStanding() == 3) {
-                    if(u != null) {
+                if (player.getStanding() == 3) {
+                    if (u != null) {
                         notificationDao.createThirdPlaceNotifications(u, t);
                     }
                 }
@@ -165,7 +165,7 @@ public class TournamentHibernateDao implements TournamentDao{
     public List<Tournament> findTournamentByUser(long userId, int page) {
         TypedQuery<Tournament> q = em.createQuery("from Tournament where creator.id = :userId", Tournament.class)
                 .setParameter("userId", userId)
-                .setFirstResult(page*5)
+                .setFirstResult(page * 5)
                 .setMaxResults(5);
         List<Tournament> list = q.getResultList();
         return list.isEmpty() ? null : list;
@@ -175,9 +175,9 @@ public class TournamentHibernateDao implements TournamentDao{
     public List<Tournament> findTournamentByParticipant(long participantId, int page) {
 
         TypedQuery<Tournament> q = em.createQuery("SELECT t FROM Tournament as t, Player as p WHERE p.tournament.id = t.id AND p.user.id = :participantId", Tournament.class)
-                .setFirstResult(page*5)
+                .setFirstResult(page * 5)
                 .setMaxResults(5)
-                .setParameter("participantId",participantId);
+                .setParameter("participantId", participantId);
 
         return q.getResultList();
     }
@@ -186,7 +186,7 @@ public class TournamentHibernateDao implements TournamentDao{
     public void addComment(long tournamentId, Comment comment) {
         Tournament t = findById(tournamentId);
 
-        if (t == null){
+        if (t == null) {
             return;
         }
 
@@ -199,7 +199,7 @@ public class TournamentHibernateDao implements TournamentDao{
 
         final Comment parent = commentDao.findById(parentId);
 
-        if (parent == null){
+        if (parent == null) {
             return;
         }
 

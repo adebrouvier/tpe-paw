@@ -2,16 +2,16 @@ package ar.edu.itba.paw.model;
 
 import java.io.Serializable;
 
-public class InscriptionPK implements Serializable{
+public class InscriptionPK implements Serializable {
 
     private Tournament tournament;
     private User user;
 
-    public InscriptionPK(){
+    public InscriptionPK() {
 
     }
 
-    public InscriptionPK(User user, Tournament tournament){
+    public InscriptionPK(User user, Tournament tournament) {
         this.user = user;
         this.tournament = tournament;
     }

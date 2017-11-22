@@ -33,18 +33,18 @@ public class Comment {
     @Column(name = "comment")
     private String comment;
 
-    Comment (){
+    Comment() {
         /* For Hibernate*/
     }
 
-    public Comment (User creator, Date date, String comment){
+    public Comment(User creator, Date date, String comment) {
         this.creator = creator;
         this.date = date;
         this.comment = comment;
         this.children = new ArrayList<>();
     }
 
-    public Comment (User creator, Date date, String comment, Comment parent){
+    public Comment(User creator, Date date, String comment, Comment parent) {
         this.creator = creator;
         this.date = date;
         this.comment = comment;
@@ -52,7 +52,7 @@ public class Comment {
         this.children = new ArrayList<>();
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
@@ -88,17 +88,17 @@ public class Comment {
         this.comment = comment;
     }
 
-    public void addChildren(Comment child){
-        if (!this.children.contains(child)){
+    public void addChildren(Comment child) {
+        if (!this.children.contains(child)) {
             this.children.add(child);
         }
     }
 
-    public List<Comment> getChildren(){
+    public List<Comment> getChildren() {
         return this.children;
     }
 
-    public void setChildren(List<Comment> children){
+    public void setChildren(List<Comment> children) {
         this.children = children;
     }
 

@@ -25,17 +25,17 @@ public class PlayerMeController {
 
     public Game addGameImage(String gameName) {
 
-        if(gameName == null) {
+        if (gameName == null) {
             gameName = "";
         }
         Game game = gs.findByName(gameName);
-        if(game == null) {
+        if (game == null) {
             game = gs.create(gameName, true);
             StringBuilder url = new StringBuilder("https://player.me/api/v1/search?sort=popular&order=desc&_limit=1&q=");
             String[] gameWords = gameName.split(" ");
             int size = gameWords.length;
             int i = 0;
-            for( ; i < size-1 ; i++) {
+            for (; i < size - 1; i++) {
                 url = url.append(gameWords[i] + "%20");
             }
             url = url.append(gameWords[i]);

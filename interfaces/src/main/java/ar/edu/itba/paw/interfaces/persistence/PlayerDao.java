@@ -16,21 +16,24 @@ public interface PlayerDao {
 
     /**
      * Delete a player with a specified id.
+     *
      * @param id id of the player.
      */
     void delete(long id);
 
     /**
      * Remove player to a tournament.
+     *
      * @param tournamentId id of the tournament.
-     * @param playerId id of the player.
+     * @param playerId     id of the player.
      * @return if can remove player to tournament.
      */
     boolean removeFromTournament(long tournamentId, long playerId);
 
     /**
      * Change player seed.
-     * @param tournamentId id of the tournament.
+     *
+     * @param tournamentId  id of the tournament.
      * @param playerOldSeed the old seed of the player.
      * @param playerNewSeed the new seed of the player.
      * @return if can change player seed.
@@ -39,6 +42,7 @@ public interface PlayerDao {
 
     /**
      * Finds a player with a specified id.
+     *
      * @param id id of the player.
      * @return an instance of the player.
      */
@@ -46,7 +50,8 @@ public interface PlayerDao {
 
     /**
      * Finds the id of the player with an specific seed.
-     * @param seed required seed.
+     *
+     * @param seed         required seed.
      * @param tournamentId id of the desired tournament.
      * @return id of the player.
      */
@@ -54,6 +59,7 @@ public interface PlayerDao {
 
     /**
      * Creates a player.
+     *
      * @param name name of the player.
      * @return an instance of the player.
      */
@@ -62,7 +68,8 @@ public interface PlayerDao {
     /**
      * Sets every players standing in the tournament to its
      * starting one.
-     * @param standing default for the start of the tournament.
+     *
+     * @param standing     default for the start of the tournament.
      * @param tournamentId id of the tournament.
      */
     void setDefaultStanding(int standing, long tournamentId);
@@ -70,6 +77,7 @@ public interface PlayerDao {
     /**
      * Creates a Player with the specified name
      * and user id.
+     *
      * @param name of the Player
      * @param user id of the User
      * @return an instance of the new Player
@@ -79,7 +87,8 @@ public interface PlayerDao {
     /**
      * Adds a Player to a Tournament
      * both specified by id
-     * @param playerId id of the Player
+     *
+     * @param playerId     id of the Player
      * @param tournamentId id of the Tournament
      */
     void addToTournament(long playerId, long tournamentId);

@@ -20,12 +20,12 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
     @Transactional
     @Override
     public void create(User user, Game game) {
-        if(user == null || game == null) {
+        if (user == null || game == null) {
             return;
         }
 
         UserFavoriteGame u = findById(user, game);
-        if(u == null) {
+        if (u == null) {
             u = new UserFavoriteGame(user.getId(), game.getId());
             em.persist(u);
         }
@@ -34,12 +34,12 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
     @Transactional
     @Override
     public void delete(User user, Game game) {
-        if(user == null || game == null) {
+        if (user == null || game == null) {
             return;
         }
 
         UserFavoriteGame u = findById(user, game);
-        if(u != null) {
+        if (u != null) {
             em.remove(u);
         }
     }
@@ -47,7 +47,7 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
     @Transactional
     @Override
     public void deleteAll(User user) {
-        if(user == null) {
+        if (user == null) {
             return;
         }
         em.createQuery("DELETE FROM UserFavoriteGame AS u WHERE u.user.id = :userId")
@@ -57,7 +57,7 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
 
     @Override
     public List<UserFavoriteGame> getFavoriteGames(User user) {
-        if(user == null) {
+        if (user == null) {
             return null;
         }
 
@@ -65,8 +65,8 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
                 .setParameter("userId", user.getId())
                 .getResultList();
 
-        if(list == null || list.isEmpty()) {
-            return  null;
+        if (list == null || list.isEmpty()) {
+            return null;
         }
 
         return list;
@@ -74,14 +74,14 @@ public class UserFavoriteGameHibernateDao implements UserFavoriteGameDao {
 
     @Override
     public UserFavoriteGame findById(User user, Game game) {
-        if(user == null || game == null) {
+        if (user == null || game == null) {
             return null;
         }
         List<UserFavoriteGame> list = em.createQuery("FROM UserFavoriteGame AS u WHERE u.user.id = :userId AND u.game.id = :gameId", UserFavoriteGame.class)
                 .setParameter("userId", user.getId())
                 .setParameter("gameId", game.getId())
                 .getResultList();
-        if(list == null || list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
 

@@ -3,23 +3,23 @@ contentLoadTriggered = false;
 
 $(document).ready(function () {
     userId = $('#main-container').attr('data-userid');
-    $(window).scroll( function () {
+    $(window).scroll(function () {
         scrollPage();
     });
 
-    $('form').submit(function(){
+    $('form').submit(function () {
         $('button[type=submit]').prop('disabled', true);
     });
 });
 
-function scrollPage () {
+function scrollPage() {
 
-    if($(window).scrollTop() + window.innerHeight == $(document).height() && contentLoadTriggered == false) {
+    if ($(window).scrollTop() + window.innerHeight == $(document).height() && contentLoadTriggered == false) {
         contentLoadTriggered = true;
         $.ajax({
             method: "GET",
             url: contextPath + "/user/" + userId + "/" + page
-        }).done(function( msg ) {
+        }).done(function (msg) {
             page = page + 1;
             $('#content-wrapper').append(msg);
             contentLoadTriggered = false;

@@ -10,7 +10,10 @@ import java.util.List;
 public interface UserFavoriteGameService {
 
     public void create(User user, Game game);
+
     public void delete(User user, Game game);
+
     public void deleteAll(User user);
+
     public List<UserFavoriteGame> getFavoriteGames(User user);
 }

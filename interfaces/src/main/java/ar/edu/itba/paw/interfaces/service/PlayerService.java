@@ -8,21 +8,24 @@ public interface PlayerService {
 
     /**
      * Delete a player with a specified id.
+     *
      * @param id id of the player.
      */
     void delete(long id);
 
     /**
      * Remove player to a tournament.
+     *
      * @param tournamentId id of the tournament.
-     * @param playerId id of the player.
+     * @param playerId     id of the player.
      * @return if can remove player to tournament.
      */
     boolean removeFromTournament(long tournamentId, long playerId);
 
     /**
      * Change player seed.
-     * @param tournamentId id of the tournament.
+     *
+     * @param tournamentId  id of the tournament.
      * @param playerOldSeed the old seed of the player.
      * @param playerNewSeed the new seed of the player.
      * @return if can change player seed.
@@ -31,6 +34,7 @@ public interface PlayerService {
 
     /**
      * Finds a player with a specified id.
+     *
      * @param id id of the player.
      * @return an instance of the player.
      */
@@ -38,7 +42,8 @@ public interface PlayerService {
 
     /**
      * Finds the id of the player with an specific seed.
-     * @param seed required seed.
+     *
+     * @param seed         required seed.
      * @param tournamentId id of the desired tournament.
      * @return id of the player.
      */
@@ -46,6 +51,7 @@ public interface PlayerService {
 
     /**
      * Creates a player.
+     *
      * @param name name of the player.
      * @return an instance of the player.
      */
@@ -54,7 +60,7 @@ public interface PlayerService {
     /**
      * Creates a player linked to a user
      *
-     * @param name   of the player
+     * @param name of the player
      * @param user id of the user
      * @return an instance of the player
      */
@@ -72,7 +78,8 @@ public interface PlayerService {
     /**
      * Adds Player to a Tournament both specified
      * by id
-     * @param id of the Player
+     *
+     * @param id           of the Player
      * @param tournamentId id of the Tournament
      */
     void addToTournament(long id, long tournamentId);

@@ -20,7 +20,7 @@ public class GameImage {
         /* for hibernate */
     }
 
-    public GameImage(Long gameId,byte[] image) {
+    public GameImage(Long gameId, byte[] image) {
         this.gameId = gameId;
         this.image = image;
     }

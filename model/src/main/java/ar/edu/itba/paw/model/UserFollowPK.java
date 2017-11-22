@@ -8,7 +8,8 @@ public class UserFollowPK implements Serializable {
     protected Long userFollowerId;
     protected Long userFollowedId;
 
-    public UserFollowPK() {}
+    public UserFollowPK() {
+    }
 
     public UserFollowPK(Long userFollowerId, Long userFollowedId) {
         this.userFollowerId = userFollowerId;

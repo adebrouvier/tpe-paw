@@ -1,32 +1,32 @@
 package ar.edu.itba.paw.model;
 
-public class TopUserDTO implements Comparable<TopUserDTO>{
+public class TopUserDTO implements Comparable<TopUserDTO> {
 
     private User user;
     private Long wins;
 
-    public TopUserDTO(User user, Long wins){
+    public TopUserDTO(User user, Long wins) {
         this.user = user;
         this.wins = wins;
     }
 
-    TopUserDTO (){
+    TopUserDTO() {
         /* For Hibernate */
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user){
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public Long getWins(){
+    public Long getWins() {
         return wins;
     }
 
-    public void setWins(Long wins){
+    public void setWins(Long wins) {
         this.wins = wins;
     }
 

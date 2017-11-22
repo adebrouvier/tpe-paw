@@ -39,16 +39,16 @@ public class UserHibernateDao implements UserDao {
     public List<MostFollowedDTO> findMostFollowed(int userCount) {
 
         final TypedQuery<MostFollowedDTO> query = em.createQuery("select new ar.edu.itba.paw.model.MostFollowedDTO(u.userFollowed, count(*)) from UserFollow as u group by u.userFollowed order by count(*) desc", MostFollowedDTO.class)
-            .setMaxResults(userCount);
+                .setMaxResults(userCount);
         List<MostFollowedDTO> list = query.getResultList();
         list.sort(((tu1, tu2) -> tu2.getFollowers().intValue() - tu1.getFollowers().intValue()));
         return list;
     }
 
     @Override
-    public long getFollowersAmount(long userId){
-        final Long query = em.createQuery("select count (*) from UserFollow as u where u.userFollowed.id = :userId ",Long.class)
-                .setParameter("userId",userId)
+    public long getFollowersAmount(long userId) {
+        final Long query = em.createQuery("select count (*) from UserFollow as u where u.userFollowed.id = :userId ", Long.class)
+                .setParameter("userId", userId)
                 .getSingleResult();
         return query;
 
@@ -61,7 +61,7 @@ public class UserHibernateDao implements UserDao {
         Long unreadNotifications = em.createQuery("SELECT count(*) FROM Notification AS n WHERE n.user.name LIKE :username AND n.isRead = false", Long.class)
                 .setParameter("username", username).getSingleResult();
         final List<User> list = query.getResultList();
-        if(list.isEmpty()) {
+        if (list.isEmpty()) {
             return null;
         }
         User u = list.get(0);
@@ -77,7 +77,7 @@ public class UserHibernateDao implements UserDao {
     @Transactional
     @Override
     public void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl) {
-        if(user == null) {
+        if (user == null) {
             return;
         }
         user.setDescription(description);
@@ -88,17 +88,17 @@ public class UserHibernateDao implements UserDao {
     }
 
 
-
     private String addHttpsToUrl(String url) {
-        if(url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty()) {
             return null;
         }
         char c = url.toLowerCase().charAt(0);
-        if(c == 'y' || c == 't' || c == 'w') {
+        if (c == 'y' || c == 't' || c == 'w') {
             return "https://" + url;
         }
         return url;
     }
+
     public EntityManager getEntityManager() {
         return em;
     }

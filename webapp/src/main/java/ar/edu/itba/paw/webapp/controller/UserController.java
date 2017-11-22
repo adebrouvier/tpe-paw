@@ -54,9 +54,9 @@ public class UserController {
     private ApplicationContext appContext;
 
     @RequestMapping("/user/name/{userName}")
-    public ModelAndView user(@PathVariable String userName, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView user(@PathVariable String userName, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findByName(userName);
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
         LOGGER.debug("Access to user {} profile", userName);
@@ -66,9 +66,9 @@ public class UserController {
     }
 
     @RequestMapping("/user/{userId}")
-    public ModelAndView user(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView user(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findById(userId);
-        if(u == null) {
+        if (u == null) {
             LOGGER.debug("Access to invalid user profile userId: {} ", userId);
             return new ModelAndView("redirect:/404");
         }
@@ -91,9 +91,9 @@ public class UserController {
 
 
     @RequestMapping("/user/{userId}/{page}")
-    public ModelAndView userPagination(@PathVariable long userId, @PathVariable int page){
+    public ModelAndView userPagination(@PathVariable long userId, @PathVariable int page) {
         final User u = us.findById(userId);
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
         final ModelAndView mav = new ModelAndView("message-user-page");
@@ -110,11 +110,11 @@ public class UserController {
     public final ModelAndView followUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         User u = us.findById(userId);
 
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if(loggedUser == null || userId == loggedUser.getId()) {
+        if (loggedUser == null || userId == loggedUser.getId()) {
             return new ModelAndView("redirect:/403");
         }
 
@@ -129,11 +129,11 @@ public class UserController {
     public final ModelAndView unfollowUser(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         User u = us.findById(userId);
 
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if(loggedUser == null || userId == loggedUser.getId()) {
+        if (loggedUser == null || userId == loggedUser.getId()) {
             return new ModelAndView("redirect:/403");
         }
 
@@ -144,23 +144,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update/{userId}", method = {RequestMethod.POST})
-    public final ModelAndView updateImage(@Valid@ModelAttribute("userUpdateForm") final UserUpdateForm form, final BindingResult errors,
-                                          @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
-        if(errors.hasErrors()){
+    public final ModelAndView updateImage(@Valid @ModelAttribute("userUpdateForm") final UserUpdateForm form, final BindingResult errors,
+                                          @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
+        if (errors.hasErrors()) {
             return userSettings(form, userId, loggedUser);
         }
 
         User u = us.findById(userId);
 
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if(userId != loggedUser.getId()) {
+        if (userId != loggedUser.getId()) {
             return new ModelAndView("redirect:/403");
         }
 
-        if(form.getImage() != null && form.getImage().getSize() != 0) {
+        if (form.getImage() != null && form.getImage().getSize() != 0) {
             try {
                 uis.updateImage(u, form.getImage().getBytes());
             } catch (IOException e) {
@@ -168,10 +168,10 @@ public class UserController {
             }
         }
 
-        us.updateDescription(u, form.getDescription(),form.getTwitchUrl(),form.getTwitterUrl(),form.getYoutubeUrl());
+        us.updateDescription(u, form.getDescription(), form.getTwitchUrl(), form.getTwitterUrl(), form.getYoutubeUrl());
 
         Game g = gs.findByName(form.getGame());
-        if(g == null) {
+        if (g == null) {
             g = pmc.addGameImage(form.getGame());
         }
         ufgs.deleteAll(u);
@@ -183,19 +183,19 @@ public class UserController {
     }
 
     @RequestMapping("/user/{userId}/settings")
-    public ModelAndView userSettings(@ModelAttribute("userUpdateForm") final UserUpdateForm form, @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView userSettings(@ModelAttribute("userUpdateForm") final UserUpdateForm form, @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findById(userId);
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if(loggedUser == null || loggedUser.getId() != u.getId()) {
+        if (loggedUser == null || loggedUser.getId() != u.getId()) {
             return new ModelAndView("redirect:/403");
         }
         final ModelAndView mav = new ModelAndView("user-config");
 
         List<UserFavoriteGame> fg = ufgs.getFavoriteGames(u);
-        if(fg == null || fg.isEmpty()) {
+        if (fg == null || fg.isEmpty()) {
             mav.addObject("gameName", null);
         } else {
             mav.addObject("gameName", fg.get(0).getGame().getName());
@@ -218,7 +218,7 @@ public class UserController {
 
         mav.addObject("user", u);
 
-        mav.addObject("followers",us.getFollowersAmount(userId));
+        mav.addObject("followers", us.getFollowersAmount(userId));
         mav.addObject("rankings", rankings);
         mav.addObject("tournaments", tournaments);
         mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
@@ -256,11 +256,11 @@ public class UserController {
         if (u == null) {
             return new ModelAndView("redirect:/404");
         }
-        final List<Ranking> rankings = rs.findRankingByUserPage(userId,0);
+        final List<Ranking> rankings = rs.findRankingByUserPage(userId, 0);
         final ModelAndView mav = new ModelAndView("user-created-ranking");
 
         mav.addObject("user", u);
-        mav.addObject("followers",us.getFollowersAmount(userId));
+        mav.addObject("followers", us.getFollowersAmount(userId));
         mav.addObject("rankings", rankings);
         mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
 
@@ -287,16 +287,16 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/profile-image/{userId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] avatar(@PathVariable(value="userId") final long userId) throws IOException {
+    @RequestMapping(value = "/profile-image/{userId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] avatar(@PathVariable(value = "userId") final long userId) throws IOException {
 
         UserImage ui = uis.findById(userId);
-        if(ui != null) {
+        if (ui != null) {
             return ui.getImage();
         } else {
             Resource r = appContext.getResource("/resources/img/user-profile-image.jpg");
             long l = r.contentLength();
-            byte[] ans = new byte[(int)l];
+            byte[] ans = new byte[(int) l];
             r.getInputStream().read(ans);
             return ans;
         }
@@ -309,7 +309,7 @@ public class UserController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

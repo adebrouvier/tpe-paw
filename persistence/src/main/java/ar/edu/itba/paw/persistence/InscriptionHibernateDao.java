@@ -20,7 +20,7 @@ public class InscriptionHibernateDao implements InscriptionDao {
     @Override
     public Inscription create(User user, Tournament tournament) {
 
-        if (user == null || tournament == null){
+        if (user == null || tournament == null) {
             return null;
         }
 
@@ -36,7 +36,7 @@ public class InscriptionHibernateDao implements InscriptionDao {
 
         TypedQuery<Inscription> query = em.createQuery("from Inscription " +
                         "where tournament.id = :tournamentId and user.id = :loggedUserId",
-                            Inscription.class)
+                Inscription.class)
                 .setParameter("loggedUserId", loggedUserId)
                 .setParameter("tournamentId", tournamentId);
 
@@ -49,7 +49,7 @@ public class InscriptionHibernateDao implements InscriptionDao {
     public List<Inscription> findByTournamentId(long tournamentId) {
 
         TypedQuery<Inscription> query = em.createQuery("from Inscription " +
-                        "where tournament.id = :tournamentId", Inscription.class)
+                "where tournament.id = :tournamentId", Inscription.class)
                 .setParameter("tournamentId", tournamentId);
 
         return query.getResultList();
@@ -60,11 +60,11 @@ public class InscriptionHibernateDao implements InscriptionDao {
 
         Inscription i = findByIds(userId, tournamentId);
 
-        if (i == null){
+        if (i == null) {
             return;
         }
 
-        if (em.contains(i)){
+        if (em.contains(i)) {
             em.remove(i);
         }
 

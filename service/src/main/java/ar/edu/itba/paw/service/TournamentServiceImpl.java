@@ -72,14 +72,14 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Transactional
     @Override
-    public void generateBracket(Tournament tournament){
+    public void generateBracket(Tournament tournament) {
 
         long tournamentId = tournament.getId();
 
         List<Player> players = tournament.getPlayers();
         Map<Integer, Long> seeds = new HashMap<>();
 
-        for (Player p : players){
+        for (Player p : players) {
             seeds.put(p.getSeed(), p.getId());
         }
 
@@ -91,7 +91,7 @@ public class TournamentServiceImpl implements TournamentService {
             //playerService.addToTournament(BYE_ID, tournamentId);
             Player byePlayer = new Player(BYE_NAME, tournament);
             players.add(byePlayer);
-            seeds.put(i+1, (long) -1);
+            seeds.put(i + 1, (long) -1);
         }
         generateSingleEliminationBracket(tournamentId, players, seeds);
     }
@@ -132,8 +132,9 @@ public class TournamentServiceImpl implements TournamentService {
      * Generates every match in the Tournament bracket.
      * Setting its initial standing, calculating seeds placement
      * and generating bracket relations of every match.
+     *
      * @param tournamentId id of the tournament
-     * @param players list of players
+     * @param players      list of players
      */
     private void generateSingleEliminationBracket(long tournamentId, List<Player> players, Map<Integer, Long> seeds) {
         int totalDepth = (int) (Math.log(players.size()) / Math.log(2)); /* Size should always be a power of 2*/

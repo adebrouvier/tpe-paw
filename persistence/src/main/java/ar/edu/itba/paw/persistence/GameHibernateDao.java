@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class GameHibernateDao implements GameDao{
+public class GameHibernateDao implements GameDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -41,6 +41,7 @@ public class GameHibernateDao implements GameDao{
         query.setParameter("term", term.concat("%"));
         return query.getResultList();
     }
+
     public EntityManager getEntityManager() {
         return em;
     }

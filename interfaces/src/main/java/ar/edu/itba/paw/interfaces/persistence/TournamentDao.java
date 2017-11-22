@@ -9,6 +9,7 @@ public interface TournamentDao {
 
     /**
      * Finds the tournament with the specified id.
+     *
      * @param id id of the tournament.
      * @return instance of the Tournament.
      */
@@ -17,7 +18,8 @@ public interface TournamentDao {
     /**
      * Creates a new Tournament with the specified
      * name, game and user.
-     * @param name of the Tournament.
+     *
+     * @param name   of the Tournament.
      * @param gameId id of the Game the Tournament hosts.
      * @param userId id of the user that created the tournament.
      * @return instance of the Tournament.
@@ -26,6 +28,7 @@ public interface TournamentDao {
 
     /**
      * Returns a list of featured tournaments, without instances of Player and Match loaded.
+     *
      * @param featured number of featured tournaments
      * @return a list of tournaments.
      */
@@ -34,13 +37,15 @@ public interface TournamentDao {
     /**
      * Sets a Tournament status to either
      * NEW, STARTED or FINISHED
+     *
      * @param tournamentId id of the Tournament
-     * @param status status of the Tournament
+     * @param status       status of the Tournament
      */
     Tournament setStatus(long tournamentId, Tournament.Status status);
 
     /**
      * Finds the name of matching existing tournament.
+     *
      * @param query term to search.
      * @return the list with the names.
      */
@@ -48,7 +53,8 @@ public interface TournamentDao {
 
     /**
      * Finds the name of matching existing tournament.
-     * @param query term to search
+     *
+     * @param query  term to search
      * @param gameId id of the game
      * @return the list with the names.
      */
@@ -56,6 +62,7 @@ public interface TournamentDao {
 
     /**
      * Finds a tournament with the specified name.
+     *
      * @param name the name of part of the name of the tournament.
      * @return a list of tournaments.
      */
@@ -63,6 +70,7 @@ public interface TournamentDao {
 
     /**
      * Find Tournament with specified name.
+     *
      * @param name of the Tournament.
      * @return instance of the Tournament.
      */
@@ -71,7 +79,8 @@ public interface TournamentDao {
 
     /**
      * Checks if an user is already participating in a Tournament.
-     * @param userId id of the User.
+     *
+     * @param userId       id of the User.
      * @param tournamentId id of the Tournament.
      * @return true if the user is participating in the tournament,
      * false otherwise.
@@ -80,8 +89,9 @@ public interface TournamentDao {
 
     /**
      * Find finished tournament by name and gameId.
+     *
      * @param tournamentName the tournament name.
-     * @param gameId id of the game.
+     * @param gameId         id of the game.
      * @return a tournament.
      */
     Tournament getByNameAndGameId(String tournamentName, long gameId);

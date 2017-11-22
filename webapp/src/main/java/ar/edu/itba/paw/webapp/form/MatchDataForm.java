@@ -9,15 +9,15 @@ public class MatchDataForm {
     @Pattern(regexp = "[a-zA-Z0-9 ,]+")
     private String map;
 
-    @Size (min = 0, max = 40)
+    @Size(min = 0, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String homePlayerCharacter;
 
-    @Size (min = 0, max = 40)
+    @Size(min = 0, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String awayPlayerCharacter;
 
-    @Size (min = 0, max = 2000)
+    @Size(min = 0, max = 2000)
     @Pattern(regexp = "|(https://www.youtube.com/|https://youtube.com/|youtube.com/|www.youtube.com/)[a-zA-Z0-9@:!$&'()*+,;=%\\-._~\\[\\]/?\"#]*")
     private String vodLink;
 

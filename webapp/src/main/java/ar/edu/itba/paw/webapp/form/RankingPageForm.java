@@ -4,7 +4,7 @@ import javax.validation.constraints.*;
 
 public class RankingPageForm {
 
-    @Size (min = 4, max = 40)
+    @Size(min = 4, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String tournamentName;
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class RankingHibernateDao implements RankingDao{
+public class RankingHibernateDao implements RankingDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -52,8 +52,8 @@ public class RankingHibernateDao implements RankingDao{
         sb.insert(0, "%");
         sb.append("%");
 
-        if (game != null){
-            if (game.equals("")){
+        if (game != null) {
+            if (game.equals("")) {
                 game = null;
             }
         }
@@ -91,14 +91,14 @@ public class RankingHibernateDao implements RankingDao{
     public void delete(long rankingId, long tournamentId) {
         final Tournament tournament = tournamentDao.findById(tournamentId);
         final Ranking ranking = findById(rankingId);
-        if (tournament == null || ranking == null){
+        if (tournament == null || ranking == null) {
             return;
         }
         List<TournamentPoints> tournamentPointsList = em.createQuery("FROM TournamentPoints WHERE ranking.id = :rankingId AND tournament.id = :tournamentId", TournamentPoints.class)
                 .setParameter("rankingId", rankingId)
-                .setParameter("tournamentId",tournamentId)
+                .setParameter("tournamentId", tournamentId)
                 .getResultList();
-        if (tournamentPointsList.isEmpty()){
+        if (tournamentPointsList.isEmpty()) {
             return;
         }
         TournamentPoints tournamentPoints = tournamentPointsList.get(0);
@@ -168,7 +168,7 @@ public class RankingHibernateDao implements RankingDao{
         Map<Tournament, Integer> filteredTournaments = new HashMap<>();
         Ranking r = findById(rankingId);
         for (Tournament tournament : tournaments.keySet()) {
-            if(checkTournamentValidForRanking(r, tournament)) {
+            if (checkTournamentValidForRanking(r, tournament)) {
                 filteredTournaments.put(tournament, tournaments.get(tournament));
             }
 
@@ -180,15 +180,14 @@ public class RankingHibernateDao implements RankingDao{
     }
 
     private boolean checkTournamentValidForRanking(Ranking ranking, Tournament tournament) {
-        if (ranking.getGame().getId() == tournament.getGame().getId() && tournament.getStatus() == Tournament.Status.FINISHED ) {
-            if(ranking.getTournaments().size() == 0) return true;
+        if (ranking.getGame().getId() == tournament.getGame().getId() && tournament.getStatus() == Tournament.Status.FINISHED) {
+            if (ranking.getTournaments().size() == 0) return true;
             boolean alreadyAddedToRankingFlag = false;
-            for(TournamentPoints tPoints: ranking.getTournaments()){
-                if(tPoints.getTournament().getId() == tournament.getId()) alreadyAddedToRankingFlag = true;
+            for (TournamentPoints tPoints : ranking.getTournaments()) {
+                if (tPoints.getTournament().getId() == tournament.getId()) alreadyAddedToRankingFlag = true;
             }
             return !alreadyAddedToRankingFlag;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -204,14 +203,14 @@ public class RankingHibernateDao implements RankingDao{
      * Adds the user scores on the listed tournaments, taking
      * into account their standings.
      *
-     * @param ranking   id of the ranking.
+     * @param ranking     id of the ranking.
      * @param tournaments tournaments and their respective points.
      */
     private void addUsersToRanking(Ranking ranking, Map<Tournament, Integer> tournaments) {
         Map<User, Integer> existingScores = new HashMap<>();
         Map<User, Integer> newUserScores = new HashMap<>();
-        for(UserScore tempScores:ranking.getUserScores()){
-            existingScores.put(tempScores.getUser(),tempScores.getPoints());
+        for (UserScore tempScores : ranking.getUserScores()) {
+            existingScores.put(tempScores.getUser(), tempScores.getPoints());
         }
         int standing, userScore, tournamentScore;
         User user;
@@ -224,7 +223,7 @@ public class RankingHibernateDao implements RankingDao{
                         standing = player.getStanding();
                         userScore = standingHandler(standing, tournamentScore);
                         if (existingScores.containsKey(user)) { // Is user already in the ranking
-                            existingScores.put(user,userScore + existingScores.get(user));
+                            existingScores.put(user, userScore + existingScores.get(user));
                         } else {
                             newUserScores.put(user, userScore);
                         }
@@ -233,11 +232,11 @@ public class RankingHibernateDao implements RankingDao{
             }
         }
         addPointsToExistingUsers(existingScores, ranking);
-        addNewUsersToRanking(newUserScores,ranking);
+        addNewUsersToRanking(newUserScores, ranking);
     }
 
     private void addPointsToExistingUsers(Map<User, Integer> points, Ranking ranking) {
-        for(Map.Entry<User,Integer> entry : points.entrySet()){
+        for (Map.Entry<User, Integer> entry : points.entrySet()) {
             UserScore us = new UserScore(ranking, entry.getKey(), entry.getValue());
             em.merge(us);
             //jdbcTemplate.update("UPDATE ranking_players SET points = ? WHERE ranking_id = ? AND user_id = ?",entry.getValue(), rankingId,entry.getKey());
@@ -267,10 +266,10 @@ public class RankingHibernateDao implements RankingDao{
 
     @Override
     public List<Ranking> findRankingByUser(long userId) {
-            TypedQuery<Ranking> q = em.createQuery("from Ranking where user.id = :userId", Ranking.class)
-                    .setParameter("userId", userId);
-            List<Ranking> list = q.getResultList();
-            return list.isEmpty() ? null : list;
+        TypedQuery<Ranking> q = em.createQuery("from Ranking where user.id = :userId", Ranking.class)
+                .setParameter("userId", userId);
+        List<Ranking> list = q.getResultList();
+        return list.isEmpty() ? null : list;
     }
 
     @Override
@@ -287,7 +286,7 @@ public class RankingHibernateDao implements RankingDao{
     public List<Ranking> findRankingByUserPage(long userId, int page) {
         TypedQuery<Ranking> q = em.createQuery("from Ranking where user.id = :userId", Ranking.class)
                 .setParameter("userId", userId)
-                .setFirstResult(page*5)
+                .setFirstResult(page * 5)
                 .setMaxResults(5);
         List<Ranking> list = q.getResultList();
         return list.isEmpty() ? null : list;

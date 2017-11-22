@@ -9,8 +9,10 @@
             </div>
         </div>
         <div class="card-action">
-            <a href="<c:url value="/ranking/${ranking.id}#ranking-tournaments"/>"><spring:message code="ranking.created.tournaments"/></a>
-            <a href="<c:url value="/ranking/${ranking.id}#ranking-players"/>"><spring:message code="ranking.created.players"/></a>
+            <a href="<c:url value="/ranking/${ranking.id}#ranking-tournaments"/>"><spring:message
+                    code="ranking.created.tournaments"/></a>
+            <a href="<c:url value="/ranking/${ranking.id}#ranking-players"/>"><spring:message
+                    code="ranking.created.players"/></a>
         </div>
     </div>
 </c:forEach>

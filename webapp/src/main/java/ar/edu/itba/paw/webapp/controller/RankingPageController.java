@@ -45,7 +45,7 @@ public class RankingPageController {
     private NotificationService ns;
 
     @RequestMapping("/ranking/{rankingId}")
-    public ModelAndView rankingPage(@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView rankingPage(@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId, @ModelAttribute("loggedUser") User loggedUser) {
         LOGGER.debug("Access to ranking id {}", rankingId);
         final Ranking r = rs.findById(rankingId);
         if (r == null) {
@@ -58,18 +58,18 @@ public class RankingPageController {
     }
 
     @RequestMapping(value = "/delete/ranking/{rankingId}/{tournamentId}", method = {RequestMethod.POST})
-    public ModelAndView deleteTournament(@PathVariable long rankingId, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView deleteTournament(@PathVariable long rankingId, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser) {
         final Ranking r = rs.findById(rankingId);
         if (r == null) {
             return new ModelAndView("redirect:/404");
         }
-        if (r.getUser().getId() != loggedUser.getId()){
+        if (r.getUser().getId() != loggedUser.getId()) {
             LOGGER.warn("Unauthorized User {} tried to add tournament to ranking {}", loggedUser.getId(), rankingId);
             return new ModelAndView("redirect:/403");
         }
-        rs.delete(rankingId,tournamentId);
+        rs.delete(rankingId, tournamentId);
         LOGGER.info("Deleted tournament {} from ranking {}", tournamentId, rankingId);
-        return  new ModelAndView("redirect:/ranking/" + r.getId());
+        return new ModelAndView("redirect:/ranking/" + r.getId());
     }
 
     @RequestMapping(value = "/update/ranking/{rankingId}/addtournament", method = {RequestMethod.POST})
@@ -85,7 +85,7 @@ public class RankingPageController {
             return new ModelAndView("redirect:/404");
         }
 
-        if (ranking.getUser().getId() != loggedUser.getId()){
+        if (ranking.getUser().getId() != loggedUser.getId()) {
             LOGGER.warn("Unauthorized User {} tried to add tournament to ranking {}", loggedUser.getId(), rankingId);
             return new ModelAndView("redirect:/403");
         }
@@ -93,28 +93,28 @@ public class RankingPageController {
         Map<Tournament, Integer> tMap = new HashMap<>();
         final Tournament tournament = ts.getByNameAndGameId(rankingPageForm.getTournamentName(), ranking.getGame().getId());
 
-        if (tournament == null){
-            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.exist");
+        if (tournament == null) {
+            errors.rejectValue("tournamentName", "rankingPageForm.tournamentName.error.exist");
             return rankingPage(rankingPageForm, rankingId, loggedUser);
-        } else if (tournament.getGame().getId() != ranking.getGame().getId()){
-            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.game");
+        } else if (tournament.getGame().getId() != ranking.getGame().getId()) {
+            errors.rejectValue("tournamentName", "rankingPageForm.tournamentName.error.game");
             return rankingPage(rankingPageForm, rankingId, loggedUser);
-        } else if (tournament.getStatus() != Tournament.Status.FINISHED){
-            errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.notFinished");
+        } else if (tournament.getStatus() != Tournament.Status.FINISHED) {
+            errors.rejectValue("tournamentName", "rankingPageForm.tournamentName.error.notFinished");
             return rankingPage(rankingPageForm, rankingId, loggedUser);
-        } else{
-            for(TournamentPoints tPoints: ranking.getTournaments()){
-                if(tournament.getId() == tPoints.getTournament().getId()){
-                    errors.rejectValue("tournamentName","rankingPageForm.tournamentName.error.duplicateTournament");
-                    return rankingPage(rankingPageForm,rankingId, loggedUser);
+        } else {
+            for (TournamentPoints tPoints : ranking.getTournaments()) {
+                if (tournament.getId() == tPoints.getTournament().getId()) {
+                    errors.rejectValue("tournamentName", "rankingPageForm.tournamentName.error.duplicateTournament");
+                    return rankingPage(rankingPageForm, rankingId, loggedUser);
                 }
             }
         }
-        tMap.put(tournament,rankingPageForm.getPoints());
-        rs.addTournaments(rankingId,tMap);
+        tMap.put(tournament, rankingPageForm.getPoints());
+        rs.addTournaments(rankingId, tMap);
         LOGGER.info("Added tournament {} to ranking {}", tournament.getId(), rankingId);
 
-       ns.createAddTournamentToRankingNotification(loggedUser, tournament, ranking);
+        ns.createAddTournamentToRankingNotification(loggedUser, tournament, ranking);
 
         return new ModelAndView("redirect:/ranking/" + ranking.getId());
     }
@@ -125,7 +125,7 @@ public class RankingPageController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

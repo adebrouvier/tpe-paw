@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ParticipatesValidator implements ConstraintValidator<Participates,String> {
+public class ParticipatesValidator implements ConstraintValidator<Participates, String> {
 
     @Autowired
     private UserService userService;
@@ -26,7 +26,7 @@ public class ParticipatesValidator implements ConstraintValidator<Participates,S
 
         User user = userService.findByName(userField);
 
-        if (user == null){
+        if (user == null) {
             return true;
         }
 

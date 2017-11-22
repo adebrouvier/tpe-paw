@@ -10,11 +10,11 @@ public class CommentForm {
     @NotBlank
     private String comment;
 
-    public String getComment(){
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment){
+    public void setComment(String comment) {
         this.comment = comment;
     }
 }

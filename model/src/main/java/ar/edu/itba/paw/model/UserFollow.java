@@ -13,7 +13,7 @@ public class UserFollow {
     private Long userFollowerId;
 
     @ManyToOne
-    @JoinColumn(name ="user_follower_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_follower_id", insertable = false, updatable = false)
     private User userFollower;
 
     @Id

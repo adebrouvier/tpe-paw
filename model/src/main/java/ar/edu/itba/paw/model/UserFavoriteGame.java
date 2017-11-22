@@ -16,11 +16,11 @@ public class UserFavoriteGame {
     private Long gameId;
 
     @ManyToOne
-    @JoinColumn(name ="user_id", insertable=false, updatable=false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "game_id", insertable=false, updatable=false)
+    @JoinColumn(name = "game_id", insertable = false, updatable = false)
     private Game game;
 
     public UserFavoriteGame() {

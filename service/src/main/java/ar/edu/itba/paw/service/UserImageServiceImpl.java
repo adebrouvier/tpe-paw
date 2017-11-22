@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserImageServiceImpl implements UserImageService{
+public class UserImageServiceImpl implements UserImageService {
 
     @Autowired
     private UserImageDao userImageDao;

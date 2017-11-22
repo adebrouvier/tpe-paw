@@ -10,7 +10,8 @@
         </div>
         <div class="card-action">
             <a href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a>
-            <a href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a>
+            <a href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message
+                    code="tournament.standings"/></a>
         </div>
     </div>
 </c:forEach>

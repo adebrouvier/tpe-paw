@@ -28,48 +28,48 @@ import java.util.Properties;
 
 
 @EnableWebMvc
-@ComponentScan({ "ar.edu.itba.paw.webapp.controller" , "ar.edu.itba.paw.service" , "ar.edu.itba.paw.persistence"})
+@ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
 @Configuration
 @EnableTransactionManagement
 public class WebConfig {
 
-	@Bean
-	public MultipartResolver multipartResolver() {
-		CommonsMultipartResolver mr = new CommonsMultipartResolver();
-		return mr;
-	}
+    @Bean
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver mr = new CommonsMultipartResolver();
+        return mr;
+    }
 
-	@Bean 
-	public ViewResolver viewResolver() {
-		final InternalResourceViewResolver viewResolver =
-				new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/jsp/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}
-	
-	@Bean
-	public DataSource dataSource() {
-		final SimpleDriverDataSource ds = new SimpleDriverDataSource();
-		ds.setDriverClass(org.postgresql.Driver.class);
-		ds.setUrl("jdbc:postgresql://localhost/paw-2017b-2");
-		ds.setUsername("paw-2017b-2");
-		ds.setPassword("ahGhie6a");
-		return ds;
-	}
-	
-	@Value("classpath:schema.sql")
-	private Resource schemaSql;
+    @Bean
+    public ViewResolver viewResolver() {
+        final InternalResourceViewResolver viewResolver =
+                new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
+    }
 
-	@Bean
-	public MessageSource messageSource() {
-		final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:i18n/messages");
-		messageSource.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
-		messageSource.setCacheSeconds(5);
-		return messageSource;
-	}
+    @Bean
+    public DataSource dataSource() {
+        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
+        ds.setDriverClass(org.postgresql.Driver.class);
+        ds.setUrl("jdbc:postgresql://localhost/paw-2017b-2");
+        ds.setUsername("paw-2017b-2");
+        ds.setPassword("ahGhie6a");
+        return ds;
+    }
+
+    @Value("classpath:schema.sql")
+    private Resource schemaSql;
+
+    @Bean
+    public MessageSource messageSource() {
+        final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:i18n/messages");
+        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
+        messageSource.setCacheSeconds(5);
+        return messageSource;
+    }
 
     @Bean
     public PlatformTransactionManager transactionManager(
@@ -77,19 +77,19 @@ public class WebConfig {
         return new JpaTransactionManager(emf);
     }
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-		factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
-		factoryBean.setDataSource(dataSource());
-		final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		factoryBean.setJpaVendorAdapter(vendorAdapter);
-		final Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto","update");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-		//properties.setProperty("hibernate.show_sql", "true");
-		//properties.setProperty("format_sql", "true");
-		factoryBean.setJpaProperties(properties);
-		return factoryBean;
-	}
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
+        factoryBean.setDataSource(dataSource());
+        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+        final Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+        //properties.setProperty("hibernate.show_sql", "true");
+        //properties.setProperty("format_sql", "true");
+        factoryBean.setJpaProperties(properties);
+        return factoryBean;
+    }
 }

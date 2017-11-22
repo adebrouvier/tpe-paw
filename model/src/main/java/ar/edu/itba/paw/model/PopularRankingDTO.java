@@ -6,7 +6,7 @@ public class PopularRankingDTO implements Comparable<PopularRankingDTO> {
 
     private Long rankedUsers;
 
-    public PopularRankingDTO(Ranking ranking, Long rankedUsers){
+    public PopularRankingDTO(Ranking ranking, Long rankedUsers) {
         this.ranking = ranking;
         this.rankedUsers = rankedUsers;
     }

@@ -21,7 +21,7 @@ public class Ranking {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn (name = "game_id")
+    @JoinColumn(name = "game_id")
     private Game game;
 
     /**
@@ -37,10 +37,10 @@ public class Ranking {
     private List<UserScore> userScores;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ranking")
-    @Fetch (FetchMode.SELECT)
+    @Fetch(FetchMode.SELECT)
     private List<TournamentPoints> tournaments;
 
-    Ranking (){
+    Ranking() {
         /* For Hibernate */
     }
 
@@ -50,11 +50,11 @@ public class Ranking {
         this.user = user;
     }
 
-    public Game getGame(){
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(Game game){
+    public void setGame(Game game) {
         this.game = game;
     }
 

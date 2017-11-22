@@ -49,7 +49,7 @@ public class ErrorController {
 
     @ModelAttribute("loggedUser")
     public User loggedUser() {
-        if(SecurityContextHolder.getContext() == null ||
+        if (SecurityContextHolder.getContext() == null ||
                 SecurityContextHolder.getContext().getAuthentication() == null ||
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) {
             return null;
@@ -57,7 +57,7 @@ public class ErrorController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

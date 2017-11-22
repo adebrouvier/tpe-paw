@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ExistingUserValidator implements ConstraintValidator<ExistingUser,String>{
+public class ExistingUserValidator implements ConstraintValidator<ExistingUser, String> {
 
     @Autowired
     private UserService userService;
@@ -20,11 +20,11 @@ public class ExistingUserValidator implements ConstraintValidator<ExistingUser,S
     public boolean isValid(String userField,
                            ConstraintValidatorContext cxt) {
 
-        if (userField == null){
+        if (userField == null) {
             return true;
         }
 
-        if (userField.equals("")){
+        if (userField.equals("")) {
             return true;
         }
 

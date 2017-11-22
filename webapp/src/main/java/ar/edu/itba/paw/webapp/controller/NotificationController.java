@@ -29,13 +29,13 @@ public class NotificationController {
     private UserService us;
 
     @RequestMapping("/user/{username}/notifications")
-    public ModelAndView notification(@PathVariable String username, @ModelAttribute("loggedUser") User loggedUser){
+    public ModelAndView notification(@PathVariable String username, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findByName(username);
-        if(u == null) {
+        if (u == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if(loggedUser == null || loggedUser.getId() != u.getId()) {
+        if (loggedUser == null || loggedUser.getId() != u.getId()) {
             return new ModelAndView("redirect:/403");
         }
 
@@ -43,7 +43,7 @@ public class NotificationController {
 
         final ModelAndView mav = new ModelAndView("notifications");
 
-        List<Notification> notifications = ns.getNotifications(u,0);
+        List<Notification> notifications = ns.getNotifications(u, 0);
         mav.addObject("notifications", notifications);
         mav.addObject("user", u);
         mav.addObject("loggedUser", loggedUser);
@@ -52,9 +52,9 @@ public class NotificationController {
 
 
     @RequestMapping("/user/notifications/{page}")
-    public ModelAndView notification(@ModelAttribute("loggedUser") User loggedUser,@PathVariable int page){
+    public ModelAndView notification(@ModelAttribute("loggedUser") User loggedUser, @PathVariable int page) {
 
-        if(loggedUser == null) {
+        if (loggedUser == null) {
             return new ModelAndView("redirect:/403");
         }
 
@@ -72,7 +72,7 @@ public class NotificationController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

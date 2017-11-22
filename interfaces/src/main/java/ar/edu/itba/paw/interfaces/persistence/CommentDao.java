@@ -9,8 +9,9 @@ public interface CommentDao {
 
     /**
      * Creates a comment
+     *
      * @param creator user that commented
-     * @param date date of the comment
+     * @param date    date of the comment
      * @param comment the comment itself
      * @return the created comment
      */
@@ -18,6 +19,7 @@ public interface CommentDao {
 
     /**
      * Finds a comment by id
+     *
      * @param id id of the comment
      * @return the comment
      */

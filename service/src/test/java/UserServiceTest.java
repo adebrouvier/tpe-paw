@@ -27,15 +27,15 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        Mockito.when(userDao.findById(1)).thenReturn(new User(USERNAME,PASSWORD));
+        Mockito.when(userDao.findById(1)).thenReturn(new User(USERNAME, PASSWORD));
         Mockito.when(userDao.findById(123)).thenReturn(null);
-        Mockito.when(userDao.create(USERNAME, PASSWORD)).thenReturn(new User(USERNAME,PASSWORD));
-        Mockito.when(userDao.findByName(USERNAME)).thenReturn(new User(USERNAME,PASSWORD));
+        Mockito.when(userDao.create(USERNAME, PASSWORD)).thenReturn(new User(USERNAME, PASSWORD));
+        Mockito.when(userDao.findByName(USERNAME)).thenReturn(new User(USERNAME, PASSWORD));
         Mockito.when(userDao.findByName("NoExisto")).thenReturn(null);
     }
 
     @Test
-    public void testCreateUserSuccess()  {
+    public void testCreateUserSuccess() {
         assertNotNull(userServiceImpl.create(USERNAME, PASSWORD));
     }
 

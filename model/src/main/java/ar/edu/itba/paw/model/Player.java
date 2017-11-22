@@ -31,7 +31,7 @@ public class Player {
     @Column(name = "standing")
     private Integer standing;
 
-    Player (){
+    Player() {
         /* For Hibernate */
     }
 
@@ -66,11 +66,11 @@ public class Player {
         this.id = id;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user){
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -90,11 +90,11 @@ public class Player {
         this.standing = standing;
     }
 
-    public Tournament getTournament(){
+    public Tournament getTournament() {
         return this.tournament;
     }
 
-    public void setTournament(Tournament tournament){
+    public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
 

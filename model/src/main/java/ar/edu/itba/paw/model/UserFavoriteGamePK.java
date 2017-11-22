@@ -7,7 +7,8 @@ public class UserFavoriteGamePK implements Serializable {
     protected Long userId;
     protected Long gameId;
 
-    public UserFavoriteGamePK() {}
+    public UserFavoriteGamePK() {
+    }
 
     public UserFavoriteGamePK(Long userId, Long gameId) {
         this.userId = userId;

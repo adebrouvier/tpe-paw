@@ -8,24 +8,26 @@ import javax.validation.constraints.Size;
  */
 public class RankingForm {
 
-    @Size(min=4, max=20)
+    @Size(min = 4, max = 20)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
     private String rankingName;
 
-    @Size(min=1, max=60)
+    @Size(min = 1, max = 60)
     private String game;
 
     public String getRankingName() {
         return rankingName;
     }
 
-    public void setRankingName(String rankingName){
-        this.rankingName=rankingName;
+    public void setRankingName(String rankingName) {
+        this.rankingName = rankingName;
     }
 
     public String getGame() {
         return game;
     }
 
-    public void setGame(String game){this.game = game;}
+    public void setGame(String game) {
+        this.game = game;
+    }
 }

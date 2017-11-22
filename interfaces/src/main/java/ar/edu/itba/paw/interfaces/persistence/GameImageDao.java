@@ -6,6 +6,7 @@ public interface GameImageDao {
 
     /**
      * Find an image of specified game
+     *
      * @param gameId id of the Game
      * @return a object that contain the image
      */

@@ -71,7 +71,7 @@ public class UserUpdateForm {
         this.image = image;
     }
 
-    public MultipartFile getImage(){
+    public MultipartFile getImage() {
         return image;
     }
 }

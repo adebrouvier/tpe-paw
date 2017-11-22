@@ -13,22 +13,22 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 public class PlayerServiceTest {
-   @Mock
+    @Mock
     PlayerDao playerDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
     PlayerServiceImpl playerServiceImpl;
 
-    private final Tournament TOURNAMENT = new Tournament("A",null, Tournament.Status.STARTED,null);
+    private final Tournament TOURNAMENT = new Tournament("A", null, Tournament.Status.STARTED, null);
     private final String PLAYER = "jorgito";
 
     @Before
     public void setUp() {
         Mockito.when(playerDao.create(PLAYER, TOURNAMENT)).thenReturn(createPlayer());
         Mockito.when(playerDao.create(PLAYER, null)).thenReturn(null);
-        Mockito.when(playerDao.findBySeed(1,1)).thenReturn((long)1);
-        Mockito.when(playerDao.findBySeed(19,1)).thenReturn((long)PlayerDao.EMPTY);
+        Mockito.when(playerDao.findBySeed(1, 1)).thenReturn((long) 1);
+        Mockito.when(playerDao.findBySeed(19, 1)).thenReturn((long) PlayerDao.EMPTY);
         Mockito.when(playerDao.findById(1)).thenReturn(createPlayer());
         Mockito.when(playerDao.findById(233)).thenReturn(null);
     }
@@ -48,12 +48,12 @@ public class PlayerServiceTest {
 
     @Test
     public void testPlayerFoundBySeed() {
-        Assert.assertEquals(1, playerServiceImpl.findBySeed(1,1));
+        Assert.assertEquals(1, playerServiceImpl.findBySeed(1, 1));
     }
 
     @Test
     public void testPlayerNotFoundBySeed() {
-        Assert.assertEquals(PlayerDao.EMPTY, playerServiceImpl.findBySeed(1,19));
+        Assert.assertEquals(PlayerDao.EMPTY, playerServiceImpl.findBySeed(1, 19));
     }
 
     @Test

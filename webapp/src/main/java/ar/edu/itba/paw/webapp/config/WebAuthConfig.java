@@ -31,7 +31,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService)
                 .sessionManagement()
-                    .invalidSessionUrl("/")
+                .invalidSessionUrl("/")
                 .and().authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").anonymous()
@@ -70,7 +70,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure (final WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/resources/css/**", "/resources/js/**", "/img/**", "/favicon.ico", "/403");
     }

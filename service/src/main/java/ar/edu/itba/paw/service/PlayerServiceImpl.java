@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PlayerServiceImpl implements PlayerService{
+public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     private PlayerDao playerDao;
@@ -40,7 +40,7 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public long findBySeed(int seed, long tournamentId) {
-        return playerDao.findBySeed(seed,tournamentId);
+        return playerDao.findBySeed(seed, tournamentId);
     }
 
     @Transactional

@@ -45,13 +45,13 @@ public class TournamentHibernateDaoTest {
         Tournament tournament2 = new Tournament("Torneo2", game, Tournament.Status.STARTED, user);
         Player player = new Player("Jugador1", tournament);
         Player player2 = new Player("Jugador2", tournament);
-        Match match = new Match(MATCH_ID,player, player2,0,0, null, false, tournament,1);
-        Match match1 = new Match(MATCH_ID+1,player,player2,0,0, match, true, tournament,2);
+        Match match = new Match(MATCH_ID, player, player2, 0, 0, null, false, tournament, 1);
+        Match match1 = new Match(MATCH_ID + 1, player, player2, 0, 0, match, true, tournament, 2);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tournamentDao.findById(1), 100);
-        Ranking ranking = new Ranking("Ranking", game,user);
+        Ranking ranking = new Ranking("Ranking", game, user);
         List<UserScore> userScoreList = new ArrayList<>();
-        userScoreList.add(new UserScore(ranking, user,100));
+        userScoreList.add(new UserScore(ranking, user, 100));
         ranking.setUserScores(userScoreList);
         List<TournamentPoints> tournamentPoints = new ArrayList<>();
         tournamentPoints.add(new TournamentPoints(ranking, tournament, 1000));
@@ -68,9 +68,6 @@ public class TournamentHibernateDaoTest {
         em.persist(ranking);
         em.flush();
     }
-
-
-
 
 
     @Test
@@ -120,7 +117,7 @@ public class TournamentHibernateDaoTest {
     @Test
     @Transactional
     public void testSearchByNameQuery() {
-       assertEquals(2, tournamentDao.findTournamentNames("tor").size());
+        assertEquals(2, tournamentDao.findTournamentNames("tor").size());
     }
 
     @Test
@@ -133,6 +130,6 @@ public class TournamentHibernateDaoTest {
     @Test
     @Transactional
     public void testParticipatesIn() {
-        assertEquals(false, tournamentDao.participatesIn(4,1));
+        assertEquals(false, tournamentDao.participatesIn(4, 1));
     }
 }

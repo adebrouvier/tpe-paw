@@ -27,7 +27,7 @@ public class Game {
     @Column(name = "user_generated")
     private Boolean userGenerated;
 
-    Game (){
+    Game() {
         /* For Hibernate */
     }
 

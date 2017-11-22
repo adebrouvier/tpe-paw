@@ -6,12 +6,12 @@
     background-size: cover;
 }
 
-.follower-section{
-    padding:10px 0 !important;
+.follower-section {
+    padding: 10px 0 !important;
 }
 
-btn-padding{
-    padding:0 10px !important;
+btn-padding {
+    padding: 0 10px !important;
 }
 
 /*.user-img {
@@ -51,6 +51,7 @@ btn-padding{
     height: 20px;
     margin-right: 2px;
 }
+
 .user-social-youtube-icon {
     width: 20px;
     height: 15px;

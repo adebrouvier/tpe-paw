@@ -19,7 +19,8 @@
                     <td><c:out value="${ranking.game.name}"/></td>
                     <td><c:out value="${fn:length(ranking.userScores)}"/></td>
                     <td><c:out value="${fn:length(ranking.tournaments)}"/></td>
-                    <td><a href="<c:url value="/user/${ranking.user.id}"/>"><c:out value="${ranking.user.name}"/></a></td>
+                    <td><a href="<c:url value="/user/${ranking.user.id}"/>"><c:out value="${ranking.user.name}"/></a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

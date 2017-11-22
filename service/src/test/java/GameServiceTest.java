@@ -26,12 +26,12 @@ public class GameServiceTest {
 
     @Before
     public void setUp() {
-        Mockito.when(gameDao.create("Smash", false)).thenReturn(generatedGame("Smash",false));
-        Mockito.when(gameDao.create("Smash", true)).thenReturn(generatedGame("Smash",true));
-        Mockito.when(gameDao.create(null,true)).thenReturn(null);
-        Mockito.when(gameDao.findById(1)).thenReturn(generatedGame("Smash",false));
+        Mockito.when(gameDao.create("Smash", false)).thenReturn(generatedGame("Smash", false));
+        Mockito.when(gameDao.create("Smash", true)).thenReturn(generatedGame("Smash", true));
+        Mockito.when(gameDao.create(null, true)).thenReturn(null);
+        Mockito.when(gameDao.findById(1)).thenReturn(generatedGame("Smash", false));
         Mockito.when(gameDao.findById(123)).thenReturn(null);
-        Mockito.when(gameDao.findGameNames("Brawl")).thenReturn(generatedGameNames("Brawl",true));
+        Mockito.when(gameDao.findGameNames("Brawl")).thenReturn(generatedGameNames("Brawl", true));
         Mockito.when(gameDao.findGameNames("asdasdasf")).thenReturn(null);
     }
 
@@ -75,6 +75,7 @@ public class GameServiceTest {
     private Game generatedGame(String gameName, Boolean userGenerated) {
         return new Game(gameName, userGenerated);
     }
+
     private List<String> generatedGameNames(String gameName, Boolean userGenerated) {
         List<String> gamesName = new ArrayList<>();
         gamesName.add(gameName);

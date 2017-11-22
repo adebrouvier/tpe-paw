@@ -47,26 +47,30 @@ public class IndexController {
 
     /**
      * Used by Bloodhound to get tournament names
+     *
      * @param query term to search
      * @return an array of tournament names
      */
     @RequestMapping(value = "/tournament_autocomplete", method = RequestMethod.GET)
-    public @ResponseBody List<String> tournamentAutocomplete(@RequestParam("query") String query, @RequestParam(value = "game", required = false) Long game) {
+    public @ResponseBody
+    List<String> tournamentAutocomplete(@RequestParam("query") String query, @RequestParam(value = "game", required = false) Long game) {
 
-        if (game == null){
+        if (game == null) {
             return ts.findTournamentNames(query);
-        }else{
+        } else {
             return ts.findTournamentNames(query, game);
         }
     }
 
     /**
      * Used by Bloodhound to get ranking names
+     *
      * @param query term to search
      * @return an array of ranking names
      */
     @RequestMapping(value = "/ranking_autocomplete", method = RequestMethod.GET)
-    public @ResponseBody List<String> rankingAutocomplete(@RequestParam("query") String query) {
+    public @ResponseBody
+    List<String> rankingAutocomplete(@RequestParam("query") String query) {
         return rs.findRankingNames(query);
     }
 
@@ -76,7 +80,7 @@ public class IndexController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

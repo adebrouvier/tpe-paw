@@ -48,7 +48,7 @@ public class RankingController {
     public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
-            return ranking(rankingForm,loggedUser);
+            return ranking(rankingForm, loggedUser);
         }
 
         Map<Tournament, Integer> tMap = new HashMap<>();
@@ -66,7 +66,7 @@ public class RankingController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

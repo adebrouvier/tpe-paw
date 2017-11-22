@@ -39,19 +39,19 @@ public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ModelAndView search(@RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "game", required = false) String game,
-                               @ModelAttribute("loggedUser") User loggedUser){
+                               @ModelAttribute("loggedUser") User loggedUser) {
 
         LOGGER.debug("Access to search");
         ModelAndView mav = new ModelAndView("search");
         mav.addObject("loggedUser", loggedUser);
-        if (query == null){
+        if (query == null) {
             return mav;
         }
 
         String term = "";
 
         try {
-            term = URLDecoder.decode(query,"UTF-8");
+            term = URLDecoder.decode(query, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("UTF-8 decode error");
         }
@@ -69,7 +69,7 @@ public class SearchController {
 
         String username;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }

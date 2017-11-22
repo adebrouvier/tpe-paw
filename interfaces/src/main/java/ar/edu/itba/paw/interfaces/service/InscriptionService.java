@@ -10,7 +10,8 @@ public interface InscriptionService {
 
     /**
      * Creates an inscription for a tournament
-     * @param user the user that wants to join
+     *
+     * @param user       the user that wants to join
      * @param tournament the tournament that the user wants to join
      * @return the created inscription
      */
@@ -18,7 +19,8 @@ public interface InscriptionService {
 
     /**
      * Finds an inscription by an user in a tournament
-     * @param userId the id of the user
+     *
+     * @param userId       the id of the user
      * @param tournamentId the id of the tournament
      * @return the inscription or null if not found
      */
@@ -26,6 +28,7 @@ public interface InscriptionService {
 
     /**
      * Finds all pending inscriptions to a tournament
+     *
      * @param tournamentId the id of the tournament
      * @return the list of inscriptions
      */
@@ -33,8 +36,9 @@ public interface InscriptionService {
 
     /**
      * Deletes an user from the inscription list
+     *
      * @param tournamentId id of the tournament
-     * @param userId id of the user
+     * @param userId       id of the user
      */
     void delete(long tournamentId, long userId);
 }

@@ -6,5 +6,6 @@ import ar.edu.itba.paw.model.UserImage;
 public interface UserImageDao {
 
     public void updateImage(User user, byte[] image);
+
     public UserImage findById(long id);
 }

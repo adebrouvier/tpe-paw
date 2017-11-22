@@ -2,12 +2,13 @@ package ar.edu.itba.paw.model;
 
 import java.io.Serializable;
 
-public class MatchPK implements Serializable{
+public class MatchPK implements Serializable {
 
     protected Integer id;
     protected Tournament tournament;
 
-    public MatchPK() {}
+    public MatchPK() {
+    }
 
     public MatchPK(Integer id, Tournament tournament) {
         this.id = id;

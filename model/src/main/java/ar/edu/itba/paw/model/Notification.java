@@ -9,7 +9,9 @@ import java.util.List;
 @Table(name = "notification")
 public class Notification {
 
-    public enum Types {PARTICIPATES_IN_TOURNAMENT,FIRST_PLACE,SECOND_PLACE,THIRD_PLACE,ACCEPT_JOIN_TOURNAMENT,REJECT_JOIN_TOURNAMENT,REQUEST_JOIN_TOURNAMENT,REPLY_TOURNAMENT_COMMENT,ADD_TOURNAMENT_TO_RANKING};
+    public enum Types {PARTICIPATES_IN_TOURNAMENT, FIRST_PLACE, SECOND_PLACE, THIRD_PLACE, ACCEPT_JOIN_TOURNAMENT, REJECT_JOIN_TOURNAMENT, REQUEST_JOIN_TOURNAMENT, REPLY_TOURNAMENT_COMMENT, ADD_TOURNAMENT_TO_RANKING}
+
+    ;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_notification_id_seq")
@@ -99,7 +101,7 @@ public class Notification {
     }
 
     public List<String> getDecodeDescription() {
-        if(decodeDescription == null) {
+        if (decodeDescription == null) {
             decodeDescription();
         }
         return decodeDescription;
@@ -170,7 +172,7 @@ public class Notification {
         String[] args = description.split("/");
         List<String> list = new ArrayList<>();
         int size = args.length;
-        for(int i = 0 ; i < size ; i++) {
+        for (int i = 0; i < size; i++) {
             list.add(args[i]);
         }
         this.decodeDescription = list;

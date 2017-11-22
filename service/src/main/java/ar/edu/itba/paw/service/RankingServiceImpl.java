@@ -26,7 +26,7 @@ public class RankingServiceImpl implements RankingService {
     @Transactional
     @Override
     public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
-        return rankingDao.create(name,tournaments, game, userId);
+        return rankingDao.create(name, tournaments, game, userId);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RankingServiceImpl implements RankingService {
     @Transactional
     @Override
     public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
-        return rankingDao.addTournaments(rankingId,tournaments);
+        return rankingDao.addTournaments(rankingId, tournaments);
     }
 
     @Override
@@ -68,7 +68,9 @@ public class RankingServiceImpl implements RankingService {
 
     @Transactional
     @Override
-    public List<Ranking> findRankingByUserPage(long userId, int page) {return rankingDao.findRankingByUserPage(userId, page);}
+    public List<Ranking> findRankingByUserPage(long userId, int page) {
+        return rankingDao.findRankingByUserPage(userId, page);
+    }
 
 
 }

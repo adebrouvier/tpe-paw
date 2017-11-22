@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     var tournaments = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
             url: contextPath + '/tournament_autocomplete?query=%QUERY&game=%GAME',
-            replace: function(url, query) {
+            replace: function (url, query) {
                 var gameId = $("#ranking-game").data("game");
                 url = url.replace("%QUERY", query);
                 return url.replace('%GAME', gameId);
@@ -26,7 +26,7 @@ $(document).ready(function() {
         .css("float", "none")
         .css("width", "100%");
 
-    $('form').submit(function(){
+    $('form').submit(function () {
         $('button[type=submit]').prop('disabled', true);
     });
 });

@@ -11,7 +11,8 @@
             <div class="input-field" style="color: #333333">
                 <i id="search-icon" class="material-icons">search</i>
                 <spring:message code="index.search.placeholder" var="indexSearchPlaceholder"/>
-                <input id="search" class="typeahead" type="search" placeholder="${indexSearchPlaceholder}" name="query" autocomplete="off"/>
+                <input id="search" class="typeahead" type="search" placeholder="${indexSearchPlaceholder}" name="query"
+                       autocomplete="off"/>
                 <input type="submit" style="visibility: hidden"/>
             </div>
         </form>
@@ -25,7 +26,8 @@
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
                 <li>
-                    <a href="<c:url value="/user/${loggedUser.name}/notifications"/>" style="height: 65px; padding-top: 4px">
+                    <a href="<c:url value="/user/${loggedUser.name}/notifications"/>"
+                       style="height: 65px; padding-top: 4px">
                         <i class="small material-icons" style="display: inline-flex">notifications</i>
                         <c:if test="${loggedUser.unreadNotifications > 0 && (notifications == null || notifications.size() == 0)}">
                             <span id="new-notification" class="badge red">
@@ -39,7 +41,8 @@
                         </c:if>
                     </a>
                 </li>
-                <li class="nav-user"><a href="<c:url value="/user/${loggedUser.id}" />"><c:out value="${loggedUser.name}"/></a></li>
+                <li class="nav-user"><a href="<c:url value="/user/${loggedUser.id}" />"><c:out
+                        value="${loggedUser.name}"/></a></li>
                 <li><a href="<c:url value="/logout"/>"><spring:message code="navbar.logout"/></a></li>
             </ul>
         </security:authorize>

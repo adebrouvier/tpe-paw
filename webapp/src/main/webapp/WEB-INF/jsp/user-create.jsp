@@ -7,13 +7,14 @@
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/user-creates.js"/>"></script>
-    <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
+    <script type="text/javascript">contextPath = '<%=request.getContextPath()%>';</script>
     <title><c:out value="${user.name}"> </c:out> - <spring:message code="header.name"/></title>
 </head>
 <body>
@@ -28,11 +29,16 @@ ${navbar}
                 <div class="row tournament-tabs">
                     <div class="col s12">
                         <ul class="tabs">
-                            <li class="tab col s4"><a target="_self" href="<c:url value="/user/${user.id}"/>"><spring:message code="user.participates"/></a></li>
-                            <li class="tab col s4"><a class="active" href="#"><spring:message code="user.created"/></a></li>
-                            <li class="tab col s4"><a target="_self" href="<c:url value="/user/${user.id}/createdRanking"/>"><spring:message code="user.created.ranking"/></a></li>
-                           <%-- <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followers"/>">followers</a></li>
-                            <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followed"/>">followed</a></li> --%>
+                            <li class="tab col s4"><a target="_self"
+                                                      href="<c:url value="/user/${user.id}"/>"><spring:message
+                                    code="user.participates"/></a></li>
+                            <li class="tab col s4"><a class="active" href="#"><spring:message code="user.created"/></a>
+                            </li>
+                            <li class="tab col s4"><a target="_self"
+                                                      href="<c:url value="/user/${user.id}/createdRanking"/>"><spring:message
+                                    code="user.created.ranking"/></a></li>
+                            <%-- <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followers"/>">followers</a></li>
+                             <li class="tab col s3"><a target="_self" href="<c:url value="/user/${user.id}/followed"/>">followed</a></li> --%>
                         </ul>
                     </div>
                 </div>
@@ -46,15 +52,16 @@ ${navbar}
                             </div>
                         </div>
                         <div class="card-action">
-                            <a href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a>
-                            <a href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a>
+                            <a href="<c:url value="/tournament/${tournament.id}"/>"><spring:message
+                                    code="tournament.bracket"/></a>
+                            <a href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message
+                                    code="tournament.standings"/></a>
                         </div>
                     </div>
                 </c:forEach>
             </div>
         </div>
     </div>
-
 
 
 </main>

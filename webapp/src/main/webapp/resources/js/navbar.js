@@ -1,10 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     var tournaments = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: contextPath +'/tournament_autocomplete?query=%QUERY',
+            url: contextPath + '/tournament_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
@@ -13,7 +13,7 @@ $(document).ready(function() {
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: contextPath +'/ranking_autocomplete?query=%QUERY',
+            url: contextPath + '/ranking_autocomplete?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
@@ -35,14 +35,14 @@ $(document).ready(function() {
                 header: '<h6 class="category-name">Ranking</h6>'
             }
         }
-    ).on('typeahead:selected', function(e, data) {
+    ).on('typeahead:selected', function (e, data) {
         $("#searchForm").submit();
     });
 
-    $('input#search.typeahead.tt-input').focus(function(){
-        $('#search-icon').css({"color":"#333333"});
+    $('input#search.typeahead.tt-input').focus(function () {
+        $('#search-icon').css({"color": "#333333"});
     });
-    $('input#search.typeahead.tt-input').focusout(function(){
-        $('#search-icon').css({"color":"#ffffff"});
+    $('input#search.typeahead.tt-input').focusout(function () {
+        $('#search-icon').css({"color": "#ffffff"});
     });
 });

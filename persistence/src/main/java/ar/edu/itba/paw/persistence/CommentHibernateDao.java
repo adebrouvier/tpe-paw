@@ -10,12 +10,12 @@ import javax.persistence.PersistenceContext;
 import java.util.Date;
 
 @Repository
-public class CommentHibernateDao implements CommentDao{
+public class CommentHibernateDao implements CommentDao {
 
     @PersistenceContext
     private EntityManager em;
 
-    public Comment create(User creator, Date date, String comment){
+    public Comment create(User creator, Date date, String comment) {
         final Comment c = new Comment(creator, date, comment);
         em.persist(c);
         return c;

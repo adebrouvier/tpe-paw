@@ -8,7 +8,8 @@ public class UserScorePK implements Serializable {
     protected User user;
     protected Ranking ranking;
 
-    public UserScorePK() {}
+    public UserScorePK() {
+    }
 
     public UserScorePK(Ranking ranking, User user) {
         this.user = user;

@@ -8,7 +8,8 @@ public class TournamentPointsPK implements Serializable {
     protected Tournament tournament;
     protected Ranking ranking;
 
-    public TournamentPointsPK() {}
+    public TournamentPointsPK() {
+    }
 
     public TournamentPointsPK(Ranking ranking, Tournament tournament) {
         this.ranking = ranking;

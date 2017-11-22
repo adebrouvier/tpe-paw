@@ -9,19 +9,19 @@ main {
     flex: 1 0 auto;
 }
 
-nav .nav-wrapper{
+nav .nav-wrapper {
     background-color: #0288d1;
 }
 
-.margin-top-25{
+.margin-top-25 {
     margin-top: 25px;
 }
 
-.form-error{
+.form-error {
     color: red !important;
 }
 
-.right-align{
+.right-align {
     float: right;
 }
 
@@ -30,10 +30,12 @@ nav .nav-wrapper{
 .input-field label {
     color: #0288d1;
 }
+
 /* label focus color */
-.input-field input[type=text]:focus + label, .input-field textarea:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=password]:focus + label{
+.input-field input[type=text]:focus + label, .input-field textarea:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=password]:focus + label {
     color: #0288d1;
 }
+
 /* label underline focus color */
 .input-field input[type=text]:focus, .input-field input[type=number]:focus, .input-field textarea:focus, .input-field input[type=password]:focus {
     border-bottom: 1px solid #0288d1 !important;
@@ -50,16 +52,16 @@ nav .nav-wrapper{
     box-shadow: 0 1px 0 0 #0288d1 !important;
 }
 
-.checkbox-versus[type="checkbox"].filled-in:checked + label:after, .checkbox-versus[type="input"].filled-in:checked + label:after{
+.checkbox-versus[type="checkbox"].filled-in:checked + label:after, .checkbox-versus[type="input"].filled-in:checked + label:after {
     border: 2px solid #0288d1;
     background-color: #0288d1;
 }
 
-.page-footer{
+.page-footer {
     background-color: #0288d1;
 }
 
-.tabs .indicator{
+.tabs .indicator {
     background-color: #0288d1;
 }
 
@@ -93,48 +95,56 @@ nav .nav-wrapper{
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
 .has-warning .twitter-typeahead .tt-input:focus,
 .has-warning .twitter-typeahead .tt-hint:focus {
     border-color: #66512c;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
 }
+
 .has-error .twitter-typeahead .tt-input,
 .has-error .twitter-typeahead .tt-hint {
     border-color: #a94442;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
 .has-error .twitter-typeahead .tt-input:focus,
 .has-error .twitter-typeahead .tt-hint:focus {
     border-color: #843534;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
 }
+
 .has-success .twitter-typeahead .tt-input,
 .has-success .twitter-typeahead .tt-hint {
     border-color: #3c763d;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
 .has-success .twitter-typeahead .tt-input:focus,
 .has-success .twitter-typeahead .tt-hint:focus {
     border-color: #2b542c;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
 }
+
 .input-group .twitter-typeahead:first-child .tt-input,
 .input-group .twitter-typeahead:first-child .tt-hint {
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     width: 100%;
 }
+
 .input-group .twitter-typeahead:last-child .tt-input,
 .input-group .twitter-typeahead:last-child .tt-hint {
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     width: 100%;
 }
+
 .input-group.input-group-sm .twitter-typeahead .tt-input,
 .input-group.input-group-sm .twitter-typeahead .tt-hint {
     height: 30px;
@@ -143,21 +153,25 @@ nav .nav-wrapper{
     line-height: 1.5;
     border-radius: 3px;
 }
+
 select.input-group.input-group-sm .twitter-typeahead .tt-input,
 select.input-group.input-group-sm .twitter-typeahead .tt-hint {
     height: 30px;
     line-height: 30px;
 }
+
 textarea.input-group.input-group-sm .twitter-typeahead .tt-input,
 textarea.input-group.input-group-sm .twitter-typeahead .tt-hint,
 select[multiple].input-group.input-group-sm .twitter-typeahead .tt-input,
 select[multiple].input-group.input-group-sm .twitter-typeahead .tt-hint {
     height: auto;
 }
+
 .input-group.input-group-sm .twitter-typeahead:not(:first-child):not(:last-child) .tt-input,
 .input-group.input-group-sm .twitter-typeahead:not(:first-child):not(:last-child) .tt-hint {
     border-radius: 0;
 }
+
 .input-group.input-group-sm .twitter-typeahead:first-child .tt-input,
 .input-group.input-group-sm .twitter-typeahead:first-child .tt-hint {
     border-bottom-left-radius: 3px;
@@ -165,6 +179,7 @@ select[multiple].input-group.input-group-sm .twitter-typeahead .tt-hint {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
 }
+
 .input-group.input-group-sm .twitter-typeahead:last-child .tt-input,
 .input-group.input-group-sm .twitter-typeahead:last-child .tt-hint {
     border-bottom-left-radius: 0;
@@ -172,6 +187,7 @@ select[multiple].input-group.input-group-sm .twitter-typeahead .tt-hint {
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .input-group.input-group-lg .twitter-typeahead .tt-input,
 .input-group.input-group-lg .twitter-typeahead .tt-hint {
     height: 46px;
@@ -180,21 +196,25 @@ select[multiple].input-group.input-group-sm .twitter-typeahead .tt-hint {
     line-height: 1.33;
     border-radius: 6px;
 }
+
 select.input-group.input-group-lg .twitter-typeahead .tt-input,
 select.input-group.input-group-lg .twitter-typeahead .tt-hint {
     height: 46px;
     line-height: 46px;
 }
+
 textarea.input-group.input-group-lg .twitter-typeahead .tt-input,
 textarea.input-group.input-group-lg .twitter-typeahead .tt-hint,
 select[multiple].input-group.input-group-lg .twitter-typeahead .tt-input,
 select[multiple].input-group.input-group-lg .twitter-typeahead .tt-hint {
     height: auto;
 }
+
 .input-group.input-group-lg .twitter-typeahead:not(:first-child):not(:last-child) .tt-input,
 .input-group.input-group-lg .twitter-typeahead:not(:first-child):not(:last-child) .tt-hint {
     border-radius: 0;
 }
+
 .input-group.input-group-lg .twitter-typeahead:first-child .tt-input,
 .input-group.input-group-lg .twitter-typeahead:first-child .tt-hint {
     border-bottom-left-radius: 6px;
@@ -202,6 +222,7 @@ select[multiple].input-group.input-group-lg .twitter-typeahead .tt-hint {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
 }
+
 .input-group.input-group-lg .twitter-typeahead:last-child .tt-input,
 .input-group.input-group-lg .twitter-typeahead:last-child .tt-hint {
     border-bottom-left-radius: 0;
@@ -209,25 +230,31 @@ select[multiple].input-group.input-group-lg .twitter-typeahead .tt-hint {
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
 }
+
 .twitter-typeahead {
     width: 300px;
     float: left;
 }
+
 .input-group .twitter-typeahead {
     display: table-cell !important;
 }
+
 .twitter-typeahead .tt-hint {
     color: #999999;
 }
+
 .twitter-typeahead .tt-input {
     z-index: 2;
 }
+
 .twitter-typeahead .tt-input[disabled],
 .twitter-typeahead .tt-input[readonly],
 fieldset[disabled] .twitter-typeahead .tt-input {
     cursor: not-allowed;
     background-color: #eeeeee !important;
 }
+
 .tt-dropdown-menu,
 .tt-menu {
     position: absolute;
@@ -250,6 +277,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     *border-right-width: 2px;
     *border-bottom-width: 2px;
 }
+
 .tt-dropdown-menu .tt-suggestion,
 .tt-menu .tt-suggestion {
     display: block;
@@ -259,6 +287,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     line-height: 1.42857143;
     color: #333333;
 }
+
 .tt-dropdown-menu .tt-suggestion.tt-cursor,
 .tt-menu .tt-suggestion.tt-cursor,
 .tt-dropdown-menu .tt-suggestion:hover,
@@ -269,35 +298,37 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     background-color: #f5f5f5;
     color: #262626;
 }
+
 .tt-dropdown-menu .tt-suggestion.tt-cursor a,
 .tt-menu .tt-suggestion.tt-cursor a,
 .tt-dropdown-menu .tt-suggestion:hover a,
 .tt-menu .tt-suggestion:hover a {
     color: #262626;
 }
+
 .tt-dropdown-menu .tt-suggestion p,
 .tt-menu .tt-suggestion p {
     margin: 0;
 }
 
-#search-icon{
+#search-icon {
     float: left;
     margin-right: 15px;
     margin-top: 13px;
 }
 
-.category-name{
+.category-name {
     margin: 0 20px 5px 20px;
     padding: 3px 0;
     /*border-bottom: 1px solid #ccc;*/
     font-weight: bold;
 }
 
-.tournament-tabs{
+.tournament-tabs {
     border-bottom: 1px solid lightgrey;
 }
 
-.nav-user{
+.nav-user {
     padding: 0 15px 0 15px;
 }
 
@@ -313,7 +344,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     margin-bottom: 0;
 }
 
-#search-icon{
+#search-icon {
     position: absolute;
     left: 2rem;
     top: -12px;
@@ -341,11 +372,12 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     margin-left: 0px;
     border-radius: 3px;
 }
-.comment{
+
+.comment {
     word-wrap: break-word;
 }
 
-.child-comment{
+.child-comment {
     margin-left: 60px;
 }
 

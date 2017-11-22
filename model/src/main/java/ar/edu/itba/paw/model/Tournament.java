@@ -67,7 +67,7 @@ public class Tournament {
     @Fetch(FetchMode.SELECT)
     private List<Comment> comments;
 
-    public Tournament(final String name, final Game game, Status status, final User creator){
+    public Tournament(final String name, final Game game, Status status, final User creator) {
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.comments = new ArrayList<>();
@@ -77,7 +77,7 @@ public class Tournament {
         this.creator = creator;
     }
 
-    Tournament (){
+    Tournament() {
         /* For Hibernate */
     }
 
@@ -89,9 +89,13 @@ public class Tournament {
         this.game = game;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public List<Player> getPlayers() {
         return players;
@@ -105,7 +109,7 @@ public class Tournament {
         return matches;
     }
 
-    public void setMatches(List<Match> matches){
+    public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
 
@@ -117,9 +121,13 @@ public class Tournament {
         this.id = id;
     }
 
-    public Status getStatus() { return status; }
+    public Status getStatus() {
+        return status;
+    }
 
-    public void setStatus(Status status) { this.status = status; }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public User getCreator() {
         return creator;
@@ -129,19 +137,19 @@ public class Tournament {
         this.creator = user;
     }
 
-    public int getFullSize(){
+    public int getFullSize() {
         return (int) Math.pow(2, Math.ceil((Math.log(players.size()) / Math.log(2))));
     }
 
-    public List<Comment> getComments(){
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments){
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
-    public void addComment (Comment comment){
+    public void addComment(Comment comment) {
         if (!comments.contains(comment)) {
             comments.add(comment);
         }

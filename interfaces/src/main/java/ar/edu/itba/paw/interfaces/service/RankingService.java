@@ -12,17 +12,19 @@ public interface RankingService {
 
     /**
      * Finds the ranking with the specified id
+     *
      * @param rankingId id of the tournament
      * @return instance of the Ranking
      */
     Ranking findById(final long rankingId);
 
     /**
-     *Creates a ranking with specified name and
+     * Creates a ranking with specified name and
      * a list of tournaments with its corresponding points
-     * @param name of the ranking
+     *
+     * @param name        of the ranking
      * @param tournaments taken into account
-     * @param game that the tournaments will feature
+     * @param game        that the tournaments will feature
      * @return instance of new ranking
      */
     Ranking create(final String name, final Map<Tournament, Integer> tournaments, String game, long userId);
@@ -30,13 +32,15 @@ public interface RankingService {
     /**
      * Deletes a tournament from a ranking that already
      * existed.
-     * @param rankingId id of the ranking
+     *
+     * @param rankingId    id of the ranking
      * @param tournamentId id of the tournament
      */
     void delete(final long rankingId, final long tournamentId);
 
     /**
      * Searches for a {@link Ranking}
+     *
      * @param term name of part of the name
      * @param game
      * @return a list of matching rankings
@@ -46,6 +50,7 @@ public interface RankingService {
     /**
      * Searchs by a partially completed name for a Ranking that
      * matches
+     *
      * @param query partial name
      * @return list of Rankings that matched
      */
@@ -53,7 +58,8 @@ public interface RankingService {
 
     /**
      * Add Tournaments to a specified Ranking
-     * @param rankingId id of the Ranking
+     *
+     * @param rankingId   id of the Ranking
      * @param tournaments Map of Tournament
      *                    and the points each
      *                    one awards
@@ -62,8 +68,8 @@ public interface RankingService {
     Ranking addTournaments(final long rankingId, Map<Tournament, Integer> tournaments);
 
     /**
-     *
      * Returns a list of the featured Rankings
+     *
      * @param featured amount of Ranking to be featured
      * @return list of the featured Rankings
      */

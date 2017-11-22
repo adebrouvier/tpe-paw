@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class UserImageHibernateDao implements UserImageDao{
+public class UserImageHibernateDao implements UserImageDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -19,7 +19,7 @@ public class UserImageHibernateDao implements UserImageDao{
     @Override
     public void updateImage(User user, byte[] image) {
         UserImage ui = findById(user.getId());
-        if(ui == null) {
+        if (ui == null) {
             ui = new UserImage(user.getId(), image);
             em.persist(ui);
         } else {

@@ -10,11 +10,11 @@ public class ReplyForm {
     @NotBlank
     private String reply;
 
-    public String getReply(){
+    public String getReply() {
         return reply;
     }
 
-    public void setReply(String reply){
+    public void setReply(String reply) {
         this.reply = reply;
     }
 }

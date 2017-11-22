@@ -6,119 +6,119 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
-	@SequenceGenerator(sequenceName = "users_user_id_seq",
-			name = "users_user_id_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
+    @SequenceGenerator(sequenceName = "users_user_id_seq",
+            name = "users_user_id_seq", allocationSize = 1)
     @Column(name = "user_id")
-	private Long id;
+    private Long id;
 
     @Column(name = "user_name", length = 100, nullable = false, unique = true)
-	private String name;
+    private String name;
 
     @Column(name = "password", length = 100, nullable = false)
-	private String password;
+    private String password;
 
     @Column(name = "description", length = 200)
-	private String description;
+    private String description;
 
     @Column(name = "twitch_utl", length = 2000)
-	private String twitchUrl;
+    private String twitchUrl;
 
-	@Column(name = "twitter_utl", length = 2000)
-	private String twitterUrl;
+    @Column(name = "twitter_utl", length = 2000)
+    private String twitterUrl;
 
-	@Column(name = "youtube_utl", length = 2000)
-	private String youtubeUrl;
+    @Column(name = "youtube_utl", length = 2000)
+    private String youtubeUrl;
 
-	@Transient
-	private int unreadNotifications;
+    @Transient
+    private int unreadNotifications;
 
-    User(){
-		/* For Hibernate */
+    User() {
+        /* For Hibernate */
     }
-	
-	public User(final String name, final String password) {
-		this.name = name;
-		this.password = password;
-	}
 
-	public String getDescription() {
-		return description;
-	}
+    public User(final String name, final String password) {
+        this.name = name;
+        this.password = password;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public long getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getTwitchUrl() {
-		return twitchUrl;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setTwitchUrl(String twitchUrl) {
-		this.twitchUrl = twitchUrl;
-	}
+    public String getTwitchUrl() {
+        return twitchUrl;
+    }
 
-	public String getTwitterUrl() {
-		return twitterUrl;
-	}
+    public void setTwitchUrl(String twitchUrl) {
+        this.twitchUrl = twitchUrl;
+    }
 
-	public void setTwitterUrl(String twitterUrl) {
-		this.twitterUrl = twitterUrl;
-	}
+    public String getTwitterUrl() {
+        return twitterUrl;
+    }
 
-	public String getYoutubeUrl() {
-		return youtubeUrl;
-	}
+    public void setTwitterUrl(String twitterUrl) {
+        this.twitterUrl = twitterUrl;
+    }
 
-	public void setYoutubeUrl(String youtubeUrl) {
-		this.youtubeUrl = youtubeUrl;
-	}
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
 
-	public int getUnreadNotifications() {
-		return unreadNotifications;
-	}
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
 
-	public void setUnreadNotifications(int unreadNotifications) {
-		this.unreadNotifications = unreadNotifications;
-	}
+    public int getUnreadNotifications() {
+        return unreadNotifications;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public void setUnreadNotifications(int unreadNotifications) {
+        this.unreadNotifications = unreadNotifications;
+    }
 
-		User user = (User) o;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		return id.equals(user.id);
-	}
+        User user = (User) o;
 
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
+        return id.equals(user.id);
+    }
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
-	}
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
