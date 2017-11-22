@@ -34,7 +34,7 @@ ${navbar}
                             <img id="user-preview" src="/profile-image/${user.id}" class="user-img" />
                         </div>
                         <div class="user-section-center">
-                            <form:label cssClass="btn btn-primary light-blue darken-4 fileContainer" for="file" path="image">add image
+                            <form:label cssClass="btn btn-primary light-blue darken-4 fileContainer" for="file" path="image"><spring:message code="settings.addImage"/>
                                 <form:input placeholder="pepeps" class="file-input" onchange="readURL(this);" autocomplete="off" type="file" path="image" accept="image/*"/>
                             </form:label>
                         </div>
@@ -43,14 +43,15 @@ ${navbar}
                     <div class="section" style="margin: 10px 40px">
                         <div class="input-field">
                             <div id="description-text-area" style="display: none" data-textarea="<c:out value="${user.description}"/>"></div>
-                            <form:label class="active" path="description">Description:</form:label>
+                            <form:label class="active" path="description"><spring:message code="settings.description"/></form:label>
                             <form:textarea cssClass="materialize-textarea" id="description-textarea" path="description"/>
+                            <form:errors path="description" cssClass="form-error" element="p"/>
                         </div>
                     </div>
                     <div class="divider"></div>
                     <div class="section" style="margin: 10px 40px">
                         <div class="input-field">
-                            <form:label class="active" path="twitchUrl">Twitch Channel:</form:label>
+                            <form:label class="active" path="twitchUrl"><img src="<c:url value="/resources/img/twitch-icon.png"/>" class="user-social-icon"><spring:message code="settings.twitch"/></form:label>
                             <form:input type="text" path="twitchUrl" autocomplete="off" value="${user.twitchUrl}"/>
                             <form:errors path="twitchUrl" cssClass="form-error" element="p"/>
                         </div>
@@ -58,7 +59,7 @@ ${navbar}
                     <div class="divider"></div>
                     <div class="section" style="margin: 10px 40px">
                         <div class="input-field">
-                            <form:label class="active" path="twitterUrl">Twitter Profile:</form:label>
+                            <form:label class="active" path="twitterUrl"><img src="<c:url value="/resources/img/twitter-icon.png"/>" class="user-social-icon"><spring:message code="settings.twitter"/></form:label>
                             <form:input type="text" path="twitterUrl" autocomplete="off" value="${user.twitterUrl}"/>
                             <form:errors path="twitterUrl" cssClass="form-error" element="p"/>
                         </div>
@@ -66,7 +67,7 @@ ${navbar}
                     <div class="divider"></div>
                     <div class="section" style="margin: 10px 40px">
                         <div class="input-field">
-                            <form:label class="active" path="youtubeUrl">Youtube Channel:</form:label>
+                            <form:label class="active" path="youtubeUrl"><img src="<c:url value="/resources/img/youtube-icon.png"/>" class="user-social-youtube-icon"><spring:message code="settings.youtube"/></form:label>
                             <form:input type="text" path="youtubeUrl" autocomplete="off" value="${user.youtubeUrl}"/>
                             <form:errors path="youtubeUrl" cssClass="form-error" element="p"/>
                         </div>
@@ -77,38 +78,12 @@ ${navbar}
                             <form:label class="active" path="game"><spring:message code="tournament.create.game"/>:</form:label>
                             <form:input id="game-search" type="text" cssClass="typeahead" path="game"
                                         autocomplete="off" value="${gameName}"/>
-                            <form:errors path="game" cssClass="form-error" element="p"/>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section" style="margin: 10px 40px">
-                        <div class="input-field">
-                            <form:label class="active" path="game">Twitch:</form:label>
-                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
-                                        autocomplete="off" value="${gameName}"/>
-                            <form:errors path="game" cssClass="form-error" element="p"/>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section" style="margin: 10px 40px">
-                        <div class="input-field">
-                            <form:label class="active" path="game">Twitter:</form:label>
-                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
-                                        autocomplete="off" value="${gameName}"/>
-                            <form:errors path="game" cssClass="form-error" element="p"/>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section" style="margin: 10px 40px">
-                        <div class="input-field">
-                            <form:label class="active" path="game">Facebook:</form:label>
-                            <form:input id="game-search" type="text" cssClass="typeahead" path="game"
-                                        autocomplete="off" value="${gameName}"/>
+                            </br></br>
                             <form:errors path="game" cssClass="form-error" element="p"/>
                         </div>
                     </div>
                     <div class=right style="padding-top: 50px;padding-bottom: 20px;padding-right: 20px">
-                        <form:button class="btn btn-primary light-blue darken-4" type="submit">save</form:button>
+                        <form:button class="btn btn-primary light-blue darken-4" type="submit"><spring:message code="settings.save"/></form:button>
                     </div>
                 </form:form>
             </div>
