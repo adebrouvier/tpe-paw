@@ -127,11 +127,11 @@ ${navbar}
                                                 <div class="players-name">
                                                     <div class="home-player-name">
                                                         <c:out value="${match.homePlayer.name}"></c:out>
-                                                        <c:if test="${match.homePlayerCharacter.length()!=null && match.homePlayerCharacter.length()<10}"><c:out value="(${match.homePlayerCharacter})"> </c:out></c:if>
+                                                        <c:if test="${match.homePlayerCharacter.length()!=null && match.homePlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value="(${match.homePlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                     <div class="away-player-name">
                                                         <c:out value="${match.awayPlayer.name}"></c:out>
-                                                        <c:if test="${match.awayPlayerCharacter.length()!=null && match.awayPlayerCharacter.length()<10}"><c:out value="(${match.awayPlayerCharacter})"> </c:out></c:if>
+                                                        <c:if test="${match.awayPlayerCharacter.length()!=null && match.awayPlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value="(${match.awayPlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                 </div>
                                                 <div class="players-score">
@@ -244,7 +244,7 @@ ${navbar}
                                                             <td class="modal-player-name">
                                                                 <c:choose>
                                                                     <c:when test="${match.homePlayer.id != null}">
-                                                                        <div><c:out value="${match.homePlayer.name}"/><c:if test="${match.homePlayerCharacter!=null && match.homePlayerCharacter.length()<25}">(<c:out value="${match.homePlayerCharacter}"/>)</c:if></div>
+                                                                        <div><c:out value="${match.homePlayer.name}"/><c:if test="${match.homePlayerCharacter!=null && (match.homePlayerCharacter.length()+match.homePlayer.name.length())<25}">(<c:out value="${match.homePlayerCharacter}"/>)</c:if></div>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div><spring:message code="tournament.modal.tbd"/></div>
@@ -261,7 +261,7 @@ ${navbar}
                                                             <td class="modal-player-name">
                                                                 <c:choose>
                                                                     <c:when test="${match.awayPlayer.id != null}">
-                                                                        <div><c:out value="${match.awayPlayer.name}"/><c:if test="${match.awayPlayerCharacter!=null && match.awayPlayerCharacter.length()<25}">(<c:out value="${match.awayPlayerCharacter}"/>)</c:if></div>
+                                                                        <div><c:out value="${match.awayPlayer.name}"/><c:if test="${match.awayPlayerCharacter!=null && match.awayPlayerCharacter.length()+match.homePlayer.name.length()<25}">(<c:out value="${match.awayPlayerCharacter}"/>)</c:if></div>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div><spring:message code="tournament.modal.tbd"/></div>

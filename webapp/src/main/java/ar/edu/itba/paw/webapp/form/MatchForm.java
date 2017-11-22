@@ -22,11 +22,11 @@ public class MatchForm {
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String map;
 
-    @Size (min = 0, max = 200)
+    @Size (min = 0, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String homePlayerCharacter;
 
-    @Size (min = 0, max = 200)
+    @Size (min = 0, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String awayPlayerCharacter;
 
