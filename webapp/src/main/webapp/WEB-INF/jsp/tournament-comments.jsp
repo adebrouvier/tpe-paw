@@ -43,10 +43,10 @@ ${navbar}
                                 <hr>
                                 <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
                                 <a class="waves-effect waves-light btn modal-trigger light-blue darken-4" href="#modal-${comment.id}"><spring:message code="tournament.comment.reply"/></a>
-                                <c:url value="/reply/${comment.id}/tournament/${tournament.id}" var="endPath"/>
+                                <c:url value="/reply/${comment.id}/tournament/${tournament.id}" var="replyPath"/>
                                 <div id="modal-${comment.id}" class="modal bottom-sheet">
                                     <div class="modal-content">
-                                        <form:form modelAttribute="replyForm" action="${endPath}" method="post">
+                                        <form:form modelAttribute="replyForm" action="${replyPath}" method="post">
                                             <div class="input-field">
                                                 <form:label cssClass="active" path="reply"><spring:message code="tournament.comment"/></form:label>
                                                 <form:textarea cssClass="materialize-textarea" type="text" path="reply"/>
@@ -69,10 +69,10 @@ ${navbar}
                             </div>
                         </c:forEach>
                     </c:forEach>
-                    <c:url value="/comment/tournament/${tournament.id}/" var="endPath"/>
+                    <c:url value="/comment/tournament/${tournament.id}/" var="commentPath"/>
                     <div class="card">
                         <div class="card-content">
-                            <form:form modelAttribute="commentForm" action="${endPath}" method="post">
+                            <form:form modelAttribute="commentForm" action="${commentPath}" method="post">
                                 <div class="input-field">
                                     <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
                                     <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>

@@ -9,7 +9,6 @@ public class ReplyForm {
 
     @Size(max = 200)
     @NotBlank
-    @Pattern(regexp = "[a-zA-Z0-9]+")
     private String reply;
 
     public String getReply(){
