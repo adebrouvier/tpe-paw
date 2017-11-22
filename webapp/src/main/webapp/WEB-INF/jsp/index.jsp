@@ -39,6 +39,83 @@ ${navbar}
     </div>
 </div>
 <div class="featured container">
+    <div class="row">
+        <div class="col s4">
+            <h5><spring:message code="index.topChampions.title"/></h5>
+            <table>
+                <thead>
+                <tr>
+                    <th><spring:message code="index.topChampions.table.pos"/></th>
+                    <th><spring:message code="index.topChampions.table.user"/></th>
+                    <th><spring:message code="index.topChampions.table.wins"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="winner" items="${topUsers}" varStatus="position">
+                    <tr>
+                        <c:set var="rank" value="${position.index+1}"/>
+                        <td>
+                            <c:choose>
+                                <c:when test="${rank == 1}">
+                                    <span style="color: gold;"><c:out value="${rank}"/></span>
+                                </c:when>
+                                <c:when test="${rank == 2}">
+                                    <span style="color: silver;"><c:out value="${rank}"/></span>
+                                </c:when>
+                                <c:when test="${rank == 3}">
+                                    <span style="color: #cd7f32;"><c:out value="${rank}"/></span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span><c:out value="${rank}"/></span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><a href="<c:url value="/user/${winner.user.id}"/>"><c:out value="${winner.user.name}"/></a></td>
+                        <td><c:out value="${winner.wins}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s4">
+            <h5><spring:message code="index.mostFollowed.title"/></h5>
+            <table>
+                <thead>
+                <tr>
+                    <th><spring:message code="index.mostFollowed.table.user"/></th>
+                    <th><spring:message code="index.mostFollowed.table.follows"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="popularUser" items="${mostFollowed}" varStatus="position">
+                    <tr>
+                        <td><a href="<c:url value="/user/${popularUser.user.id}"/>"><c:out value="${popularUser.user.name}"/></a></td>
+                        <td><c:out value="${popularUser.followers}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s4">
+            <h5><spring:message code="index.popularRankings.title"/></h5>
+            <table>
+                <thead>
+                <tr>
+                    <th><spring:message code="index.popularRankings.table.ranking"/></th>
+                    <th><spring:message code="index.popularRankings.table.users"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="popularRanking" items="${popularRankings}" varStatus="position">
+                    <tr>
+                        <td><a href="<c:url value="/ranking/${popularRanking.ranking.id}"/>"><c:out value="${popularRanking.ranking.name}"/></a></td>
+                        <td><c:out value="${popularRanking.rankedUsers}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <h4 class="center"><spring:message code="index.tournaments"/></h4>
     <table class="striped centered">
         <thead>
@@ -81,67 +158,6 @@ ${navbar}
         </c:forEach>
         </tbody>
     </table>
-    <div class="row">
-        <div class="col s4">
-            <h5><spring:message code="index.topChampions.title"/></h5>
-            <table>
-                <thead>
-                    <tr>
-                        <th><spring:message code="index.topChampions.table.pos"/></th>
-                        <th><spring:message code="index.topChampions.table.user"/></th>
-                        <th><spring:message code="index.topChampions.table.wins"/></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="winner" items="${topUsers}" varStatus="position">
-                    <tr>
-                        <c:set var="rank" value="${position.index+1}"/>
-                        <td>
-                            <c:choose>
-                                <c:when test="${rank == 1}">
-                                    <span style="color: gold;"><c:out value="${rank}"/></span>
-                                </c:when>
-                                <c:when test="${rank == 2}">
-                                    <span style="color: silver;"><c:out value="${rank}"/></span>
-                                </c:when>
-                                <c:when test="${rank == 3}">
-                                    <span style="color: #cd7f32;"><c:out value="${rank}"/></span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span><c:out value="${rank}"/></span>
-                                </c:otherwise>
-                            </c:choose>
-                       </td>
-                        <td><a href="<c:url value="/user/${winner.user.id}"/>"><c:out value="${winner.user.name}"/></a></td>
-                        <td><c:out value="${winner.wins}"/></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <div class="col s4">
-            <h5><spring:message code="index.mostFollowed.title"/></h5>
-            <table>
-                <thead>
-                    <tr>
-                        <th><spring:message code="index.mostFollowed.table.user"/></th>
-                        <th><spring:message code="index.mostFollowed.table.follows"/></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="popularUser" items="${mostFollowed}" varStatus="position">
-                    <tr>
-                        <td><a href="<c:url value="/user/${winner.user.id}"/>"><c:out value="${popularUser.user.name}"/></a></td>
-                        <td><c:out value="${popularUser.followers}"/></td>
-                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <div class="col s4">
-
-        </div>
-    </div>
 </div>
 </main>
 <c:import var="footer" url="footer.jsp"/>

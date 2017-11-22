@@ -276,12 +276,11 @@ public class RankingHibernateDao implements RankingDao{
     @Override
     public List<PopularRankingDTO> findPopularRankings(int rankings) {
 
-        //final TypedQuery<PopularRankingDTO> query = em.createQuery("select new ar.edu.itba.paw.model.PopularRankingDTO(r, ) from Ranking as r ORDER BY r.tournaments.size DESC", PopularRankingDTO.class)
-//                .setMaxResults(rankings);
-//        List<PopularRankingDTO> list = query.getResultList();
-//        list.sort(((tu1, tu2) -> tu2.getRankedUsers().intValue() - tu1.getRankedUsers().intValue()));
-//        return list;
-        return null;
+        final TypedQuery<PopularRankingDTO> query = em.createQuery("select new ar.edu.itba.paw.model.PopularRankingDTO(tp.ranking, count(*))from TournamentPoints as tp group by tp.ranking order by count(*)", PopularRankingDTO.class)
+                .setMaxResults(rankings);
+        List<PopularRankingDTO> list = query.getResultList();
+        list.sort(((tu1, tu2) -> tu2.getRankedUsers().intValue() - tu1.getRankedUsers().intValue()));
+        return list;
     }
 
     @Override
