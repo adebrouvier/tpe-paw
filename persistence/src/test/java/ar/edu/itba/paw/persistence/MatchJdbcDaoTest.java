@@ -38,7 +38,7 @@ import static org.junit.Assert.assertNull;
 public class MatchJdbcDaoTest {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Autowired
     private DataSource ds;
@@ -49,29 +49,12 @@ public class MatchJdbcDaoTest {
     private PlayerHibernateDao playerDao;
     @Autowired
     private TournamentHibernateDao tournamentDao;
-    @Autowired
-    private UserHibernateDao userDao;
-    @Autowired
-    private GameHibernateDao gameDao;
 
-    private int flag;
     private int MATCH_ID = 1;
     private long TOURNAMENT_ID = 1;
 
     @Before
     public void setUp() throws ConstraintViolationException{
-
-/*
-        if(flag == 0) {
-            userDao.create("Pibe", "contraseña");
-            userDao.create("Pibe2", "contraseña");
-            gameDao.create("Smash", false);
-            tournamentDao.create("Torneo", gameDao.findById(1).getId(), userDao.findById(1).getId());
-            playerDao.create("Jugador", tournamentDao.findById(TOURNAMENT_ID));
-            playerDao.create("Jugador2", tournamentDao.findById(TOURNAMENT_ID));
-            matchDao.create(MATCH_ID,0,false,tournamentDao.findById(TOURNAMENT_ID).getId(),1,2, 1);
-        }
-        */
             User user = new User("Pibe", "contraseña");
             User user2 = new User("Pibe2", "contraseña");
             Game game = new Game("Smash", true);

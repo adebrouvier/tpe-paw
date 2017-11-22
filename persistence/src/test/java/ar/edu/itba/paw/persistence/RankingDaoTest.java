@@ -34,19 +34,11 @@ public class RankingDaoTest {
     @PersistenceContext
     private EntityManager em;
     @Autowired
-    private MatchDao matchDao;
-    @Autowired
-    private PlayerDao playerDao;
-    @Autowired
     private TournamentDao tournamentDao;
     @Autowired
     private RankingDao rankingDao;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private GameDao gameDao;
+
     private int MATCH_ID = 1;
-    private int TOURNAMENT_ID = 1;
 
 
     @Before

@@ -34,25 +34,13 @@ import static org.junit.Assert.assertNull;
 public class TournamentJdbcDaoTest {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Autowired
     private DataSource ds;
-
-    @Autowired
-    private MatchHibernateDao matchDao;
-    @Autowired
-    private PlayerHibernateDao playerDao;
     @Autowired
     private TournamentHibernateDao tournamentDao;
-    @Autowired
-    private UserHibernateDao userDao;
-    @Autowired
-    private GameHibernateDao gameDao;
-
-    private int flag;
     private int MATCH_ID = 1;
-    private long TOURNAMENT_ID = 1;
 
     @Before
     public void setUp() throws ConstraintViolationException {
