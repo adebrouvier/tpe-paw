@@ -80,6 +80,9 @@ ${navbar}
                                 </c:if>
                             </form:form>
                         </c:if>
+                        <c:if test="${signedUp}">
+                            <p><spring:message code="tournament.join.awaiting"/></p>
+                        </c:if>
                     </c:if>
                     <c:set var="roundSize" value="${tournament.fullSize/2}"/>
                     <div class="tournament-container" style="height:<c:out value="${roundSize*60+44}"/>px;overflow-y: hidden;overflow-x: auto;" >
