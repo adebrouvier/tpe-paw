@@ -181,7 +181,7 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/update/{tournamentId}/{matchId}", method = { RequestMethod.POST })
-    public ModelAndView updateMatch(@Valid @ModelAttribute("matchForm")
+    public ModelAndView updateMatchScore(@Valid @ModelAttribute("matchForm")
                                final MatchForm form, final BindingResult errors, @PathVariable long tournamentId, @PathVariable int matchId, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
@@ -200,11 +200,43 @@ public class TournamentController {
         }
 
         ms.updateScore(tournamentId,matchId,form.getHomeResult(),form.getAwayResult());
+        LOGGER.info("Updated score of match {} from tournament {}", matchId, tournamentId);
+
+        return new ModelAndView("redirect:/tournament/"+ tournamentId);
+    }
+
+    @RequestMapping(value = "/match/{tournamentId}/{matchId}")
+    public ModelAndView match(@PathVariable int matchId, @PathVariable long tournamentId, @ModelAttribute("matchDataForm") MatchDataForm form,
+                              @ModelAttribute("loggedUser") User loggedUser){
+
+        final Match match = ms.findById(matchId, tournamentId);
+
+        if (match == null){
+            return new ModelAndView("redirect:/404");
+        }
+
+        if (loggedUser.getId() != match.getTournament().getCreator().getId()){
+            return new ModelAndView("redirect:/403");
+        }
+
+        ModelAndView mav = new ModelAndView("match-edit");
+        mav.addObject("match", match);
+        return mav;
+    }
+
+    @RequestMapping(value = "/update/match/{tournamentId}/{matchId}", method = {RequestMethod.POST})
+    public ModelAndView updateMatchData(@Valid @ModelAttribute("matchDataForm") final MatchDataForm form,
+                                        final BindingResult errors, @PathVariable long tournamentId,
+                                        @PathVariable int matchId, @ModelAttribute("loggedUser") User loggedUser){
+
+        if (errors.hasErrors()){
+            return match(matchId, tournamentId, form, loggedUser);
+        }
+
         if(form.getHomePlayerCharacter()!=null) ms.setHomePlayerCharacter(form.getHomePlayerCharacter(), tournamentId, matchId);
         if(form.getAwayPlayerCharacter()!=null) ms.setAwayPlayerCharacter(form.getAwayPlayerCharacter(), tournamentId, matchId);
         if(form.getMap()!=null) ms.setMap(form.getMap(), tournamentId, matchId);
         if(form.getVodLink()!=null) ms.setVODLink(form.getVodLink(), tournamentId, matchId);
-        LOGGER.info("Updated score of match {} from tournament {}", matchId, tournamentId);
 
         return new ModelAndView("redirect:/tournament/"+ tournamentId);
     }

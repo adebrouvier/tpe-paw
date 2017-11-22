@@ -63,7 +63,7 @@ ${navbar}
                                         <td>${player.standing}&deg;</td>
                                     </c:when>
                                 </c:choose>
-                                <td>${player.name}</td>
+                                <td><c:out value="${player.name}"/></td>
                             </tr>
                         </c:forEach>
                         </tbody>

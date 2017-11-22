@@ -41,6 +41,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/ranking").authenticated()
                 .antMatchers(HttpMethod.GET, "/tournament/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/ranking/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/match/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/create/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/update/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/remove/**").authenticated()

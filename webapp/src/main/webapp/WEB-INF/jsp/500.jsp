@@ -13,7 +13,7 @@
 ${navbar}
 <div class="container center">
     <h4><spring:message code="500"/></h4>
-    <img src="/resources/img/error-500.png" style="width: 300px; height: 150px">
+    <img src="<C:url value="/resources/img/error-500.png"/>" style="width: 300px; height: 150px">
     <p><spring:message code="500.message"/></p>
     <p><spring:message code="500.tryagain"/></p>
 </div>

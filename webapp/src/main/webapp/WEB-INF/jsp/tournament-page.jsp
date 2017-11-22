@@ -126,12 +126,12 @@ ${navbar}
                                             <div class="bracket">
                                                 <div class="players-name">
                                                     <div class="home-player-name">
-                                                        <c:out value="${match.homePlayer.name}"></c:out>
-                                                        <c:if test="${match.homePlayerCharacter.length()!=null && match.homePlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value="(${match.homePlayerCharacter})"> </c:out></c:if>
+                                                        <c:out value="${match.homePlayer.name}"/>
+                                                        <c:if test="${match.homePlayerCharacter.length()!=null && match.homePlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value=" (${match.homePlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                     <div class="away-player-name">
-                                                        <c:out value="${match.awayPlayer.name}"></c:out>
-                                                        <c:if test="${match.awayPlayerCharacter.length()!=null && match.awayPlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value="(${match.awayPlayerCharacter})"> </c:out></c:if>
+                                                        <c:out value="${match.awayPlayer.name}"/>
+                                                        <c:if test="${match.awayPlayerCharacter.length()!=null && match.awayPlayerCharacter.length()+match.homePlayer.name.length()<14}"><c:out value=" (${match.awayPlayerCharacter})"> </c:out></c:if>
                                                     </div>
                                                 </div>
                                                 <div class="players-score">
@@ -199,37 +199,13 @@ ${navbar}
                                                             </tr>
                                                             </tbody>
                                                         </table>
-                                                        <div class="divider"></div>
-                                                            <div class="input-field inline">
-                                                                        <form:label path="homePlayerCharacter">${match.homePlayer.name}<spring:message code="match.character"/>: </form:label>
-                                                                        <form:input min="0" id="home-character-${match.id}" type="text" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
-                                                                        <form:errors path="homePlayerCharacter" cssClass="formError" element="p"/>
-                                                            </div>
-                                                        <div class="divider"></div>
-                                                                <div class="input-field inline">
-                                                                    <form:label path="awayPlayerCharacter">${match.awayPlayer.name}<spring:message code="match.character"/>: </form:label>
-                                                                    <form:input min="0" id="away-character-${match.id}" type="text"  path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
-                                                                    <form:errors path="awayPlayerCharacter" cssClass="formError" element="p"/>
-                                                                </div>
-                                                        <div class="divider"></div>
-                                                                <div class="input-field inline">
-                                                                    <form:label path="map"><spring:message code="match.map"/>: </form:label>
-                                                                    <form:input min="0" id="map-${match.id}" type="text"  path="map" value="${match.map}"/>
-                                                                    <form:errors path="map" cssClass="formError" element="p"/>
-                                                                </div>
-                                                        <div class="divider"></div>
-                                                                <div class="input-field inline">
-                                                                    <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
-                                                                    <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
-                                                                    <form:errors path="vodLink" cssClass="formError" element="p"/>
-                                                                </div>
-                                                        <div class="divider"></div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                       <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
+                                                        <a class="btn light-blue darken-4" href="<c:url value="/match/${tournament.id}/${match.id}"/>"><i class="material-icons right">edit</i> <spring:message code="match.edit.details"/></a>
+                                                        <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                                                             <spring:message code="tournament.update"/>
                                                             <i class="material-icons right">update</i>
-                                                       </button>
+                                                        </button>
                                                     </div>
                                                 </form:form>
                                             </div>
@@ -274,34 +250,25 @@ ${navbar}
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="modal-top-player">
-                                                                <div>
-                                                                    <c:if test="${match.map!=null}"><spring:message code="match.map"/>: <c:out value="${match.map}"/></c:if>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
                                                         </tbody>
-                                                        <c:if test="${match.videoOnDemandLink!=null}">
-                                                        <a href = "${match.videoOnDemandLink}" class="btn light-blue darken-4 waves-effect waves-light"><spring:message code="match.VOD"/>
-                                                        </a>
-                                                        </c:if>
                                                     </table>
+                                                    <div class="divider"></div>
+                                                    <div class="row">
+                                                        <c:if test="${match.map!=null}">
+                                                            <i class="material-icons">location_on</i> <spring:message code="match.map"/>: <c:out value="${match.map}"/>
+                                                        </c:if>
+                                                    </div>
+                                                    <c:if test="${match.videoOnDemandLink!=null}">
+                                                        <div class="row">
+                                                            <a class="btn light-blue darken-4" href = "<c:url value="${match.videoOnDemandLink}"/>" class="btn light-blue darken-4 waves-effect waves-light">
+                                                                <i class="material-icons right">ondemand_video</i> <spring:message code="match.VOD"/>
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
                                                     <c:if test="${loggedUser.id == tournament.creator.id}">
-                                                    <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
-                                                    <form:form modelAttribute="matchForm" action="${postPath}" method="post">
-                                                        <div class="input-field inline">
-                                                            <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
-                                                            <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
-                                                            <form:errors path="vodLink" cssClass="formError" element="p"/>
+                                                        <div class="row">
+                                                            <a class="btn light-blue darken-4" href="<c:url value="/match/${tournament.id}/${match.id}"/>"><spring:message code="match.edit.details"/></a>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
-                                                                <spring:message code="tournament.update"/>
-                                                                <i class="material-icons right">update</i>
-                                                            </button>
-                                                        </div>
-                                                    </form:form>
                                                     </c:if>
                                                 </div>
                                             </div>

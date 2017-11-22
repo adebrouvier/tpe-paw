@@ -180,7 +180,7 @@ ${navbar}
                                                         <c:out value="${player.name}"/>
                                                     </td>
                                                     <td>
-                                                        <c:out value="${player.user.name}"/>
+                                                        <a href="<c:url value="/user/${player.user.id}"/>"><c:out value="${player.user.name}"/></a>
                                                     </td>
                                                 </tr>
                                                 <c:set var="seed" value="${seed+1}"/>
