@@ -428,7 +428,7 @@ public class TournamentController {
         ns.createRequestJoinNotification(loggedUser, t);
         LOGGER.info("User {} created join request on tournament {}", loggedUser.getId(), tournamentId);
 
-        return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
+        return new ModelAndView("redirect:/tournament/" + tournamentId);
     }
 
     @RequestMapping(value = "/accept/user/{userId}/tournament/{tournamentId}", method = RequestMethod.POST)
