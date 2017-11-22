@@ -212,6 +212,7 @@ public class UserController {
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
         mav.addObject("favoritesGames", list);
+        mav.addObject("isFollow", ufs.isFollow(loggedUser(), u));
         mav.addObject("loggedUser", loggedUser);
 
         return mav;

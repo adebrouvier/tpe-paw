@@ -51,6 +51,33 @@
                         </div>
                     </div>
                 </c:if>
+                <c:if test="${notification.type eq 'REJECT_JOIN_TOURNAMENT'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:url value="/resources/img/trophy-third.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><spring:message code="notification.rejectJoinTournamentPartOne"/> <b><a href="/tournament/<c:url value="${notification.decodeDescription.get(0)}"/>/players"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.rejectJoinTournamentPartTwo"/></span>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${notification.type eq 'REQUEST_JOIN_TOURNAMENT'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:url value="/resources/img/trophy-third.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><b><a href="/user/<c:url value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.requestJoinTournament"/> <b><a href="/tournament/<c:url value="${notification.decodeDescription.get(2)}"/>/players"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${notification.type eq 'REPLY_TOURNAMENT_COMMENT'}">
+                    <div class="row valign-wrapper" style="margin-bottom: 0">
+                        <div class="col s1">
+                            <img class="notification-icon" src="<c:url value="/resources/img/trophy-third.jpg"/>"></div>
+                        <div class="col s11">
+                            <span><b><a href="/user/<c:url value="${notification.decodeDescription.get(0)}"/>"><c:out value="${notification.decodeDescription.get(1)}"/></a></b> <spring:message code="notification.ReplyTournamentComment"/> <b><a href="/tournament/<c:url value="${notification.decodeDescription.get(2)}"/>/comments#<c:url value="${notification.decodeDescription.get(4)}"/>"><c:out value="${notification.decodeDescription.get(3)}"/></a></b></span>
+                        </div>
+                    </div>
+                </c:if>
             </div>
             <div class="card-action">
                 <span class="grey-text"><c:out value="${notification.date.toLocaleString()}"/></span>

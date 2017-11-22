@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 
+import ar.edu.itba.paw.interfaces.service.NotificationService;
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
@@ -40,6 +41,9 @@ public class RankingPageController {
 
     @Autowired
     private UserService us;
+
+    @Autowired
+    private NotificationService ns;
 
     @RequestMapping("/ranking/{rankingId}")
     public ModelAndView rankingPage(@ModelAttribute("rankingPageForm") final RankingPageForm rankingPageForm, @PathVariable long rankingId, @ModelAttribute("loggedUser") User loggedUser){
@@ -110,6 +114,8 @@ public class RankingPageController {
         tMap.put(tournament,rankingPageForm.getPoints());
         rs.addTournaments(rankingId,tMap);
         LOGGER.info("Added tournament {} to ranking {}", tournament.getId(), rankingId);
+
+       ns.createAddTournamentToRankingNotification(loggedUser, tournament, ranking);
 
         return new ModelAndView("redirect:/ranking/" + ranking.getId());
     }

@@ -355,28 +355,38 @@ public class TournamentController {
         final Comment reply = cs.create(loggedUser, new Date(), form.getReply(), parent);
         ts.addReply(t.getId(), reply, parentId);
 
+        if(loggedUser == null) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        if(parent.getCreator().getId() != loggedUser.getId()) {
+            ns.createReplyTournamentCommentsNotification(loggedUser, parent, t);
+        }
+
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
     }
 
     @RequestMapping(value = "/request/tournament/{tournamentId}", method = RequestMethod.POST)
     public ModelAndView requestJoin(@PathVariable("tournamentId") long tournamentId,
-                                    @ModelAttribute("loggedUser") User loggedUser){
+                                    @ModelAttribute("loggedUser") User loggedUser) {
 
         Tournament t = ts.findById(tournamentId);
 
-        if (t == null){
+        if (t == null) {
             return new ModelAndView("redirect:/404");
         }
 
-        if (loggedUser == null){
+        if (loggedUser == null) {
             return new ModelAndView("redirect:/403");
         }
 
         if (is.findByIds(loggedUser.getId(), t.getId()) == null) {
             is.create(loggedUser, t);
-        }else{
+        } else {
             return new ModelAndView("redirect:/404");
         }
+
+        ns.createRequestJoinNotification(loggedUser, t);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
@@ -423,6 +433,7 @@ public class TournamentController {
 
         /* remove from pending list  */
         is.delete(tournamentId, userId);
+        ns.createRejectJoinNotification(u, t);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
