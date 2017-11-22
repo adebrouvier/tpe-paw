@@ -287,6 +287,7 @@ ${navbar}
                                                         </a>
                                                         </c:if>
                                                     </table>
+                                                    <c:if test="${loggedUser.id == tournament.creator.id}">
                                                     <c:url value="/update/${tournament.id}/${match.id}" var="postPath"/>
                                                     <form:form modelAttribute="matchForm" action="${postPath}" method="post">
                                                         <div class="input-field inline">
@@ -301,6 +302,7 @@ ${navbar}
                                                             </button>
                                                         </div>
                                                     </form:form>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </c:otherwise>
