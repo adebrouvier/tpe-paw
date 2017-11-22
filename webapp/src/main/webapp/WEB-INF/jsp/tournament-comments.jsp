@@ -42,7 +42,9 @@ ${navbar}
                                 <div class="comment" id="comment-<c:out value="${comment.id}"/>"><pre><c:out value="${comment.comment}"/></pre></div>
                                 <hr>
                                 <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
-                                <a class="waves-effect waves-light btn modal-trigger light-blue darken-4" href="#modal-${comment.id}"><spring:message code="tournament.comment.reply"/></a>
+                                <c:if test="${loggedUser != null}">
+                                    <a class="waves-effect waves-light btn modal-trigger light-blue darken-4" href="#modal-${comment.id}"><spring:message code="tournament.comment.reply"/></a>
+                                </c:if>
                                 <c:url value="/reply/${comment.id}/tournament/${tournament.id}" var="replyPath"/>
                                 <div id="modal-${comment.id}" class="modal bottom-sheet">
                                     <div class="modal-content">
@@ -69,20 +71,22 @@ ${navbar}
                             </div>
                         </c:forEach>
                     </c:forEach>
-                    <c:url value="/comment/tournament/${tournament.id}/" var="commentPath"/>
-                    <div class="card">
-                        <div class="card-content">
-                            <form:form modelAttribute="commentForm" action="${commentPath}" method="post">
-                                <div class="input-field">
-                                    <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
-                                    <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
-                                    <form:errors path="comment" cssClass="form-error" element="p"/>
-                                </div>
-                                <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
-                                        code="tournament.comment.submit"/></button>
-                            </form:form>
+                    <c:if test="${loggedUser != null}">
+                        <c:url value="/comment/tournament/${tournament.id}/" var="commentPath"/>
+                        <div class="card">
+                            <div class="card-content">
+                                <form:form modelAttribute="commentForm" action="${commentPath}" method="post">
+                                    <div class="input-field">
+                                        <form:label cssClass="active" path="comment"><spring:message code="tournament.comment"/></form:label>
+                                        <form:textarea cssClass="materialize-textarea" type="text" path="comment"/>
+                                        <form:errors path="comment" cssClass="form-error" element="p"/>
+                                    </div>
+                                    <button class="btn btn-primary light-blue darken-4" type="submit"><spring:message
+                                            code="tournament.comment.submit"/></button>
+                                </form:form>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
             </div>
         </div>

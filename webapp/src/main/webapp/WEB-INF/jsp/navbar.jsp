@@ -25,7 +25,7 @@
         <security:authorize access="isAuthenticated()">
             <ul id="nav-mobile" class="right">
                 <li>
-                    <a href="/user/<security:authentication property="principal.username"/>/notifications" style="height: 65px; padding-top: 4px">
+                    <a href="<c:url value="/user/${loggedUser.name}/notifications"/>" style="height: 65px; padding-top: 4px">
                         <i class="small material-icons" style="display: inline-flex">notifications</i>
                         <c:if test="${loggedUser.unreadNotifications > 0 && (notifications == null || notifications.size() == 0)}">
                             <span id="new-notification" class="badge red">

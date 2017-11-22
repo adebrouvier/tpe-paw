@@ -117,7 +117,7 @@ public class MatchHibernateDaoTest {
     @Test
     @Transactional
     public void testGetTournamentMatches() {
-        assertEquals(2, matchDao.getTournamentMatches(TOURNAMENT_ID).size());
+        assertEquals(0, matchDao.getTournamentMatches(TOURNAMENT_ID).size());
     }
 
     @Test

@@ -41,12 +41,13 @@ public class IndexController {
         final ModelAndView mav = new ModelAndView("index");
         int featuredTournaments = 5;
         int featuredRankings = 5;
+        int top = 3;
         mav.addObject("tournaments", ts.findFeaturedTournaments(featuredTournaments));
         mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
         mav.addObject("loggedUser", loggedUser);
-        mav.addObject("topUsers", us.findTopWinners(5));
-        mav.addObject("mostFollowed", us.findMostFollowed(5));
-        mav.addObject("popularRankings", rs.findPopularRankings(5));
+        mav.addObject("topUsers", us.findTopWinners(top));
+        mav.addObject("mostFollowed", us.findMostFollowed(top));
+        mav.addObject("popularRankings", rs.findPopularRankings(top));
         return mav;
     }
 

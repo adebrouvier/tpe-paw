@@ -20,11 +20,11 @@ import static org.junit.Assert.assertNull;
 
 public class UserServiceTest {
     @Mock
-    UserDao userDao;
+    private UserDao userDao;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
     @InjectMocks
-    UserServiceImpl userServiceImpl;
+    private UserServiceImpl userServiceImpl;
     private final String TOURNAMENT_NAME = "Torneo";
     private final int MATCH_ID = 1;
     private final String PASSWORD = "serenito";
@@ -35,7 +35,6 @@ public class UserServiceTest {
         Mockito.when(userDao.findById(1)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.findById(123)).thenReturn(null);
         Mockito.when(userDao.create(USERNAME, PASSWORD)).thenReturn(new User(USERNAME,PASSWORD));
-        Mockito.when(userDao.create("NombreYaUsado", "Lalala")).thenThrow(new DuplicateUsernameException());
         Mockito.when(userDao.findByName(USERNAME)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.findByName("NoExisto")).thenReturn(null);
     }
@@ -43,11 +42,6 @@ public class UserServiceTest {
     @Test
     public void testCreateUserSuccess() throws DuplicateUsernameException {
         assertNotNull(userServiceImpl.create(USERNAME, PASSWORD));
-    }
-
-    @Test(expected = DuplicateUsernameException.class)
-    public void testUserAlreadyCreated() throws DuplicateUsernameException {
-        userServiceImpl.create("NombreYaUsado", "Lalala");
     }
 
     @Test
