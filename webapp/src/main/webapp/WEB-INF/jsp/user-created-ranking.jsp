@@ -38,16 +38,16 @@ ${navbar}
                 </div>
             </div>
             <div id="content-wrapper">
-                <c:forEach var="tournament" items="${tournaments}">
+                <c:forEach var="ranking" items="${rankings}">
                     <div class="col s8 m8 l8 right card card-style">
                         <div class="card-content">
                             <div class="card-title">
-                                <c:out value="${tournament.name}"/> - <c:out value="${tournament.game.name}"/>
+                                <c:out value="${ranking.name}"/> - <c:out value="${ranking.game.name}"/>
                             </div>
                         </div>
                         <div class="card-action">
-                            <a href="<c:url value="/tournament/${tournament.id}"/>"><spring:message code="tournament.bracket"/></a>
-                            <a href="<c:url value="/tournament/${tournament.id}/standings"/>"><spring:message code="tournament.standings"/></a>
+                            <a href="<c:url value="/ranking/${ranking.id}#ranking-tournaments"/>"><spring:message code="ranking.created.tournaments"/></a>
+                            <a href="<c:url value="/ranking/${ranking.id}#ranking-players"/>"><spring:message code="ranking.created.players"/></a>
                         </div>
                     </div>
                 </c:forEach>
