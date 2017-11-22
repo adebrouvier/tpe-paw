@@ -24,27 +24,27 @@ ${navbar}
                     <div class="input-field inline">
                         <form:label path="homePlayerCharacter">${match.homePlayer.name}<spring:message code="match.character"/>: </form:label>
                         <form:input min="0" id="home-character-${match.id}" type="text" path="homePlayerCharacter" value="${match.homePlayerCharacter}"/>
-                        <form:errors path="homePlayerCharacter" cssClass="formError" element="p"/>
+                        <form:errors path="homePlayerCharacter" cssClass="form-error" element="p"/>
                     </div>
                     <div class="divider"></div>
                     <div class="input-field inline">
                         <form:label path="awayPlayerCharacter">${match.awayPlayer.name}<spring:message code="match.character"/>: </form:label>
                         <form:input min="0" id="away-character-${match.id}" type="text"  path="awayPlayerCharacter" value="${match.awayPlayerCharacter}"/>
-                        <form:errors path="awayPlayerCharacter" cssClass="formError" element="p"/>
+                        <form:errors path="awayPlayerCharacter" cssClass="form-error" element="p"/>
                     </div>
                     <div class="divider"></div>
                     <div class="input-field inline">
                         <i class="material-icons prefix">location_on</i>
                         <form:label path="map"><spring:message code="match.map"/>: </form:label>
                         <form:input min="0" id="map-${match.id}" type="text"  path="map" value="${match.map}"/>
-                        <form:errors path="map" cssClass="formError" element="p"/>
+                        <form:errors path="map" cssClass="form-error" element="p"/>
                     </div>
                     <div class="divider"></div>
                     <div class="input-field inline">
                         <i class="material-icons prefix">ondemand_video</i>
                         <form:label path="vodLink"><spring:message code="match.vodLink"/>: </form:label>
                         <form:input min="0" id="VOD-${match.id}" type="text"  path="vodLink" value="${match.videoOnDemandLink}"/>
-                        <form:errors path="vodLink" cssClass="formError" element="p"/>
+                        <form:errors path="vodLink" cssClass="form-error" element="p"/>
                     </div>
                     <div class="row">
                         <div class="col s12">
