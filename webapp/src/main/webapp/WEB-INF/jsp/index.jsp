@@ -57,14 +57,11 @@ ${navbar}
                         <td>
                             <c:choose>
                                 <c:when test="${rank == 1}">
-                                    <span style="color: gold;"><c:out value="${rank}"/></span>
-                                </c:when>
+                                    <img class="podium-trophy" src="<c:url value="/resources/img/gold-trophy.png"/>" /></c:when>
                                 <c:when test="${rank == 2}">
-                                    <span style="color: silver;"><c:out value="${rank}"/></span>
-                                </c:when>
+                                    <img class="podium-trophy" src="<c:url value="/resources/img/silver-trophy.png"/>" />                                </c:when>
                                 <c:when test="${rank == 3}">
-                                    <span style="color: #cd7f32;"><c:out value="${rank}"/></span>
-                                </c:when>
+                                    <img class="podium-trophy" src="<c:url value="/resources/img/bronze-trophy.png"/>" />                                </c:when>
                                 <c:otherwise>
                                     <span><c:out value="${rank}"/></span>
                                 </c:otherwise>
