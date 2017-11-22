@@ -1,13 +1,12 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.MostFollowedDTO;
-import ar.edu.itba.paw.model.TopUserDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.MostFollowedDTO;
+import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

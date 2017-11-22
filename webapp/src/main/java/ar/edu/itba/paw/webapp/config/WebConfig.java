@@ -1,8 +1,5 @@
 package ar.edu.itba.paw.webapp.config;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +21,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -88,9 +87,8 @@ public class WebConfig {
 		final Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto","update");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-		//TODO: Si ponen esto en prod, hay tabla!!!
 		//properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("format_sql", "true");
+		//properties.setProperty("format_sql", "true");
 		factoryBean.setJpaProperties(properties);
 		return factoryBean;
 	}

@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "ranking_tournaments")

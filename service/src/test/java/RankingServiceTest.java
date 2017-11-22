@@ -1,5 +1,8 @@
 import ar.edu.itba.paw.interfaces.persistence.RankingDao;
-import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Ranking;
+import ar.edu.itba.paw.model.Tournament;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.UserScore;
 import ar.edu.itba.paw.service.RankingServiceImpl;
 import org.junit.Before;
 import org.junit.Rule;
@@ -9,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 import java.util.HashMap;

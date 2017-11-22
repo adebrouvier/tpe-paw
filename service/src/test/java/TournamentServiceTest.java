@@ -1,10 +1,6 @@
-import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
 import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
-import ar.edu.itba.paw.interfaces.service.GameService;
-import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.service.PlayerServiceImpl;
 import ar.edu.itba.paw.service.TournamentServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +9,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 

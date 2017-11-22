@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.interfaces.service;
 
-import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import ar.edu.itba.paw.model.MostFollowedDTO;
 import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.User;

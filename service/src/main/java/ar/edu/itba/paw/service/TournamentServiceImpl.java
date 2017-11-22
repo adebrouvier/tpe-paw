@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.service.MatchService;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
-import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.model.Comment;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;

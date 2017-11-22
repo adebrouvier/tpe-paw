@@ -1,17 +1,12 @@
-import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
-import ar.edu.itba.paw.interfaces.persistence.TournamentDao;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.service.TournamentServiceImpl;
 import ar.edu.itba.paw.service.UserServiceImpl;
-import jdk.nashorn.internal.scripts.JO;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.configuration.injection.MockInjection;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -31,7 +26,7 @@ public class UserServiceTest {
     private final String USERNAME = "postre";
 
     @Before
-    public void setUp() throws DuplicateUsernameException {
+    public void setUp() {
         Mockito.when(userDao.findById(1)).thenReturn(new User(USERNAME,PASSWORD));
         Mockito.when(userDao.findById(123)).thenReturn(null);
         Mockito.when(userDao.create(USERNAME, PASSWORD)).thenReturn(new User(USERNAME,PASSWORD));
@@ -40,7 +35,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCreateUserSuccess() throws DuplicateUsernameException {
+    public void testCreateUserSuccess()  {
         assertNotNull(userServiceImpl.create(USERNAME, PASSWORD));
     }
 

@@ -59,7 +59,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                 .rememberMeParameter("j_rememberme")
                 .userDetailsService(userDetailsService)
-                .key("Xk5JrZuGN5uwD9jPBeTD2GaPgGJ7Bp832svkugEkF6kS3cxqcOTxw892ZRg7bE7OPqC8XyJFphxKGxg70uKDnfbKp4CtGyz8lEbXbsoCtwEabtyqTgaYnsOGkui1ul7K") //TODO: input stream
+                .key("Xk5JrZuGN5uwD9jPBeTD2GaPgGJ7Bp832svkugEkF6kS3cxqcOTxw892ZRg7bE7OPqC8XyJFphxKGxg70uKDnfbKp4CtGyz8lEbXbsoCtwEabtyqTgaYnsOGkui1ul7K")
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                 .logoutUrl("/logout")

@@ -1,8 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.hsqldb.jdbc.JDBCDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +11,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @ComponentScan({ "ar.edu.itba.paw.persistence", })

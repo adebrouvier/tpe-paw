@@ -18,8 +18,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-import static ar.edu.itba.paw.interfaces.persistence.PlayerDao.EMPTY;
-
 @Repository
 public class MatchHibernateDao implements MatchDao{
 
@@ -45,7 +43,6 @@ public class MatchHibernateDao implements MatchDao{
     public Match create(int matchId, int nextMatchId, boolean isNextMatchHome, long tournamentId, long homePlayerId, long awayPlayerId, int standing) {
 
         int homeScore = 0;
-        //TODO: call findById or pass instance?
         Player homePlayer = playerDao.findById(homePlayerId);
         Player awayPlayer = playerDao.findById(awayPlayerId);
         Match nextMach = findById(nextMatchId, tournamentId);
@@ -219,7 +216,6 @@ public class MatchHibernateDao implements MatchDao{
             if(match.getId() != 0) {
                 if(nextMatchHome) {
                     if(match.getHomePlayer().getId() != 0) {
-                        //TODO: hacer efectivo el null
                         match.setHomePlayer(null);
                         match.setHomePlayerScore(0);
                         match.setAwayPlayerScore(0);

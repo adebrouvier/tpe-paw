@@ -3,7 +3,6 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
 import ar.edu.itba.paw.model.MostFollowedDTO;
 import ar.edu.itba.paw.model.TopUserDTO;
-import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Repository

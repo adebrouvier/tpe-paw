@@ -1,8 +1,6 @@
 import ar.edu.itba.paw.interfaces.persistence.GameDao;
-import ar.edu.itba.paw.interfaces.persistence.RankingDao;
 import ar.edu.itba.paw.model.Game;
 import ar.edu.itba.paw.service.GameServiceImpl;
-import ar.edu.itba.paw.service.RankingServiceImpl;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

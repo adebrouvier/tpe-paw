@@ -1,36 +1,26 @@
 package ar.edu.itba.paw.persistence;
-import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
-import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.*;
-import jdk.nashorn.internal.scripts.JD;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.BeforeTransaction;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -45,8 +35,7 @@ public class MatchHibernateDaoTest {
 
     @Autowired
     private MatchHibernateDao matchDao;
-    @Autowired
-    private PlayerHibernateDao playerDao;
+
     @Autowired
     private TournamentHibernateDao tournamentDao;
 
@@ -99,7 +88,7 @@ public class MatchHibernateDaoTest {
 
     @Test
     @Transactional
-    public void testFindByIdSuccess() throws DuplicateUsernameException {
+    public void testFindByIdSuccess() {
         final TypedQuery<Match> query = em.createQuery("from Match as m " +
                 "where m.id = :id", Match.class);
         query.setParameter("id", MATCH_ID);

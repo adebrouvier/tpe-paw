@@ -1,5 +1,4 @@
 import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
-import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.service.PlayerServiceImpl;

@@ -8,7 +8,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.activation.DataSource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

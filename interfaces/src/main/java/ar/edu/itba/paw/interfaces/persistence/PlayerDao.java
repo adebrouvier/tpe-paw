@@ -4,8 +4,6 @@ import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 
-import java.util.List;
-
 public interface PlayerDao {
 
     int NAME_LENGTH = 25;
