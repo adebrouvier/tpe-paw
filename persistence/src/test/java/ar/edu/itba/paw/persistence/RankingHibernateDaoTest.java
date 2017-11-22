@@ -27,7 +27,7 @@ import static org.junit.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class RankingDaoTest {
+public class RankingHibernateDaoTest {
     @Autowired
     private DataSource ds;
 

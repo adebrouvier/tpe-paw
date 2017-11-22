@@ -1,18 +1,12 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
+import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
 import ar.edu.itba.paw.model.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,11 +28,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class PlayerJdbcDaoTest {
+public class TournamentHibernateDaoTest {
 
     @PersistenceContext
     private EntityManager em;
@@ -46,13 +39,8 @@ public class PlayerJdbcDaoTest {
     @Autowired
     private DataSource ds;
     @Autowired
-    private PlayerHibernateDao playerDao;
-    @Autowired
     private TournamentHibernateDao tournamentDao;
-
-    private int flag;
     private int MATCH_ID = 1;
-    private long TOURNAMENT_ID = 1;
 
     @Before
     public void setUp() throws ConstraintViolationException {
@@ -88,17 +76,70 @@ public class PlayerJdbcDaoTest {
         em.flush();
     }
 
+
+
+
+
     @Test
     @Transactional
-    public void testCreate() {
-        final Player player = playerDao.create("Jorge", tournamentDao.findFeaturedTournaments(1).get(0));
-        assertNotNull(player);
+    public void testFindTournamentSuccess() throws DuplicateUsernameException {
+        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
+        Tournament tournament = tournamentDao.findById(tournamentID);
+        assertNotNull(tournament);
+    }
+
+
+    @Test
+    @Transactional
+    public void testFindTournamentFailure() {
+        assertNull(tournamentDao.findById(233));
     }
 
     @Test
     @Transactional
-    public void testFindById() {
-        assertNull(playerDao.findById(18));
+    public void testFinish() {
+        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
+        Tournament tournament = tournamentDao.setStatus(tournamentID, Tournament.Status.FINISHED);
+        assertEquals(Tournament.Status.FINISHED, tournament.getStatus());
     }
 
+    @Test
+    @Transactional
+    public void testGetTournamentByNameSuccess() {
+        assertNotNull(tournamentDao.getByName("Torneo"));
+    }
+
+    @Test
+    @Transactional
+    public void testGetTournamentByNameFailure() {
+        assertNull(tournamentDao.getByName("asdasd"));
+    }
+
+    @Test
+    @Transactional
+    public void testStartTournamentStatus() {
+        long tournamentID = tournamentDao.findFeaturedTournaments(1).get(0).getId();
+        Tournament tournament = tournamentDao.setStatus(tournamentID, Tournament.Status.STARTED);
+
+        assertEquals(Tournament.Status.STARTED, tournament.getStatus());
+    }
+
+    @Test
+    @Transactional
+    public void testSearchByNameQuery() {
+       assertEquals(2, tournamentDao.findTournamentNames("tor").size());
+    }
+
+    @Test
+    @Transactional
+    public void testSearchByGameQuery() {
+        assertEquals(0, tournamentDao.findTournamentNames("tor", 1).size());
+    }
+
+
+    @Test
+    @Transactional
+    public void testParticipatesIn() {
+        assertEquals(false, tournamentDao.participatesIn(4,1));
+    }
 }

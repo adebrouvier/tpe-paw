@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class UserDaoTest {
+public class UserHibernateDaoTest {
 
     @PersistenceContext
     private EntityManager em;

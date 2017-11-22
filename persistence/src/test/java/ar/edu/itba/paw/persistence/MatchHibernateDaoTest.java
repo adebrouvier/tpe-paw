@@ -35,7 +35,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class MatchJdbcDaoTest {
+public class MatchHibernateDaoTest {
 
     @PersistenceContext
     private EntityManager em;
