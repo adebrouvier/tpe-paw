@@ -39,7 +39,7 @@ ${navbar}
                     <c:forEach var="comment" items="${tournament.comments}">
                         <div class="card">
                             <div class="card-content">
-                                <div class="comment"><pre><c:out value="${comment.comment}"/></pre></div>
+                                <div class="comment" id="comment-<c:out value="${comment.id}"/>"><pre><c:out value="${comment.comment}"/></pre></div>
                                 <hr>
                                 <span><a href="<c:url value="/user/${comment.creator.id}"/>">${comment.creator.name}</a> - ${comment.date.toLocaleString()}</span>
                                 <a class="waves-effect waves-light btn modal-trigger light-blue darken-4" href="#modal-${comment.id}"><spring:message code="tournament.comment.reply"/></a>

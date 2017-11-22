@@ -5,13 +5,14 @@
     <link rel="stylesheet"
           href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>">
     <link rel="stylesheet" href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons"/>">
-    <script type="text/javascript" src="<c:url value="https://code.jquery.com/jquery-3.2.1.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"/>"></script>
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/tournament-page.css"/>"/>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/standings.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><c:out value="${tournament.name}"/> - <spring:message code="tournament.standings"/> - <spring:message code="header.name"/></title>
 </head>
@@ -44,10 +45,10 @@ ${navbar}
                 </c:if>
                 <c:if test="${tournament.players.size() != 0}">
                 <div class="row standings">
-                    <table class="centered striped">
+                    <table class="centered striped" id="table-standings">
                         <thead>
                         <tr>
-                            <th><spring:message code="tournament.standings.table.rank"/></th>
+                            <th id="rank"><spring:message code="tournament.standings.table.rank"/></th>
                             <th><spring:message code="tournament.standings.table.player"/></th>
                         </tr>
                         </thead>
