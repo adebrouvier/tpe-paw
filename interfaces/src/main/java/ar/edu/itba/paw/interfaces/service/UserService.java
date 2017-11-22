@@ -45,4 +45,6 @@ public interface UserService {
     List<TopUserDTO> findTopWinners(int top);
 
     List<MostFollowedDTO> findMostFollowed(int top);
+
+	long getFollowersAmount(long userId);
 }

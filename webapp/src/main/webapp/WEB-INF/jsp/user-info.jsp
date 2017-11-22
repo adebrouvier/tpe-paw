@@ -29,6 +29,19 @@
                 </c:if>
             </div>
         </div>
+        <div class="divider"></div>
+        <div class="row valign-wrapper user-section-content" style="padding:10px 0">
+            <div class="col s3">
+                        <span>
+                            Followers
+                        </span>
+            </div>
+            <div class="col s9">
+                        <span>
+                            <c:out value="${followers}"/>
+                        </span>
+            </div>
+        </div>
         <c:if test="${user.description != null || user.twitchUrl != null || user.twitterUrl != null || user.youtubeUrl != null}">
             <div class="divider"></div>
             <div class="section ">
@@ -95,6 +108,5 @@
                 </c:forEach>
             </div>
         </c:if>
-
     </div>
 </div>

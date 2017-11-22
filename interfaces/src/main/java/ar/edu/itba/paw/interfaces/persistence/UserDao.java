@@ -44,4 +44,6 @@ public interface UserDao {
     List<TopUserDTO> findTopWinners(int top);
 
     List<MostFollowedDTO> findMostFollowed(int userCount);
+
+	long getFollowersAmount(long userId);
 }

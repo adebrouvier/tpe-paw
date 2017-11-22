@@ -49,4 +49,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.findMostFollowed(userCount);
 	}
 
+	@Override
+	public long getFollowersAmount(long userId) { return userDao.getFollowersAmount(userId); }
+
 }

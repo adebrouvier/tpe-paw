@@ -72,6 +72,8 @@ public class UserController {
         mav.addObject("user", u);
 
         List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
+
+        mav.addObject("followers", us.getFollowersAmount(userId));
         mav.addObject("favoritesGames", list);
         mav.addObject("tournaments", tournaments);
         mav.addObject("isFollow", ufs.isFollow(loggedUser(), u));
@@ -206,6 +208,8 @@ public class UserController {
         final ModelAndView mav = new ModelAndView("user-create");
 
         mav.addObject("user", u);
+
+        mav.addObject("followers",us.getFollowersAmount(userId));
         mav.addObject("rankings", rankings);
         mav.addObject("tournaments", tournaments);
         mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
@@ -247,6 +251,7 @@ public class UserController {
         final ModelAndView mav = new ModelAndView("user-created-ranking");
 
         mav.addObject("user", u);
+        mav.addObject("followers",us.getFollowersAmount(userId));
         mav.addObject("rankings", rankings);
         mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
 

@@ -50,6 +50,15 @@ public class UserHibernateDao implements UserDao {
     }
 
     @Override
+    public long getFollowersAmount(long userId){
+        final Long query = em.createQuery("select count (*) from UserFollow as u where u.userFollowed.id = :userId ",Long.class)
+                .setParameter("userId",userId)
+                .getSingleResult();
+        return query;
+
+    }
+
+    @Override
     public User findByName(final String username) {
         final TypedQuery<User> query = em.createQuery("from User as u where u.name = :username", User.class);
         query.setParameter("username", username);
@@ -81,6 +90,8 @@ public class UserHibernateDao implements UserDao {
         user.setYoutubeUrl(addHttpsToUrl(youtubeUrl));
         em.merge(user);
     }
+
+
 
     private String addHttpsToUrl(String url) {
         if(url == null || url.isEmpty()) {
