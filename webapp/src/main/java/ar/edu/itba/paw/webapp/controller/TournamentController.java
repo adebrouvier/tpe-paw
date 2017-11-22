@@ -93,9 +93,11 @@ public class TournamentController {
         final List<Inscription> inscriptions = is.finByTournamentId(tournamentId);
 
         boolean signedUp = false;
+        boolean participates = false;
 
         if (loggedUser() != null) {
             signedUp = is.findByIds(loggedUser().getId(), tournamentId) != null;
+            participates = ts.participatesIn(loggedUser.getId(), tournamentId);
         }
 
         final ModelAndView mav = new ModelAndView("tournament-page");
@@ -103,6 +105,7 @@ public class TournamentController {
         mav.addObject("loggedUser", loggedUser);
         mav.addObject("inscriptions", inscriptions);
         mav.addObject("signedUp", signedUp);
+        mav.addObject("participates", participates);
         return mav;
     }
 

@@ -69,7 +69,7 @@ ${navbar}
                         <c:if test="${loggedUser.id == tournament.creator.id}">
                         <h6><spring:message code="tournament.bracket.empty"/></h6>
                         </c:if>
-                        <c:if test="${loggedUser != null && loggedUser.id != tournament.creator.id && !signedUp}">
+                        <c:if test="${loggedUser != null && loggedUser.id != tournament.creator.id && !signedUp && !participates}">
                             <h6><spring:message code="tournament.join.new"/></h6>
                             <c:url value="/request/tournament/${tournament.id}" var="endPath"/>
                             <form:form action="${endPath}" method="post">
