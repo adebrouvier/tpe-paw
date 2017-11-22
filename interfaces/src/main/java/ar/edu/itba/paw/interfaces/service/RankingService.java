@@ -69,4 +69,6 @@ public interface RankingService {
     List<Ranking> findFeaturedRankings(int featured);
 
     List<Ranking> findRankingByUser(long userId);
+
+    List<Ranking> findRankingByUserPage(long userId, int page);
 }

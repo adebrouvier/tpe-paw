@@ -60,5 +60,9 @@ public class RankingServiceImpl implements RankingService {
         rankingDao.delete(rankingId, tournamentId);
     }
 
+    @Transactional
+    @Override
+    public List<Ranking> findRankingByUserPage(long userId, int page) {return rankingDao.findRankingByUserPage(userId, page);}
+
 
 }

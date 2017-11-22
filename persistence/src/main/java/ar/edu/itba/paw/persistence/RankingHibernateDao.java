@@ -273,6 +273,16 @@ public class RankingHibernateDao implements RankingDao{
             return list.isEmpty() ? null : list;
     }
 
+    @Override
+    public List<Ranking> findRankingByUserPage(long userId, int page) {
+        TypedQuery<Ranking> q = em.createQuery("from Ranking where user.id = :userId", Ranking.class)
+                .setParameter("userId", userId)
+                .setFirstResult(page*5)
+                .setMaxResults(5);
+        List<Ranking> list = q.getResultList();
+        return list.isEmpty() ? null : list;
+    }
+
     public EntityManager getEntityManager() {
         return em;
     }
