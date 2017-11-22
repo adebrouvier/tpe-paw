@@ -31,7 +31,7 @@ ${navbar}
                 <form:form modelAttribute="userUpdateForm" action="${postPath}" method="post" enctype="multipart/form-data">
                     <div class="section" >
                         <div class="user-section-center" style="padding-bottom: 20px">
-                            <img id="user-preview" src="/profile-image/${user.id}" class="user-img" />
+                            <img id="user-preview" src="<c:url value="/profile-image/${user.id}"/>" class="user-img" />
                         </div>
                         <div class="user-section-center">
                             <form:label cssClass="btn btn-primary light-blue darken-4 fileContainer" for="file" path="image"><spring:message code="settings.addImage"/>

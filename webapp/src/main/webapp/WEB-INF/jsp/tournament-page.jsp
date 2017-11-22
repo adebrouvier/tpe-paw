@@ -201,7 +201,9 @@ ${navbar}
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a class="btn light-blue darken-4" href="<c:url value="/match/${tournament.id}/${match.id}"/>"><i class="material-icons right">edit</i> <spring:message code="match.edit.details"/></a>
+                                                        <c:if test="${match.awayPlayer.id != -1}">
+                                                            <a class="btn light-blue darken-4" href="<c:url value="/match/${tournament.id}/${match.id}"/>"><i class="material-icons right">edit</i> <spring:message code="match.edit.details"/></a>
+                                                        </c:if>
                                                         <button class="btn light-blue darken-4 waves-effect waves-light" type="submit">
                                                             <spring:message code="tournament.update"/>
                                                             <i class="material-icons right">update</i>
@@ -265,7 +267,7 @@ ${navbar}
                                                             </a>
                                                         </div>
                                                     </c:if>
-                                                    <c:if test="${loggedUser.id == tournament.creator.id}">
+                                                    <c:if test="${loggedUser.id == tournament.creator.id && match.awayPlayer.id != -1}">
                                                         <div class="row">
                                                             <a class="btn light-blue darken-4" href="<c:url value="/match/${tournament.id}/${match.id}"/>"><spring:message code="match.edit.details"/></a>
                                                         </div>
