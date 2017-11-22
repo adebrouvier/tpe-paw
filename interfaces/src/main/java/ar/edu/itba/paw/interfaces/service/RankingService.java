@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.model.PopularRankingDTO;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 
@@ -71,4 +72,6 @@ public interface RankingService {
     List<Ranking> findRankingByUser(long userId);
 
     List<Ranking> findRankingByUserPage(long userId, int page);
+
+    List<PopularRankingDTO> findPopularRankings(int rankings);
 }

@@ -82,7 +82,7 @@ ${navbar}
         </tbody>
     </table>
     <div class="row">
-        <div class="col s4 offset-s4">
+        <div class="col s4">
             <h5><spring:message code="index.topChampions.title"/></h5>
             <table>
                 <thead>
@@ -118,6 +118,28 @@ ${navbar}
                 </c:forEach>
                 </tbody>
             </table>
+        </div>
+        <div class="col s4">
+            <h5><spring:message code="index.mostFollowed.title"/></h5>
+            <table>
+                <thead>
+                    <tr>
+                        <th><spring:message code="index.mostFollowed.table.user"/></th>
+                        <th><spring:message code="index.mostFollowed.table.follows"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="popularUser" items="${mostFollowed}" varStatus="position">
+                    <tr>
+                        <td><a href="<c:url value="/user/${winner.user.id}"/>"><c:out value="${popularUser.user.name}"/></a></td>
+                        <td><c:out value="${popularUser.followers}"/></td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s4">
+
         </div>
     </div>
 </div>

@@ -22,7 +22,7 @@ public class UserFollow {
 
     @ManyToOne
     @JoinColumn(name = "user_followed_id", insertable = false, updatable = false)
-    private Game userFollowed;
+    private User userFollowed;
 
     public UserFollow() {
         /* for Hibernate */
@@ -57,11 +57,11 @@ public class UserFollow {
         this.userFollowedId = userFollowedId;
     }
 
-    public Game getUserFollowed() {
+    public User getUserFollowed() {
         return userFollowed;
     }
 
-    public void setUserFollowed(Game userFollowed) {
+    public void setUserFollowed(User userFollowed) {
         this.userFollowed = userFollowed;
     }
 }
