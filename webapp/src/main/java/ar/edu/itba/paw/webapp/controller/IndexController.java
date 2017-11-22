@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.PopularRankingDTO;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
