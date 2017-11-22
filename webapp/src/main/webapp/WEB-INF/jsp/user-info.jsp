@@ -5,7 +5,7 @@
 <div class="col s4 m4 l4">
     <div class="card">
         <c:if test="${loggedUser.id == user.id}">
-            <a class="btn right light-blue darken-4" style="padding: 0 10px" href="<c:url value="/user/${user.id}/settings"/>"><i class="small material-icons">edit</i></a>
+            <a class="btn right light-blue darken-4 btn-padding" href="<c:url value="/user/${user.id}/settings"/>"><i class="small material-icons">edit</i></a>
         </c:if>
         <div class="section">
             <div style="padding-top: 40px">
@@ -30,10 +30,10 @@
             </div>
         </div>
         <div class="divider"></div>
-        <div class="row valign-wrapper user-section-content" style="padding:10px 0">
+        <div class="row valign-wrapper user-section-content follower-section">
             <div class="col s3">
                         <span>
-                            Followers
+                            <spring:message code="user.followers"/>
                         </span>
             </div>
             <div class="col s9">
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
-                                    Twitch
+                                    <spring:message code="user.twitch"/>
                                 </span>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
-                                    Twitter
+                                    <spring:message code="user.twitter"/>
                                 </span>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col s11" style="padding: 0">
                                 <span>
-                                    Youtube
+                                    <spring:message code="user.youtube"/>
                                 </span>
                             </div>
                         </div>
