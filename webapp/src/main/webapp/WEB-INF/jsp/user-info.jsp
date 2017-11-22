@@ -47,7 +47,7 @@
             <div class="section ">
                 <h6 class="user-section"><i class="tiny material-icons section-icons">info_outline</i><b><spring:message code="user.personalInfomation"/></b></h6>
                 <c:if test="${user.description != null}">
-                    <p class="user-section-content"><c:out value="${user.description}"/></p></br>
+                    <p class="user-section-content" style="word-wrap:break-word"><c:out value="${user.description}"/></p></br>
                 </c:if>
                 <c:if test="${user.twitchUrl != null}">
                     <a href="<c:url value="${user.twitchUrl}"/>" >
@@ -99,7 +99,7 @@
                 <h6 class="user-section"><b><spring:message code="user.noDescription"/></b></h6>
             </div>
         </c:if>
-        <c:if test="${favoriteGame != null && favoriteGames.size() != 0}">
+        <c:if test="${favoritesGames != null && favoritesGames.size() != 0 && favoritesGames.get(0) != null && favoritesGames.get(0).game.name != ''}">
             <div class="divider"></div>
             <div class="section ">
                 <h6 class="user-section"><i class="tiny material-icons section-icons">games</i><b><spring:message code="user.favoriteGame"/></b></h6>
