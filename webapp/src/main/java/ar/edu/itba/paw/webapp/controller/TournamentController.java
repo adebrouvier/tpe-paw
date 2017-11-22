@@ -241,6 +241,8 @@ public class TournamentController {
         if(form.getMap()!=null) ms.setMap(form.getMap(), tournamentId, matchId);
         if(form.getVodLink()!=null) ms.setVODLink(form.getVodLink(), tournamentId, matchId);
 
+        LOGGER.info("Update match {} from tournament {} description", matchId, tournamentId);
+
         return new ModelAndView("redirect:/tournament/"+ tournamentId);
     }
 
@@ -367,6 +369,7 @@ public class TournamentController {
 
         final Comment comment = cs.create(loggedUser, new Date(), form.getComment());
         ts.addComment(t.getId(), comment);
+        LOGGER.info("New comment on tournament {}", tournamentId);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
     }
@@ -396,6 +399,7 @@ public class TournamentController {
 
         if(parent.getCreator().getId() != loggedUser.getId()) {
             ns.createReplyTournamentCommentsNotification(loggedUser, parent, t);
+            LOGGER.info("New reply on tournament {}", tournamentId);
         }
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/comments");
@@ -422,6 +426,7 @@ public class TournamentController {
         }
 
         ns.createRequestJoinNotification(loggedUser, t);
+        LOGGER.info("User {} created join request on tournament {}", loggedUser.getId(), tournamentId);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
@@ -452,6 +457,8 @@ public class TournamentController {
 
         ns.createAcceptJoinNotification(u, t);
 
+        LOGGER.info("Accepted user {} join request on tournament {}", userId, tournamentId);
+
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }
 
@@ -469,6 +476,8 @@ public class TournamentController {
         /* remove from pending list  */
         is.delete(tournamentId, userId);
         ns.createRejectJoinNotification(u, t);
+
+        LOGGER.info("Rejected user {} join request on tournament {}", userId, tournamentId);
 
         return new ModelAndView("redirect:/tournament/" + tournamentId + "/players");
     }

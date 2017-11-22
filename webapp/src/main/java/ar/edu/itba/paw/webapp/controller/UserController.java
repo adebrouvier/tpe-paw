@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @Controller
 public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService us;
@@ -55,6 +59,7 @@ public class UserController {
         if(u == null) {
             return new ModelAndView("redirect:/404");
         }
+        LOGGER.debug("Access to user {} profile", userName);
         ModelAndView mav = new ModelAndView("redirect:/user/" + u.getId());
         mav.addObject("loggedUser", loggedUser);
         return mav;
@@ -64,8 +69,10 @@ public class UserController {
     public ModelAndView user(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser){
         final User u = us.findById(userId);
         if(u == null) {
+            LOGGER.debug("Access to invalid user profile userId: {} ", userId);
             return new ModelAndView("redirect:/404");
         }
+        LOGGER.debug("Access to user id {} profile", userId);
         final ModelAndView mav = new ModelAndView("user-page");
         final List<Tournament> tournaments = ts.findTournamentByParticipant(userId, 0);
 
@@ -112,6 +119,7 @@ public class UserController {
         }
 
         ufs.create(loggedUser, u);
+        LOGGER.debug("New follower for user {}", userId);
 
         return new ModelAndView("redirect:/user/" + userId);
     }
@@ -130,6 +138,7 @@ public class UserController {
         }
 
         ufs.delete(loggedUser, u);
+        LOGGER.debug("Unfollow for user {}", userId);
 
         return new ModelAndView("redirect:/user/" + userId);
     }
@@ -155,7 +164,7 @@ public class UserController {
             try {
                 uis.updateImage(u, form.getImage().getBytes());
             } catch (IOException e) {
-
+                LOGGER.warn("Could not update image for user {}", userId);
             }
         }
 
@@ -168,7 +177,7 @@ public class UserController {
         ufgs.deleteAll(u);
         ufgs.create(u, g);
 
-
+        LOGGER.debug("Update description for user {}", userId);
 
         return new ModelAndView("redirect:/user/" + userId);
     }
@@ -274,37 +283,6 @@ public class UserController {
         mav.addObject("user", u);
         mav.addObject("rankings", rankings);
 
-        return mav;
-    }
-
-
-    @RequestMapping("/user/{userId}/followers")
-    public ModelAndView userFollowers(@PathVariable long userId){
-        final User u = us.findById(userId);
-        if(u == null) {
-            return new ModelAndView("redirect:/404");
-        }
-        final ModelAndView mav = new ModelAndView("user-followers");
-
-        mav.addObject("user", u);
-
-        List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
-        mav.addObject("favoritesGames", list);
-        return mav;
-    }
-
-    @RequestMapping("/user/{userId}/followed")
-    public ModelAndView userFollowed(@PathVariable long userId){
-        final User u = us.findById(userId);
-        if(u == null) {
-            return new ModelAndView("redirect:/404");
-        }
-        final ModelAndView mav = new ModelAndView("user-followed");
-
-        mav.addObject("user", u);
-
-        List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
-        mav.addObject("favoritesGames", list);
         return mav;
     }
 

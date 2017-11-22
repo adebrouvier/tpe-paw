@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.service.NotificationService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.Notification;
 import ar.edu.itba.paw.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,8 @@ import java.util.List;
 
 @Controller
 public class NotificationController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationController.class);
 
     @Autowired
     private NotificationService ns;
@@ -34,6 +38,8 @@ public class NotificationController {
         if(loggedUser == null || loggedUser.getId() != u.getId()) {
             return new ModelAndView("redirect:/403");
         }
+
+        LOGGER.debug("Access to user {} notifications", username);
 
         final ModelAndView mav = new ModelAndView("notifications");
 
