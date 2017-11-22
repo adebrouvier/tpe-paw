@@ -459,4 +459,13 @@ public class TournamentController {
         return us.findByName(username);
     }
 
+    @ModelAttribute("commentForm")
+    private CommentForm commentForm(){
+        return new CommentForm();
+    }
+
+    @ModelAttribute("replyForm")
+    private ReplyForm replyForm(){
+        return new ReplyForm();
+    }
 }

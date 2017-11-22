@@ -18,7 +18,7 @@ public class MatchForm {
     @Digits(integer = 3,fraction = 0)
     private int awayResult;
 
-    @Size(min = 6, max = 40)
+    @Size(min = 0, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String map;
 

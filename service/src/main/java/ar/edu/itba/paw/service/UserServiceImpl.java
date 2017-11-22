@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.interfaces.persistence.DuplicateUsernameException;
+import ar.edu.itba.paw.model.MostFollowedDTO;
 import ar.edu.itba.paw.model.TopUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<TopUserDTO> findTopWinners(int top) {
 		return userDao.findTopWinners(top);
+	}
+
+	@Override
+	public List<MostFollowedDTO> findMostFollowed(int userCount) {
+		return userDao.findMostFollowed(userCount);
 	}
 
 }

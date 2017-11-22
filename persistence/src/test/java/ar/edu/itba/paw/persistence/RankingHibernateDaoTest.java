@@ -1,69 +1,48 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.persistence.PlayerDao;
+import ar.edu.itba.paw.interfaces.persistence.*;
 import ar.edu.itba.paw.model.*;
-import org.hibernate.exception.ConstraintViolationException;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
-public class PlayerJdbcDaoTest {
-
-    @PersistenceContext
-    EntityManager em;
-
+public class RankingHibernateDaoTest {
     @Autowired
     private DataSource ds;
 
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
-    private MatchHibernateDao matchDao;
+    private TournamentDao tournamentDao;
     @Autowired
-    private PlayerHibernateDao playerDao;
-    @Autowired
-    private TournamentHibernateDao tournamentDao;
-    @Autowired
-    private UserHibernateDao userDao;
-    @Autowired
-    private GameHibernateDao gameDao;
+    private RankingDao rankingDao;
 
-    private int flag;
     private int MATCH_ID = 1;
-    private long TOURNAMENT_ID = 1;
+
 
     @Before
-    public void setUp() throws ConstraintViolationException {
-
+    public void setUp() {
         User user = new User("Pibe", "contraseña");
         User user2 = new User("Pibe2", "contraseña");
         Game game = new Game("Smash", true);
@@ -71,8 +50,8 @@ public class PlayerJdbcDaoTest {
         Tournament tournament2 = new Tournament("Torneo2", game, Tournament.Status.STARTED, user);
         Player player = new Player("Jugador1", tournament);
         Player player2 = new Player("Jugador2", tournament);
-        Match match = new Match(MATCH_ID,player, player2,0,0, null, false, tournament,1);
-        Match match1 = new Match(MATCH_ID+1,player,player2,0,0, match, true, tournament,2);
+        Match match = new Match(MATCH_ID, null,false, tournament,1);
+        Match match1 = new Match(MATCH_ID+1, match, true, tournament,2);
         final Map<Tournament, Integer> criteria = new HashMap<>();
         criteria.put(tournamentDao.findById(1), 100);
         Ranking ranking = new Ranking("Ranking", game,user);
@@ -97,15 +76,44 @@ public class PlayerJdbcDaoTest {
 
     @Test
     @Transactional
-    public void testCreate() {
-        final Player player = playerDao.create("Jorge", tournamentDao.findFeaturedTournaments(1).get(0));
-        assertNotNull(player);
+    public void testFindRankingByIdSuccess() {
+
+        Ranking ranking = rankingDao.findById(rankingDao.findFeaturedRankings(1).get(0).getId());
+        assertNotNull(ranking);
     }
 
     @Test
     @Transactional
-    public void testFindById() {
-        assertNull(playerDao.findById(18));
+    public void testFindRankingByIdFailure() {
+        assertNull(rankingDao.findById(123));
+    }
+
+
+    @Test
+    @Transactional
+    public void testGetPointsCorrectly() {
+        Ranking ranking = rankingDao.findFeaturedRankings(1).get(0);
+        assertEquals(100, ranking.getUserScores().get(0).getPoints());
+        ;
+    }
+
+    @Test
+    @Transactional
+    public void testGetTournamentPointValue() {
+        Ranking ranking = rankingDao.findFeaturedRankings(1).get(0);
+        assertEquals(1000, ranking.getTournaments().get(0).getAwardedPoints());
+    }
+
+    @Test
+    @Transactional
+    public void testFindRankingsByName() {
+        assertEquals(1, rankingDao.findRankingNames("Ran").size());
+    }
+
+    @Test
+    @Transactional
+    public void testFindFeaturedRanking() {
+        assertEquals(1, rankingDao.findFeaturedRankings(10).size());
     }
 
 }

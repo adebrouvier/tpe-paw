@@ -27,7 +27,7 @@ ${navbar}
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <div class="card-title"><spring:message code="ranking.create.title"/></div>
+                    <div class="card-title"><h3><spring:message code="ranking.create.title"/></h3></div>
                     <c:url value="/create/ranking" var="postPath"/>
                     <form:form modelAttribute="rankingForm" action="${postPath}" method="post">
                         <div class="row">

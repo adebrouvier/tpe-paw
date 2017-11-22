@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.persistence.UserDao;
+import ar.edu.itba.paw.model.MostFollowedDTO;
 import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
@@ -31,9 +32,20 @@ public class UserHibernateDao implements UserDao {
     @Override
     public List<TopUserDTO> findTopWinners(int top) {
 
-        final TypedQuery<TopUserDTO> query = em.createQuery("select new ar.edu.itba.paw.model.TopUserDTO(p.user, count(*)) from Player as p where standing = 1 group by p.user", TopUserDTO.class);
+        final TypedQuery<TopUserDTO> query = em.createQuery("select new ar.edu.itba.paw.model.TopUserDTO(p.user, count(*)) from Player as p where standing = 1 group by p.user order by count(*)", TopUserDTO.class)
+                .setMaxResults(top);
         List<TopUserDTO> list = query.getResultList();
         list.sort(((tu1, tu2) -> tu2.getWins().intValue() - tu1.getWins().intValue()));
+        return list;
+    }
+
+    @Override
+    public List<MostFollowedDTO> findMostFollowed(int userCount) {
+
+        final TypedQuery<MostFollowedDTO> query = em.createQuery("select new ar.edu.itba.paw.model.MostFollowedDTO(u.userFollowed, count(*)) from UserFollow as u group by u.userFollowed order by count(*)", MostFollowedDTO.class)
+            .setMaxResults(userCount);
+        List<MostFollowedDTO> list = query.getResultList();
+        list.sort(((tu1, tu2) -> tu2.getFollowers().intValue() - tu1.getFollowers().intValue()));
         return list;
     }
 

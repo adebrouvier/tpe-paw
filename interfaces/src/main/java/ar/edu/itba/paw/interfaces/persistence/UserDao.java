@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
+import ar.edu.itba.paw.model.MostFollowedDTO;
 import ar.edu.itba.paw.model.TopUserDTO;
 import ar.edu.itba.paw.model.User;
 
@@ -37,9 +38,10 @@ public interface UserDao {
 	 * @param name of the User
 	 * @param password of the User
 	 * @return instance of the new User
-	 * @throws DuplicateUsernameException
 	 */
 	User create(String name, String password);
 
     List<TopUserDTO> findTopWinners(int top);
+
+    List<MostFollowedDTO> findMostFollowed(int userCount);
 }
