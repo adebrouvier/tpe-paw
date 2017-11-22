@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.persistence;
 
+import ar.edu.itba.paw.model.PopularRankingDTO;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 
@@ -84,4 +85,8 @@ public interface RankingDao {
     List<Ranking> findFeaturedRankings(int featured);
 
     List<Ranking> findRankingByUser(long userId);
+
+    List<Ranking> findRankingByUserPage(long userId, int page);
+
+    List<PopularRankingDTO> findPopularRankings(int rankings);
 }

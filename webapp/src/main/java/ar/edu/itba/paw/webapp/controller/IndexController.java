@@ -45,6 +45,8 @@ public class IndexController {
         mav.addObject("rankings", rs.findFeaturedRankings(featuredRankings));
         mav.addObject("loggedUser", loggedUser);
         mav.addObject("topUsers", us.findTopWinners(5));
+        mav.addObject("mostFollowed", us.findMostFollowed(5));
+        mav.addObject("popularRankings", rs.findPopularRankings(5));
         return mav;
     }
 

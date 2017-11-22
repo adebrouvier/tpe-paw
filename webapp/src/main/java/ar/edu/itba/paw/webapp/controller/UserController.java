@@ -217,6 +217,7 @@ public class UserController {
         return mav;
     }
 
+
     @RequestMapping("/user/{userId}/{page}/creates")
     public ModelAndView userCreatesPagination(@PathVariable long userId, @PathVariable int page) {
         final User u = us.findById(userId);
@@ -233,6 +234,43 @@ public class UserController {
 
         return mav;
     }
+
+
+    @RequestMapping("/user/{userId}/createdRanking")
+    public ModelAndView userCreatedRanking(@PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
+        final User u = us.findById(userId);
+        if (u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final List<Ranking> rankings = rs.findRankingByUserPage(userId,0);
+        final ModelAndView mav = new ModelAndView("user-created-ranking");
+
+        mav.addObject("user", u);
+        mav.addObject("rankings", rankings);
+        mav.addObject("isFollow", ufs.isFollow(u, loggedUser()));
+
+        List<UserFavoriteGame> list = ufgs.getFavoriteGames(u);
+        mav.addObject("favoritesGames", list);
+        mav.addObject("loggedUser", loggedUser);
+
+        return mav;
+    }
+
+    @RequestMapping("/user/{userId}/{page}/createdRanking")
+    public ModelAndView userCreatedRankingPagination(@PathVariable long userId, @PathVariable int page) {
+        final User u = us.findById(userId);
+        if (u == null) {
+            return new ModelAndView("redirect:/404");
+        }
+        final List<Ranking> rankings = rs.findRankingByUserPage(userId, page);
+        final ModelAndView mav = new ModelAndView("message-user-created-ranking");
+
+        mav.addObject("user", u);
+        mav.addObject("rankings", rankings);
+
+        return mav;
+    }
+
 
     @RequestMapping("/user/{userId}/followers")
     public ModelAndView userFollowers(@PathVariable long userId){

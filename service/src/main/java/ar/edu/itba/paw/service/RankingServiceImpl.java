@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.persistence.RankingDao;
 import ar.edu.itba.paw.interfaces.service.RankingService;
+import ar.edu.itba.paw.model.PopularRankingDTO;
 import ar.edu.itba.paw.model.Ranking;
 import ar.edu.itba.paw.model.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +55,20 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findRankingByUser(userId);
     }
 
+    @Override
+    public List<PopularRankingDTO> findPopularRankings(int rankings) {
+        return rankingDao.findPopularRankings(rankings);
+    }
+
     @Transactional
     @Override
     public void delete(long rankingId, long tournamentId) {
         rankingDao.delete(rankingId, tournamentId);
     }
+
+    @Transactional
+    @Override
+    public List<Ranking> findRankingByUserPage(long userId, int page) {return rankingDao.findRankingByUserPage(userId, page);}
 
 
 }
