@@ -6,6 +6,10 @@ $(document).ready(function () {
     $(window).scroll( function () {
         scrollPage();
     });
+
+    $('form').submit(function(){
+        $('button[type=submit]').prop('disabled', true);
+    });
 });
 
 function scrollPage () {
