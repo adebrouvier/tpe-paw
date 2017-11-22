@@ -15,6 +15,7 @@
     <script type="text/javascript"
             src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/navbar.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/register.js"/>"></script>
     <script type="text/javascript">contextPath='<%=request.getContextPath()%>';</script>
     <title><spring:message code="index.title"/></title>
 </head>
