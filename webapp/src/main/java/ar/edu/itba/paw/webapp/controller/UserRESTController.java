@@ -26,8 +26,7 @@ public class UserRESTController {
     public Response getById(@PathParam("id") final long id) {
         final User user = us.findById(id);
         if (user != null) {
-            return Response.ok(new UserDTO(user)).build()
-                    ;
+            return Response.ok(new UserDTO(user)).header("Access-Control-Allow-Origin","http://localhost:9000").build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
