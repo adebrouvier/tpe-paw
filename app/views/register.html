@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 offset-m3 card-panel">
+            <div class="center"><h2>Register</h2></div>
+            <form>
+                <form:errors path="" cssClass="form-error" element="p"/>
+                <div class="input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <label path="username">Username</label>
+                    <input type="text" ng-model="username" path="username"/>
+                    <errors path="username" cssClass="form-error" element="p"/>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <label path="password">Password</label>
+                    <input type="password" path="password"/>
+                    <errors path="password" cssClass="form-error" element="p"/>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <label path="repeatPassword">Repeat password</label>
+                    <input type="password" path="repeatPassword"/>
+                    <errors path="repeatPassword" cssClass="form-error" element="p"/>
+                </div>
+                <div class="row center">
+                    <div class="input-field col s12">
+                        <button class="btn btn-large light-blue darken-4" type="submit">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

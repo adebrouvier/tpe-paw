@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name tpePawApp.controller:MainCtrl
+ * @name tpePawApp.controller:RegisterCtrl
  * @description
- * # MainCtrl
+ * # RegisterCtrl
  * Controller of the tpePawApp
  */
 angular.module('tpePawApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('RegisterCtrl', function ($scope, $http) {
   	
   });

@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.User;
 public class UserDTO {
 
     private String username;
+    private String password;
     private Long id;
 
     public UserDTO(){}
@@ -28,5 +29,13 @@ public class UserDTO {
 
     public void setId(Long id){
         this.id = id;
+    }
+
+    public String getPassword(){
+      return password;
+    }
+
+    public void setPassword(String password){
+      this.password = password;
     }
 }
