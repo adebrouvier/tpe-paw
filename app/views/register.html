@@ -2,24 +2,23 @@
     <div class="row">
         <div class="col s12 m6 offset-m3 card-panel">
             <div class="center"><h2>{{'REGISTER_TITLE' | translate}}</h2></div>
-            <form>
-                <form:errors path="" cssClass="form-error" element="p"/>
+            <form ng-submit="processForm()">
                 <div class="input-field">
                     <i class="material-icons prefix">account_circle</i>
                     <label path="username">{{'REGISTER_USERNAME' | translate}}</label>
-                    <input type="text" ng-model="username" path="username"/>
+                    <input type="text" ng-model="registerForm.username" path="username"/>
                     <errors path="username" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
                     <i class="material-icons prefix">lock</i>
                     <label path="password">{{'REGISTER_PASSWORD' | translate}}</label>
-                    <input type="password" path="password"/>
+                    <input type="password" ng-model="registerForm.password" path="password"/>
                     <errors path="password" cssClass="form-error" element="p"/>
                 </div>
                 <div class="input-field">
                     <i class="material-icons prefix">lock</i>
                     <label path="repeatPassword">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
-                    <input type="password" path="repeatPassword"/>
+                    <input type="password" ng-model="registerForm.repeatPassword" path="repeatPassword"/>
                     <errors path="repeatPassword" cssClass="form-error" element="p"/>
                 </div>
                 <div class="row center">

@@ -2,10 +2,19 @@ package ar.edu.itba.paw.webapp.controller.dto;
 
 import ar.edu.itba.paw.model.User;
 
+import javax.validation.constraints.Size;
+
 public class UserDTO {
 
+    @Size(min = 6, max = 16)
     private String username;
+
+    @Size(min = 6, max = 100)
     private String password;
+
+    @Size(min = 6, max = 100)
+    private String repeatPassword;
+
     private Long id;
 
     public UserDTO(){}
@@ -37,5 +46,13 @@ public class UserDTO {
 
     public void setPassword(String password){
       this.password = password;
+    }
+
+    public String getRepeatPassword(){
+      return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword){
+      this.repeatPassword = repeatPassword;
     }
 }
