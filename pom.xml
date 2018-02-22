@@ -24,7 +24,7 @@
         <logback-ext-spring.version>0.1.1</logback-ext-spring.version>
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <mockito-core.version>2.10.0</mockito-core.version>
-        <spring-security.version>4.0.4.RELEASE</spring-security.version>
+        <spring-security.version>4.2.4.RELEASE</spring-security.version>
         <jackson-databind.version>2.9.0</jackson-databind.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <com.fasterxml.jackson.core.version>2.9.0</com.fasterxml.jackson.core.version>

@@ -9,6 +9,11 @@ define([], function() {
 		REGISTER_TITLE: 'Register',
 		REGISTER_USERNAME: 'Username',
 		REGISTER_PASSWORD: 'Password',
-		REGISTER_REPEAT_PASSWORD: 'Repeat Password'
+		REGISTER_REPEAT_PASSWORD: 'Repeat Password',
+		
+		LOGIN_TITLE: 'Sign in',
+		LOGIN_USERNAME: 'Username',
+		LOGIN_PASSWORD: 'Password',
+		LOGIN_REGISTER_LINK: 'Create an account'
 	};
 });

@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 offset-m3 card-panel">
+            <div class="center"><h2>{{'LOGIN_TITLE' | translate}}</h2></div>
+            <form ng-submit="login()">
+                <div class="input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <label path="username">{{'LOGIN_USERNAME' | translate}}</label>
+                    <input type="text" ng-model="loginForm.username" path="username"/>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <label path="password">{{'LOGIN_PASSWORD' | translate}}</label>
+                    <input type="password" ng-model="loginForm.password" path="password"/>
+                </div>                
+                <div class="row center">
+                    <div class="input-field col s12">
+                        <button class="btn btn-large light-blue darken-4" type="submit">{{'LOGIN' | translate}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="center">
+        <a class="btn light-blue darken-4" href="#/register">{{'LOGIN_REGISTER_LINK' | translate}}</a>
+    </div>
+    <br/>
+</div>
