@@ -14,6 +14,11 @@ define([], function() {
 		LOGIN_TITLE: 'Sign in',
 		LOGIN_USERNAME: 'Username',
 		LOGIN_PASSWORD: 'Password',
-		LOGIN_REGISTER_LINK: 'Create an account'
+		LOGIN_REGISTER_LINK: 'Create an account',
+
+		NAVBAR_LOGIN: 'Login',
+		NAVBAR_SIGNUP: 'Sign up',
+		NAVBAR_LOGOUT: 'Logout',
+
 	};
 });

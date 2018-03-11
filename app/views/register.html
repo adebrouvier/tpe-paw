@@ -6,7 +6,7 @@
                 <div class="input-field">
                     <i class="material-icons prefix">account_circle</i>
                     <label path="username">{{'REGISTER_USERNAME' | translate}}</label>
-                    <input type="text" ng-model="registerForm.username" path="username"/>
+                    <input ng-minlength="6" type="text" ng-model="registerForm.username" path="username"/>
                 </div>
                 <div class="input-field">
                     <i class="material-icons prefix">lock</i>

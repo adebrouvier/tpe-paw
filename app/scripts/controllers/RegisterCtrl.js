@@ -1,7 +1,9 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
-    tpePaw.controller('RegisterCtrl', function($scope, $http) {
+    tpePaw.controller('RegisterCtrl', function($scope, $http, titleService) {
+
+        titleService.setTitle("Sign up - Versus");
 
     	$scope.registerForm = {};
 
