@@ -234,9 +234,7 @@
                 <version>${org.hibernate.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.hibernate.javax.persistence
-                </groupId
-                >
+                <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.1-api</artifactId>
                 <version>${org.hibernate.jpa.version}</version>
             </dependency>

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.config;
 
+import ar.edu.itba.paw.webapp.controller.dto.AuthenticationDTO;
 import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -35,9 +36,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   public Authentication attemptAuthentication(HttpServletRequest req,
                                               HttpServletResponse res) throws AuthenticationException {
     try {
-      //TODO: authentication dto?
-      UserDTO creds = new ObjectMapper()
-        .readValue(req.getInputStream(), UserDTO.class);
+      AuthenticationDTO creds = new ObjectMapper()
+        .readValue(req.getInputStream(), AuthenticationDTO.class);
 
       return authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
