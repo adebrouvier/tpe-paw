@@ -2,20 +2,20 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
-import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 
 @Path("tournaments")
 @Component

@@ -31,10 +31,14 @@ public class MatchDTO {
 
   public MatchDTO(Match match){
     this.id = match.getId();
-    this.homePlayer = new PlayerDTO(match.getHomePlayer());
-    this.awayPlayer = new PlayerDTO(match.getAwayPlayer());
-    this.homePlayerScore = match.getHomePlayerScore();
-    this.awayPlayerScore = match.getAwayPlayerScore();
+    if (match.getHomePlayer() != null)
+      this.homePlayer = new PlayerDTO(match.getHomePlayer());
+    if (match.getAwayPlayer() != null)
+      this.awayPlayer = new PlayerDTO(match.getAwayPlayer());
+    if (match.getHomePlayerScore() != null)
+      this.homePlayerScore = match.getHomePlayerScore();
+    if (match.getAwayPlayerScore() != null)
+      this.awayPlayerScore = match.getAwayPlayerScore();
     this.nextMatchHome = match.isNextMatchHome();
     this.videoOnDemandLink = match.getVideoOnDemandLink();
     this.map = match.getMap();

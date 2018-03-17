@@ -20,10 +20,14 @@ public class PlayerDTO {
   public PlayerDTO(Player player){
     this.id = player.getId();
     this.name = player.getName();
-    this.user = new UserDTO(player.getUser());
-    this.seed = player.getSeed();
-    this.standing = player.getStanding();
-
+    if (player.getUser() != null) {
+      this.user = new UserDTO(player.getUser());
+    }
+    if (player.getSeed() != null) {
+      this.seed = player.getSeed();
+    }
+    if (player.getStanding() != null)
+      this.standing = player.getStanding();
   }
 
   public long getId() {

@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.controller.dto;
 
 import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,10 +31,32 @@ public class TournamentDTO {
                         .map(PlayerDTO::new)
                         .collect(Collectors.toList());
     this.matches = tournament.getMatches().stream()
-      .map(MatchDTO::new)
-      .collect(Collectors.toList());
-    this.game = new GameDTO(tournament.getGame());
+                        .map(MatchDTO::new)
+                        .collect(Collectors.toList());
+    if (tournament.getGame() != null) {
+      this.game = new GameDTO(tournament.getGame());
+    }
     this.creator = new UserDTO(tournament.getCreator());
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public List<MatchDTO> getMatches() {
+    return matches;
+  }
+
+  public void addMatch(MatchDTO match){
+    this.matches.add(match);
+  }
+
+  public void setMatches(List<MatchDTO> matches) {
+    this.matches = matches;
   }
 
   public String getName() {
@@ -60,6 +81,10 @@ public class TournamentDTO {
 
   public void setPlayers(List<PlayerDTO> players) {
     this.players = players;
+  }
+
+  public void addPlayer(PlayerDTO player){
+    this.players.add(player);
   }
 
   public GameDTO getGame() {
