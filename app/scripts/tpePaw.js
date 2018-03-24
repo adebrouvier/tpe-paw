@@ -5,8 +5,7 @@ define(['routes',
 	'angular',
 	'angular-route',
 	'bootstrap',
-	'angular-translate',
-	'materialize'],
+	'angular-translate'],
 	function(config, dependencyResolverFor, i18n) {
 		var tpePaw = angular.module('tpePaw', [
 			'ngRoute',

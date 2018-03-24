@@ -24,9 +24,7 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        materialize: '../../bower_components/materialize/dist/js/materialize',
-        velocity: '../../bower_components/materialize/js/velocity.min',
-        hammerjs: '../../bower_components/materialize/js/hammer.min'
+        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
     },
     shim: {
         angular: {
@@ -58,23 +56,6 @@ require.config({
         'angular-translate': {
             deps: [
                 'angular'
-            ]
-        },
-        materialize: {
-            deps: [
-                'jquery',
-                'velocity',
-                'hammerjs'
-            ]
-        },
-        velocity: {
-            deps: [
-                'jquery'
-            ]
-        },
-        hammerjs: {
-            deps: [
-                'jquery'
             ]
         }
     },
