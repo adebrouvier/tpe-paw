@@ -24,7 +24,10 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
+        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+        typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
+        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
+        'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle'
     },
     shim: {
         angular: {
@@ -56,6 +59,11 @@ require.config({
         'angular-translate': {
             deps: [
                 'angular'
+            ]
+        },
+        typeahead: {
+            deps: [
+                'jquery'
             ]
         }
     },

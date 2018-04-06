@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form-inline" ng-submit="search()">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input search-autocomplete type="text" class="form-control typeahead" ng-model="searchForm.query" placeholder="{{'SEARCH_BAR' | translate}}" id="search-input" autocomplete="off">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="text" class="form-control" ng-model="searchForm.game" placeholder="Game" id="game-search-input">
+                        </div>
+                        <button class="btn btn-primary mb-2" type="submit">{{'SEARCH_BUTTON' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3" ng-if="showTournaments || showRankings">
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" ng-class="{true:'active'}[showTournaments]" ng-href="#/search?q={{searchForm.query}}&type=Tournaments" role="tab" aria-selected="true">{{'SEARCH_TOURNAMENTS'| translate}} <span class="badge badge-light">{{tournaments.length}}</span></a>
+                    <a class="nav-link" ng-class="{true:'active'}[showRankings]" ng-href="#/search?q={{searchForm.query}}&type=Rankings" role="tab" aria-selected="false">{{'SEARCH_RANKINGS'| translate}} <span class="badge badge-light">{{rankings.length}}</span></a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade" ng-class="{true:'active show'}[showTournaments]" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <h2>{{'SEARCH_TOURNAMENTS'| translate}}</h2>                        
+                        <table class="table">
+                            <thead>
+                                <tr>                
+                                    <th scope="col">{{'SEARCH_TABLE_NAME'| translate}}</th>
+                                    <th scope="col">{{'SEARCH_TABLE_GAME'| translate}}</th>
+                                    <th scope="col">{{'SEARCH_TABLE_PLAYERS'| translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="tournament in tournaments">
+                                <tr>
+                                    <td><a ng-href="#/tournaments/{{tournament.id}}">{{tournament.name}}</a></td>
+                                    <td>{{tournament.game.name}}</td>
+                                    <td>{{tournament.players.length}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="tournaments.length == 0">
+                                <tr>
+                                    <td>{{'SEARCH_NOTFOUND' | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" ng-class="{true:'active show'}[showRankings]" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <h2>{{'SEARCH_RANKINGS'| translate}}</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>                
+                                    <th scope="col">{{'SEARCH_TABLE_NAME'| translate}}</th>
+                                    <th scope="col">{{'SEARCH_TABLE_GAME'| translate}}</th>
+                                    <th scope="col">{{'SEARCH_TABLE_PLAYERS'| translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="ranking in rankings">
+                                <tr ng-if="rankings.length > 0">                
+                                    <td><a ng-href="#/rankings/{{ranking.id}}">{{ranking.name}}</a></td>
+                                    <td>{{ranking.game.name}}</td>
+                                    <td>{{ranking.players.length}}</td>
+                                </tr>                                
+                            </tbody>
+                            <tbody ng-if="rankings.length == 0">
+                                <tr>
+                                    <td>{{'SEARCH_NOTFOUND' | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
