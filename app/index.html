@@ -9,7 +9,7 @@
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
 
 </head>
@@ -31,7 +31,7 @@
             <a ng-if="loggedIn" class="btn btn-outline-primary" href="#/">{{currentUser.username}}</a>
             <a ng-if="loggedIn" class="btn btn-outline-primary" href="#/logout">{{'NAVBAR_LOGOUT' | translate}}</a>
           </nav>
-      </div>    
+      </div>
   </header>
 
   <main>
@@ -53,6 +53,6 @@
   <![endif]-->
   <!-- endbuild -->
   <script src="/scripts/paths.js"></script>
-  <script src="bower_components/requirejs/require.js" data-main="/scripts/build.js"></script>    
+  <script src="bower_components/requirejs/require.js" data-main="/scripts/build.js"></script>
 </body>
 </html>

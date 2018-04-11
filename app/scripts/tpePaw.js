@@ -5,11 +5,13 @@ define(['routes',
 	'angular',
 	'angular-route',
 	'bootstrap',
-	'angular-translate'],
+	'angular-translate',
+  'infinite-scroll'],
 	function(config, dependencyResolverFor, i18n) {
 		var tpePaw = angular.module('tpePaw', [
 			'ngRoute',
-			'pascalprecht.translate'
+			'pascalprecht.translate',
+      'infinite-scroll'
 		]);
 		tpePaw
 			.config(

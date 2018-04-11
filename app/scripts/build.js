@@ -24,7 +24,10 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
+        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+        materialize: '../../bower_components/materialize/dist/js/materialize',
+        'infinite-scroll': '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll',
+        ngInfiniteScroll: '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll'
     },
     shim: {
         angular: {
@@ -55,6 +58,12 @@ require.config({
         },
         'angular-translate': {
             deps: [
+                'angular'
+            ]
+        },
+        'infinite-scroll': {
+            deps: [
+                'jquery',
                 'angular'
             ]
         }
