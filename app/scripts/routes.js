@@ -15,6 +15,14 @@ define([], function() {
             '/login': {
                 templateUrl: '/views/login.html',
                 controller: 'LoginCtrl'
+            },
+            '/tournament': {
+                templateUrl: '/views/tournament.html',
+                controller: 'TournamentCtrl'
+            },
+            '/tournament/:id': {
+                templateUrl: '/views/tournament-page.html',
+                controller: 'TournamentPageCtrl'
             }
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */

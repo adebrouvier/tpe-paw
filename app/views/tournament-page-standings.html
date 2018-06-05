@@ -1,0 +1,38 @@
+<div class="container">
+    <h1 class="text-center">{{tournament.name}}</h1>
+    <div tournament-info></div>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_RANK' | translate}}</th>
+                        <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_PLAYER' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Pepe</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
