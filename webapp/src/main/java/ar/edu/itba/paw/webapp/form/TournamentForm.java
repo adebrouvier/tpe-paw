@@ -12,17 +12,17 @@ public class TournamentForm {
     @NotNull
     @Size(min = 4, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9 ]+")
-    private String tournamentName;
+    private String name;
 
     @Size(min = 0, max = 60)
     private String game;
 
-    public String getTournamentName() {
-        return tournamentName;
+    public String getName() {
+        return name;
     }
 
-    public void setTournamentName(String tournamentName) {
-        this.tournamentName = tournamentName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setGame(String game) {

@@ -23,12 +23,14 @@ import org.springframework.web.servlet.view.JstlView;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 
 @EnableWebMvc
-@ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
+@ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence", "ar.edu.itba.paw.webapp.form.validation"})
 @Configuration
 @EnableTransactionManagement
 public class WebConfig {
@@ -92,4 +94,10 @@ public class WebConfig {
         factoryBean.setJpaProperties(properties);
         return factoryBean;
     }
+
+  @Bean
+  public Validator validator() {
+    return Validation.buildDefaultValidatorFactory().getValidator();
+  }
+
 }

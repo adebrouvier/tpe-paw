@@ -69,7 +69,7 @@ public class TournamentController {
         return gs.findGameNames(query);
     }
 
-    @RequestMapping(value = "/create/tournament", method = {RequestMethod.POST})
+    /*@RequestMapping(value = "/create/tournament", method = {RequestMethod.POST})
     public ModelAndView create(@Valid @ModelAttribute("tournamentForm") final TournamentForm form, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
         if (errors.hasErrors()) {
             return tournament(form, loggedUser);
@@ -80,7 +80,7 @@ public class TournamentController {
         final Tournament t = ts.create(form.getTournamentName(), game.getId(), loggedUser.getId());
         LOGGER.info("Created tournament {} with id {}", t.getName(), t.getId());
         return new ModelAndView("redirect:/tournament/" + t.getId() + "/players");
-    }
+    }*/
 
     @RequestMapping("/tournament/{tournamentId}")
     public ModelAndView tournament(@ModelAttribute("matchForm") final MatchForm form, @PathVariable long tournamentId, @ModelAttribute("loggedUser") User loggedUser) {
