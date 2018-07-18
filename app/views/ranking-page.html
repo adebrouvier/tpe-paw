@@ -1,0 +1,36 @@
+<div class="container">
+    <h1 class="text-center">{{ranking.name}}</h1>
+    <ranking-info/>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">{{'RANKING_PAGE_STANDINGS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{'RANKING_PAGE_TOURNAMENTS'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">{{'RANKING_PAGE_STANDINGS_TABLE_RANK' | translate}}</th>
+                        <th scope="col">{{'RANKING_PAGE_STANDINGS_TABLE_USER' | translate}}</th>
+                        <th scope="col">{{'RANKING_PAGE_STANDINGS_TABLE_POINTS' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="userScore in ranking.userScores">
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            <a ng-href="#/user/{{userScore.user.id}}">{{userScore.user.username}}</a>
+                        </td>
+                        <td>{{userScore.score}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

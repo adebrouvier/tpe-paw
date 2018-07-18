@@ -13,7 +13,7 @@ public class RankingDTO {
 
   private GameDTO game;
 
-  private UserDTO user;
+  private UserDTO creator;
 
   private List<UserScoresDTO> userScores;
 
@@ -26,7 +26,7 @@ public class RankingDTO {
     this.id = ranking.getId();
     this.name = ranking.getName();
     this.game = new GameDTO(ranking.getGame());
-    this.user = new UserDTO(ranking.getUser());
+    this.creator = new UserDTO(ranking.getUser());
     this.userScores = ranking.getUserScores().stream()
       .map(UserScoresDTO::new)
       .collect(Collectors.toList());
@@ -59,12 +59,12 @@ public class RankingDTO {
     this.game = game;
   }
 
-  public UserDTO getUser() {
-    return user;
+  public UserDTO getCreator() {
+    return creator;
   }
 
-  public void setUser(UserDTO user) {
-    this.user = user;
+  public void setCreator(UserDTO creator) {
+    this.creator = creator;
   }
 
   public List<UserScoresDTO> getUserScores() {
