@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">{{'RANKING_PAGE_TABLE_PLAYERS' | translate}}</th>
+            <th scope="col">{{'RANKING_PAGE_TABLE_TOURNAMENTS' | translate}}</th>
+            <th scope="col">{{'RANKING_PAGE_TABLE_GAME' | translate}}</th>
+            <th scope="col">{{'RANKING_PAGE_TABLE_CREATOR' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ranking.players.length}}</td>
+            <td>{{ranking.tournaments.length}}</td>
+            <td>{{ranking.game.name}}</td>
+            <td>
+                <a ng-href="#/user/{{ranking.creator.id}}">{{ranking.creator.username}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

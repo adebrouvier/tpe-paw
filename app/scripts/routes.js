@@ -63,7 +63,15 @@ define([], function() {
             '/404':{
                 templateUrl: '/views/404.html',
                 controller: '404Ctrl'
-            }
+            },
+            '/ranking': {
+                templateUrl: '/views/ranking.html',
+                controller: 'RankingCtrl'
+            },
+            '/ranking/:id': {
+                templateUrl: '/views/ranking-page.html',
+                controller: 'RankingPageCtrl'
+            },
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */
         }

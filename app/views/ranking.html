@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="text-center">
+                <h2>{{'RANKING_TITLE' | translate}}</h2>
+            </div>
+            <form ng-submit="processForm()">
+                <label for="name-input">{{'RANKING_NAME' | translate}}</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" ng-model="rankingForm.name" placeholder="{{'RANKING_NAME' | translate}}"
+                        id="name-input" required>
+                </div>
+                <label for="game-input">{{'RANKING_GAME' | translate}}</label>
+                <div class="input-group mb-3">
+                    <input type="game" class="form-control" ng-model="rankingForm.game" placeholder="{{'RANKING_GAME' | translate}}"
+                        id="game-input" required>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">{{'RANKING_CREATE' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

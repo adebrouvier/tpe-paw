@@ -140,11 +140,22 @@ define([], function () {
     USER_TWITCH_SIZE: 'Twitch url must be between 0 and 2000 characters long.',
     USER_TWITTER_SIZE: 'Twitter url must be between 0 and 2000 characters long.',
     USER_YOUTUBE_SIZE: 'Youtube url must be between 0 and 2000 characters long.',
-    USER_GAME_SIZE: 'Game must be between 0 and 60 characters long.'
+    USER_GAME_SIZE: 'Game must be between 0 and 60 characters long.',
 
+		RANKING_TITLE: 'Create Ranking',
+		RANKING_NAME: 'Name',
+		RANKING_GAME: 'Game',
+		RANKING_CREATE: 'Create',
 
-
-
+		RANKING_PAGE_TABLE_PLAYERS: 'Players',
+		RANKING_PAGE_TABLE_TOURNAMENTS: 'Tournaments',
+		RANKING_PAGE_TABLE_GAME: 'Game',
+		RANKING_PAGE_TABLE_CREATOR: 'Creator',
+		RANKING_PAGE_STANDINGS: 'Standings',
+		RANKING_PAGE_TOURNAMENTS: 'Tournaments',
+		RANKING_PAGE_STANDINGS_TABLE_RANK: 'Rank',
+		RANKING_PAGE_STANDINGS_TABLE_USER: 'User',
+		RANKING_PAGE_STANDINGS_TABLE_POINTS: 'Points',
 
 	};
 });
