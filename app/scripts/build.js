@@ -25,7 +25,9 @@ require.config({
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
-        'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle'
+        'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle',
+        'angular-animate': '../../bower_components/angular-animate/angular-animate',
+        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar.min',
     },
     shim: {
         angular: {
@@ -57,6 +59,17 @@ require.config({
         'angular-translate': {
             deps: [
                 'angular'
+            ]
+        },
+        'angular-animate': {
+            deps: [
+                'angular'
+            ]
+        },
+        'angular-loading-bar': {
+            deps: [
+                'angular',
+                'angular-animate'
             ]
         }
     },
