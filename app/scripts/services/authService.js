@@ -1,30 +1,30 @@
+'use strict';
 define(['tpePaw'], function(tpePaw) {
 
-    'use strict';
     tpePaw.service('AuthService', function($window, $location, $http) {
 
-        this.currentUser = function(){
+        this.currentUser = function() {
 
             /* TODO: get user from token */
 
-            if ($window.localStorage['currentUser'] != null){
+            if ($window.localStorage['currentUser'] != null) {
                 return angular.fromJson($window.localStorage['currentUser']);
             }
     
-            if ($window.sessionStorage['currentUser'] != null){
+            if ($window.sessionStorage['currentUser'] != null) {
                 return angular.fromJson($window.sessionStorage['currentUser']);
             }
         };
 
-        this.loggedIn = function(){
-            if ($window.localStorage['currentUser'] != null || $window.sessionStorage['currentUser'] != null){
+        this.loggedIn = function() {
+            if ($window.localStorage['currentUser'] != null || $window.sessionStorage['currentUser'] != null) {
                 return true;
-            }else{
+            }else {
                 return false;
             }
-        }
+        };
 
-        this.login = function(loginForm){
+        this.login = function(loginForm) {
 
             $http.post('http://localhost:8080/login', loginForm)
                     .then(function successCallback(response) {
@@ -36,20 +36,20 @@ define(['tpePaw'], function(tpePaw) {
                                 token: response.headers('Authorization')
                             };
 
-                            if (loginForm.rememberMe){
+                            if (loginForm.rememberMe) {
                                 $window.localStorage['currentUser'] = angular.toJson(currentUser);
-                            }else{
+                            }else {
                                 $window.sessionStorage['currentUser'] = angular.toJson(currentUser);
                             }
-                            $location.path('/');                            
+                            $location.path('/');
                             console.log('loggedIn');
                         }
                     }, function errorCallback(response) {
                         console.log('Login ERROR');
-            });            
-        }
+            });
+        };
 
-        this.logout = function(){
+        this.logout = function() {
             $window.localStorage.removeItem('currentUser');
 			$window.sessionStorage.removeItem('currentUser');
         };
