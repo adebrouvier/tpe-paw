@@ -9,7 +9,7 @@ require.config({
         'angular-route': '../../bower_components/angular-route/angular-route',
         'angular-translate': '../../bower_components/angular-translate/angular-translate',
         button: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button',
-        bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
+        bootstrap: '../../bower_components/bootstrap/package',
         carousel: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel',
         collapse: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse',
         dropdown: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown',
@@ -26,8 +26,7 @@ require.config({
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
-        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
-        'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle'
+        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound'
     },
     shim: {
         angular: {
