@@ -5,10 +5,10 @@
                 <div class="card-body">
                     <form class="form-inline" ng-submit="search()">
                         <div class="form-group mx-sm-3 mb-2">
-                            <input search-autocomplete type="text" class="form-control typeahead" ng-model="searchForm.query" placeholder="{{'SEARCH_BAR' | translate}}" id="search-input" autocomplete="off">
+                            <input search-autocomplete type="text" class="form-control typeahead" ng-model="searchForm.q" placeholder="{{'SEARCH_BAR' | translate}}" id="search-input" autocomplete="off">
                         </div>
                         <div class="form-group mx-sm-3 mb-2">
-                            <input type="text" class="form-control" ng-model="searchForm.game" placeholder="Game" id="game-search-input">
+                            <input game-autocomplete type="text" class="form-control typeahed" ng-model="searchForm.game" placeholder="{{'SEARCH_BAR_GAME' | translate}}" id="game-search-input" autocomplete="off">
                         </div>
                         <button class="btn btn-primary mb-2" type="submit">{{'SEARCH_BUTTON' | translate}}</button>
                     </form>
@@ -20,8 +20,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" ng-class="{true:'active'}[showTournaments]" ng-href="#/search?q={{searchForm.query}}&type=Tournaments" role="tab" aria-selected="true">{{'SEARCH_TOURNAMENTS'| translate}} <span class="badge badge-light">{{tournaments.length}}</span></a>
-                    <a class="nav-link" ng-class="{true:'active'}[showRankings]" ng-href="#/search?q={{searchForm.query}}&type=Rankings" role="tab" aria-selected="false">{{'SEARCH_RANKINGS'| translate}} <span class="badge badge-light">{{rankings.length}}</span></a>
+                    <a class="nav-link" ng-class="{true:'active'}[showTournaments]" ng-href="#/search?q={{searchForm.q}}&type=Tournaments" role="tab" aria-selected="true">{{'SEARCH_TOURNAMENTS'| translate}} <span class="badge badge-light">{{tournaments.length}}</span></a>
+                    <a class="nav-link" ng-class="{true:'active'}[showRankings]" ng-href="#/search?q={{searchForm.q}}&type=Rankings" role="tab" aria-selected="false">{{'SEARCH_RANKINGS'| translate}} <span class="badge badge-light">{{rankings.length}}</span></a>
                 </div>
             </div>
             <div class="col-9">

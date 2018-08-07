@@ -1,5 +1,5 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'directives/gameAutocomplete'], function(tpePaw) {
 
 	tpePaw.controller('SearchCtrl', function($scope, $filter, $http, $location, titleService) {
 		titleService.setTitle($filter('translate')('SEARCH_TITLE') + ' - Versus');
@@ -9,49 +9,45 @@ define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete'], fun
 		$scope.rankings = null;
 
 		var searchObject = $location.search();
-		$scope.searchForm.query = searchObject.q;
+		$scope.searchForm.q = searchObject.q;
+		$scope.searchForm.game = searchObject.game;
 
-		getResults();
+		$scope.search = function() {
 
-		function getResults(){
+			if ($scope.searchForm.q != '' && $scope.searchForm.game != '') {
 
-			if (searchObject.q != null && searchObject.q != ''){
-				if (searchObject.type == 'Tournaments' || searchObject.type == null){
+				$location.search('q', $scope.searchForm.q);
+				$location.search('game', $scope.searchForm.game);
+
+				if (searchObject.type == 'Tournaments' || searchObject.type == null) {
 					$http.get('http://localhost:8080/search/tournaments', {
-						params: {q: $scope.searchForm.query, game: searchObject.game}
+						params: $scope.searchForm
 					})
-						.then(function successCallback(response) {							
+						.then(function successCallback(response) {
 
 							$scope.tournaments = response.data;
-							$scope.showTournaments = true;							
+							$scope.showTournaments = true;
 							
 						}, function errorCallback(response) {
-							console.log('No results found');
+							console.log('No tournaments found');
 					});
 				}
-				if (searchObject.type == 'Rankings'){
+				if (searchObject.type == 'Rankings') {
 					$http.get('http://localhost:8080/search/rankings', {
-						params: {q: $scope.searchForm.query, game: searchObject.game}
+						params: $scope.searchForm
 					})
-						.then(function successCallback(response) {							
+						.then(function successCallback(response) {
 
-							$scope.rankings = response.data;							
+							$scope.rankings = response.data;
 							$scope.showRankings = true;
 							
 						}, function errorCallback(response) {
-							console.log('No results found');
+							console.log('No rankings found');
 					});
 				}
 			}
 		};
-		
-		/* Button search */
-		$scope.search = function(){
 
-			$location.search('q', $scope.searchForm.query);
-			$location.search('game', $scope.searchForm.game);
-			$location.url('/search?q=' + $scope.searchForm.query);
-			getResults();
-		};
+		$scope.search();
 	});
 });

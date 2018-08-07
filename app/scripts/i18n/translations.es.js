@@ -27,6 +27,7 @@ define([], function() {
 
 		SEARCH_TITLE: 'Buscar',
 		SEARCH_BAR: 'Buscar en Versus',
+		SEARCH_BAR_GAME: 'Juego',
 		SEARCH_BUTTON: 'Buscar',
 		SEARCH_TOURNAMENTS: 'Torneos',
 		SEARCH_RANKINGS: 'Rankings',
