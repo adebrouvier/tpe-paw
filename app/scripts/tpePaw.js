@@ -6,6 +6,8 @@ define(['routes',
 	'angular-route',
 	'bootstrap',
 	'angular-translate',
+	'typeahead',
+	'bloodhound',
 	'angular-loading-bar',
 	'angular-animate'],
 	function(config, dependencyResolverFor, i18n) {

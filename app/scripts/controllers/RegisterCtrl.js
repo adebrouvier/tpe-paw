@@ -3,7 +3,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
     tpePaw.controller('RegisterCtrl', function($scope, $http, $filter, titleService) {
 
-        titleService.setTitle($filter('translate')("REGISTER_TITLE") + " - Versus");
+        titleService.setTitle($filter('translate')('REGISTER_TITLE') + ' - Versus');
 
     	$scope.registerForm = {};
 

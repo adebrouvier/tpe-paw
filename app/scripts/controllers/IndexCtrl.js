@@ -7,7 +7,7 @@ define(['tpePaw', 'services/authService'], function(tpePaw) {
 
 		$scope.loggedIn = AuthService.loggedIn();
 
-		$scope.logout = function(){
+		$scope.logout = function() {
 			AuthService.logout();
 			$scope.currentUser = null;
 			$scope.loggedIn = false;
