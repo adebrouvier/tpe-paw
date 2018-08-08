@@ -26,7 +26,9 @@ require.config({
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
-        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound'
+        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
+        'angular-animate': '../../bower_components/angular-animate/angular-animate',
+        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar.min'
     },
     shim: {
         angular: {
@@ -63,6 +65,17 @@ require.config({
         typeahead: {
             deps: [
                 'jquery'
+            ]
+        },
+        'angular-animate': {
+            deps: [
+                'angular'
+            ]
+        },
+        'angular-loading-bar': {
+            deps: [
+                'angular',
+                'angular-animate'
             ]
         }
     },

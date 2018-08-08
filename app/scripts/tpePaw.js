@@ -7,11 +7,15 @@ define(['routes',
 	'bootstrap',
 	'angular-translate',
 	'typeahead',
-	'bloodhound'],
+	'bloodhound',
+	'angular-loading-bar',
+	'angular-animate'],
 	function(config, dependencyResolverFor, i18n) {
 		var tpePaw = angular.module('tpePaw', [
 			'ngRoute',
-			'pascalprecht.translate'
+			'pascalprecht.translate',
+			'angular-loading-bar',
+			'ngAnimate'
 		]);
 		tpePaw
 			.config(
@@ -21,7 +25,8 @@ define(['routes',
 				'$filterProvider',
 				'$provide',
 				'$translateProvider',
-				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider) {
+				'cfpLoadingBarProvider',
+				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, cfpLoadingBarProvider) {
 
 					tpePaw.controller = $controllerProvider.register;
 					tpePaw.directive = $compileProvider.directive;
@@ -40,6 +45,8 @@ define(['routes',
 
 					$translateProvider.translations('preferredLanguage', i18n);
 					$translateProvider.preferredLanguage('preferredLanguage');
+
+					cfpLoadingBarProvider.includeSpinner = false;
 				}]);
 		return tpePaw;
 	}
