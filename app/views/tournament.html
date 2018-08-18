@@ -4,33 +4,30 @@
             <div class="text-center">
                 <h2>{{'TOURNAMENT_CREATE' | translate}}</h2>
             </div>
-            <form ng-submit="processForm()">
-                <label for="username-input">{{'TOURNAMENT_NAME' | translate}}</label>
+            <form novalidate ng-submit="processForm()" name="tournamentForm">
+                <label for="name-input">{{'TOURNAMENT_CREATE_NAME' | translate}}</label>
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="oi input-group-text" data-glyph="person" title="person" aria-hidden="true"></span>
+                    <input type="text" class="form-control" ng-model="tournamentForm.name" placeholder="{{'TOURNAMENT_CREATE_NAME_PH' | translate}}"
+                        id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ngPattern="[a-zA-Z0-9 ]+"
+                        ng-class="{ 'is-invalid': tournamentForm.tname.$touched && tournamentForm.tname.$invalid }" >
+                    <div ng-messages="tournamentForm.tname.$error" class="invalid-feedback" ng-if="tournamentForm.tname.$touched">
+                        <p ng-message="minlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                        <p ng-message="maxlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                        <p ng-message="required">{{'TOURNAMENT_FORM_NAME_REQUIRED' | translate}}</p>
+                        <p ng-message="pattern">{{'TOURNAMENT_FORM_NAME_PATTERN' | translate}}</p>
                     </div>
-                    <input type="text" class="form-control" ng-model="registerForm.username" placeholder="{{'REGISTER_USERNAME' | translate}}"
-                        id="username-input" required>
                 </div>
-                <label for="password-input">{{'TOURNAMENT_GAME' | translate}}</label>
+                <label for="game-input">{{'TOURNAMENT_CREATE_GAME' | translate}}</label>
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
+                    <input name='tgame' game-autcomplete type="text" class="form-control" ng-model="tournamentForm.game" 
+                    placeholder="{{'TOURNAMENT_CREATE_GAME' | translate}}" id="game-input" ng-maxlength="60" 
+                    ng-class="{ 'is-invalid': tournamentForm.tgame.$touched && tournamentForm.tgame.$invalid }" >
+                    <div ng-messages="tournamentForm.tgame.$error" class="invalid-feedback" ng-if="tournamentForm.tgame.$touched">
+                        <p ng-message="maxlength">{{'TOURNAMENT_FORM_GAME_LENGTH' | translate: '{maxlength: "60"}' }}</p>
                     </div>
-                    <input type="password" class="form-control" ng-model="registerForm.password" placeholder="{{'REGISTER_PASSWORD' | translate}}"
-                        id="password-input" required>
-                </div>
-                <label for="repeat-password-input">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
-                    </div>
-                    <input type="password" class="form-control" ng-model="registerForm.repeatPassword" placeholder="{{'REGISTER_REPEAT_PASSWORD' | translate}}"
-                        id="repeat-password-input" required>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-primary" type="submit">{{'REGISTER_TITLE' | translate}}</button>
+                    <button class="btn btn-primary" type="submit" ng-disabled="tournamentForm.$invalid">{{'TOURNAMENT_CREATE' | translate}}</button>
                 </div>
             </form>
         </div>

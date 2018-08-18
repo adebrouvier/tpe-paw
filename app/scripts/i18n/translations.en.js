@@ -21,9 +21,15 @@ define([], function () {
 		NAVBAR_SIGNUP: 'Sign up',
 		NAVBAR_LOGOUT: 'Logout',
 
+		TOURNAMENT_TITLE: 'Create a Tournament',
 		TOURNAMENT_CREATE: 'Create Tournament',
-		TOURNAMENT_CREATE: 'Name',
-		TOURNAMENT_CREATE: 'Game',
+		TOURNAMENT_CREATE_NAME: 'Name',
+		TOURNAMENT_CREATE_NAME_PH: 'Tournament name',
+		TOURNAMENT_CREATE_GAME: 'Game',
+		TOURNAMENT_FORM_NAME_REQUIRED: 'Tournament name is required',
+		TOURNAMENT_FORM_NAME_LENGTH: 'Tournament name must be between {{minlength}} and {{maxlength}} characters long.',
+		TOURNAMENT_FORM_NAME_PATTERN: 'Tournament name can only contain letters or numbers.',
+		TOURNAMENT_FORM_GAME_LENGTH: 'Game must be at most {{maxlength}} characters long.',
 
 		TOURNAMENT_PAGE_TABLE_PLAYERS: 'Players',
 		TOURNAMENT_PAGE_TABLE_MATCHES: 'Matches',

@@ -28,7 +28,9 @@ require.config({
         typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
         bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
         'angular-animate': '../../bower_components/angular-animate/angular-animate',
-        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar.min'
+        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar',
+        'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle',
+        'angular-messages': '../../bower_components/angular-messages/angular-messages'
     },
     shim: {
         angular: {
@@ -76,6 +78,11 @@ require.config({
             deps: [
                 'angular',
                 'angular-animate'
+            ]
+        },
+        'angular-messages': {
+            deps: [
+                'angular'
             ]
         }
     },

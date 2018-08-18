@@ -46,7 +46,6 @@ public class TournamentRESTController {
   }
 
   @POST
-  @Path("/")
   @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
   public	Response	createTournament(final TournamentForm tournamentForm) throws ValidationException {
 
@@ -58,6 +57,6 @@ public class TournamentRESTController {
     LOGGER.info("Created tournament {} with id {}", tournament.getName(), tournament.getId());
 
     final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(tournament.getId())).build();
-    return	Response.created(uri).build();
+    return	Response.created(uri).entity(new TournamentDTO(tournament)).build();
   }
 }
