@@ -19,7 +19,11 @@ define([], function() {
             '/users/:id': {
                 templateUrl:'views/users.html',
                 controller: 'UsersCtrl'
-            }
+            },
+            '/users/:id/config': {
+                templateUrl:'views/userConfig.html',
+                controller: 'UserConfigCtrl'
+          }
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */
         }
