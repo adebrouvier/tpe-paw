@@ -12,7 +12,10 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic.min.css" rel="stylesheet">
 
+  <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css" />
+  <!-- endbower -->
 
 </head>
 <body ng-controller="IndexCtrl">
@@ -21,19 +24,24 @@
   <![endif]-->
   <!-- Add your site or application content here -->
   <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
-        <a class="navbar-brand mx-auto" href="#/">Versus</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between mb-4">
+        <a class="navbar-brand" href="#/">Versus</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <nav class="my-2 my-md-0 mr-md-3 ml-auto">
-            <a ng-if="!loggedIn" class="btn btn-light" href="#/login">{{'NAVBAR_LOGIN' | translate}}</a>
-            <a ng-if="!loggedIn" class="btn btn-light" href="#/register">{{'NAVBAR_SIGNUP' | translate}}</a>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" ng-bind="'SEARCH_TITLE' | translate" href="#/search"></a>
+            </li>
+          </ul>
+          <nav class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak="">
+            <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" href="#/login"></a>
+            <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" href="#/register"></a>
             <a ng-if="loggedIn" class="btn btn-light" href="#/">
-              <span class="oi" data-glyph="person" title="person" aria-hidden="true"></span> {{currentUser.username}}
+              <span class="oi" data-glyph="person" title="person" aria-hidden="true" ng-bind="currentUser.username"></span>
             </a>
-            <a ng-if="loggedIn" class="btn btn-light" ng-click="logout()">{{'NAVBAR_LOGOUT' | translate}}</a>
+            <a ng-if="loggedIn" class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
           </nav>
       </div>    
   </header>

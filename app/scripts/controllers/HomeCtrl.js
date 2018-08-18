@@ -1,6 +1,8 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
-	tpePaw.controller('HomeCtrl', function($scope) {
+	tpePaw.controller('HomeCtrl', function($scope, titleService) {
+		titleService.setTitle("Versus");
+
 	});
 });

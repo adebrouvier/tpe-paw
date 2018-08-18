@@ -9,7 +9,7 @@ require.config({
         'angular-route': '../../bower_components/angular-route/angular-route',
         'angular-translate': '../../bower_components/angular-translate/angular-translate',
         button: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button',
-        bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
+        bootstrap: '../../bower_components/bootstrap/package',
         carousel: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel',
         collapse: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse',
         dropdown: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown',
@@ -24,7 +24,11 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
+        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+        typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
+        bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
+        'angular-animate': '../../bower_components/angular-animate/angular-animate',
+        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar.min'
     },
     shim: {
         angular: {
@@ -56,6 +60,22 @@ require.config({
         'angular-translate': {
             deps: [
                 'angular'
+            ]
+        },
+        typeahead: {
+            deps: [
+                'jquery'
+            ]
+        },
+        'angular-animate': {
+            deps: [
+                'angular'
+            ]
+        },
+        'angular-loading-bar': {
+            deps: [
+                'angular',
+                'angular-animate'
             ]
         }
     },
