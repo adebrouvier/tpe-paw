@@ -1,27 +1,31 @@
 <div class="container">
     <div class="row">
-        <div class="col s12 m6 offset-m3 card-panel">
-            <div class="center"><h2>{{'REGISTER_TITLE' | translate}}</h2></div>
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="text-center"><h2>{{'REGISTER_TITLE' | translate}}</h2></div>
             <form ng-submit="processForm()">
-                <div class="input-field">
-                    <i class="material-icons prefix">account_circle</i>
-                    <label path="username">{{'REGISTER_USERNAME' | translate}}</label>
-                    <input ng-minlength="6" type="text" ng-model="registerForm.username" path="username"/>
-                </div>
-                <div class="input-field">
-                    <i class="material-icons prefix">lock</i>
-                    <label path="password">{{'REGISTER_PASSWORD' | translate}}</label>
-                    <input type="password" ng-model="registerForm.password" path="password"/>
-                </div>
-                <div class="input-field">
-                    <i class="material-icons prefix">lock</i>
-                    <label path="repeatPassword">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
-                    <input type="password" ng-model="registerForm.repeatPassword" path="repeatPassword"/>
-                </div>
-                <div class="row center">
-                    <div class="input-field col s12">
-                        <button class="btn btn-large light-blue darken-4" type="submit">{{'REGISTER_TITLE' | translate}}</button>
+                <label for="username-input">{{'REGISTER_USERNAME' | translate}}</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="oi input-group-text" data-glyph="person" title="person" aria-hidden="true"></span>
                     </div>
+                    <input type="text" class="form-control" ng-model="registerForm.username" placeholder="{{'REGISTER_USERNAME' | translate}}" id="username-input" required>
+                </div>
+                <label for="password-input">{{'REGISTER_PASSWORD' | translate}}</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
+                    </div>
+                    <input type="password" class="form-control" ng-model="registerForm.password" placeholder="{{'REGISTER_PASSWORD' | translate}}" id="password-input" required>
+                </div>
+                <label for="repeat-password-input">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
+                <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
+                        </div>
+                        <input type="password" class="form-control" ng-model="registerForm.repeatPassword" placeholder="{{'REGISTER_REPEAT_PASSWORD' | translate}}" id="repeat-password-input" required>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">{{'REGISTER_TITLE' | translate}}</button>
                 </div>
             </form>
         </div>

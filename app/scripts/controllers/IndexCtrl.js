@@ -1,16 +1,16 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw', 'services/authService'], function(tpePaw) {
 
-	tpePaw.controller('IndexCtrl', function($scope, $window) {
+	tpePaw.controller('IndexCtrl', function($scope, $window, AuthService) {
 
-		/* TODO: get user from token */
-		$scope.currentUser = {};
-		$scope.currentUser = angular.fromJson($window.localStorage['currentUser']);
+		$scope.currentUser = AuthService.currentUser();
 
-		if ($window.localStorage['currentUser'] != null){
-			$scope.loggedIn = true;
-		}else{
+		$scope.loggedIn = AuthService.loggedIn();
+
+		$scope.logout = function() {
+			AuthService.logout();
+			$scope.currentUser = null;
 			$scope.loggedIn = false;
-		}
+		};
 	});
 });
