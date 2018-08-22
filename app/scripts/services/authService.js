@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw', 'services/apiService'], function(tpePaw) {
 
-    tpePaw.service('AuthService', function($window, $location, $http) {
+    tpePaw.service('AuthService', function($window, $location, apiService) {
 
         this.currentUser = function() {
 
@@ -26,7 +26,7 @@ define(['tpePaw'], function(tpePaw) {
 
         this.login = function(loginForm) {
 
-            $http.post('http://localhost:8080/login', loginForm)
+            apiService.post('/login', loginForm)
                     .then(function successCallback(response) {
 
                         if (response.headers('Authorization')) {

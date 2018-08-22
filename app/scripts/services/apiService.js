@@ -3,7 +3,7 @@ define(['tpePaw'], function(tpePaw) {
 
     tpePaw.service('apiService', function($http) {
 
-        var apiUrl = 'http://localhost:8080/';
+        var apiUrl = 'http://localhost:8080';
 
         this.get = function(resource, params) {
             return $http.get(apiUrl + resource, params);
