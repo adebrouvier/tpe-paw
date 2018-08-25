@@ -1,50 +1,68 @@
 <div class="container">
-  
-  <form id="userUpdateForm" action="/paw-2017b-2/update/12" method="post" enctype="multipart/form-data">
-    <div class="section">
-      <div class="user-section-center" style="padding-bottom: 20px">
-        <img class="user-img" ng-src="http://localhost:8080/users/profile-image/{{userId}}">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3" >
+
+      <div class="card edit-tittle">
+
+      <div class="card-title">
+      <div class="text-center">
+        <h1 class="text">
+          <b>
+            {{'USER_EDIT_PROFILE' | translate}}
+          </b>
+        </h1>
       </div>
-      <div class="user-section-center">
-        <label for="file" class="btn btn-primary light-blue darken-4 fileContainer">add image
-          <input id="image" name="image" placeholder="pepeps" type="file" class="file-input" accept="image/*" onchange="readURL(this);" value="" autocomplete="off">
-        </label>
+      </div>
+        <div class="card-body">
+
+        <form id="userUpdateForm" enctype="multipart/form-data">
+          <div class="edit-image-container" >
+            <img id="image-container" ng-src="{{imageSrc}}" src= "http://localhost:8080/users/profile-image/{{userId}}" class="user-img" />
+            <label for="file" class="btn btn-primary light-blue darken-4 fileContainer">{{'USER_ADD_IMAGE' | translate}}
+              <input id="file" type="file" ng-file-select="onFileSelect($files)" ng-file-read="imageSrc" ng-model="imageSrc">
+            </label>
+          </div>
+
+          <div class="mb-3"></div>
+          <div class="form-group mb-3">
+              <label for="description"><b>{{'USER_LABEL_DESCRIPTION' | translate}}</b></label>
+              <textarea id="description" ng-model="user.description" placeholder="{{'USER_PLACEHOLDER_DESCRIPTION' | translate}}" class="form-control" aria-label="With textarea"></textarea>
+          </div>
+          <label for="twitter"><b>{{'USER_LABEL_TWITTER' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="oi input-group-text" id="twitter"><img class="user-social-icon-twitter-twitch" src="/images/twitter-icon.png"></span>
+            </div>
+            <input type="text" class="form-control" ng-model="user.twitterUrl" placeholder="{{'USER_PLACEHOLDER_TWITTER' | translate}}" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <label for="youtube"><b>{{'USER_LABEL_YOUTUBE' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="youtube"><img class="user-social-icon-youtube" src="/images/youtube-icon.png"></span>
+            </div>
+            <input type="text" class="form-control" ng-model="user.youtubeUrl" placeholder="{{'USER_PLACEHOLDER_YOUTUBE' | translate}}" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <label for="twitch"><b>{{'USER_LABEL_TWITCH' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="twitch"><img class="user-social-icon-twitter-twitch" src="/images/twitch-icon.png"></span>
+            </div>
+            <input type="text" class="form-control" ng-model="user.twitchUrl" placeholder="{{'USER_PLACEHOLDER_TWITCH' | translate}}" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <label for="game"><b>{{'USER_LABEL_GAME' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="game"><i  class="material-icons" >videogame_asset</i></span>
+            </div>
+            <input type="text" class="form-control" ng-model="user.favoriteGame.name" placeholder="{{'USER_PLACEHOLDER_GAME' | translate}}" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="mb-3 text-center">
+            <button type="button" class="btn btn-primary btn-lg btn-block light-blue darken-4" ng-click="updateUser()">{{'USER_SAVE_BUTTON' | translate}}</button>
+          </div>
+      </form >
+        </div>
       </div>
     </div>
-    <div class="divider"></div>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Description</span>
-      </div>
-      <textarea class="form-control" aria-label="With textarea"></textarea>
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1"><img class="user-social-icon-twitter-twitch" src="/images/twitter-icon.png"> Twitter</span>
-      </div>
-      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1"><img class="user-social-icon-youtube" src="/images/youtube-icon.png"> Youtube</span>
-      </div>
-      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1"><img class="user-social-icon-twitter-twitch" src="/images/twitch-icon.png"> Twitch</span>
-      </div>
-      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Game</span>
-      </div>
-      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
-    <div class="right" style="padding-top: 50px;padding-bottom: 20px;padding-right: 20px">
-      <button type="submit" class="btn btn-primary light-blue darken-4" value="Submit">Save</button>
-    </div>
-  </form>
+  </div>
 
 </div>

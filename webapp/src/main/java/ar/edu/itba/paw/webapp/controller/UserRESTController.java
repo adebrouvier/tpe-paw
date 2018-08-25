@@ -1,11 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
-import ar.edu.itba.paw.model.Ranking;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.UserImage;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
+import ar.edu.itba.paw.webapp.controller.dto.UserPictureDto;
+import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
+import ar.edu.itba.paw.webapp.form.validation.ValidationException;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Path("users")
@@ -49,10 +51,19 @@ public class UserRESTController {
     private UserFollowService ufs;
 
     @Autowired
+    private GameService gs;
+
+    @Autowired
+    private PlayerMeController pmc;
+
+    @Autowired
     private UserFavoriteGameService ufgs;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RESTValidator validator;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
 
@@ -128,15 +139,32 @@ public class UserRESTController {
       }
     }
 
-    /*@POST
-    @Path("/")
-    @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
-    public	Response	createUser(final	UserDTO	userDto)	{
-      final	User	user	=	us.create(userDto.getUsername(),	passwordEncoder.encode(userDto.getPassword()));
+    @PUT
+    @Path("/{id}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Consumes(value	=	{	MediaType.MULTIPART_FORM_DATA})
+    public Response updateUser(@PathParam("id") final long id, @FormDataParam("user") final UserDTO userDTO, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
 
-      LOGGER.info("Registered user {} with id {}", user.getName(), user.getId());
+      validator.validate(userDTO, "Failed to validate tournament");
+      final User u = us.findById(id);
 
-      final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
-      return	Response.created(uri).build();
-    }*/
+      if (userDTO == null || u == null) {
+        return Response.status(Response.Status.BAD_REQUEST).build();
+      }
+
+      Game g = gs.findByName(userDTO.getFavoriteGame().getName());
+      if (g == null) {
+        g = pmc.addGameImage(userDTO.getFavoriteGame().getName());
+      }
+      ufgs.deleteAll(u);
+      ufgs.create(u, g);
+      us.updateDescription(u, userDTO.getDescription(), userDTO.getTwitchUrl(), userDTO.getTwitterUrl(), userDTO.getYoutubeUrl());
+      if(userPictureDto != null) {
+        uis.updateImage(u, userPictureDto.getImage().getValueAs(byte[].class));
+      }
+      final URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
+
+      return Response.created(location).build();
+
+    }
 }

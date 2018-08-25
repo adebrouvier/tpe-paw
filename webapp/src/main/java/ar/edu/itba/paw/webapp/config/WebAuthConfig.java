@@ -35,6 +35,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
           .antMatchers(HttpMethod.POST, "/login").permitAll()
           .antMatchers(HttpMethod.POST, "/users").permitAll()
+          .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
           .anyRequest().anonymous()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))
@@ -73,7 +74,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     configuration.addAllowedOrigin("*");
-    configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
+    configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Accept"));
     configuration.setAllowedMethods(Arrays.asList("GET","DELETE", "POST", "OPTIONS", "PUT"));
     source.registerCorsConfiguration("/**", configuration);
     return source;

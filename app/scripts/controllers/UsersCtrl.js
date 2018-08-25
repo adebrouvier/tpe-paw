@@ -14,6 +14,11 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.hasParticipatesData = true;
     $scope.hasCreatesData = true;
     $scope.hasRankingsData = true;
+    $scope.busy = false;
+    $scope.goConfigPage = function () {
+      window.location = '/#/users/' + $scope.userId + '/config';
+    };
+
     $http.get('http://localhost:8080/users/' + $scope.userId)
       .then(function successCallback(response) {
         $scope.user = response.data;
@@ -42,6 +47,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
     $scope.loadParticipatedTournaments = function () {
       if (document.getElementById('participates').classList.item(2) === 'active') {
+        $scope.busy = true;
         $http.get('http://localhost:8080/users/' + $scope.userId + '/participated-tournaments?page=' + $scope.userParticipatedTournaments)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('participates')) {
@@ -53,19 +59,19 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
             } else {
               $scope.hasParticipatesData = false;
             }
-
+            $scope.busy = false;
           }, function errorCallback(response) {
-
+            this.busy = false;
           });
         if ($scope.hasParticipatesData) {
           $scope.userParticipatedTournaments += 1;
         }
-        console.log($scope.userParticipatedTournaments);
       }
 
     };
     $scope.loadCreatedTournaments = function () {
       if (document.getElementById('creates').classList.item(2) === 'active') {
+        $scope.busy = true;
         $http.get('http://localhost:8080/users/' + $scope.userId + '/created-tournaments?page=' + $scope.userCreatedTournaments)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('creates')) {
@@ -77,8 +83,9 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
             } else {
               $scope.hasCreatesData = false;
             }
+            this.busy = false;
           }, function errorCallback(response) {
-
+            this.busy = false;
           });
         if ($scope.hasCreatesData) {
           $scope.userCreatedTournaments += 1;
@@ -88,6 +95,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     };
     $scope.loadCreatedRankings = function () {
       if (document.getElementById('rankings').classList.item(2) === 'active') {
+        this.busy = true;
         $http.get('http://localhost:8080/users/' + $scope.userId + '/created-rankings?page=' + $scope.userCreatedRankings)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('rankings')) {
@@ -99,8 +107,9 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
             } else {
               $scope.hasRankingsData = false;
             }
+            this.busy = false;
           }, function errorCallback(response) {
-
+            this.busy = false;
           });
         if ($scope.hasRankingsData) {
           $scope.userCreatedRankings += 1;

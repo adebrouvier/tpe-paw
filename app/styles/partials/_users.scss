@@ -7,6 +7,25 @@ $light-grey: #9e9e9e;
   margin-top: 10px !important;
 }
 
+$font: 'Poppins', sans-serif;
+
+::selection { background-color: #C3CFE2; }
+
+body {
+
+  background: linear-gradient(to right, #FDFBFB, #EBEDEE 70%);
+}
+.text {
+  padding-top: 15px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #007bff 0%, #01579b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font: {
+    size: 3vw;
+    family: $font;
+  };
+}
 .card-profile {
   width: 18rem;
 }
@@ -41,6 +60,17 @@ $light-grey: #9e9e9e;
   .btn-follow {
     margin: 15px auto 0 auto;
     display: table;
+    background-color: $dark-blue;
+    color: $white;
+  }
+  .icon-edit {
+    font-size: 20px;
+    margin: auto;
+  }
+}
+
+.user-section-edit {
+  .btn-follow {
     background-color: $dark-blue;
     color: $white;
   }
@@ -80,6 +110,29 @@ $light-grey: #9e9e9e;
 .user-section-content-text {
   @extend %user-section-content;
   color: $light-grey;
+  word-wrap:break-word;
+}
+
+.nav-participates {
+  margin-right: 50px;
+  margin-left: 150px;
+}
+
+.nav-creates {
+  margin-right: 50px;
+}
+
+.edit-tittle {
+  border-radius: 0;
+  border-width:0;
+  box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+}
+
+.edit-image-container {
+  margin-left: 90px;
+  label {
+    margin-left: 20px;
+  }
 }
 
 .user-section-content-link {
@@ -119,16 +172,6 @@ $light-grey: #9e9e9e;
   font-size: 12px !important;
   margin-right:  2px;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
