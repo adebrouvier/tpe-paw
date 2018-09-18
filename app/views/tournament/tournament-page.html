@@ -1,0 +1,41 @@
+<div class="container">
+    <h1 class="text-center">{{tournament.name}}</h1>
+    <tournament-info/>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/standings">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div ng-repeat="match in tournament.matches">
+                <div class="bracket-container">
+                    <span class="match-id-container">
+                        <span class="match-id">{{match.id}}</span>
+                    <span class="triangle"></span>
+                    <div class="bracket">
+                        <div class="players-name">
+                            <div class="home-player-name">{{match.homePlayer.name}}</div>
+                            <div class="away-player-name">{{match.awayPlayer.name}}</div>
+                        </div>
+                        <div class="players-score">
+                            <div class="home-player-score">{{match.homePlayerScore}}</div>
+                            <div class="away-player-score">{{match.awayPlayerScore}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -35,6 +35,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
           .antMatchers(HttpMethod.POST, "/login").permitAll()
           .antMatchers(HttpMethod.POST, "/users").permitAll()
+          .antMatchers(HttpMethod.POST, "/tournament").authenticated()
           .anyRequest().anonymous()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))

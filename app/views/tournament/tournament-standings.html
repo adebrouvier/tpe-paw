@@ -5,16 +5,16 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+                    <a class="nav-link" href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+                    <a class="nav-link" href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
                 </li>
             </ul>
         </div>

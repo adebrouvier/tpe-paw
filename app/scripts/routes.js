@@ -17,12 +17,24 @@ define([], function() {
                 controller: 'LoginCtrl'
             },
             '/tournament': {
-                templateUrl: '/views/tournament.html',
+                templateUrl: '/views/tournament/tournament.html',
                 controller: 'TournamentCtrl'
             },
             '/tournament/:id': {
-                templateUrl: '/views/tournament-page.html',
+                templateUrl: '/views/tournament/tournament-page.html',
                 controller: 'TournamentPageCtrl'
+            },
+            '/tournament/:id/standings': {
+                templateUrl: '/views/tournament/tournament-standings.html',
+                controller: 'TournamentStandingsCtrl'
+            },
+            '/tournament/:id/players': {
+                templateUrl: '/views/tournament/tournament-players.html',
+                controller: 'TournamentPlayersCtrl'
+            },
+            '/tournament/:id/comments': {
+                templateUrl: '/views/tournament/tournament-comments.html',
+                controller: 'TournamentCommentsCtrl'
             },
             '/search':{
                 templateUrl: '/views/search.html',

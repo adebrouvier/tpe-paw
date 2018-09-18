@@ -40,6 +40,9 @@ define([], function () {
 		TOURNAMENT_PAGE_PLAYERS: 'Players',
 		TOURNAMENT_PAGE_COMMENTS: 'Comments',
 
+		TOURNAMENT_PAGE_STANDINGS_TABLE_RANK: '# Rank',
+		TOURNAMENT_PAGE_STANDINGS_TABLE_PLAYER: 'Player',
+
 		NOTFOUND_TITLE: 'Page not found',
 		NOTFOUND_MESSAGE: 'Sorry, we could not find that page.',
 		NOTFOUND_RETURN: 'Return Home',
