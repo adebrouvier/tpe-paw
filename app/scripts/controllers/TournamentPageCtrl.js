@@ -1,14 +1,14 @@
-define(['tpePaw', 'services/titleService', 'directives/tournamentInfo'], function (tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'services/apiService'], function (tpePaw) {
 
     'use strict';
-    tpePaw.controller('TournamentPageCtrl', function ($scope, $http, $window, $location, $filter, $routeParams, titleService) {
+    tpePaw.controller('TournamentPageCtrl', function ($scope, $location, $routeParams, titleService, apiService) {
 
         titleService.setTitle("Versus");
 
         $scope.tournamentId = $routeParams.id;
         $scope.tournament = {};
 
-        $http.get("http://localhost:8080/tournaments/" + $scope.tournamentId)
+        apiService.get("/tournaments/" + $scope.tournamentId)
             .then(function successCallback(response) {
                 $scope.tournament = response.data;
                 titleService.setTitle($scope.tournament.name + " - Versus");
