@@ -3,21 +3,17 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.PlayerService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
-import ar.edu.itba.paw.webapp.form.validation.ValidationException;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
+import ar.edu.itba.paw.webapp.form.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -65,8 +61,14 @@ public class TournamentRESTController {
 
     validator.validate(tournamentForm, "Failed to validate tournament");
 
+    User loggedUser = null;
+
+    if (loggedUser == null){
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
     //TODO: parse game
-    final Tournament tournament	=	ts.create(tournamentForm.getName(), 1, 1);
+    final Tournament tournament	=	ts.create(tournamentForm.getName(), 1, loggedUser.getId());
 
     LOGGER.info("Created tournament {} with id {}", tournament.getName(), tournament.getId());
 
@@ -112,18 +114,5 @@ public class TournamentRESTController {
     ps.addToTournament(p.getId(), id);*/
 
     return	Response.ok().build();
-  }
-
-  @ModelAttribute("loggedUser")
-  public User loggedUser() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    String username;
-    if (principal instanceof UserDetails) {
-      username = ((UserDetails) principal).getUsername();
-    } else {
-      username = principal.toString();
-    }
-    return us.findByName(username);
   }
 }
