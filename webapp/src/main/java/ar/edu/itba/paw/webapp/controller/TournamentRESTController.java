@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.service.PlayerService;
-import ar.edu.itba.paw.interfaces.service.TournamentService;
-import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.interfaces.service.*;
+import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.webapp.controller.dto.PlayerDTO;
 import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
@@ -16,11 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("tournaments")
 @Component
@@ -33,7 +32,13 @@ public class TournamentRESTController {
   private UserService us;
 
   @Autowired
+  private SecurityService ss;
+
+  @Autowired
   private PlayerService ps;
+
+  @Autowired
+  private NotificationService ns;
 
   @Context
   private UriInfo uriInfo;
@@ -61,7 +66,7 @@ public class TournamentRESTController {
 
     validator.validate(tournamentForm, "Failed to validate tournament");
 
-    User loggedUser = null;
+    User loggedUser = ss.getLoggedUser();
 
     if (loggedUser == null){
       return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -89,29 +94,94 @@ public class TournamentRESTController {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
-    //TODO: 403
+    User loggedUser = ss.getLoggedUser();
 
-    /*String username = playerForm.getUsername();
+    if (!loggedUser.equals(tournament.getCreator())){
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    String username = playerForm.getUsername();
     final User user;
-    final Player p;
+    Player p = null;
 
-    *//* If username field is not empty *//*
+    // If username field is not empty
     if (username != null) {
       user = us.findByName(playerForm.getUsername());
 
-      if (!ts.participatesIn(user.getId(), id)) { *//* user isn't participating *//*
+      if (!ts.participatesIn(user.getId(), id)) { // user isn't participating
         p = ps.create(playerForm.getPlayer(), user, tournament);
-        //TODO: ns.createParticipatesInNotifications(user, tournament);
-      } else {
-        errors.rejectValue("username", "playerForm.error.username.added");
-        return tournament(playerForm, tournamentId, loggedUser);
+        ns.createParticipatesInNotifications(user, tournament);
       }
 
-    } else { *//* Player is not linked to user *//*
+    } else { // Player is not linked to user
       p = ps.create(playerForm.getPlayer(), tournament);
     }
 
-    ps.addToTournament(p.getId(), id);*/
+    ps.addToTournament(p.getId(), id);
+    LOGGER.info("Added player {} to tournament {}", p.getName(), id);
+
+    /* TODO: Change for service? */
+    List<PlayerDTO> players = ts.findById(id).getPlayers().stream()
+      .map(PlayerDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
+    return	Response.ok(playerList).build();
+  }
+
+  /*TODO: change to DELETE */
+  @POST
+  @Path("/{id}/players/{playerId}")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response removePlayer(@PathParam("id") final long id, @PathParam("playerId") final long playerId) {
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null){
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (!loggedUser.equals(tournament.getCreator())){
+      LOGGER.warn("Unauthorized User {} tried to remove player to tournament {}", loggedUser.getId(), id);
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    if (ps.removeFromTournament(id, playerId)) {
+      ps.delete(playerId);
+      LOGGER.info("Removed player {} from tournament {}", playerId, id);
+    }
+
+    /* TODO: Change for service? */
+    List<PlayerDTO> players = ts.findById(id).getPlayers().stream()
+                                .map(PlayerDTO::new)
+                                .collect(Collectors.toList());
+
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
+    return	Response.ok(playerList).build();
+  }
+
+  @POST
+  @Path("/{id}/generate")
+  public Response generateBracket(@PathParam("id") final long id) {
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (!loggedUser.equals(tournament.getCreator())){
+      LOGGER.warn("Unauthorized User {} tried to generate the tournament {}", loggedUser.getId(), id);
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    ts.generateBracket(tournament);
+    ts.setStatus(id, Tournament.Status.STARTED);
+    LOGGER.debug("Generated bracket for tournament {}", id);
 
     return	Response.ok().build();
   }

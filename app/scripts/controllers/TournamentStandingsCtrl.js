@@ -1,7 +1,7 @@
 define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'services/apiService'], function (tpePaw) {
 
     'use strict';
-    tpePaw.controller('TournamentStandingsCtrl', function ($scope, $routeParams, titleService, apiService) {
+    tpePaw.controller('TournamentStandingsCtrl', function ($scope, $routeParams, $location, titleService, apiService) {
 
         titleService.setTitle('Versus');
 
