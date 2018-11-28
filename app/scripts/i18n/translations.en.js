@@ -55,6 +55,11 @@ define([], function () {
 		PLAYER_FORM_ADD_BUTTON: 'Add',
 		PLAYER_FORM_ADD_TITLE: 'Add player',
 
+		COMMENT_FORM_PLACEHOLDER: 'Add comment',
+		COMMENT_FORM_REQUIRED: 'Comment is required',
+		COMMENT_FORM_LENGTH: 'Comment must be between {{minlength}} and {{maxlength}} characters long.',
+		COMMENT_SUBMIT: 'Comment',
+
 		NOTFOUND_TITLE: 'Page not found',
 		NOTFOUND_MESSAGE: 'Sorry, we could not find that page.',
 		NOTFOUND_RETURN: 'Return Home',

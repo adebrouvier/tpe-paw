@@ -1,12 +1,16 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
+import ar.edu.itba.paw.model.Comment;
 import ar.edu.itba.paw.model.Player;
 import ar.edu.itba.paw.model.Tournament;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.webapp.controller.dto.CommentDTO;
 import ar.edu.itba.paw.webapp.controller.dto.PlayerDTO;
 import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
+import ar.edu.itba.paw.webapp.form.CommentForm;
 import ar.edu.itba.paw.webapp.form.PlayerForm;
+import ar.edu.itba.paw.webapp.form.ReplyForm;
 import ar.edu.itba.paw.webapp.form.TournamentForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +44,9 @@ public class TournamentRESTController {
 
   @Autowired
   private NotificationService ns;
+
+  @Autowired
+  private CommentService cs;
 
   @Context
   private UriInfo uriInfo;
@@ -182,6 +190,70 @@ public class TournamentRESTController {
     ts.generateBracket(tournament);
     ts.setStatus(id, Tournament.Status.STARTED);
     LOGGER.debug("Generated bracket for tournament {}", id);
+
+    return	Response.ok().build();
+  }
+
+  @GET
+  @Path("/{id}/comments")
+  public Response comments(@PathParam("id") final long id) {
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    List<CommentDTO> comments = ts.findById(id).getComments().stream()
+      .map(CommentDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<CommentDTO>> commentList = new GenericEntity<List<CommentDTO>>(comments) { };
+    return	Response.ok(commentList).build();
+  }
+
+  @POST
+  @Path("/{id}/comments")
+  public Response addComment(@PathParam("id") final long id, CommentForm commentForm) throws ValidationException {
+
+    validator.validate(commentForm, "Failed to validate comment");
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    final Comment comment = cs.create(loggedUser, new Date(), commentForm.getComment());
+    ts.addComment(id, comment);
+
+    return	Response.ok(Response.Status.CREATED).build();
+  }
+
+  @POST
+  @Path("/{id}/comments/{commentId}")
+  public Response replyComment(@PathParam("id") final long id, @PathParam("commentId") final long commentId, ReplyForm replyForm) throws ValidationException {
+
+    validator.validate(replyForm, "Failed to validate reply");
+
+    final Tournament t = ts.findById(id);
+    final Comment parent = cs.findById(commentId);
+
+    if (t == null || parent == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    final Comment reply = cs.create(loggedUser, new Date(), replyForm.getReply(), parent);
+    ts.addReply(t.getId(), reply, parent.getId());
+
+    if (parent.getCreator().getId() != loggedUser.getId()) {
+      ns.createReplyTournamentCommentsNotification(loggedUser, parent, t);
+      LOGGER.info("New reply on tournament {}", t.getId());
+    }
 
     return	Response.ok().build();
   }
