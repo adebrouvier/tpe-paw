@@ -140,7 +140,7 @@ public class UserController {
 
         return new ModelAndView("redirect:/user/" + userId);
     }
-
+/*
     @RequestMapping(value = "/update/{userId}", method = {RequestMethod.POST})
     public final ModelAndView updateImage(@Valid @ModelAttribute("userUpdateForm") final UserUpdateForm form, final BindingResult errors,
                                           @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
@@ -179,7 +179,7 @@ public class UserController {
 
         return new ModelAndView("redirect:/user/" + userId);
     }
-
+*/
     @RequestMapping("/user/{userId}/settings")
     public ModelAndView userSettings(@ModelAttribute("userUpdateForm") final UserUpdateForm form, @PathVariable long userId, @ModelAttribute("loggedUser") User loggedUser) {
         final User u = us.findById(userId);

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
 import ar.edu.itba.paw.webapp.controller.dto.UserPictureDto;
+import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -143,22 +144,22 @@ public class UserRESTController {
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON})
     @Consumes(value	=	{	MediaType.MULTIPART_FORM_DATA})
-    public Response updateUser(@PathParam("id") final long id, @FormDataParam("user") final UserDTO userDTO, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
+    public Response updateUser(@PathParam("id") final long id, @FormDataParam("user") final UserUpdateForm userForm, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
 
-      validator.validate(userDTO, "Failed to validate tournament");
+      validator.validate(userForm, "Failed to validate tournament");
       final User u = us.findById(id);
 
-      if (userDTO == null || u == null) {
+      if (userForm == null || u == null) {
         return Response.status(Response.Status.BAD_REQUEST).build();
       }
 
-      Game g = gs.findByName(userDTO.getFavoriteGame().getName());
+      Game g = gs.findByName(userForm.getGame());
       if (g == null) {
-        g = pmc.addGameImage(userDTO.getFavoriteGame().getName());
+        g = pmc.addGameImage(userForm.getGame());
       }
       ufgs.deleteAll(u);
       ufgs.create(u, g);
-      us.updateDescription(u, userDTO.getDescription(), userDTO.getTwitchUrl(), userDTO.getTwitterUrl(), userDTO.getYoutubeUrl());
+      us.updateDescription(u, userForm.getDescription(), userForm.getTwitchUrl(), userForm.getTwitterUrl(), userForm.getYoutubeUrl());
       if(userPictureDto != null) {
         uis.updateImage(u, userPictureDto.getImage().getValueAs(byte[].class));
       }

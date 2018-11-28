@@ -62,7 +62,16 @@ define([], function() {
     USER_PLACEHOLDER_TWITCH: 'twitch url',
     USER_PLACEHOLDER_YOUTUBE: 'youtube url',
     USER_PLACEHOLDER_GAME: 'add your favorite game',
-    USER_SAVE_BUTTON: 'Save'
+    USER_SAVE_BUTTON: 'Save',
+    USER_IMAGE_SIZE: 'The image size must be lower than 5mb.',
+    USER_DESCRIPTION_SIZE: 'Description must be between 0 and 200 characters long.',
+    USER_TWITCH_PATTERN: 'Must be a Twitch url, try https://www.twitch.tv/... or https://twitch.tv/... or www.twitch.tv/... or twitch.tv/...',
+    USER_TWITTER_PATTERN: 'Must be a Twitter url, try https://www.twitter.com/... or https://twitter.com/... or www.twitter.com/... or twitter.com/...',
+    USER_YOUTUBE_PATTERN: 'Must be a Youtube url, try https://www.youtube.com/... or https://youtube.com/... or www.youtube.com/... or youtube.com/...',
+    USER_TWITCH_SIZE: 'Twitch url must be between 0 and 2000 characters long.',
+    USER_TWITTER_SIZE: 'Twitter url must be between 0 and 2000 characters long.',
+    USER_YOUTUBE_SIZE: 'Youtube url must be between 0 and 2000 characters long.',
+    USER_GAME_SIZE: 'Game must be between 0 and 60 characters long.'
 
 
 

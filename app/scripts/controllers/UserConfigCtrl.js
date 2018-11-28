@@ -1,46 +1,67 @@
 'use strict';
 define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
+
+
   tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, fileReader) {
 
+
+    $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
+    $scope.twitchRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitch\.tv\/)(?:[\w-]+)/i;
+    $scope.twitterRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitter\.com\/)(?:[\w-]+)/i;
     $scope.userId = $routeParams.id;
     $scope.user = {};
     $scope.imageSrc = '';
+    $scope.maxImageLength = 5 * 1024 * 1024;
+    $scope.imageInvalidSize = false;
 
     $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;
     });
 
+    /**
+     *
+     * User Update function
+     *
+     **/
+
     $scope.updateUser = function() {
-      var game;
-      if ($scope.user.favoriteGame.name == "" || $scope.user.favoriteGame.name == null) {
-          game = null;
-      } else {
-          game = $scope.user.favoriteGame;
+      var userData;
+      var imageLength = ($scope.imageSrc.length) * 3 / 4;
+      if (imageLength > $scope.maxImageLength) {
+        $scope.imageInvalidSize = true;
       }
-      var userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, favoriteGame: game};
-      var image = $scope.imageSrc;
-      var formData = new FormData();
+      if ($scope.form.$valid && imageLength < $scope.maxImageLength){
+        if ($scope.user.favoriteGame.name == "" || $scope.user.favoriteGame.name == null) {
+          userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: ""};
 
-      if (image) {
-        formData.append('image', $scope.dataURItoBlob(image));
-      }
-      formData.append('user', new Blob([JSON.stringify(userData)], {type: "application/json"}));
-
-      var metadata = {
-        transformRequest: angular.identity,
-        headers: {
-          'Content-Type': undefined
+        } else {
+          userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: $scope.user.favoriteGame.name};
         }
-      };
+        var image = $scope.imageSrc;
+        var formData = new FormData();
 
-      return $http.put('http://localhost:8080/users/' + $scope.userId, formData, metadata)
-        .then(function(response) {
-          window.location = '/#/users/' + $scope.userId;
-        })
-        .catch(function(response) {
-          window.location = '/#/users/' + $scope.userId;
-        });
+        if (image) {
+          formData.append('image', $scope.dataURItoBlob(image));
+        }
+        formData.append('user', new Blob([JSON.stringify(userData)], {type: "application/json"}));
+
+        var metadata = {
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': undefined
+          }
+        };
+
+        return $http.put('http://localhost:8080/users/' + $scope.userId, formData, metadata)
+          .then(function(response) {
+            window.location = '/#/users/' + $scope.userId;
+          })
+          .catch(function(response) {
+            window.location = '/#/users/' + $scope.userId;
+          });
+      }
+
     };
 
     $scope.dataURItoBlob = function (dataURI) {
