@@ -16,6 +16,22 @@ define([], function() {
                 templateUrl: '/views/login.html',
                 controller: 'LoginCtrl'
             },
+            '/users/:id': {
+                templateUrl: '/views/users.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/creates': {
+                templateUrl: '/views/userCreates.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/rankings': {
+                templateUrl: '/views/userRankings.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/config': {
+                templateUrl: '/views/userConfig.html',
+                controller: 'UserConfigCtrl'
+            },
             '/search':{
                 templateUrl: '/views/search.html',
                 controller: 'SearchCtrl'

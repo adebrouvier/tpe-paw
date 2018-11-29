@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3" >
+
+      <div class="card edit-tittle">
+
+      <div class="card-title">
+      <div class="text-center">
+        <h1 class="text">
+          <b>
+            {{'USER_EDIT_PROFILE' | translate}}
+          </b>
+        </h1>
+      </div>
+      </div>
+        <div class="card-body">
+
+        <form name="form" id="userUpdateForm" enctype="multipart/form-data">
+          <div class="edit-image-container" >
+            <img id="image-container" ng-src="{{imageSrc}}" src= "http://localhost:8080/users/profile-image/{{userId}}" class="user-img" />
+            <label for="file" class="btn btn-primary light-blue darken-4 fileContainer">{{'USER_ADD_IMAGE' | translate}}
+              <input id="file" type="file" accept="image/*" ng-file-select="onFileSelect($files)" ng-file-read="imageSrc" ng-model="imageSrc">
+            </label>
+          </div>
+          <div class="text-center">
+            <span class="help-error" ng-show="imageInvalidSize">{{'USER_IMAGE_SIZE' | translate}}</span>
+          </div>
+          <div class="mb-3"></div>
+          <div class="form-group mb-3">
+              <label for="description"><b>{{'USER_LABEL_DESCRIPTION' | translate}}</b></label>
+              <textarea required id="description" ng-model="user.description" name="description" placeholder="{{'USER_PLACEHOLDER_DESCRIPTION' | translate}}" class="form-control" aria-label="With textarea" ng-maxlength="200"></textarea>
+          </div>
+          <div>
+            <span ng-show="form.description.$error.maxlength" class="help-error" ng-bind="'USER_DESCRIPTION_SIZE' | translate"></span>
+          </div>
+
+          <label for="twitter"><b>{{'USER_LABEL_TWITTER' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="oi input-group-text" id="twitter"><img class="user-social-icon-twitter-twitch" src="/images/twitter-icon.png"></span>
+            </div>
+            <input type="text" name="twitter" class="form-control" ng-model="user.twitterUrl" placeholder="{{'USER_PLACEHOLDER_TWITTER' | translate}}" ng-maxlength="100" ng-pattern="twitterRegexp">
+          </div>
+          <div>
+            <span ng-show="form.twitter.$error.pattern" class="help-error" ng-bind="'USER_TWITTER_PATTERN' | translate"></span>
+            <span ng-show="form.twitter.$error.maxlength" class="help-error" ng-bind="'USER_TWITTER_SIZE' | translate"></span>
+          </div>
+
+
+          <label for="youtube"><b>{{'USER_LABEL_YOUTUBE' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="youtube"><img class="user-social-icon-youtube" src="/images/youtube-icon.png"></span>
+            </div>
+            <input type="text" name="youtube" class="form-control" ng-model="user.youtubeUrl" placeholder="{{'USER_PLACEHOLDER_YOUTUBE' | translate}}" ng-maxlength="100" ng-pattern="youtubeRegexp">
+          </div>
+          <div>
+            <span ng-show="form.youtube.$error.pattern" class="help-error" ng-bind="'USER_YOUTUBE_PATTERN' | translate"></span>
+            <span ng-show="form.youtube.$error.maxlength" class="help-error" ng-bind="'USER_YOUTUBE_SIZE' | translate"></span>
+          </div>
+
+
+          <label for="twitch"><b>{{'USER_LABEL_TWITCH' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="twitch"><img class="user-social-icon-twitter-twitch" src="/images/twitch-icon.png"></span>
+            </div>
+            <input type="text" name="twitch" class="form-control" ng-model="user.twitchUrl" placeholder="{{'USER_PLACEHOLDER_TWITCH' | translate}}" ng-maxlength="100" ng-pattern="twitchRegexp">
+          </div>
+          <div>
+            <span ng-show="form.twitch.$error.pattern" class="help-error" ng-bind="'USER_TWITCH_PATTERN' | translate"></span>
+            <span ng-show="form.twitch.$error.maxlength" class="help-error" ng-bind="'USER_TWITCH_SIZE' | translate"></span>
+          </div>
+
+
+          <label for="game"><b>{{'USER_LABEL_GAME' | translate}}</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="game"><i  class="material-icons" >videogame_asset</i></span>
+            </div>
+            <input type="text" name="game" class="form-control" ng-model="user.favoriteGame.name" placeholder="{{'USER_PLACEHOLDER_GAME' | translate}}" ng-maxlength="60">
+          </div>
+          <div>
+            <span ng-show="form.game.$error.maxlength" class="help-error" ng-bind="'USER_GAME_SIZE' | translate"></span>
+          </div>
+
+
+          <div class="mb-3 text-center">
+            <button type="button" class="btn btn-primary btn-lg btn-block light-blue darken-4" ng-click="updateUser()">{{'USER_SAVE_BUTTON' | translate}}</button>
+          </div>
+        </form >
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

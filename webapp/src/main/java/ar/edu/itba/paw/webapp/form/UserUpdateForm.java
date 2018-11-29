@@ -1,13 +1,9 @@
 package ar.edu.itba.paw.webapp.form;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserUpdateForm {
-
-    private MultipartFile image;
 
     @Size(min = 0, max = 200)
     private String description;
@@ -67,11 +63,4 @@ public class UserUpdateForm {
         this.game = game;
     }
 
-    public void setImage(MultipartFile image) {
-        this.image = image;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
 }
