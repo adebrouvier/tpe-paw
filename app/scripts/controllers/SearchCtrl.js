@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'directives/gameAutocomplete'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'directives/gameAutocomplete', 'services/apiService'], function(tpePaw) {
 
-	tpePaw.controller('SearchCtrl', function($scope, $filter, $http, $location, titleService) {
+	tpePaw.controller('SearchCtrl', function($scope, $filter, $location, titleService, apiService) {
 		titleService.setTitle($filter('translate')('SEARCH_TITLE') + ' - Versus');
 
 		$scope.searchForm = {};
@@ -20,7 +20,7 @@ define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'dir
 				$location.search('game', $scope.searchForm.game);
 
 				if (searchObject.type == 'Tournaments' || searchObject.type == null) {
-					$http.get('http://localhost:8080/search/tournaments', {
+					apiService.get('/search/tournaments', {
 						params: $scope.searchForm
 					})
 						.then(function successCallback(response) {
@@ -33,7 +33,7 @@ define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'dir
 					});
 				}
 				if (searchObject.type == 'Rankings') {
-					$http.get('http://localhost:8080/search/rankings', {
+					apiService.get('/search/rankings', {
 						params: $scope.searchForm
 					})
 						.then(function successCallback(response) {

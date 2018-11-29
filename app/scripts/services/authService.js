@@ -1,32 +1,17 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw', 'services/apiService', 'services/sessionService'], function(tpePaw) {
 
-    tpePaw.service('AuthService', function($window, $location, $http) {
+    tpePaw.service('AuthService', function($location, apiService, sessionService) {
 
-        this.currentUser = function() {
+        this.currentUser = sessionService.currentUser;
 
-            /* TODO: get user from token */
-
-            if ($window.localStorage['currentUser'] != null) {
-                return angular.fromJson($window.localStorage['currentUser']);
-            }
-    
-            if ($window.sessionStorage['currentUser'] != null) {
-                return angular.fromJson($window.sessionStorage['currentUser']);
-            }
-        };
-
-        this.loggedIn = function() {
-            if ($window.localStorage['currentUser'] != null || $window.sessionStorage['currentUser'] != null) {
-                return true;
-            }else {
-                return false;
-            }
-        };
+        this.loggedIn = sessionService.loggedIn;
 
         this.login = function(loginForm) {
 
-            $http.post('http://localhost:8080/login', loginForm)
+            loginForm.rememberMe = undefined; // remove remember me field
+
+            apiService.post('/login', loginForm)
                     .then(function successCallback(response) {
 
                         if (response.headers('Authorization')) {
@@ -37,21 +22,20 @@ define(['tpePaw'], function(tpePaw) {
                             };
 
                             if (loginForm.rememberMe) {
-                                $window.localStorage['currentUser'] = angular.toJson(currentUser);
+                                sessionService.setToken(currentUser, true);
                             }else {
-                                $window.sessionStorage['currentUser'] = angular.toJson(currentUser);
+                                sessionService.setToken(currentUser, false);
                             }
                             $location.path('/');
-                            console.log('loggedIn');
                         }
                     }, function errorCallback(response) {
+                        console.log(response);
                         console.log('Login ERROR');
             });
         };
 
         this.logout = function() {
-            $window.localStorage.removeItem('currentUser');
-			$window.sessionStorage.removeItem('currentUser');
+            sessionService.logout();
         };
     });
 });
