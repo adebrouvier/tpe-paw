@@ -59,6 +59,8 @@ define([], function () {
 		COMMENT_FORM_REQUIRED: 'Comment is required',
 		COMMENT_FORM_LENGTH: 'Comment must be between {{minlength}} and {{maxlength}} characters long.',
 		COMMENT_SUBMIT: 'Comment',
+		COMMENT_REPLY_FORM_PLACEHOLDER: 'Add reply',
+		COMMENT_REPLY_SUBMIT: 'Reply',
 
 		NOTFOUND_TITLE: 'Page not found',
 		NOTFOUND_MESSAGE: 'Sorry, we could not find that page.',

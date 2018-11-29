@@ -42,7 +42,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div>
+            <div ng-show="loggedUser == tournament.creator.username">
                 <h2>{{'PLAYER_FORM_ADD_TITLE' | translate}}</h2>
                 <form novalidate ng-submit="addPlayer()" name="playerForm">
                     <div class="form-row">

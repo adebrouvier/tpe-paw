@@ -229,7 +229,7 @@ public class TournamentRESTController {
     final Comment comment = cs.create(loggedUser, new Date(), commentForm.getComment());
     ts.addComment(id, comment);
 
-    return	Response.ok(Response.Status.CREATED).build();
+    return	Response.ok(new CommentDTO(comment)).build();
   }
 
   @POST
@@ -255,6 +255,6 @@ public class TournamentRESTController {
       LOGGER.info("New reply on tournament {}", t.getId());
     }
 
-    return	Response.ok().build();
+    return	Response.ok(new CommentDTO(reply)).build();
   }
 }

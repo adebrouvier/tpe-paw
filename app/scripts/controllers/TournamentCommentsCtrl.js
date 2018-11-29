@@ -31,10 +31,36 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'service
                 apiService.post('/tournaments/' + $scope.tournamentId + '/comments', $scope.commentForm)
                     .then(function successCallback(response) {
                         console.log('Added comment');
+                        var comment = response.data;
+                        $scope.comments.push(comment);
+                        $scope.commentForm = {};
                 }, function errorCallback(response) {
                     console.log('Comment ERROR');
                 });
             }
+        };
+
+        $scope.replyForm = {};
+        $scope.addReply = function() {
+            if ($scope.replyForm.$valid) {
+                apiService.post('/tournaments/' + $scope.tournamentId + '/comments/' + $scope.parent.id, $scope.replyForm)
+                    .then(function successCallback(response) {
+                        console.log('Added reply');
+                        $('#replyModal').modal('hide');
+                        $scope.parent.children.push(response.data);
+                        $scope.replyForm = {};
+                }, function errorCallback(response) {
+                    console.log('Reply error');
+                });
+            }
+        };
+
+        $scope.openReplyModal = function(parent) {
+            $scope.parent = parent;
+        };
+
+        $scope.clearModal = function() {
+            $scope.replyForm = {};
         };
     });
 });
