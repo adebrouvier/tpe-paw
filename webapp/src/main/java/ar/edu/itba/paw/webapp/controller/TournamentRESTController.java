@@ -1,17 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
-import ar.edu.itba.paw.model.Comment;
-import ar.edu.itba.paw.model.Player;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.controller.dto.CommentDTO;
+import ar.edu.itba.paw.webapp.controller.dto.MatchDTO;
 import ar.edu.itba.paw.webapp.controller.dto.PlayerDTO;
 import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
-import ar.edu.itba.paw.webapp.form.CommentForm;
-import ar.edu.itba.paw.webapp.form.PlayerForm;
-import ar.edu.itba.paw.webapp.form.ReplyForm;
-import ar.edu.itba.paw.webapp.form.TournamentForm;
+import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
 import org.slf4j.Logger;
@@ -47,6 +42,9 @@ public class TournamentRESTController {
 
   @Autowired
   private CommentService cs;
+
+  @Autowired
+  private MatchService ms;
 
   @Context
   private UriInfo uriInfo;
@@ -194,6 +192,41 @@ public class TournamentRESTController {
     return	Response.ok().build();
   }
 
+  @POST
+  @Path("{id}/matches/{matchId}")
+  public Response updateMatchScore(@PathParam("id") final long id, @PathParam("matchId") final int matchId, final MatchForm matchForm) throws ValidationException {
+
+    validator.validate(matchForm, "Failed to validate match");
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (!tournament.getCreator().equals(loggedUser)) {
+      LOGGER.warn("Unauthorized User {} tried to update match on tournament {}", loggedUser.getId(), id);
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    Match m = ms.updateScore(id, matchId, matchForm.getHomeResult(), matchForm.getAwayResult());
+
+    if (m == null){
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    LOGGER.info("Updated score of match {} from tournament {}", matchId, id);
+
+    List<MatchDTO> matches = ts.findById(id).getMatches().stream()
+                              .map(MatchDTO::new)
+                              .collect(Collectors.toList());
+
+    GenericEntity<List<MatchDTO>> matchList = new GenericEntity<List<MatchDTO>>(matches) { };
+    return	Response.ok(matchList).build();
+  }
+
   @GET
   @Path("/{id}/comments")
   public Response comments(@PathParam("id") final long id) {
@@ -256,5 +289,28 @@ public class TournamentRESTController {
     }
 
     return	Response.ok(new CommentDTO(reply)).build();
+  }
+
+  @POST
+  @Path("/{id}/end")
+  public Response endTournament(@PathParam("id") final long id){
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (!tournament.getCreator().equals(loggedUser)) {
+      LOGGER.warn("Unauthorized User {} tried to end the tournament {}", loggedUser.getId(), id);
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    ts.setStatus(id, Tournament.Status.FINISHED);
+    LOGGER.info("Ended tournament {}", id);
+
+    return	Response.ok().build();
   }
 }

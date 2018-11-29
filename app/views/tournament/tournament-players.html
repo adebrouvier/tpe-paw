@@ -25,7 +25,7 @@
                         <th scope="col">{{'TOURNAMENT_PAGE_PLAYERS_TABLE_SEED' | translate}}</th>
                         <th scope="col">{{'TOURNAMENT_PAGE_PLAYERS_TABLE_PLAYER' | translate}}</th>
                         <th scope="col">{{'TOURNAMENT_PAGE_PLAYERS_TABLE_USERNAME' | translate}}</th>
-                        <th ng-if="loggedUser == tournament.creator.username" scope="col">Actions</th>
+                        <th ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +33,8 @@
                         <td>{{player.seed}}</td>
                         <td>{{player.name}}</td>
                         <td>{{player.username}}</td>
-                        <td ng-if="loggedUser == tournament.creator.username">
-                            <form no-validate ng-submit="removePlayer(player.id)" method="DELETE"
+                        <td ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
+                            <form no-validate ng-submit="removePlayer(player.id)"
                             ng-if="loggedUser == tournament.creator.username">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
@@ -42,7 +42,13 @@
                     </tr>
                 </tbody>
             </table>
-            <div ng-show="loggedUser == tournament.creator.username">
+            <form no-validate ng-submit="generateBracket()" class="row" name="bracketForm" method="POST"
+                ng-if="loggedUser == tournament.creator.username && tournament.players.length >= 2 && tournament.status == 'NEW'">
+                <div class="form-group col-md-3 offset-md-4">
+                    <button type="submit" class="btn btn-primary btn-block">{{'TOURNAMENT_PAGE_GENERATE' | translate}}</button>
+                </div>
+            </form>
+            <div ng-show="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
                 <h2>{{'PLAYER_FORM_ADD_TITLE' | translate}}</h2>
                 <form novalidate ng-submit="addPlayer()" name="playerForm">
                     <div class="form-row">
@@ -69,12 +75,6 @@
                         <div class="form-group col-md-2">
                             <button type="submit" class="btn btn-primary" ng-disabled="playerForm.$invalid">{{'PLAYER_FORM_ADD_BUTTON' | translate}}</button>
                         </div>
-                    </div>
-                </form>
-                <form no-validate ng-submit="generateBracket()" class="row" name="bracketForm" method="POST"
-                ng-if="loggedUser == tournament.creator.username && tournament.players.length == 2 && tournament.stats == 'NEW'">
-                    <div class="form-group col-md-3 offset-md-4">
-                        <button type="submit" class="btn btn-primary btn-block">{{'TOURNAMENT_PAGE_GENERATE' | translate}}</button>
                     </div>
                 </form>
             </div>
