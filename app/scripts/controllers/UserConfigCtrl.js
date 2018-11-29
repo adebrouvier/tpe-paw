@@ -1,9 +1,9 @@
 'use strict';
-define(['tpePaw', 'services/titleService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, fileReader) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService, fileReader) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -14,6 +14,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.imageSrc = '';
     $scope.maxImageLength = 5 * 1024 * 1024;
     $scope.imageInvalidSize = false;
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
     $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;

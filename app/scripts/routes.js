@@ -20,8 +20,8 @@ define([], function() {
                 templateUrl: '/views/users.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/creates': {
-                templateUrl: '/views/userCreates.html',
+            '/users/:id/created': {
+                templateUrl: '/views/userCreated.html',
                 controller: 'UsersCtrl'
             },
             '/users/:id/rankings': {

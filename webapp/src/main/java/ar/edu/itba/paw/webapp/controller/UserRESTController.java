@@ -64,6 +64,9 @@ public class UserRESTController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private SecurityService ss;
+
+    @Autowired
     private RESTValidator validator;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
@@ -146,8 +149,16 @@ public class UserRESTController {
     @Consumes(value	=	{	MediaType.MULTIPART_FORM_DATA})
     public Response updateUser(@PathParam("id") final long id, @FormDataParam("user") final UserUpdateForm userForm, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
 
-      validator.validate(userForm, "Failed to validate tournament");
+      User loggedUser = ss.getLoggedUser();
       final User u = us.findById(id);
+      if(u == null) {
+        return Response.status(Response.Status.NOT_FOUND).build();
+      }
+      if(!loggedUser.equals(u)) {
+        return Response.status(Response.Status.FORBIDDEN).build();
+      }
+
+      validator.validate(userForm, "Failed to validate tournament");
 
       if (userForm == null || u == null) {
         return Response.status(Response.Status.BAD_REQUEST).build();

@@ -15,7 +15,6 @@
 
           <div class="user-section-follower"><b>{{'USER_FOLLOWERS' | translate}}<span>{{user.followersAmount}}</span></b></div>
 
-
         </div>
         <div class="dropdown-divider"></div>
         <div class="card-body">
@@ -30,7 +29,7 @@
           <p  class="user-section-content-text" >{{user.description}}</p><br>
 
 
-          <a ng-show="user.twitchUrl" href="{{user.twitchUrl}}">
+          <a ng-show="user.twitchUrl" ng-href="{{user.twitchUrl}}">
             <div class="user-section-content-link">
               <spam>
                 <img class="user-social-icon-twitter-twitch" src="/images/twitch-icon.png">
@@ -42,7 +41,7 @@
           </a>
 
 
-          <a ng-show="user.twitterUrl" href="{{user.twitterUrl}}">
+          <a ng-show="user.twitterUrl" ng-href="{{user.twitterUrl}}">
             <div class="user-section-content-link">
               <span>
                 <img class="user-social-icon-twitter-twitch" src="/images/twitter-icon.png">
@@ -54,7 +53,7 @@
           </a>
 
 
-          <a ng-show="user.youtubeUrl" href="{{user.youtubeUrl}}">
+          <a ng-show="user.youtubeUrl" ng-href="{{user.youtubeUrl}}">
             <div class="user-section-content-link">
               <span >
                 <img class="user-social-icon-youtube" src="/images/youtube-icon.png">
@@ -82,9 +81,9 @@
     <div class="col-8 col-margin">
       <nav>
         <div class="nav nav-pills flex-column flex-sm-row" id="nav-tab" role="tablist">
-          <a id="participates" class="nav-participates nav-item nav-link" id="pills-participates-tab" data-toggle="pill" href="/#/users/{{userId}}" role="tab" aria-controls="pills-participates" aria-selected="false">{{'USER_PARTICIPATES' | translate}}</a>
-          <a id="creates" class="nav-creates nav-item nav-link active" id="pills-creates-tab" data-toggle="pill" href="/#/users/{{userId}}/creates"  role="tab" aria-controls="pills-creates" aria-selected="true">{{'USER_CREATES' | translate}}</a>
-          <a id="rankings" class="nav-item nav-link" id="pills-rankings-tab" data-toggle="tab" href="/#/users/{{userId}}/rankings" role="tab" aria-controls="pills-rankings" aria-selected="false">{{'USER_RANKINGS' | translate}}</a>
+          <a id="participates" class="nav-participates nav-item nav-link" id="pills-participates-tab" data-toggle="pill" ng-href="/#/users/{{userId}}" role="tab" aria-controls="pills-participates" aria-selected="false">{{'USER_PARTICIPATES' | translate}}</a>
+          <a id="creates" class="nav-creates nav-item nav-link active" id="pills-creates-tab" data-toggle="pill" ng-href="/#/users/{{userId}}/created"  role="tab" aria-controls="pills-creates" aria-selected="true">{{'USER_CREATES' | translate}}</a>
+          <a id="rankings" class="nav-item nav-link" id="pills-rankings-tab" data-toggle="tab" ng-href="/#/users/{{userId}}/rankings" role="tab" aria-controls="pills-rankings" aria-selected="false">{{'USER_RANKINGS' | translate}}</a>
         </div>
       </nav>
 
@@ -98,8 +97,8 @@
                   <div class="card-game" ng-show="create.game.name == null || create.game.name == ''" ><b><i class="material-icons" >games</i>{{'USER_NO_GAME' | translate}}</b></div>
                   <h4 class="card-title" ><b>{{create.name}}  </b></h4>
 
-                  <a href="#" class="card-link text-warning">{{'USER_BRACKET' | translate}}</a>
-                  <a href="#" class="card-link text-warning">{{'USER_STANDING' | translate}}</a>
+                  <a ng-href="#" class="card-link text-warning">{{'USER_BRACKET' | translate}}</a>
+                  <a ng-href="#" class="card-link text-warning">{{'USER_STANDING' | translate}}</a>
 
                 </div>
               </div>

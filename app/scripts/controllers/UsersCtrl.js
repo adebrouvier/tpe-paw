@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw', 'services/titleService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService'], function(tpePaw) {
 
-  tpePaw.controller('UsersCtrl', function($scope, $http, $location, $routeParams, titleService) {
+  tpePaw.controller('UsersCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService) {
 
     $scope.user = {};
     $scope.participates = [];
@@ -18,6 +18,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.goConfigPage = function () {
       window.location = '/#/users/' + $scope.userId + '/config';
     };
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
     $http.get('http://localhost:8080/users/' + $scope.userId)
       .then(function successCallback(response) {
