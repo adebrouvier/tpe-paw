@@ -1,9 +1,9 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService, fileReader) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -50,11 +50,13 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
         var metadata = {
           transformRequest: angular.identity,
           headers: {
-            'Content-Type': undefined
+            'Content-Type': undefined,
+            'Authorization': sessionService.currentUser().token
           }
         };
 
-        return $http.put('http://localhost:8080/users/' + $scope.username, formData, metadata)
+
+        return $http.put('/users/' + $scope.username, formData, metadata)
           .then(function(response) {
             window.location = '/#/users/' + $scope.username;
           })
@@ -83,7 +85,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     };
 
-    $http.get('http://localhost:8080/users/' + $scope.username)
+    apiService.get('/users/' + $scope.username)
       .then(function successCallback(response) {
         $scope.user = response.data;
         titleService.setTitle($scope.user.username + ' - Versus');

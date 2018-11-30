@@ -78,8 +78,9 @@ public class UserRESTController {
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response getById(@PathParam("username") final String username) {
         final User user = us.findByName(username);
+
         if (user != null) {
-            return Response.ok(new UserDTO(user,ufgs.getFavoriteGames(user),us.getFollowersAmount(user.getId()),ts.findTournamentByParticipant(user.getId(), 0),ts.findTournamentByUser(user.getId(), 0),rs.findRankingByUserPage(user.getId(), 0))).build();
+            return Response.ok(new UserDTO(user,ufs.isFollow(ss.getLoggedUser(),user),ufgs.getFavoriteGames(user),us.getFollowersAmount(user.getId()),ts.findTournamentByParticipant(user.getId(), 0),ts.findTournamentByUser(user.getId(), 0),rs.findRankingByUserPage(user.getId(), 0))).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -115,12 +116,55 @@ public class UserRESTController {
       final User user = us.findByName(username);
       if (user != null) {
         List<Tournament> tournaments = ts.findTournamentByParticipant(user.getId(), page);
-        UserDTO userDTO = new UserDTO(null,null,null,tournaments,null,null);
+        UserDTO userDTO = new UserDTO(null,false,null,null,tournaments,null,null);
         return Response.ok(userDTO).build();
       } else {
         return Response.status(Response.Status.NOT_FOUND).build();
       }
     }
+
+  @POST
+  @Path("/{username}/follow")
+  @Produces(value = { MediaType.APPLICATION_JSON, })
+  public final Response followUser(@PathParam("username") String username) {
+    User u = us.findByName(username);
+    User loggedUser = ss.getLoggedUser();
+    if (u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    if (loggedUser == null || u.getId() == loggedUser.getId()) {
+      return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    ufs.create(loggedUser, u);
+    LOGGER.debug("New follower for user {}", u.getId());
+
+    return Response.status(Response.Status.OK).build();
+  }
+
+  @POST
+  @Path("/{username}/unfollow")
+  @Produces(value = { MediaType.APPLICATION_JSON, })
+  public final Response unfollowUser(@PathParam("username") String username) {
+    User u = us.findByName(username);
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    if (loggedUser == null || u.getId() == loggedUser.getId()) {
+      return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    ufs.delete(loggedUser, u);
+    LOGGER.debug("Unfollow for user {}", u.getId());
+
+    return Response.status(Response.Status.OK).build();
+  }
+
 
     @GET
     @Path("/{username}/created-tournaments")
@@ -129,7 +173,7 @@ public class UserRESTController {
       final User user = us.findByName(username);
       if (user != null) {
         List<Tournament> tournaments = ts.findTournamentByUser(user.getId(), page);
-        UserDTO userDTO = new UserDTO(null,null,null,null,tournaments,null);
+        UserDTO userDTO = new UserDTO(null,false,null,null,null,tournaments,null);
         return Response.ok(userDTO).build();
       } else {
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -143,7 +187,7 @@ public class UserRESTController {
       final User user = us.findByName(username);
       if (user != null) {
         List<Ranking> rankings = rs.findRankingByUserPage(user.getId(), page);
-        UserDTO userDTO = new UserDTO(null,null,null,null,null,rankings);
+        UserDTO userDTO = new UserDTO(null,false,null,null,null,null,rankings);
         return Response.ok(userDTO).build();
       } else {
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -153,7 +197,7 @@ public class UserRESTController {
     @PUT
     @Path("/{username}")
     @Produces(value = {MediaType.APPLICATION_JSON})
-    @Consumes(value	=	{	MediaType.MULTIPART_FORM_DATA})
+    @Consumes(value	=	{MediaType.MULTIPART_FORM_DATA})
     public Response updateUser(@PathParam("username") final String username, @FormDataParam("user") final UserUpdateForm userForm, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
 
       User loggedUser = ss.getLoggedUser();
@@ -167,7 +211,7 @@ public class UserRESTController {
 
       validator.validate(userForm, "Failed to validate tournament");
 
-      if (userForm == null || u == null) {
+      if (userForm == null) {
         return Response.status(Response.Status.BAD_REQUEST).build();
       }
 

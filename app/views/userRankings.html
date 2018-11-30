@@ -7,15 +7,16 @@
             <button type="button" ng-show="loggedUser != undefined && loggedUser == user.username" class="btn btn-edit" ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" ng-click="goConfigPage()" ><i class="material-icons icon-edit" >edit</i></button>
             <img class="user-img" ng-src="http://localhost:8080/users/profile-image/{{username}}">
             <h4>{{user.username}}</h4>
-            <button ng-show="loggedUser != undefined && loggedUser != user.username" type="button" class="btn btn-follow" >{{'USER_FOLLOW' | translate}}</button>
-            <button ng-show="loggedUser != undefined && loggedUser != user.username" type="button" class="btn btn-follow" >{{'USER_UNFOLLOW' | translate}}</button>
+            <button ng-show="loggedUser != undefined && loggedUser != user.username" type="button" class="btn btn-follow" ng-click="user.follow ? unfollow() : follow()" ng-cloak>
+              <span ng-show="!user.follow" ng-cloak>{{'USER_FOLLOW' | translate}}</span>
+              <span ng-show="user.follow" ng-cloak>{{'USER_UNFOLLOW' | translate}}</span>
+            </button>
           </div>
         </div>
         <div class="dropdown-divider"></div>
         <div class="card-body">
 
           <div class="user-section-follower"><b>{{'USER_FOLLOWERS' | translate}}<span>{{user.followersAmount}}</span></b></div>
-
 
         </div>
         <div class="dropdown-divider"></div>
