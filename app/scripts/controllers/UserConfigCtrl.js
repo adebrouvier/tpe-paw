@@ -9,7 +9,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
     $scope.twitchRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitch\.tv\/)(?:[\w-]+)/i;
     $scope.twitterRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitter\.com\/)(?:[\w-]+)/i;
-    $scope.userId = $routeParams.id;
+    $scope.username = $routeParams.username;
     $scope.user = {};
     $scope.imageSrc = '';
     $scope.maxImageLength = 5 * 1024 * 1024;
@@ -54,12 +54,12 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
           }
         };
 
-        return $http.put('http://localhost:8080/users/' + $scope.userId, formData, metadata)
+        return $http.put('http://localhost:8080/users/' + $scope.username, formData, metadata)
           .then(function(response) {
-            window.location = '/#/users/' + $scope.userId;
+            window.location = '/#/users/' + $scope.username;
           })
           .catch(function(response) {
-            window.location = '/#/users/' + $scope.userId;
+            window.location = '/#/users/' + $scope.username;
           });
       }
 
@@ -83,7 +83,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     };
 
-    $http.get('http://localhost:8080/users/' + $scope.userId)
+    $http.get('http://localhost:8080/users/' + $scope.username)
       .then(function successCallback(response) {
         $scope.user = response.data;
         titleService.setTitle($scope.user.username + ' - Versus');

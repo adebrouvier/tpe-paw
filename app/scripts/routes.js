@@ -16,19 +16,19 @@ define([], function() {
                 templateUrl: '/views/login.html',
                 controller: 'LoginCtrl'
             },
-            '/users/:id': {
+            '/users/:username': {
                 templateUrl: '/views/users.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/created': {
+            '/users/:username/created': {
                 templateUrl: '/views/userCreated.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/rankings': {
+            '/users/:username/rankings': {
                 templateUrl: '/views/userRankings.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/config': {
+            '/users/:username/config': {
                 templateUrl: '/views/userConfig.html',
                 controller: 'UserConfigCtrl'
             },

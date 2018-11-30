@@ -7,7 +7,8 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     $scope.participates = [];
     $scope.creates = [];
     $scope.rankings = [];
-    $scope.userId = $routeParams.id;
+    $scope.username = $routeParams.username;
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
     $scope.userParticipatedTournaments = 1;
     $scope.userCreatedTournaments = 1;
     $scope.userCreatedRankings = 1;
@@ -15,17 +16,17 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     $scope.hasCreatesData = true;
     $scope.hasRankingsData = true;
     $scope.busy = false;
-    $scope.goConfigPage = function () {
-      window.location = '/#/users/' + $scope.userId + '/config';
-    };
-    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
-    $http.get('http://localhost:8080/users/' + $scope.userId)
+    $scope.goConfigPage = function () {
+      window.location = '/#/users/' + $scope.username + '/config';
+    };
+
+    $http.get('http://localhost:8080/users/' + $scope.username)
       .then(function successCallback(response) {
         $scope.user = response.data;
         if ($scope.user.hasOwnProperty('participates')) {
           var length = response.data.participates.length;
-          for (var i = 0; i < length ; i++) {
+          for (var i = 0; i < length; i++) {
             $scope.participates.push(response.data.participates[i]);
           }
         }
@@ -49,7 +50,7 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     $scope.loadParticipatedTournaments = function () {
       if (document.getElementById('participates').classList.item(2) === 'active') {
         $scope.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/participated-tournaments?page=' + $scope.userParticipatedTournaments)
+        $http.get('http://localhost:8080/users/' + $scope.username + '/participated-tournaments?page=' + $scope.userParticipatedTournaments)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('participates')) {
               var pLength = response.data.participates.length;
@@ -73,7 +74,7 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     $scope.loadCreatedTournaments = function () {
       if (document.getElementById('creates').classList.item(2) === 'active') {
         $scope.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/created-tournaments?page=' + $scope.userCreatedTournaments)
+        $http.get('http://localhost:8080/users/' + $scope.username + '/created-tournaments?page=' + $scope.userCreatedTournaments)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('creates')) {
               var pLength = response.data.creates.length;
@@ -97,7 +98,7 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     $scope.loadCreatedRankings = function () {
       if (document.getElementById('rankings').classList.item(2) === 'active') {
         this.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/created-rankings?page=' + $scope.userCreatedRankings)
+        $http.get('http://localhost:8080/users/' + $scope.username + '/created-rankings?page=' + $scope.userCreatedRankings)
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('rankings')) {
               var pLength = response.data.rankings.length;
