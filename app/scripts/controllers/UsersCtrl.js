@@ -25,6 +25,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
       $scope.user.follow = true;
       apiService.post('/users/' + $scope.username + '/follow', '').
       then(function successCallback(response) {
+        $scope.user.followersAmount += 1;
       }, function errorCallback(response) {
         $scope.user.follow = false;
       });
@@ -34,6 +35,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
       $scope.user.follow = false;
       apiService.post('/users/' + $scope.username + '/unfollow', '').
       then(function successCallback(response) {
+        $scope.user.followersAmount -= 1;
       }, function errorCallback(response) {
         $scope.user.follow = true;
       });

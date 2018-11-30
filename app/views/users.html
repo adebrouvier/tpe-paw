@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-4 col-margin">
-      <div class="card card-profile" >
+      <div class="card card-profile edit-tittle" >
         <div class="card-body">
           <div class="user-section-profile">
             <button type="button" ng-show="loggedUser != undefined && loggedUser == user.username" class="btn btn-edit" ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" ng-click="goConfigPage()" ng-cloak><i class="material-icons icon-edit" >edit</i></button>
@@ -94,7 +94,7 @@
         <div class="tab-pane fade show active" id="pills-participates" role="tabpanel" aria-labelledby="pills-participates-tab" ng-controller="UsersCtrl">
           <div infinite-scroll='loadParticipatedTournaments()' infinite-scroll-distance='1'>
             <div ng-repeat='participate in participates'>
-              <div class="card col-12 card-border">
+              <div class="card col-12 card-border edit-tittle">
                 <div class="card-body">
                   <div class="card-game" ng-show="participate.game.name != null || participate.game.name != ''" ><b><i class="material-icons" >games</i>{{participate.game.name}}</b></div>
                   <div class="card-game" ng-show="participate.game.name == null || participate.game.name == ''" ><b><i class="material-icons" >games</i>{{'USER_NO_GAME' | translate}}</b></div>
