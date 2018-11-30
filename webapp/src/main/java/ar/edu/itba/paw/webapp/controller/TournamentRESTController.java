@@ -2,10 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.webapp.controller.dto.CommentDTO;
-import ar.edu.itba.paw.webapp.controller.dto.MatchDTO;
-import ar.edu.itba.paw.webapp.controller.dto.PlayerDTO;
-import ar.edu.itba.paw.webapp.controller.dto.TournamentDTO;
+import ar.edu.itba.paw.webapp.controller.dto.*;
 import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
@@ -45,6 +42,9 @@ public class TournamentRESTController {
 
   @Autowired
   private MatchService ms;
+
+  @Autowired
+  private InscriptionService is;
 
   @Context
   private UriInfo uriInfo;
@@ -313,4 +313,165 @@ public class TournamentRESTController {
 
     return	Response.ok().build();
   }
+
+  @GET
+  @Path("/{id}/inscriptions")
+  public Response inscriptions(@PathParam("id") final long id){
+
+    final Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    final List<UserDTO> inscriptions = is.finByTournamentId(id).stream()
+                    .map(Inscription::getUser)
+                    .map(UserDTO::new)
+                    .collect(Collectors.toList());
+
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
+    return	Response.ok(inscriptionList).build();
+  }
+
+  @POST
+  @Path("/{id}/inscriptions")
+  public Response requestInscription(@PathParam("id") final long id){
+
+    Tournament tournament = ts.findById(id);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (loggedUser.equals(tournament.getCreator())){
+      return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    if (is.findByIds(loggedUser.getId(), tournament.getId()) == null) {
+      is.create(loggedUser, tournament);
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    ns.createRequestJoinNotification(loggedUser, tournament);
+    LOGGER.info("User {} created join request on tournament {}", loggedUser.getId(), id);
+
+    final List<UserDTO> inscriptions = is.finByTournamentId(id).stream()
+      .map(Inscription::getUser)
+      .map(UserDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
+    return	Response.ok(inscriptionList).build();
+  }
+
+  @POST
+  @Path("/{id}/inscriptions/{userId}")
+  public Response acceptInscription(@PathParam("id") final long id, @PathParam("userId") final long userId){
+
+    final Tournament t = ts.findById(id);
+
+    final User u = us.findById(userId);
+
+    if (t == null || u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+    if (!loggedUser.equals(t.getCreator())){
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    /* remove from pending list  */
+    is.delete(id, userId);
+
+    Player p;
+
+    if (!ts.participatesIn(u.getId(), id)) { /* user isn't participating */
+      p = ps.create(u.getName(), u, t);
+    } else {
+      return	Response.ok().build();
+    }
+
+    ps.addToTournament(p.getId(), t.getId());
+
+    ns.createAcceptJoinNotification(u, t);
+
+    LOGGER.info("Accepted user {} join request on tournament {}", userId, id);
+
+    final List<UserDTO> inscriptions = is.finByTournamentId(id).stream()
+      .map(Inscription::getUser)
+      .map(UserDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
+    return	Response.ok(inscriptionList).build();
+  }
+
+  @DELETE
+  @Path("/{id}/inscriptions/{userId}")
+  public Response rejectInscription(@PathParam("id") final long id, @PathParam("userId") final long userId){
+
+    final Tournament t = ts.findById(id);
+
+    final User u = us.findById(userId);
+
+    if (t == null || u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+    if (!loggedUser.equals(t.getCreator())){
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    /* remove from pending list  */
+    is.delete(id, userId);
+    ns.createRejectJoinNotification(u, t);
+
+    LOGGER.info("Rejected user {} join request on tournament {}", userId, id);
+
+    final List<UserDTO> inscriptions = is.finByTournamentId(id).stream()
+      .map(Inscription::getUser)
+      .map(UserDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
+    return	Response.ok(inscriptionList).build();
+  }
+
+  @GET
+  @Path("/{id}/inscriptions/{userId}")
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean signedUp(@PathParam("id") final long id, @PathParam("userId") final long userId){
+
+    final Tournament t = ts.findById(id);
+
+    final User u = us.findById(userId);
+
+    if (t == null || u == null) {
+      return false;
+    }
+
+    return is.findByIds(userId, id) != null;
+  }
+
+  @GET
+  @Path("/{id}/participates/{userId}")
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean participates(@PathParam("id") final long id, @PathParam("userId") final long userId){
+
+    final Tournament t = ts.findById(id);
+
+    final User u = us.findById(userId);
+
+    if (t == null || u == null) {
+      return false;
+    }
+
+    return ts.participatesIn(u.getId(), id);
+  }
+
 }

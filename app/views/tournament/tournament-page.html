@@ -22,9 +22,9 @@
             <div>
                 <form no-validate ng-submit="endTournament()"
                     ng-if="loggedUser == tournament.creator.username && tournament.status == 'STARTED'">
-                        <button type="submit" class="btn btn-danger">End Tournament</button>
+                        <button type="submit" class="btn btn-danger">{{'TOURNAMENT_PAGE_END'|translate}}</button>
                 </form>
-                <button ng-if="tournament.status == 'FINISHED'" class="btn btn-primary">Finished Tournament</button>
+                <button ng-if="tournament.status == 'FINISHED'" class="btn btn-primary">{{'TOURNAMENT_PAGE_FINISHED'|translate}}</button>
             </div>
             <div ng-repeat="match in tournament.matches">
                 <div class="bracket-container">
@@ -44,6 +44,16 @@
                             </div>
                         </div>
                     </a>
+                </div>
+            </div>
+            <div ng-if="tournament.matches.length === 0">{{'TOURNAMENT_PAGE_NOT_STARTED'|translate}}</div>
+            <div ng-if="tournament.status == 'NEW'">
+                <div ng-if="loggedUser !== undefined && loggedUser !== tournament.creator.username
+                                && !participates && !signedUp">
+                    <button ng-click="joinRequest()" type="submit" class="btn btn-primary">{{'TOURNAMENT_PAGE_JOIN_REQUEST'|translate}}</button>
+                </div>
+                <div ng-if="signedUp">
+                    <p>{{'TOURNAMENT_PAGE_AWAITING'|translate}}</p>
                 </div>
             </div>
         </div>
@@ -104,7 +114,7 @@
                                 <p ng-message="maxlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
                                 <p ng-message="required">{{'COMMENT_FORM_REQUIRED' | translate}}</p>
                             </div>
-                            <button ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">Update Scores</button>
+                            <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">Update Scores</button>
                         </form>
                     </div>
                 </div>

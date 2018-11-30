@@ -47,6 +47,12 @@ define([], function () {
 		TOURNAMENT_PAGE_PLAYERS_TABLE_PLAYER: 'Player',
 		TOURNAMENT_PAGE_PLAYERS_TABLE_USERNAME: 'Username',
 		TOURNAMENT_PAGE_GENERATE: 'Generate bracket',
+		TOURNAMENT_PAGE_END: 'End Tournament',
+		TOURNAMENT_PAGE_FINISHED: 'Finished Tournament',
+		TOURNAMENT_PAGE_NOT_STARTED: 'Tournament has not started yet',
+		TOURNAMENT_PAGE_JOIN_REQUEST: 'Request join',
+		TOURNAMENT_PAGE_AWAITING: 'Awaiting for join request confirmation.',
+
 		PLAYER_FORM_NAME_REQUIRED: 'Player name is required',
 		PLAYER_FORM_NAME_LENGTH: 'Player name must be between {{minlength}} and {{maxlength}} characters long.',
 		PLAYER_FORM_NAME_PATTERN: 'Player name can only contain letters or numbers.',
@@ -54,6 +60,8 @@ define([], function () {
 		PLAYER_FORM_USERNAME_PATTERN: 'Username can only contain letters or numbers.',
 		PLAYER_FORM_ADD_BUTTON: 'Add',
 		PLAYER_FORM_ADD_TITLE: 'Add player',
+		PLAYER_TABLE_EMPTY: 'There are no players registered yet.',
+		PLAYER_JOIN_REQUESTS: 'Join requests',
 
 		COMMENT_FORM_PLACEHOLDER: 'Add comment',
 		COMMENT_FORM_REQUIRED: 'Comment is required',

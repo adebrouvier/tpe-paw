@@ -40,6 +40,9 @@
                             </form>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="3" ng-if="tournament.players.length === 0">{{'PLAYER_TABLE_EMPTY' | translate}}</td>
+                    </tr>
                 </tbody>
             </table>
             <form no-validate ng-submit="generateBracket()" class="row" name="bracketForm" method="POST"
@@ -49,7 +52,7 @@
                 </div>
             </form>
             <div ng-show="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
-                <h2>{{'PLAYER_FORM_ADD_TITLE' | translate}}</h2>
+                <h3>{{'PLAYER_FORM_ADD_TITLE' | translate}}</h3>
                 <form novalidate ng-submit="addPlayer()" name="playerForm">
                     <div class="form-row">
                         <div class="form-group col-md-3">
@@ -77,6 +80,26 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            <div ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
+                <h3>{{'PLAYER_JOIN_REQUESTS' | translate}}</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{'TOURNAMENT_PAGE_PLAYERS_TABLE_USERNAME' | translate}}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="inscription in inscriptions">
+                            <td>{{inscription.username}}</td>
+                            <td>
+                                <button ng-click="acceptPlayer(inscription.id)" class="btn btn-success">Accept</button>
+                                <button ng-click="rejectPlayer(inscription.id)" class="btn btn-danger">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

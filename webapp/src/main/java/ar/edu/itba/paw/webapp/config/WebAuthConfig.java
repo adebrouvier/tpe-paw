@@ -36,6 +36,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(HttpMethod.POST, "/login").permitAll()
           .antMatchers(HttpMethod.POST, "/users").permitAll()
           .antMatchers(HttpMethod.POST, "/tournaments/**").authenticated()
+          .antMatchers(HttpMethod.DELETE, "/tournaments/**").authenticated()
           .anyRequest().permitAll()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))
