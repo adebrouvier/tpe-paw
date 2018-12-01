@@ -1,14 +1,19 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
-  tpePaw.controller('NotificationsCtrl', function($scope, $routeParams, $filter, titleService, apiService) {
-    // titleService.setTitle($filter('translate')('SEARCH_TITLE') + ' - Versus');
+  tpePaw.controller('NotificationsCtrl', function($scope, $routeParams, $filter, titleService, AuthService, apiService) {
+    titleService.setTitle($filter('translate')('NOTIFICATION_TITTLE') + ' - Versus');
 
     $scope.hasNotificationsData = false;
     $scope.busy = false;
     $scope.username = $routeParams.username;
     $scope.notificationsPage = 0;
     $scope.notifications = [];
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
+
+    if ($scope.loggedUser != $scope.username) {
+      window.location = '/#/403/';
+    }
 
     $scope.goToUserPage = function (username) {
       window.location = '/#/users/' + username;

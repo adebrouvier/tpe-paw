@@ -73,6 +73,7 @@ define([], function() {
     USER_YOUTUBE_SIZE: 'Youtube url must be between 0 and 2000 characters long.',
     USER_GAME_SIZE: 'Game must be between 0 and 60 characters long.',
 
+    NOTIFICATION_TITTLE: 'Notifications',
     NOTIFICATION_ADD_USER: 'signed up for the tournament',
     NOTIFICATION_FIRST_PLACE: 'has obtained a first place in tournament',
     NOTIFICATION_SECOND_PLACE: 'has obtained a second place in tournament',

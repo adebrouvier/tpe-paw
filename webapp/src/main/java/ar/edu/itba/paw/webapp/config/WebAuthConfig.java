@@ -36,6 +36,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(HttpMethod.POST, "/login").permitAll()
           .antMatchers(HttpMethod.POST, "/users").permitAll()
           .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
+          .antMatchers(HttpMethod.GET, "/notifications/**").authenticated()
           .anyRequest().anonymous()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))

@@ -45,11 +45,9 @@ public class NotificationRESTController {
     if(u == null || page < 0) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
-    /*
     if (loggedUser == null || u.getId() != loggedUser.getId()) {
       return Response.status(Response.Status.FORBIDDEN).build();
     }
-    */
 
     List<Notification> notifications = ns.getNotifications(u, page);
     List<NotificationDTO> notificationsDTO = new LinkedList<>();
