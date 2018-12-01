@@ -62,7 +62,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="scoreModalLabel">Scores</h5>
+                        <h5 class="modal-title" id="scoreModalLabel">{{'TOURNAMENT_PAGE_SCORES'|translate}}</h5>
                         <button type="button" class="close" data-dismiss="modal" ng-click="clearModal()">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -72,8 +72,8 @@
                             <table class="table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">Player</th>
-                                        <th scope="col">Score</th>
+                                        <th scope="col">{{'TOURNAMENT_PAGE_SCORE_PLAYER'|translate}}</th>
+                                        <th scope="col">{{'TOURNAMENT_PAGE_SCORE'|translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,18 +103,18 @@
                                 </tbody>
                             </table>
                             <div ng-messages="matchForm.homeResult.$error" class="invalid-feedback" ng-if="matchForm.homeResult.$error.$touched">
-                                <p ng-message="number">Must be a number</p>
-                                <p ng-message="min">Can't be negative</p>
-                                <p ng-message="maxlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
-                                <p ng-message="required">{{'COMMENT_FORM_REQUIRED' | translate}}</p>
+                                <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
+                                <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
+                                <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
+                                <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
                             </div>
                             <div ng-messages="matchForm.awayResult.$error" class="invalid-feedback" ng-if="matchForm.awayResult.$error.$touched">
-                                <p ng-message="number">Must be a number</p>
-                                <p ng-message="min">Can't be negative</p>
-                                <p ng-message="maxlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
-                                <p ng-message="required">{{'COMMENT_FORM_REQUIRED' | translate}}</p>
+                              <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
+                              <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
+                              <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
+                              <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
                             </div>
-                            <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">Update Scores</button>
+                            <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">{{'TOURNAMENT_PAGE_MATCH_FORM_UPDATE' | translate}}</button>
                         </form>
                     </div>
                 </div>
