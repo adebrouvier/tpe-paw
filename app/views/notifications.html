@@ -1,0 +1,249 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-9" infinite-scroll='loadNotifications()' infinite-scroll-distance='1'>
+      <div ng-repeat='notification in notifications'>
+        <div class="card notification-card">
+          <div class="card-body">
+            <div ng-if="notification.type == 'PARTICIPATES_IN_TOURNAMENT'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-add-trophy.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_ADD_USER' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentPlayers(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'FIRST_PLACE'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-gold-trophy.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_FIRST_PLACE' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentBrackets(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'SECOND_PLACE'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-silver-trophy.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                      {{'NOTIFICATION_SECOND_PLACE' | translate}}
+                    </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentBrackets(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'THIRD_PLACE'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-bronze-trophy.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_THIRD_PLACE' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentBrackets(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'ACCEPT_JOIN_TOURNAMENT'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-accept.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    {{'NOTIFICATION_ACCEPT' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentPlayers(notification.decodeDescription[0])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'REJECT_JOIN_TOURNAMENT'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-reject.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    {{'NOTIFICATION_REJECT_ONE' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentPlayers(notification.decodeDescription[0])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_REJECT_TWO' | translate}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'REQUEST_JOIN_TOURNAMENT'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-request.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_REQUEST' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentPlayers(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'REPLY_TOURNAMENT_COMMENT'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-replay.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_REPLY' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentComment(notification.decodeDescription[2],goTournamentComment(notification.decodeDescription[4])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="notification.type == 'ADD_TOURNAMENT_TO_RANKING'">
+              <div class="row">
+                <div class="col-sm-1">
+                  <img class="notification-icon" ng-src="/images/not-add-trophy.png">
+                </div>
+                <div class="col-sm-11" style="padding-top: 8px">
+                  <span>
+                    <b>
+                      <a href ng-click="goToUserPage(notification.decodeDescription[1])">
+                        {{notification.decodeDescription[1]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_ADD_RANKING_ONE' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToTournamentBrackets(notification.decodeDescription[2])">
+                        {{notification.decodeDescription[3]}}
+                      </a>
+                    </b>
+                  </span>
+                  <span>
+                    {{'NOTIFICATION_ADD_RANKING_TWO' | translate}}
+                  </span>
+                  <span>
+                    <b>
+                      <a href ng-click="goToRanking(goTournamentComment(notification.decodeDescription[4])">
+                        {{notification.decodeDescription[5]}}
+                      </a>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer" style="background-color: transparent; color: #9e9e9e; margin-left: 0; margin-right: 0">
+            <span>{{notification.date | date: 'MMM d, y h:mm a'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
