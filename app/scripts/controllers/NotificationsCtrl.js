@@ -37,7 +37,6 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
       $scope.busy = true;
       apiService.get('/notifications/' + $scope.username + '?page=' + $scope.notificationsPage)
         .then(function successCallback(response) {
-          console.log(response.data);
           if (response.data != null || response.data == {}) {
             var nLength = response.data.length;
             for (var i = 0; i < nLength; i++) {
