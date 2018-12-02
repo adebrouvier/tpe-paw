@@ -57,7 +57,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <input type="text" class="form-control" id="player-input" placeholder="Display name"
-                                ng-model="playerForm.player" name="tplayer" required ng-minlength="4" ng-maxlength="16" ngPattern="[a-zA-Z0-9 ]+"
+                                ng-model="playerForm.player" name="tplayer" required ng-minlength="4" ng-maxlength="16" ng-pattern="/[a-zA-Z0-9 ]+/"
                                 ng-class="{ 'is-invalid': playerForm.tplayer.$touched && playerForm.tplayer.$invalid }" >
                             <div ng-messages="playerForm.tplayer.$error" class="invalid-feedback" ng-if="playerForm.tplayer.$touched">
                                 <p ng-message="minlength">{{'PLAYER_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "16"}' }}</p>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <input type="text" class="form-control" id="username-input" placeholder="Username"
-                            ng-model="playerForm.username" ng-minlength="4" ng-maxlength="40" ngPattern="[a-zA-Z0-9]+">
+                            ng-model="playerForm.username" ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9]+/">
                             <div ng-messages="playerForm.username.$error" class="invalid-feedback" ng-if="playerForm.username.$touched">
                                 <p ng-message="minlength">{{'PLAYER_FORM_USERNAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
                                 <p ng-message="maxlength">{{'PLAYER_FORM_USERNAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>

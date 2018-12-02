@@ -36,6 +36,10 @@ define([], function() {
                 templateUrl: '/views/tournament/tournament-comments.html',
                 controller: 'TournamentCommentsCtrl'
             },
+            '/tournament/:id/match/:matchId': {
+              templateUrl: '/views/tournament/tournament-match-details.html',
+              controller: 'TournamentMatchDetailsCtrl'
+            },
             '/search':{
                 templateUrl: '/views/search.html',
                 controller: 'SearchCtrl'

@@ -60,6 +60,18 @@ define([], function () {
     TOURNAMENT_PAGE_MATCH_FORM_LENGTH: 'Score must be between {{minlength}} and {{maxlength}} digits long',
     TOURNAMENT_PAGE_MATCH_FORM_REQUIRED: 'Score is required',
     TOURNAMENT_PAGE_MATCH_FORM_UPDATE: 'Update Scores',
+    TOURNAMENT_PAGE_MATCH_FORM_DETAILS: 'Edit Details',
+
+    MATCH_DATA_TITLE: 'Edit Match Details',
+    MATCH_DATA_HOME_CHAR: 'Home Character',
+    MATCH_DATA_AWAY_CHAR: 'Away Character',
+    MATCH_DATA_MAP: 'Map',
+    MATCH_DATA_VOD: 'VOD Link',
+    MATCH_DATA_SUBMIT: 'Save',
+    MATCH_DATA_FORM_CHAR_LENGTH: 'Character name must be between {{minlength}} and {{maxlength}} characters long.',
+    MATCH_DATA_FORM_CHAR_PATTERN: 'Character name can only contain letters or numbers.',
+    MATCH_DATA_FORM_VOD_URL: 'VOD Link must be a valid URL',
+    MATCH_DATA_FORM_VOD_URL_LENGTH: 'VOD Link must be at most {{maxlength}} characters long.',
 
 		PLAYER_FORM_NAME_REQUIRED: 'Player name is required',
 		PLAYER_FORM_NAME_LENGTH: 'Player name must be between {{minlength}} and {{maxlength}} characters long.',

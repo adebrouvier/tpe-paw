@@ -474,4 +474,42 @@ public class TournamentRESTController {
     return ts.participatesIn(u.getId(), id);
   }
 
+  @GET
+  @Path("/{id}/match/{matchId}")
+  public Response getMatchById(@PathParam("id") final long id, @PathParam("matchId") final int matchId) {
+    final Match match = ms.findById(matchId, id);
+    if (match != null) {
+      return Response.ok(new MatchDTO(match)).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+  }
+
+  @POST
+  @Path("/{id}/match/{matchId}/details")
+  public Response updateMatch(@PathParam("id") final long id, @PathParam("matchId") final int matchId, MatchDataForm form){
+
+    final Match match = ms.findById(matchId, id);
+
+    if (match == null){
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+    if (!loggedUser.equals(match.getTournament().getCreator())){
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    if (form.getHomePlayerCharacter() != null)
+      ms.setHomePlayerCharacter(form.getHomePlayerCharacter(), id, matchId);
+    if (form.getAwayPlayerCharacter() != null)
+      ms.setAwayPlayerCharacter(form.getAwayPlayerCharacter(), id, matchId);
+    if (form.getMap() != null) ms.setMap(form.getMap(), id, matchId);
+    if (form.getVodLink() != null) ms.setVODLink(form.getVodLink(), id, matchId);
+
+    LOGGER.info("Update match {} from tournament {} description", matchId, id);
+
+    return	Response.ok().build();
+  }
+
 }

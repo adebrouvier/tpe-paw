@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-cloak>
     <h1 class="text-center">{{tournament.name}}</h1>
     <tournament-info/>
     <div class="card text-center">
@@ -30,7 +30,8 @@
                 <div class="bracket-container">
                     <span class="match-id-container">
                         <span class="match-id">{{match.id}}</span>
-                    <span class="triangle"></span>
+                      <span class="triangle"></span>
+                    </span>
                     <a href="#" data-toggle="modal" data-target="#scoreModal" data-backdrop="false"
                         ng-click="openScoreModal(match)">
                         <div class="bracket">
@@ -78,10 +79,10 @@
                                 </thead>
                                 <tbody>
                                     <tr class="modal-top-player">
-                                        <td>{{match.homePlayer.name}}</td>
+                                        <td>{{match.homePlayer.name}} <span ng-show="match.homePlayerCharacter">- </span> <span class="text-muted" ng-bind="match.homePlayerCharacter"></span></td>
                                         <td ng-if='editable(match)' class="modal-player-score">
                                             <input type="number" class="form-control" id="home-input" name="thome"
-                                            ng-model="matchForm.homeResult" ng-value="match.homePlayerScore" required min="0" ng-max-length="3"
+                                            ng-model="matchForm.homeResult" ng-value="match.homePlayerScore" required min="0" ng-maxlength="3"
                                             ng-class="{ 'is-invalid': matchForm.thome.$touched && matchForm.thome.$invalid }">
                                         </td>
                                         <td ng-if="!editable(match)" class="modal-player-score">
@@ -89,11 +90,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{match.awayPlayer.name}}</td>
+                                      <td>{{match.awayPlayer.name}} <span ng-show="match.awayPlayerCharacter">- </span><span class="text-muted" ng-bind="match.awayPlayerCharacter"></span></td>
                                         <td ng-if='editable(match)' class="modal-player-score">
                                             <input type="number" class="form-control" id="away-input"
                                             ng-value="match.awayPlayerScore"
-                                            ng-model="matchForm.awayResult" name="taway" required min="0" ng-max-length="3"
+                                            ng-model="matchForm.awayResult" name="taway" required min="0" ng-maxlength="3"
                                             ng-class="{ 'is-invalid': matchForm.taway.$touched && matchForm.taway.$invalid }">
                                         </td>
                                         <td ng-if="!editable(match)" class="modal-player-score">
@@ -114,6 +115,14 @@
                               <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
                               <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
                             </div>
+                            <div class="card mb-3" ng-show="match.map || match.vodLink">
+                              <div class="card-body text-left">
+                                <span ng-show="match.map"><i class="fas fa-map-marker-alt"></i> Maps: {{match.map}}</span>
+                                <br/>
+                                <span ng-show="match.vodLink"><i class="pull-right fab fa-youtube"></i> VOD: {{match.vodLink}}</span>
+                              </div>
+                            </div>
+                            <a ng-cloak ng-if="editable(match)" ng-href="#/tournament/{{tournament.id}}/match/{{match.id}}" class="card-link btn btn-primary">{{'TOURNAMENT_PAGE_MATCH_FORM_DETAILS' | translate}}</a>
                             <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">{{'TOURNAMENT_PAGE_MATCH_FORM_UPDATE' | translate}}</button>
                         </form>
                     </div>

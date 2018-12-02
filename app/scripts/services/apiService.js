@@ -54,6 +54,11 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
             return $http.delete(apiUrl + resource, config);
         };
 
+        this.getTournament = function(tournamentId){
+            var url = '/tournaments/' + tournamentId;
+            return this.get(url);
+        };
+
         this.getInscriptions = function(tournamentId) {
             var url = '/tournaments/' + tournamentId + '/inscriptions';
             return this.get(url);
@@ -72,6 +77,11 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
         this.rejectPlayer = function(tournamentId, playerId) {
             var url = '/tournaments/' + tournamentId + '/inscriptions/' + playerId;
             return this.delete(url);
+        };
+
+        this.updateMatchData = function(tournamentId, matchId, form) {
+            var url = '/tournaments/' + tournamentId + '/match/' + matchId + '/details';
+            return this.post(url, form);
         };
     });
 });

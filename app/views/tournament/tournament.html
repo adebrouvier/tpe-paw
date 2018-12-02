@@ -8,7 +8,7 @@
                 <label for="name-input">{{'TOURNAMENT_CREATE_NAME' | translate}}</label>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" ng-model="tournamentForm.name" placeholder="{{'TOURNAMENT_CREATE_NAME_PH' | translate}}"
-                        id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ngPattern="[a-zA-Z0-9 ]+"
+                        id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
                         ng-class="{ 'is-invalid': tournamentForm.tname.$touched && tournamentForm.tname.$invalid }" >
                     <div ng-messages="tournamentForm.tname.$error" class="invalid-feedback" ng-if="tournamentForm.tname.$touched">
                         <p ng-message="minlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
