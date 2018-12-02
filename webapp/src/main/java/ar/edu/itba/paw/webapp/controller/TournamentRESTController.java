@@ -46,6 +46,9 @@ public class TournamentRESTController {
   @Autowired
   private InscriptionService is;
 
+  @Autowired
+  private PlayerMeController pmc;
+
   @Context
   private UriInfo uriInfo;
 
@@ -78,8 +81,9 @@ public class TournamentRESTController {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
-    //TODO: parse game
-    final Tournament tournament	=	ts.create(tournamentForm.getName(), 1, loggedUser.getId());
+    Game game = pmc.addGameImage(tournamentForm.getGame());
+
+    final Tournament tournament	=	ts.create(tournamentForm.getName(), game.getId(), loggedUser.getId());
 
     LOGGER.info("Created tournament {} with id {}", tournament.getName(), tournament.getId());
 
