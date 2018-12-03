@@ -83,5 +83,15 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
             var url = '/tournaments/' + tournamentId + '/match/' + matchId + '/details';
             return this.post(url, form);
         };
+
+        this.getRanking = function(id) {
+          var url = '/rankings/' + id;
+          return this.get(url);
+        };
+
+        this.createRanking = function(form) {
+          var url = '/rankings';
+          return this.post(url, form);
+        };
     });
 });
