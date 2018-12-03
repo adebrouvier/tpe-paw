@@ -40,6 +40,22 @@ define([], function() {
               templateUrl: '/views/tournament/tournament-match-details.html',
               controller: 'TournamentMatchDetailsCtrl'
             },
+            '/users/:id': {
+                templateUrl: '/views/users.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/creates': {
+                templateUrl: '/views/userCreates.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/rankings': {
+                templateUrl: '/views/userRankings.html',
+                controller: 'UsersCtrl'
+            },
+            '/users/:id/config': {
+                templateUrl: '/views/userConfig.html',
+                controller: 'UserConfigCtrl'
+            },
             '/search':{
                 templateUrl: '/views/search.html',
                 controller: 'SearchCtrl'

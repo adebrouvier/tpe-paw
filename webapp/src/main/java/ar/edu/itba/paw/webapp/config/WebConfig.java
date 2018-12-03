@@ -38,6 +38,7 @@ public class WebConfig {
     @Bean
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver mr = new CommonsMultipartResolver();
+        mr.setMaxUploadSizePerFile(5000000);
         return mr;
     }
 

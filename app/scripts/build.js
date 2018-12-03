@@ -24,11 +24,13 @@ require.config({
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+        'infinite-scroll': '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll',
         typeahead: '../../bower_components/corejs-typeahead/dist/typeahead.jquery',
         bloodhound: '../../bower_components/corejs-typeahead/dist/bloodhound',
         'angular-animate': '../../bower_components/angular-animate/angular-animate',
         'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar',
         'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle',
+        ngInfiniteScroll: '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll',
         'angular-messages': '../../bower_components/angular-messages/angular-messages'
     },
     shim: {
@@ -59,6 +61,12 @@ require.config({
         },
         'angular-translate': {
             deps: [
+                'angular'
+            ]
+        },
+        'infinite-scroll': {
+            deps: [
+                'jquery',
                 'angular'
             ]
         },
