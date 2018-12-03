@@ -10,14 +10,16 @@ define(['routes',
 	'typeahead',
 	'bloodhound',
 	'angular-loading-bar',
-	'angular-animate'],
+	'angular-animate',
+	'angular-messages'],
 	function(config, dependencyResolverFor, i18n) {
 		var tpePaw = angular.module('tpePaw', [
 			'ngRoute',
 			'pascalprecht.translate',
             'infinite-scroll',
 			'angular-loading-bar',
-			'ngAnimate'
+			'ngAnimate',
+			'ngMessages'
 		]);
 		tpePaw
 			.config(

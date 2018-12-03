@@ -139,7 +139,10 @@ module.exports = function (grunt) {
 
     bower: {
       all: {
-        rjsConfig: '<%= yeoman.app %>/scripts/build.js'
+        rjsConfig: '<%= yeoman.app %>/scripts/build.js',
+        options: {
+          exclude: ['bootstrap']
+        }
       }
     },
 

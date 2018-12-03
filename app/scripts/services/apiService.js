@@ -41,5 +41,47 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
 
             return $http.put(apiUrl + resource, params, config);
         };
+
+        this.delete = function(resource) {
+
+            var config = {};
+
+            if (sessionService.loggedIn()) {
+                config.headers = {};
+                config.headers['Authorization'] = sessionService.currentUser().token;
+            }
+
+            return $http.delete(apiUrl + resource, config);
+        };
+
+        this.getTournament = function(tournamentId){
+            var url = '/tournaments/' + tournamentId;
+            return this.get(url);
+        };
+
+        this.getInscriptions = function(tournamentId) {
+            var url = '/tournaments/' + tournamentId + '/inscriptions';
+            return this.get(url);
+        };
+
+        this.requestJoin = function(tournamentId) {
+            var url = '/tournaments/' + tournamentId + '/inscriptions';
+            return this.post(url);
+        };
+
+        this.acceptPlayer = function(tournamentId, playerId) {
+            var url = '/tournaments/' + tournamentId + '/inscriptions/' + playerId;
+            return this.post(url);
+        };
+
+        this.rejectPlayer = function(tournamentId, playerId) {
+            var url = '/tournaments/' + tournamentId + '/inscriptions/' + playerId;
+            return this.delete(url);
+        };
+
+        this.updateMatchData = function(tournamentId, matchId, form) {
+            var url = '/tournaments/' + tournamentId + '/match/' + matchId + '/details';
+            return this.post(url, form);
+        };
     });
 });

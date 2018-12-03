@@ -2,7 +2,7 @@
 define([], function() {
 
 	return {
-		INDEX_MESSAGE: 'Crea torneos, rankea y jugá!',		
+		INDEX_MESSAGE: 'Crea torneos, rankea y jugá!',
 		INDEX_CREATE_TOURNAMENT: 'Crear Torneo',
 		INDEX_CREATE_RANKING: 'Crear Ranking',
 
@@ -16,6 +16,16 @@ define([], function() {
 		LOGIN_PASSWORD: 'Contraseña',
 		LOGIN_REGISTER_LINK: 'Crear cuenta',
 		LOGIN_REMEMBER_ME: 'Recuerdame',
+
+		TOURNAMENT_TITLE: 'Creá un torneo',
+		TOURNAMENT_CREATE: 'Crear Torneo',
+		TOURNAMENT_CREATE_NAME: 'Nombre',
+		TOURNAMENT_CREATE_NAME_PH: 'Nombre del torneo',
+		TOURNAMENT_CREATE_GAME: 'Juego',
+		TOURNAMENT_FORM_NAME_REQUIRED: 'El nombre de torneo es obligatorio',
+		TOURNAMENT_FORM_NAME_LENGTH: 'El nombre del torneo debe tener entre {{minlength}} y {{maxlength}} caracteres.',
+		TOURNAMENT_FORM_NAME_PATTERN: 'El nombre del torneo solo debe contener letras y números',
+		TOURNAMENT_FORM_GAME_LENGTH: 'El juego puede tener a lo sumo {{maxlength}} caracteres.',
 
 		NAVBAR_LOGIN: 'Entrar',
 		NAVBAR_SIGNUP: 'Registrarse',
