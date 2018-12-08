@@ -26,11 +26,11 @@
                 </form>
                 <button ng-if="tournament.status == 'FINISHED'" class="btn btn-primary">{{'TOURNAMENT_PAGE_FINISHED'|translate}}</button>
             </div>
-            <div ng-repeat="match in tournament.matches">
-                <div class="bracket-container">
+            <div id="tournament-container">
+                <div id="match-{{$index}}" class="bracket-container" ng-repeat="match in tournament.matches" on-finish-render="tournamentFormat()">
                     <span class="match-id-container">
                         <span class="match-id">{{match.id}}</span>
-                      <span class="triangle"></span>
+                        <span class="triangle"></span>
                     </span>
                     <a href="#" data-toggle="modal" data-target="#scoreModal" data-backdrop="false"
                         ng-click="openScoreModal(match)">

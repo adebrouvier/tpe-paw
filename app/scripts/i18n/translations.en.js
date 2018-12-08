@@ -61,6 +61,9 @@ define([], function () {
     TOURNAMENT_PAGE_MATCH_FORM_REQUIRED: 'Score is required',
     TOURNAMENT_PAGE_MATCH_FORM_UPDATE: 'Update Scores',
     TOURNAMENT_PAGE_MATCH_FORM_DETAILS: 'Edit Details',
+    TOURNAMENT_PAGE_FINAL: 'Final',
+    TOURNAMENT_PAGE_SEMIFINAL: 'Semifinal',
+    TOURNAMENT_PAGE_ROUND: 'Round ',
 
     MATCH_DATA_TITLE: 'Edit Match Details',
     MATCH_DATA_HOME_CHAR: 'Home Character',
