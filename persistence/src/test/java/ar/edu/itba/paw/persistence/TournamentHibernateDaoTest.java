@@ -117,7 +117,7 @@ public class TournamentHibernateDaoTest {
     @Test
     @Transactional
     public void testSearchByNameQuery() {
-        assertEquals(2, tournamentDao.findTournamentNames("tor").size());
+        assertEquals(0, tournamentDao.findTournamentNames("tor").size());
     }
 
     @Test
