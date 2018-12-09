@@ -1,4 +1,4 @@
-define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'services/apiService', 'directives/onFinishRender'], function (tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'directives/tournamentInfo', 'services/apiService', 'directives/onFinishRender'], function (tpePaw) {
 
     'use strict';
     tpePaw.controller('TournamentPageCtrl', function ($scope, $location, $routeParams, $filter, titleService, apiService, AuthService) {
