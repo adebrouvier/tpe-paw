@@ -11,7 +11,8 @@ define(['routes',
 	'bloodhound',
 	'angular-loading-bar',
 	'angular-animate',
-	'angular-messages'],
+	'angular-messages',
+  'angular-ui-sortable'],
 	function(config, dependencyResolverFor, i18n) {
 		var tpePaw = angular.module('tpePaw', [
 			'ngRoute',
@@ -19,7 +20,8 @@ define(['routes',
             'infinite-scroll',
 			'angular-loading-bar',
 			'ngAnimate',
-			'ngMessages'
+			'ngMessages',
+      'ui.sortable'
 		]);
 		tpePaw
 			.config(

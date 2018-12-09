@@ -15,6 +15,7 @@ require.config({
         dropdown: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown',
         'es5-shim': '../../bower_components/es5-shim/es5-shim',
         jquery: '../../bower_components/jquery/dist/jquery',
+        'jquery-ui': '../../bower_components/jquery-ui/jquery-ui',
         json3: '../../bower_components/json3/lib/json3',
         moment: '../../bower_components/moment/moment',
         popover: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover',
@@ -31,7 +32,8 @@ require.config({
         'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar',
         'corejs-typeahead': '../../bower_components/corejs-typeahead/dist/typeahead.bundle',
         ngInfiniteScroll: '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll',
-        'angular-messages': '../../bower_components/angular-messages/angular-messages'
+        'angular-messages': '../../bower_components/angular-messages/angular-messages',
+        'angular-ui-sortable': '../../bower_components/angular-ui-sortable/sortable'
     },
     shim: {
         angular: {
@@ -89,6 +91,13 @@ require.config({
         'angular-messages': {
             deps: [
                 'angular'
+            ]
+        },
+        'angular-ui-sortable': {
+            deps: [
+                'angular',
+                'jquery',
+                'jquery-ui'
             ]
         }
     },
