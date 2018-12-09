@@ -7,8 +7,6 @@ import ar.edu.itba.paw.webapp.controller.dto.UserPictureDto;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
-import com.sun.org.apache.regexp.internal.RE;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
