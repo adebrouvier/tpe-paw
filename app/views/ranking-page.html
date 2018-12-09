@@ -8,7 +8,7 @@
                     <a class="nav-link active" href="#">{{'RANKING_PAGE_STANDINGS'|translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{'RANKING_PAGE_TOURNAMENTS'|translate}}</a>
+                    <a class="nav-link" ng-href="#/ranking/{{ranking.id}}/tournaments">{{'RANKING_PAGE_TOURNAMENTS'|translate}}</a>
                 </li>
             </ul>
         </div>
@@ -21,7 +21,7 @@
                         <th scope="col">{{'RANKING_PAGE_STANDINGS_TABLE_POINTS' | translate}}</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="userScore in ranking.userScores">
+                <tbody ng-repeat="userScore in ranking.userScores | orderBy:'-score'">
                     <tr>
                         <td>{{$index + 1}}</td>
                         <td>
@@ -29,6 +29,11 @@
                         </td>
                         <td>{{userScore.score}}</td>
                     </tr>
+                </tbody>
+                <tbody ng-if="ranking.userScores.length == 0">
+                  <tr>
+                     <td colspan="3">{{'RANKING_PAGE_STANDINGS_TABLE_EMPTY' | translate}}</td>
+                  </tr>
                 </tbody>
             </table>
         </div>

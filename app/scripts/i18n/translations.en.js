@@ -61,6 +61,7 @@ define([], function () {
     TOURNAMENT_PAGE_MATCH_FORM_REQUIRED: 'Score is required',
     TOURNAMENT_PAGE_MATCH_FORM_UPDATE: 'Update Scores',
     TOURNAMENT_PAGE_MATCH_FORM_DETAILS: 'Edit Details',
+    TOURNAMENT_AUTOCOMPLETE: 'Tournaments',
 
     MATCH_DATA_TITLE: 'Edit Match Details',
     MATCH_DATA_HOME_CHAR: 'Home Character',
@@ -156,6 +157,28 @@ define([], function () {
 		RANKING_PAGE_STANDINGS_TABLE_RANK: 'Rank',
 		RANKING_PAGE_STANDINGS_TABLE_USER: 'User',
 		RANKING_PAGE_STANDINGS_TABLE_POINTS: 'Points',
+    RANKING_PAGE_STANDINGS_TABLE_EMPTY: 'This ranking has no users yet.',
+    RANKING_PAGE_FORM_TOURNAMENT_REQUIRED: 'Tournament name is required',
+    RANKING_PAGE_FORM_TOURNAMENT_LENGTH: 'Tournament name must be between {{minlength}} and {{maxlength}} characters long.',
+    RANKING_PAGE_FORM_TOURNAMENT_PATTERN: 'Tournament name can only contain letters or numbers.',
+    RANKING_TOURNAMENT_MIN_POINTS: 'The minimum amount of points that can be awarded is 10.',
+    RANKING_TOURNAMENT_FORM_POINTS_REQUIRED: 'You must award points',
+    RANKING_PAGE_FORM_POINTS_LENGTH: 'Score must have between {{minlength}} and {{maxlength}} digits.',
+    RANKING_CREATE_NAME_PH: 'Ranking name',
+    RANKING_FORM_NAME_REQUIRED: 'Ranking name is required',
+    RANKING_FORM_NAME_LENGTH: 'Ranking name must be between {{minlength}} and {{maxlength}} characters long.',
+    RANKING_FORM_NAME_PATTERN: 'Ranking name can only contain letters or numbers.',
+    RANKING_FORM_GAME_LENGTH: 'Game must be at most {{maxlength}} characters long.',
+    RANKING_TOURNAMENTS_TABLE_TOURNAMENT: 'Tournament',
+    RANKING_TOURNAMENTS_TABLE_POINTS: 'Points',
+    RANKING_TOURNAMENTS_TABLE_EMPTY: 'This ranking has no tournaments yet.',
+    RANKING_TOURNAMENTS_TABLE_REMOVE: 'Remove',
+    RANKING_TOURNAMENT_FORM_ADD_TITLE: 'Add tournament',
+    RANKING_TOURNAMENT_FORM_RANKING_NOTE: 'Note: you can only add same game and finished tournaments.',
+    RANKING_PAGE_FORM_TOURNAMENT_PH: 'Tournament name',
+    RANKING_PAGE_FORM_POINTS_PH: 'Points',
+    RANKING_PAGE_FORM_TOURNAMENT_INVALID: 'Can not add this tournament',
+    RANKING_PAGE_FORM_TOURNAMENT_CHECKING: 'Checking tournament...',
 
-	};
+  };
 });

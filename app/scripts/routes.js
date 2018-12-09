@@ -72,6 +72,10 @@ define([], function() {
                 templateUrl: '/views/ranking-page.html',
                 controller: 'RankingPageCtrl'
             },
+            '/ranking/:id/tournaments': {
+              templateUrl: '/views/ranking-tournaments.html',
+              controller: 'RankingTournamentsCtrl'
+            },
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */
         }

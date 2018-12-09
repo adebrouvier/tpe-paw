@@ -72,5 +72,9 @@ public class RankingServiceImpl implements RankingService {
         return rankingDao.findRankingByUserPage(userId, page);
     }
 
+    @Override
+    public boolean checkValidTournament(long id, String name) {
+      return rankingDao.checkValidTournament(id, name);
+    }
 
 }

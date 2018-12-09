@@ -4,11 +4,8 @@ import ar.edu.itba.paw.interfaces.service.NotificationService;
 import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.SecurityService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
-import ar.edu.itba.paw.model.Ranking;
-import ar.edu.itba.paw.model.Tournament;
-import ar.edu.itba.paw.model.TournamentPoints;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.webapp.controller.dto.RankingDTO;
+import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.webapp.controller.dto.*;
 import ar.edu.itba.paw.webapp.form.RankingForm;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
@@ -19,13 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Path("rankings")
 @Component
@@ -74,16 +70,16 @@ public class RankingRESTController {
 
     final User loggedUser = ss.getLoggedUser();
 
-    pmc.addGameImage(rankingForm.getGame());
+    Game game = pmc.addGameImage(rankingForm.getGame());
 
     //TODO: constructor without tMap?
     Map<Tournament, Integer> tMap = new HashMap<>();
-    final Ranking ranking	=	rs.create(rankingForm.getName(), tMap, rankingForm.getName(), loggedUser.getId());
+    final Ranking ranking	=	rs.create(rankingForm.getName(), tMap, game.getName(), loggedUser.getId());
 
     LOGGER.info("Created ranking {} with id {}", ranking.getName(), ranking.getId());
 
     final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(ranking.getId())).build();
-    return	Response.created(uri).build();
+    return	Response.created(uri).entity(new RankingDTO(ranking)).build();
   }
 
   @POST
@@ -128,7 +124,12 @@ public class RankingRESTController {
 
     ns.createAddTournamentToRankingNotification(loggedUser, tournament, ranking);
 
-    return Response.ok().build();
+    final List<TournamentPointsDTO> points = rs.findById(id).getTournaments().stream()
+      .map(TournamentPointsDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) { };
+    return	Response.ok(pointsList).build();
   }
 
   @DELETE
@@ -151,6 +152,20 @@ public class RankingRESTController {
     rs.delete(id, tournamentId);
     LOGGER.info("Deleted tournament {} from ranking {}", tournamentId, id);
 
-    return Response.ok().build();
+    final List<TournamentPointsDTO> points = rs.findById(id).getTournaments().stream()
+      .map(TournamentPointsDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) { };
+    return	Response.ok(pointsList).build();
+  }
+
+  @GET
+  @Path("{id}/tournament/{tournament}")
+  public Response validTournament(@PathParam("id") final long id, @PathParam("tournament") String name){
+
+    boolean valid = rs.checkValidTournament(id, name);
+
+    return Response.ok(new ValidDTO(valid)).build();
   }
 }

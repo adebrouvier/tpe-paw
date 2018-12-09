@@ -93,5 +93,20 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
           var url = '/rankings';
           return this.post(url, form);
         };
+
+        this.addTournament = function(rankingId, form) {
+          var url = '/rankings/' + rankingId + '/tournaments';
+          return this.post(url, form);
+        };
+
+        this.removeTournament = function(rankingId, tournamentId) {
+          var url = '/rankings/' + rankingId + '/tournaments/' + tournamentId;
+          return this.delete(url);
+        };
+
+        this.validTournament = function(rankingId, tournamentName){
+          var url = '/rankings/' + rankingId + '/tournament/' + tournamentName;
+          return this.get(url);
+        };
     });
 });
