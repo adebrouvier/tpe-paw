@@ -109,7 +109,7 @@ define([], function () {
     USER_UNFOLLOW: 'Unfollow',
     USER_FOLLOWERS: 'Followers ',
     USER_PARTICIPATES: 'Participates',
-    USER_CREATES: 'Creates',
+    USER_CREATES: 'Created',
     USER_RANKINGS: 'Rankings',
     USER_BRACKET: 'Bracket',
     USER_STANDING: 'Standing',

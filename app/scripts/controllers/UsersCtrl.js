@@ -1,13 +1,14 @@
 'use strict';
-define(['tpePaw', 'services/titleService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
-  tpePaw.controller('UsersCtrl', function($scope, $http, $location, $routeParams, titleService) {
+  tpePaw.controller('UsersCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService) {
 
     $scope.user = {};
     $scope.participates = [];
     $scope.creates = [];
     $scope.rankings = [];
-    $scope.userId = $routeParams.id;
+    $scope.username = $routeParams.username;
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
     $scope.userParticipatedTournaments = 1;
     $scope.userCreatedTournaments = 1;
     $scope.userCreatedRankings = 1;
@@ -15,16 +16,37 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.hasCreatesData = true;
     $scope.hasRankingsData = true;
     $scope.busy = false;
+
     $scope.goConfigPage = function () {
-      window.location = '/#/users/' + $scope.userId + '/config';
+      window.location = '/#/users/' + $scope.username + '/config';
     };
 
-    $http.get('http://localhost:8080/users/' + $scope.userId)
+    $scope.follow = function () {
+      $scope.user.follow = true;
+      apiService.post('/users/' + $scope.username + '/follow', '').
+      then(function successCallback(response) {
+        $scope.user.followersAmount += 1;
+      }, function errorCallback(response) {
+        $scope.user.follow = false;
+      });
+    };
+
+    $scope.unfollow = function () {
+      $scope.user.follow = false;
+      apiService.post('/users/' + $scope.username + '/unfollow', '').
+      then(function successCallback(response) {
+        $scope.user.followersAmount -= 1;
+      }, function errorCallback(response) {
+        $scope.user.follow = true;
+      });
+    };
+
+    apiService.get('/users/' + $scope.username, '')
       .then(function successCallback(response) {
         $scope.user = response.data;
         if ($scope.user.hasOwnProperty('participates')) {
           var length = response.data.participates.length;
-          for (var i = 0; i < length ; i++) {
+          for (var i = 0; i < length; i++) {
             $scope.participates.push(response.data.participates[i]);
           }
         }
@@ -48,7 +70,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.loadParticipatedTournaments = function () {
       if (document.getElementById('participates').classList.item(2) === 'active') {
         $scope.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/participated-tournaments?page=' + $scope.userParticipatedTournaments)
+        apiService.get('/users/' + $scope.username + '/participated-tournaments?page=' + $scope.userParticipatedTournaments, '')
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('participates')) {
               var pLength = response.data.participates.length;
@@ -72,7 +94,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.loadCreatedTournaments = function () {
       if (document.getElementById('creates').classList.item(2) === 'active') {
         $scope.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/created-tournaments?page=' + $scope.userCreatedTournaments)
+        apiService.get('/users/' + $scope.username + '/created-tournaments?page=' + $scope.userCreatedTournaments, '')
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('creates')) {
               var pLength = response.data.creates.length;
@@ -96,7 +118,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
     $scope.loadCreatedRankings = function () {
       if (document.getElementById('rankings').classList.item(2) === 'active') {
         this.busy = true;
-        $http.get('http://localhost:8080/users/' + $scope.userId + '/created-rankings?page=' + $scope.userCreatedRankings)
+        apiService.get('/users/' + $scope.username + '/created-rankings?page=' + $scope.userCreatedRankings, '')
           .then(function successCallback(response) {
             if (response.data.hasOwnProperty('rankings')) {
               var pLength = response.data.rankings.length;
