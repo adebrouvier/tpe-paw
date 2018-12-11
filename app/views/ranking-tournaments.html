@@ -1,0 +1,80 @@
+<div class="container">
+  <h1 class="text-center">{{ranking.name}}</h1>
+  <ranking-info/>
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs nav-fill">
+        <li class="nav-item">
+          <a class="nav-link" ng-href="#/ranking/{{ranking.id}}">{{'RANKING_PAGE_STANDINGS'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">{{'RANKING_PAGE_TOURNAMENTS'|translate}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">{{'RANKING_TOURNAMENTS_TABLE_TOURNAMENT' | translate}}</th>
+          <th scope="col">{{'RANKING_TOURNAMENTS_TABLE_POINTS' | translate}}</th>
+          <th ng-if="loggedUser == ranking.creator.username">
+              Actions
+          </th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="tournamentPoints in ranking.tournamentPoints | orderBy:'-awardedPoints'">
+        <tr>
+          <td>
+            <a ng-href="#/tournament/{{tournamentPoints.tournamentId}}">{{tournamentPoints.tournamentName}}</a>
+          </td>
+          <td>{{tournamentPoints.awardedPoints}}</td>
+          <td ng-if="loggedUser == ranking.creator.username">
+              <button ng-click="removeTournament(tournamentPoints.tournamentId)" class="btn btn-danger">{{'RANKING_TOURNAMENTS_TABLE_REMOVE'|translate}}</button>
+          </td>
+        </tr>
+        </tbody>
+        <tbody ng-if="ranking.tournamentPoints.length == 0">
+        <tr>
+          <td colspan="2">{{'RANKING_TOURNAMENTS_TABLE_EMPTY' | translate}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="text-left" ng-show="loggedUser == ranking.creator.username">
+        <h3>{{'RANKING_TOURNAMENT_FORM_ADD_TITLE' | translate}}</h3>
+        <form novalidate ng-submit="addTournament()" name="rankingPageForm">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="tournament-input" placeholder="{{'RANKING_PAGE_FORM_TOURNAMENT_PH' | translate}}"
+                     tournament-autocomplete game="{{ranking.game.id}}" valid-tournament ranking="{{ranking.id}}"
+                     ng-model="rankingPageForm.tournamentName" name="ttournament" required ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
+                     ng-class="{ 'is-invalid': rankingPageForm.ttournament.$touched && rankingPageForm.ttournament.$invalid }" >
+              <div ng-messages="rankingPageForm.ttournament.$error" class="invalid-feedback d-block" ng-if="rankingPageForm.ttournament.$touched">
+                <p ng-message="minlength">{{'RANKING_PAGE_FORM_TOURNAMENT_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                <p ng-message="maxlength">{{'RANKING_PAGE_FORM_TOURNAMENT_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                <p ng-message="required">{{'RANKING_PAGE_FORM_TOURNAMENT_REQUIRED' | translate}}</p>
+                <p ng-message="pattern">{{'RANKING_PAGE_FORM_TOURNAMENT_PATTERN' | translate}}</p>
+                <p ng-message="validTournament">{{'RANKING_PAGE_FORM_TOURNAMENT_PATTERN' | translate}}</p>
+              </div>
+              <p ng-if="rankingPageForm.ttournament.$pending" class="text-muted">Checking tournament...</p>
+            </div>
+            <div class="form-group col-md-3">
+              <input type="number" name="tpoints" class="form-control" id="points-input" placeholder="{{'RANKING_PAGE_FORM_POINTS_PH' | translate}}"
+                     ng-model="rankingPageForm.points" min="10" ng-maxlength="5"
+                     ng-class="{ 'is-invalid': rankingPageForm.tpoints.$touched && rankingPageForm.tpoints.$invalid }">
+              <div ng-messages="rankingPageForm.tpoints.$error" class="invalid-feedback" ng-if="rankingPageForm.tpoints.$touched">
+                <p ng-message="min">{{'RANKING_TOURNAMENT_MIN_POINTS' | translate }}</p>
+                <p ng-message="required">{{'RANKING_TOURNAMENT_FORM_POINTS_REQUIRED' | translate}}</p>
+                <p ng-message="maxlength">{{'RANKING_PAGE_FORM_POINTS_LENGTH' | translate: '{ minlength: "2", maxlength: "5"}' }}</p>
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <button type="submit" class="btn btn-primary" ng-disabled="rankingPageForm.$invalid || rankingPageForm.$pending">{{'PLAYER_FORM_ADD_BUTTON' | translate}}</button>
+            </div>
+          </div>
+        </form>
+        <p class="text-muted">{{'RANKING_TOURNAMENT_FORM_RANKING_NOTE' | translate}}</p>
+      </div>
+    </div>
+  </div>
+</div>

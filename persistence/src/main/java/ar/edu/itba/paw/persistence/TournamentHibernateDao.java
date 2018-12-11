@@ -59,7 +59,8 @@ public class TournamentHibernateDao implements TournamentDao {
         sb.insert(0, "%");
         sb.append("%");
 
-        TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t WHERE lower(t.name) LIKE :name", String.class);
+        TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t WHERE lower(t.name) LIKE :name AND t.status = :status", String.class);
+        query.setParameter("status", Tournament.Status.FINISHED);
         query.setParameter("name", sb.toString());
 
         return query.getResultList();
@@ -72,9 +73,10 @@ public class TournamentHibernateDao implements TournamentDao {
         sb.append("%");
 
         TypedQuery<String> query = em.createQuery("SELECT t.name from Tournament as t " +
-                "WHERE lower(t.name) LIKE :name AND game.id = :gameId", String.class);
+                "WHERE lower(t.name) LIKE :name AND game.id = :gameId AND t.status = :status", String.class);
         query.setParameter("name", sb.toString());
         query.setParameter("gameId", gameId);
+        query.setParameter("status", Tournament.Status.FINISHED);
 
         return query.getResultList();
     }

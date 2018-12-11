@@ -84,6 +84,31 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
             return this.post(url, form);
         };
 
+        this.getRanking = function(id) {
+          var url = '/rankings/' + id;
+          return this.get(url);
+        };
+
+        this.createRanking = function(form) {
+          var url = '/rankings';
+          return this.post(url, form);
+        };
+
+        this.addTournament = function(rankingId, form) {
+          var url = '/rankings/' + rankingId + '/tournaments';
+          return this.post(url, form);
+        };
+
+        this.removeTournament = function(rankingId, tournamentId) {
+          var url = '/rankings/' + rankingId + '/tournaments/' + tournamentId;
+          return this.delete(url);
+        };
+
+        this.validTournament = function(rankingId, tournamentName){
+          var url = '/rankings/' + rankingId + '/tournament/' + tournamentName;
+          return this.get(url);
+        };
+
         this.updateUser = function(username, formData, metadata) {
           return $http.put(apiUrl + '/users/' + username, formData, metadata)
         };

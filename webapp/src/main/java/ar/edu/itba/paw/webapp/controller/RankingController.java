@@ -44,7 +44,7 @@ public class RankingController {
         return mav;
     }
 
-    @RequestMapping(value = "/create/ranking", method = {RequestMethod.POST})
+    /*@RequestMapping(value = "/create/ranking", method = {RequestMethod.POST})
     public ModelAndView createRanking(@Valid @ModelAttribute("rankingForm") final RankingForm rankingForm, final BindingResult errors, @ModelAttribute("loggedUser") User loggedUser) {
 
         if (errors.hasErrors()) {
@@ -58,7 +58,7 @@ public class RankingController {
         LOGGER.info("Created Ranking with id {}", r.getId());
 
         return new ModelAndView("redirect:/ranking/" + r.getId());
-    }
+    }*/
 
     @ModelAttribute("loggedUser")
     public User loggedUser() {

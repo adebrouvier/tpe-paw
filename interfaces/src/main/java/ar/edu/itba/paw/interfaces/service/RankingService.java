@@ -80,4 +80,6 @@ public interface RankingService {
     List<Ranking> findRankingByUserPage(long userId, int page);
 
     List<PopularRankingDTO> findPopularRankings(int rankings);
+
+    boolean checkValidTournament(long id, String name);
 }

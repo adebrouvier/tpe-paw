@@ -549,4 +549,27 @@ public class TournamentRESTController {
     return	Response.ok().build();
   }
 
+  /**
+   * Used by Bloodhound to get tournament names
+   *
+   * @param query term to search
+   * @return an array of tournament names
+   */
+  @GET
+  @Path("/autocomplete")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response tournamentAutocomplete(@QueryParam("q") String query, @QueryParam("game") Long game) {
+
+    List<String> names;
+
+    if (game == null) {
+      names = ts.findTournamentNames(query);
+    } else {
+      names = ts.findTournamentNames(query, game);
+    }
+
+    GenericEntity<AutocompleteDTO> entity = new GenericEntity<AutocompleteDTO>(new AutocompleteDTO(names)) {};
+
+    return Response.ok(entity).build();
+  }
 }

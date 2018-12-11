@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class RankingHibernateDao implements RankingDao {
@@ -290,6 +291,31 @@ public class RankingHibernateDao implements RankingDao {
                 .setMaxResults(5);
         List<Ranking> list = q.getResultList();
         return list.isEmpty() ? null : list;
+    }
+
+    @Override
+    public boolean checkValidTournament(long id, String name) {
+
+      Ranking ranking = findById(id);
+
+      if (ranking == null || name == null){
+        return false;
+      }
+
+      List<String> possibleTournaments = tournamentDao.findTournamentNames(name, ranking.getGame().getId());
+
+      if (!possibleTournaments.contains(name)){
+        return false;
+      }
+
+      List<String> currentTournaments = ranking.getTournaments().stream()
+                                                                  .map(x -> x.getTournament().getName())
+                                                                  .collect(Collectors.toList());
+      if (currentTournaments.contains(name)){
+        return false;
+      }
+
+      return true;
     }
 
     public EntityManager getEntityManager() {

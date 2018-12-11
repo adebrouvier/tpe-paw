@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="text-center">
+                <h2>{{'RANKING_TITLE' | translate}}</h2>
+            </div>
+            <form novalidate ng-submit="processForm()" name="rankingForm">
+                <label for="name-input">{{'RANKING_NAME' | translate}}</label>
+                <div class="input-group mb-2">
+                  <input type="text" class="form-control" ng-model="rankingForm.name" placeholder="{{'RANKING_CREATE_NAME_PH' | translate}}"
+                         id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
+                         ng-class="{ 'is-invalid': rankingForm.tname.$touched && rankingForm.tname.$invalid }" >
+                  <div ng-messages="rankingForm.tname.$error" class="invalid-feedback" ng-if="rankingForm.tname.$touched">
+                    <p ng-message="minlength">{{'RANKING_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                    <p ng-message="maxlength">{{'RANKING_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                    <p ng-message="required">{{'RANKING_FORM_NAME_REQUIRED' | translate}}</p>
+                    <p ng-message="pattern">{{'RANKING_FORM_NAME_PATTERN' | translate}}</p>
+                  </div>
+                </div>
+                <label for="game-input">{{'RANKING_GAME' | translate}}</label>
+                <div class="input-group mb-3">
+                    <input type="text" game-autocomplete class="form-control" ng-model="rankingForm.game" placeholder="{{'RANKING_GAME' | translate}}"
+                        id="game-input" name="tgame" required autocomplete="off"
+                        ng-class="{ 'is-invalid': rankingForm.tgame.$touched && rankingForm.tgame.$invalid }" >
+                    <div ng-messages="rankingForm.tgame.$error" class="invalid-feedback" ng-if="rankingForm.tgame.$touched">
+                      <p ng-message="required">{{'RANKING_FORM_NAME_REQUIRED' | translate}}</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit" ng-disabled="rankingForm.$invalid">{{'RANKING_CREATE' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
