@@ -3,7 +3,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -56,7 +56,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
         };
 
 
-        return $http.put('/users/' + $scope.username, formData, metadata)
+        return apiService.updateUser($scope.username, formData, metadata)
           .then(function(response) {
             window.location = '/#/users/' + $scope.username;
           })

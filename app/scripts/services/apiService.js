@@ -41,5 +41,9 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
 
             return $http.put(apiUrl + resource, params, config);
         };
+
+        this.updateUser = function(username, formData, metadata) {
+          return $http.put(apiUrl + '/users/' + username, formData, metadata)
+        };
     });
 });

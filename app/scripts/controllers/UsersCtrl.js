@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
-  tpePaw.controller('UsersCtrl', function($scope, $http, $location, $routeParams, titleService, AuthService, apiService) {
+  tpePaw.controller('UsersCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService) {
 
     $scope.user = {};
     $scope.participates = [];
