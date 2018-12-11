@@ -20,7 +20,6 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
         this.post = function(resource, params) {
 
             var config = {};
-            console.log(params);
 
             if (sessionService.loggedIn()) {
                 config.headers = {};

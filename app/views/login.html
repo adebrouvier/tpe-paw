@@ -3,6 +3,9 @@
         <div class="col-sm-12 col-md-6 offset-md-3">
             <div class="text-center"><h2>{{'LOGIN_TITLE' | translate}}</h2></div>
             <form ng-submit="login()">
+                <div ng-if="invalidCredentials" class="alert alert-danger" role="alert">
+                  {{'LOGIN_INVALID_CREDENTIALS' | translate}}
+                </div>
                 <label for="login-input">{{'LOGIN_USERNAME' | translate}}</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

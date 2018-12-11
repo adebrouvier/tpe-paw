@@ -16,6 +16,7 @@ define([], function () {
 		LOGIN_PASSWORD: 'Password',
 		LOGIN_REGISTER_LINK: 'Create an account',
 		LOGIN_REMEMBER_ME: 'Remember me',
+    LOGIN_INVALID_CREDENTIALS: 'Invalid username or password',
 
 		NAVBAR_LOGIN: 'Login',
 		NAVBAR_SIGNUP: 'Sign up',

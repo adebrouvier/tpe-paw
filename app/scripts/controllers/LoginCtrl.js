@@ -8,7 +8,12 @@ define(['tpePaw', 'services/titleService', 'services/authService'], function(tpe
     	$scope.loginForm = {};
 
         $scope.login = function () {
-            AuthService.login($scope.loginForm);
+            AuthService.login($scope.loginForm)
+                .catch(function(error) {
+                  if (error.status === 401){
+                    $scope.invalidCredentials = true;
+                  }
+            });
         };
     });
 });

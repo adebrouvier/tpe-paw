@@ -11,7 +11,7 @@ define(['tpePaw', 'services/apiService', 'services/sessionService'], function(tp
 
             loginForm.rememberMe = undefined; // remove remember me field
 
-            apiService.post('/login', loginForm)
+            return apiService.post('/login', loginForm)
                     .then(function successCallback(response) {
 
                         if (response.headers('Authorization')) {
@@ -28,10 +28,7 @@ define(['tpePaw', 'services/apiService', 'services/sessionService'], function(tp
                             }
                             $location.path('/');
                         }
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        console.log('Login ERROR');
-            });
+                    });
         };
 
         this.logout = function() {
