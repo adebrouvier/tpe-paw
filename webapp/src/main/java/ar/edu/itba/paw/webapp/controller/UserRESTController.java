@@ -2,8 +2,11 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.webapp.controller.dto.AuthenticationDTO;
 import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
 import ar.edu.itba.paw.webapp.controller.dto.UserPictureDto;
+import ar.edu.itba.paw.webapp.controller.dto.ValidDTO;
+import ar.edu.itba.paw.webapp.form.RegisterForm;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
 import ar.edu.itba.paw.webapp.form.validation.ValidationException;
@@ -82,6 +85,39 @@ public class UserRESTController {
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @POST
+    @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+    public	Response	createUser(final RegisterForm form) throws ValidationException {
+
+      validator.validate(form, "Failed to validate user credentials");
+
+      if (us.findByName(form.getUsername()) != null){
+        return Response.status(Response.Status.FORBIDDEN).build();
+      }
+
+      final	User	user	=	us.create(form.getUsername(),	passwordEncoder.encode(form.getPassword()));
+
+      LOGGER.info("Registered user {} with id {}", user.getName(), user.getId());
+
+      final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
+
+      return	Response.created(uri).entity(new UserDTO(user)).build();
+    }
+
+    @GET
+    @Path("/{username}/available")
+    @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+    public	Response	availableUsername(@PathParam("username") final String username) {
+
+      boolean valid = false;
+
+      if (us.findByName(username) == null) {
+        valid = true;
+      }
+
+      return Response.ok(new ValidDTO(valid)).build();
     }
 
     @GET

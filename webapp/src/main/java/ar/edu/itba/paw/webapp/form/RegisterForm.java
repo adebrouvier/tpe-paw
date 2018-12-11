@@ -9,12 +9,10 @@ import javax.validation.constraints.Size;
 /**
  * Form for registering users
  */
-@FieldMatch(first = "password", second = "repeatPassword")
 public class RegisterForm {
 
     @Size(min = 6, max = 16)
     @Pattern(regexp = "[a-zA-Z0-9]+")
-    @UniqueUsername
     private String username;
 
     @Size(min = 6, max = 100)

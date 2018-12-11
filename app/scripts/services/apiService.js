@@ -111,5 +111,15 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
         this.updateUser = function(username, formData, metadata) {
           return $http.put(apiUrl + '/users/' + username, formData, metadata)
         };
+
+        this.register = function(form) {
+          var url = '/users';
+          return this.post(url, form);
+        };
+
+        this.availableUsername = function(username) {
+          var url = '/users/' + username + '/available';
+          return this.get(url);
+        };
     });
 });

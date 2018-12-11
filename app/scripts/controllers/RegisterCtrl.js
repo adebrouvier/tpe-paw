@@ -1,21 +1,35 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/apiService', 'services/authService', 'directives/availableUsername', 'directives/fieldMatch'], function (tpePaw) {
 
-    tpePaw.controller('RegisterCtrl', function($scope, $filter, titleService, apiService) {
+  tpePaw.controller('RegisterCtrl', function ($scope, $filter, $location, titleService, apiService, AuthService) {
 
-        titleService.setTitle($filter('translate')('REGISTER_TITLE') + ' - Versus');
+    titleService.setTitle($filter('translate')('REGISTER_TITLE') + ' - Versus');
 
-    	$scope.registerForm = {};
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
-    	$scope.processForm = function () {
+    if ($scope.loggedUser !== undefined) {
+      $location.path('/');
+    }
 
-            apiService.post('/users', $scope.registerForm)
-                .then(function successCallback(response) {
-                    console.log('Successfully registered user');
-                }, function errorCallback(response) {
-                    console.log('Register ERROR');
-                });
-        };
-    });
+    $scope.registerForm = {};
+
+    $scope.processForm = function () {
+
+      if ($scope.registerForm.$valid) {
+        apiService.register($scope.registerForm)
+          .then(function successCallback(response) {
+
+            var loginForm = {
+              username: $scope.registerForm.username,
+              password: $scope.registerForm.password
+            };
+
+            AuthService.login(loginForm);
+          }, function errorCallback(response) {
+            console.log('Register ERROR');
+          });
+      }
+    };
+  });
 });
 
