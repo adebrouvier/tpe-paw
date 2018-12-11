@@ -16,6 +16,30 @@ define([], function() {
                 templateUrl: '/views/login.html',
                 controller: 'LoginCtrl'
             },
+            '/tournament': {
+                templateUrl: '/views/tournament/tournament.html',
+                controller: 'TournamentCtrl'
+            },
+            '/tournament/:id': {
+                templateUrl: '/views/tournament/tournament-page.html',
+                controller: 'TournamentPageCtrl'
+            },
+            '/tournament/:id/standings': {
+                templateUrl: '/views/tournament/tournament-standings.html',
+                controller: 'TournamentStandingsCtrl'
+            },
+            '/tournament/:id/players': {
+                templateUrl: '/views/tournament/tournament-players.html',
+                controller: 'TournamentPlayersCtrl'
+            },
+            '/tournament/:id/comments': {
+                templateUrl: '/views/tournament/tournament-comments.html',
+                controller: 'TournamentCommentsCtrl'
+            },
+            '/tournament/:id/match/:matchId': {
+              templateUrl: '/views/tournament/tournament-match-details.html',
+              controller: 'TournamentMatchDetailsCtrl'
+            },
             '/users/:username': {
                 templateUrl: '/views/users.html',
                 controller: 'UsersCtrl'
