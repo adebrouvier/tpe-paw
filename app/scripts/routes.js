@@ -63,6 +63,10 @@ define([], function() {
             '/404':{
                 templateUrl: '/views/404.html',
                 controller: '404Ctrl'
+            },
+            '/notifications/:username': {
+                templateUrl: '/views/notifications.html',
+                controller: 'NotificationsCtrl'
             }
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */

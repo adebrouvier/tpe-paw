@@ -38,6 +38,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(HttpMethod.POST).authenticated()
           .antMatchers(HttpMethod.DELETE).authenticated()
           .antMatchers(HttpMethod.PUT).authenticated()
+          .antMatchers(HttpMethod.GET, "/notifications/**").authenticated()
           .anyRequest().permitAll()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))

@@ -40,6 +40,9 @@
           <nav class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak="">
             <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" href="#/login"></a>
             <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" href="#/register"></a>
+            <a ng-if="loggedIn" class="btn btn-light" href ng-click="goToNotifications()">
+              <span class="oi" data-glyph="bell" title="bell" aria-hidden="true"></span> <span ng-show="unreadNotifications != 0" class="badge badge-danger"> {{unreadNotifications}}</span>
+            </a>
             <a ng-if="loggedIn" class="btn btn-light" href="#/">
               <span class="oi" data-glyph="person" title="person" aria-hidden="true" ng-bind="currentUser.username"></span>
             </a>
