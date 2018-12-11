@@ -33,11 +33,13 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-          .antMatchers(HttpMethod.POST, "/login").permitAll()
-          .antMatchers(HttpMethod.POST, "/users").permitAll()
-          .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
+          .antMatchers(HttpMethod.POST, "/login").anonymous()
+          .antMatchers(HttpMethod.POST, "/users").anonymous()
+          .antMatchers(HttpMethod.POST).authenticated()
+          .antMatchers(HttpMethod.DELETE).authenticated()
+          .antMatchers(HttpMethod.PUT).authenticated()
           .antMatchers(HttpMethod.GET, "/notifications/**").authenticated()
-          .anyRequest().anonymous()
+          .anyRequest().permitAll()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))
           .addFilter(new JwtAuthorizationFilter(authenticationManager()))
@@ -75,8 +77,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     configuration.addAllowedOrigin("*");
-    configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Accept"));
-    configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+    configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Accept"));
     configuration.setAllowedMethods(Arrays.asList("GET","DELETE", "POST", "OPTIONS", "PUT"));
     source.registerCorsConfiguration("/**", configuration);
     return source;

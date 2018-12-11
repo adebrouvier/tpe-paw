@@ -1,0 +1,93 @@
+<div class="container">
+    <h1 class="text-center">{{tournament.name}}</h1>
+    <tournament-info/>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/standings">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" ng-href="#">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div ng-repeat="comment in comments" class="text-left">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p class="card-text">{{comment.comment}}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a ng-href="#/users/{{comment.creator.id}}">{{comment.creator.username}}</a> - {{comment.date | date: 'medium' }}
+                        <button ng-hide="loggedUser == undefined" type="button" class="btn btn-link" data-toggle="modal" data-target="#replyModal" data-backdrop="false"
+                            ng-click="openReplyModal(comment)">
+                            {{'COMMENT_REPLY_SUBMIT' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <div ng-repeat="reply in comment.children">
+                    <div class="card mb-3 reply-comment">
+                        <div class="card-body">
+                            <p class="card-text">{{reply.comment}}</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a ng-href="#/users/{{reply.creator.id}}">{{reply.creator.username}}</a> - {{reply.date | date: 'medium' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="loggedUser == undefined" class="card text-left">
+                <div class="card-body">
+                    <form novalidate ng-submit="addComment()" name="commentForm">
+                        <div class="form-group">
+                            <textarea type="text" class="form-control" id="comment-input" placeholder="{{'COMMENT_FORM_PLACEHOLDER' | translate }}"
+                                ng-model="commentForm.comment" name="tcomment" required ng-minlength="2" ng-maxlength="200"
+                                ng-class="{ 'is-invalid': commentForm.tcomment.$touched && commentForm.tcomment.$invalid }"></textarea>
+                            <div ng-messages="commentForm.tcomment.$error" class="invalid-feedback" ng-if="commentForm.tcomment.$touched">
+                                <p ng-message="minlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "2", maxlength: "200"}' }}</p>
+                                <p ng-message="maxlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "2", maxlength: "200"}' }}</p>
+                                <p ng-message="required">{{'COMMENT_FORM_REQUIRED' | translate}}</p>
+                            </div>
+                        </div>
+                        <button type="submit" class="card-link btn btn-primary" ng-disabled="commentForm.$invalid">{{'COMMENT_SUBMIT' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="replyModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="replyModalLabel">{{'COMMENT_REPLY_FORM_PLACEHOLDER' | translate }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form novalidate ng-submit="addReply()" name="replyForm">
+                                <div class="form-group">
+                                    <textarea type="text" class="form-control" id="comment-input" placeholder="{{'COMMENT_REPLY_FORM_PLACEHOLDER' | translate }}"
+                                        ng-model="replyForm.reply" name="treply" required ng-minlength="2" ng-maxlength="200"
+                                        ng-class="{ 'is-invalid': replyForm.treply.$touched && replyForm.treply.$invalid }"></textarea>
+                                    <div ng-messages="replyForm.treply.$error" class="invalid-feedback" ng-if="replyForm.treply.$touched">
+                                        <p ng-message="minlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "2", maxlength: "200"}' }}</p>
+                                        <p ng-message="maxlength">{{'COMMENT_FORM_LENGTH' | translate: '{ minlength: "2", maxlength: "200"}' }}</p>
+                                        <p ng-message="required">{{'COMMENT_FORM_REQUIRED' | translate}}</p>
+                                    </div>
+                                </div>
+                                <button type="submit" class="card-link btn btn-primary" ng-disabled="replyForm.$invalid">{{'COMMENT_REPLY_SUBMIT' | translate}}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

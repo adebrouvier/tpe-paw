@@ -17,7 +17,7 @@
 
         <form name="form" id="userUpdateForm" enctype="multipart/form-data">
           <div class="edit-image-container" >
-            <img id="image-container" ng-src="{{imageSrc}}" src= "http://localhost:8080/users/profile-image/{{userId}}" class="user-img" />
+            <img id="image-container" ng-src="{{imageSrc}}" src= "http://localhost:8080/users/profile-image/{{username}}" class="user-img" />
             <label for="file" class="btn btn-primary light-blue darken-4 fileContainer">{{'USER_ADD_IMAGE' | translate}}
               <input id="file" type="file" accept="image/*" ng-file-select="onFileSelect($files)" ng-file-read="imageSrc" ng-model="imageSrc">
             </label>
@@ -28,7 +28,7 @@
           <div class="mb-3"></div>
           <div class="form-group mb-3">
               <label for="description"><b>{{'USER_LABEL_DESCRIPTION' | translate}}</b></label>
-              <textarea required id="description" ng-model="user.description" name="description" placeholder="{{'USER_PLACEHOLDER_DESCRIPTION' | translate}}" class="form-control" aria-label="With textarea" ng-maxlength="200"></textarea>
+              <textarea id="description" ng-model="user.description" name="description" placeholder="{{'USER_PLACEHOLDER_DESCRIPTION' | translate}}" class="form-control" aria-label="With textarea" ng-maxlength="200"></textarea>
           </div>
           <div>
             <span ng-show="form.description.$error.maxlength" class="help-error" ng-bind="'USER_DESCRIPTION_SIZE' | translate"></span>

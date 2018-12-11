@@ -1,19 +1,20 @@
 'use strict';
-define(['tpePaw', 'services/titleService'], function(tpePaw) {
+define(['tpePaw', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $http, $location, $routeParams, titleService, fileReader) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
     $scope.twitchRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitch\.tv\/)(?:[\w-]+)/i;
     $scope.twitterRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitter\.com\/)(?:[\w-]+)/i;
-    $scope.userId = $routeParams.id;
+    $scope.username = $routeParams.username;
     $scope.user = {};
     $scope.imageSrc = '';
     $scope.maxImageLength = 5 * 1024 * 1024;
     $scope.imageInvalidSize = false;
+    $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
     $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;
@@ -49,16 +50,18 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
         var metadata = {
           transformRequest: angular.identity,
           headers: {
-            'Content-Type': undefined
+            'Content-Type': undefined,
+            'Authorization': sessionService.currentUser().token
           }
         };
 
-        return $http.put('http://localhost:8080/users/' + $scope.userId, formData, metadata)
+
+        return apiService.updateUser($scope.username, formData, metadata)
           .then(function(response) {
-            window.location = '/#/users/' + $scope.userId;
+            window.location = '/#/users/' + $scope.username;
           })
           .catch(function(response) {
-            window.location = '/#/users/' + $scope.userId;
+            window.location = '/#/users/' + $scope.username;
           });
       }
 
@@ -82,7 +85,7 @@ define(['tpePaw', 'services/titleService'], function(tpePaw) {
 
     };
 
-    $http.get('http://localhost:8080/users/' + $scope.userId)
+    apiService.get('/users/' + $scope.username)
       .then(function successCallback(response) {
         $scope.user = response.data;
         titleService.setTitle($scope.user.username + ' - Versus');
