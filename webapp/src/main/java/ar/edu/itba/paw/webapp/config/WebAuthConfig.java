@@ -33,12 +33,12 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-          .antMatchers(HttpMethod.POST, "/login").permitAll()
-          .antMatchers(HttpMethod.POST, "/users").permitAll()
-          .antMatchers(HttpMethod.GET, "/users/**").permitAll()
-          .antMatchers(HttpMethod.POST, "/users/**").authenticated()
-          .antMatchers(HttpMethod.PUT, "/users/**").authenticated()
-          .anyRequest().anonymous()
+          .antMatchers(HttpMethod.POST, "/login").anonymous()
+          .antMatchers(HttpMethod.POST, "/users").anonymous()
+          .antMatchers(HttpMethod.POST).authenticated()
+          .antMatchers(HttpMethod.DELETE).authenticated()
+          .antMatchers(HttpMethod.PUT).authenticated()
+          .anyRequest().permitAll()
           .and()
           .addFilter(new JwtAuthenticationFilter(authenticationManager()))
           .addFilter(new JwtAuthorizationFilter(authenticationManager()))
