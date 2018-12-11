@@ -172,6 +172,39 @@ public class TournamentRESTController {
     return	Response.ok(playerList).build();
   }
 
+
+  @POST
+  @Path("/{id}/{playerOldSeed}/{playerNewSeed}")
+  public Response swapPlayer(@PathParam("id") final long tournamentId, @PathParam("playerOldSeed") int playerOldSeed, @PathParam("playerNewSeed") int playerNewSeed) {
+
+    final Tournament tournament = ts.findById(tournamentId);
+
+    if (tournament == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (tournament.getCreator().getId() != loggedUser.getId()) {
+      LOGGER.warn("Unauthorized User {} tried to swap player to tournament {}", loggedUser.getId(), tournamentId);
+      return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    if(ps.changeSeed(tournamentId, playerOldSeed, playerNewSeed)) {
+      LOGGER.info("Swapped seed {} with seed {} from tournament {}", playerOldSeed, playerNewSeed, tournamentId);
+    }
+
+    /* TODO: Change for service? */
+    List<PlayerDTO> players = ts.findById(tournamentId).getPlayers().stream()
+      .map(PlayerDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
+    return	Response.ok(playerList).build();
+
+  }
+
+
   @POST
   @Path("/{id}/generate")
   public Response generateBracket(@PathParam("id") final long id) {

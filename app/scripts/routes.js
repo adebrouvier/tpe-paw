@@ -40,19 +40,19 @@ define([], function() {
               templateUrl: '/views/tournament/tournament-match-details.html',
               controller: 'TournamentMatchDetailsCtrl'
             },
-            '/users/:id': {
+            '/users/:username': {
                 templateUrl: '/views/users.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/creates': {
-                templateUrl: '/views/userCreates.html',
+            '/users/:username/created': {
+                templateUrl: '/views/userCreated.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/rankings': {
+            '/users/:username/rankings': {
                 templateUrl: '/views/userRankings.html',
                 controller: 'UsersCtrl'
             },
-            '/users/:id/config': {
+            '/users/:username/config': {
                 templateUrl: '/views/userConfig.html',
                 controller: 'UserConfigCtrl'
             },
@@ -63,6 +63,10 @@ define([], function() {
             '/404':{
                 templateUrl: '/views/404.html',
                 controller: '404Ctrl'
+            },
+            '/notifications/:username': {
+                templateUrl: '/views/notifications.html',
+                controller: 'NotificationsCtrl'
             },
             '/ranking': {
                 templateUrl: '/views/ranking.html',

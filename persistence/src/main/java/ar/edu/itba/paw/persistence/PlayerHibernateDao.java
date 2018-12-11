@@ -109,6 +109,10 @@ public class PlayerHibernateDao implements PlayerDao {
         Query q;
         Long playerId = findBySeed(playerOldSeed, tournamentId);
 
+        if(t.getPlayers().size() < playerNewSeed || t.getPlayers().size() < playerOldSeed) {
+            return false;
+        }
+
         if (playerOldSeed < playerNewSeed) {
             q = em.createQuery("UPDATE Player as p SET p.seed = p.seed + :offset " +
                     "WHERE p.tournament.id = :tournament AND p.seed > :old_seed AND p.seed <= :new_seed")

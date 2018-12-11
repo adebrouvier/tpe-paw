@@ -32,6 +32,8 @@ public class UserDTO {
 
     private Long followersAmount;
 
+    private boolean isFollow;
+
     public UserDTO(){}
 
     public UserDTO(User user) {
@@ -43,9 +45,10 @@ public class UserDTO {
         this.twitterUrl = user.getTwitterUrl();
     }
 
-    public UserDTO(User user, List<UserFavoriteGame> userFavoriteGames,Long followersAmount, List<Tournament> participates, List<Tournament> creates, List<Ranking> rankings) {
+    public UserDTO(User user,boolean isFollow, List<UserFavoriteGame> userFavoriteGames,Long followersAmount, List<Tournament> participates, List<Tournament> creates, List<Ranking> rankings) {
         if(user != null) {
           this.username = user.getName();
+          this.isFollow = isFollow;
           this.id = user.getId();
           this.description = user.getDescription();
           this.twitchUrl = user.getTwitchUrl();
@@ -168,5 +171,13 @@ public class UserDTO {
 
   public void setFollowersAmount(Long followersAmount) {
     this.followersAmount = followersAmount;
+  }
+
+  public boolean isFollow() {
+    return isFollow;
+  }
+
+  public void setFollow(boolean follow) {
+    isFollow = follow;
   }
 }

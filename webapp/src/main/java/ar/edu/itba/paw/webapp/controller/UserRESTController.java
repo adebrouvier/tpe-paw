@@ -64,48 +64,114 @@ public class UserRESTController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private SecurityService ss;
+
+    @Autowired
     private RESTValidator validator;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
 
     @GET
-    @Path("/{id}")
+    @Path("/{username}")
     @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getById(@PathParam("id") final long id) {
-        final User user = us.findById(id);
+    public Response getById(@PathParam("username") final String username) {
+        final User user = us.findByName(username);
+
         if (user != null) {
-            return Response.ok(new UserDTO(user,ufgs.getFavoriteGames(user),us.getFollowersAmount(id),ts.findTournamentByParticipant(id, 0),ts.findTournamentByUser(id, 0),rs.findRankingByUserPage(id, 0))).build();
+            return Response.ok(new UserDTO(user,ufs.isFollow(ss.getLoggedUser(),user),ufgs.getFavoriteGames(user),us.getFollowersAmount(user.getId()),ts.findTournamentByParticipant(user.getId(), 0),ts.findTournamentByUser(user.getId(), 0),rs.findRankingByUserPage(user.getId(), 0))).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
     @GET
-    @Path("/profile-image/{id}")
+    @Path("/profile-image/{username}")
     @Produces(value = {MediaType.MULTIPART_FORM_DATA})
-    public byte[] avatar(@PathParam("id") final long id) throws IOException {
-
-      UserImage ui = uis.findById(id);
-      if (ui != null) {
-        return ui.getImage();
+    public byte[] avatar(@PathParam("username") final String username) throws IOException {
+      User u = us.findByName(username);
+      if(u != null) {
+        UserImage ui = uis.findById(u.getId());
+        if (ui != null) {
+          return ui.getImage();
+        } else {
+          Resource r = appContext.getResource("/resources/img/user-profile-image.jpg");
+          long l = r.contentLength();
+          byte[] ans = new byte[(int) l];
+          r.getInputStream().read(ans);
+          return ans;
+        }
       } else {
-        Resource r = appContext.getResource("/resources/img/user-profile-image.jpg");
-        long l = r.contentLength();
-        byte[] ans = new byte[(int) l];
-        r.getInputStream().read(ans);
-        return ans;
+        return null;
       }
+
     }
 
     @GET
-    @Path("/{id}/participated-tournaments")
+    @Path("/{username}/participated-tournaments")
     @Produces(value = { MediaType.APPLICATION_JSON})
     @ResponseBody
-    public Response getParticipatedTournaments(@PathParam("id") final long id,@QueryParam("page") final int page) {
-      final User user = us.findById(id);
+    public Response getParticipatedTournaments(@PathParam("username") final String username,@QueryParam("page") final int page) {
+      final User user = us.findByName(username);
       if (user != null) {
-        List<Tournament> tournaments = ts.findTournamentByParticipant(id, page);
-        UserDTO userDTO = new UserDTO(null,null,null,tournaments,null,null);
+        List<Tournament> tournaments = ts.findTournamentByParticipant(user.getId(), page);
+        UserDTO userDTO = new UserDTO(null,false,null,null,tournaments,null,null);
+        return Response.ok(userDTO).build();
+      } else {
+        return Response.status(Response.Status.NOT_FOUND).build();
+      }
+    }
+
+  @POST
+  @Path("/{username}/follow")
+  @Produces(value = { MediaType.APPLICATION_JSON, })
+  public final Response followUser(@PathParam("username") String username) {
+    User u = us.findByName(username);
+    User loggedUser = ss.getLoggedUser();
+    if (u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    if (loggedUser == null || u.getId() == loggedUser.getId()) {
+      return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    ufs.create(loggedUser, u);
+    LOGGER.debug("New follower for user {}", u.getId());
+
+    return Response.status(Response.Status.OK).build();
+  }
+
+  @POST
+  @Path("/{username}/unfollow")
+  @Produces(value = { MediaType.APPLICATION_JSON, })
+  public final Response unfollowUser(@PathParam("username") String username) {
+    User u = us.findByName(username);
+
+    User loggedUser = ss.getLoggedUser();
+
+    if (u == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    if (loggedUser == null || u.getId() == loggedUser.getId()) {
+      return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    ufs.delete(loggedUser, u);
+    LOGGER.debug("Unfollow for user {}", u.getId());
+
+    return Response.status(Response.Status.OK).build();
+  }
+
+
+    @GET
+    @Path("/{username}/created-tournaments")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getCreatedTournaments(@PathParam("username") final String username, @QueryParam("page") final int page) {
+      final User user = us.findByName(username);
+      if (user != null) {
+        List<Tournament> tournaments = ts.findTournamentByUser(user.getId(), page);
+        UserDTO userDTO = new UserDTO(null,false,null,null,null,tournaments,null);
         return Response.ok(userDTO).build();
       } else {
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -113,27 +179,13 @@ public class UserRESTController {
     }
 
     @GET
-    @Path("/{id}/created-tournaments")
+    @Path("/{username}/created-rankings")
     @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getCreatedTournaments(@PathParam("id") final long id, @QueryParam("page") final int page) {
-      final User user = us.findById(id);
+    public Response getCreatedRankings(@PathParam("username") final String username, @QueryParam("page") final int page) {
+      final User user = us.findByName(username);
       if (user != null) {
-        List<Tournament> tournaments = ts.findTournamentByUser(id, page);
-        UserDTO userDTO = new UserDTO(null,null,null,null,tournaments,null);
-        return Response.ok(userDTO).build();
-      } else {
-        return Response.status(Response.Status.NOT_FOUND).build();
-      }
-    }
-
-    @GET
-    @Path("/{id}/created-rankings")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getCreatedRankings(@PathParam("id") final long id, @QueryParam("page") final int page) {
-      final User user = us.findById(id);
-      if (user != null) {
-        List<Ranking> rankings = rs.findRankingByUserPage(id, page);
-        UserDTO userDTO = new UserDTO(null,null,null,null,null,rankings);
+        List<Ranking> rankings = rs.findRankingByUserPage(user.getId(), page);
+        UserDTO userDTO = new UserDTO(null,false,null,null,null,null,rankings);
         return Response.ok(userDTO).build();
       } else {
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -141,15 +193,23 @@ public class UserRESTController {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{username}")
     @Produces(value = {MediaType.APPLICATION_JSON})
-    @Consumes(value	=	{	MediaType.MULTIPART_FORM_DATA})
-    public Response updateUser(@PathParam("id") final long id, @FormDataParam("user") final UserUpdateForm userForm, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
+    @Consumes(value	=	{MediaType.MULTIPART_FORM_DATA})
+    public Response updateUser(@PathParam("username") final String username, @FormDataParam("user") final UserUpdateForm userForm, @BeanParam final UserPictureDto userPictureDto) throws ValidationException {
+
+      User loggedUser = ss.getLoggedUser();
+      final User u = us.findByName(username);
+      if(u == null) {
+        return Response.status(Response.Status.NOT_FOUND).build();
+      }
+      if(loggedUser.getId() != u.getId()) {
+        return Response.status(Response.Status.FORBIDDEN).build();
+      }
 
       validator.validate(userForm, "Failed to validate tournament");
-      final User u = us.findById(id);
 
-      if (userForm == null || u == null) {
+      if (userForm == null) {
         return Response.status(Response.Status.BAD_REQUEST).build();
       }
 
@@ -163,7 +223,7 @@ public class UserRESTController {
       if(userPictureDto != null) {
         uis.updateImage(u, userPictureDto.getImage().getValueAs(byte[].class));
       }
-      final URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
+      final URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(u.getId())).build();
 
       return Response.created(location).build();
 

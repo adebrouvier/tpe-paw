@@ -108,5 +108,9 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
           var url = '/rankings/' + rankingId + '/tournament/' + tournamentName;
           return this.get(url);
         };
+
+        this.updateUser = function(username, formData, metadata) {
+          return $http.put(apiUrl + '/users/' + username, formData, metadata)
+        };
     });
 });

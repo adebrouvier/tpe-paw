@@ -1,20 +1,23 @@
-<table class="table">
+<div class="tournament-info card" style="margin-bottom: 20px">
+  <h1 class="text-center">{{tournament.name}}</h1>
+  <table class="table">
     <thead>
-        <tr>
-            <th scope="col">{{'TOURNAMENT_PAGE_TABLE_PLAYERS' | translate}}</th>
-            <th scope="col">{{'TOURNAMENT_PAGE_TABLE_MATCHES' | translate}}</th>
-            <th scope="col">{{'TOURNAMENT_PAGE_TABLE_GAME' | translate}}</th>
-            <th scope="col">{{'TOURNAMENT_PAGE_TABLE_CREATOR' | translate}}</th>
-        </tr>
+    <tr>
+      <th scope="col">{{'TOURNAMENT_PAGE_TABLE_PLAYERS' | translate}}</th>
+      <th scope="col">{{'TOURNAMENT_PAGE_TABLE_MATCHES' | translate}}</th>
+      <th scope="col">{{'TOURNAMENT_PAGE_TABLE_GAME' | translate}}</th>
+      <th scope="col">{{'TOURNAMENT_PAGE_TABLE_CREATOR' | translate}}</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>{{tournament.players.length}}</td>
-            <td>{{tournament.matches.length}}</td>
-            <td>{{tournament.game.name}}</td>
-            <td>
-                <a ng-href="#/user/{{tournament.creator.id}}">{{tournament.creator.username}}</a>
-            </td>
-        </tr>
+    <tr>
+      <td>{{tournament.players.length}}</td>
+      <td>{{tournament.matches.length}}</td>
+      <td>{{tournament.game.name}}</td>
+      <td>
+        <a ng-href="#/user/{{tournament.creator.id}}">{{tournament.creator.username}}</a>
+      </td>
+    </tr>
     </tbody>
-</table>
+  </table>
+</div>
