@@ -1,4 +1,4 @@
-define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'services/apiService', 'services/authService'], function (tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'directives/tournamentInfo', 'services/apiService', 'services/authService'], function (tpePaw) {
 
     'use strict';
     tpePaw.controller('TournamentPlayersCtrl', function ($scope, $routeParams, $location, titleService, apiService, AuthService) {
@@ -10,6 +10,29 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'service
         $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
         $scope.inscriptions = {};
 
+        $scope.sortableOptions = {
+            stop: function(e, ui) {
+                $scope.playerOldSeed = ui.item.sortable.index;
+                $scope.playerNewSeed = ui.item.sortable.dropindex;
+
+                if ($scope.playerNewSeed != undefined) {
+                    $scope.playerOldSeed++;
+                    $scope.playerNewSeed++;
+                    apiService.post('/tournaments/' + $scope.tournamentId + '/' + $scope.playerOldSeed + '/' + $scope.playerNewSeed)
+                        .then(function successCallback(response) {
+                          console.log('Swap player');
+                          $scope.tournament.players = response.data;
+                        }, function errorCallback(response) {
+                          console.log('Player add ERROR');
+                        });
+                }
+
+            },
+            axis: 'y',
+            cursor: 'move',
+            placeholder: 'sortable-placeholder'
+
+        };
         apiService.get('/tournaments/' + $scope.tournamentId)
             .then(function successCallback(response) {
                 $scope.tournament = response.data;

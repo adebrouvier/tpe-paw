@@ -1,5 +1,5 @@
+<tournament-image/>
 <div class="container">
-    <h1 class="text-center">{{tournament.name}}</h1>
     <tournament-info/>
     <div class="card">
         <div class="card-header">
@@ -28,10 +28,10 @@
                         <th ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'" scope="col">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr ng-repeat="player in tournament.players | orderBy:'+seed'">
-                        <td>{{player.seed}}</td>
-                        <td>{{player.name}}</td>
+                <tbody  ui-sortable="sortableOptions" ng-model="tournament.players">
+                    <tr ng-repeat="player in tournament.players track by $index| orderBy:'+seed'">
+                        <td style="cursor: move">{{player.seed}}</td>
+                        <td style="cursor: move">{{player.name}}</td>
                         <td>{{player.username}}</td>
                         <td ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
                             <form no-validate ng-submit="removePlayer(player.id)"
