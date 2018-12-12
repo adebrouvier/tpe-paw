@@ -54,7 +54,7 @@ define(['routes',
 
 					cfpLoadingBarProvider.includeSpinner = false;
 				}])
-      .value('apiUrl', 'http://localhost:8080');
+      .value('apiUrl', 'http://localhost:8080/api');
 		return tpePaw;
 	}
 );

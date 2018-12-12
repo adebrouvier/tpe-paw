@@ -16,7 +16,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.hasCreatesData = true;
     $scope.hasRankingsData = true;
     $scope.busy = false;
-    $scope.profileImageUrl = apiUrl + "/users/profile-image/" + username;
+    $scope.profileImageUrl = apiUrl + "/users/profile-image/" + $scope.username;
 
     $scope.goConfigPage = function () {
       window.location = '/#/users/' + $scope.username + '/config';

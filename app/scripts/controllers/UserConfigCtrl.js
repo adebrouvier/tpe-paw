@@ -11,7 +11,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
     $scope.twitterRegexp = /^(?:https:\/\/)?(?:www\.)?(?:twitter\.com\/)(?:[\w-]+)/i;
     $scope.username = $routeParams.username;
     $scope.user = {};
-    $scope.imageSrc = apiUrl + "/users/profile-image/" + username;
+    $scope.imageSrc = apiUrl + "/users/profile-image/" + $scope.username;
     $scope.maxImageLength = 5 * 1024 * 1024;
     $scope.imageInvalidSize = false;
     $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
