@@ -37,20 +37,20 @@ public class NotificationRESTController {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
 
   @GET
-  @Path("/{username}")
   @Produces(value = { MediaType.APPLICATION_JSON, })
-  public Response notification(@PathParam("username") String username, @QueryParam("page") final int page) {
+  public Response notification(@QueryParam("page") final int page) {
 
-    final User u = us.findByName(username);
     final User loggedUser = ss.getLoggedUser();
-    if(u == null || page < 0) {
-      return Response.status(Response.Status.NOT_FOUND).build();
-    }
-    if (loggedUser == null || u.getId() != loggedUser.getId()) {
+
+    if (loggedUser == null) {
       return Response.status(Response.Status.FORBIDDEN).build();
     }
 
-    List<Notification> notifications = ns.getNotifications(u, page);
+    if (page < 0) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    List<Notification> notifications = ns.getNotifications(loggedUser, page);
     List<NotificationDTO> notificationsDTO = new LinkedList<>();
     for(Notification n : notifications) {
       notificationsDTO.add(new NotificationDTO(n));
@@ -59,21 +59,17 @@ public class NotificationRESTController {
   }
 
   @GET
-  @Path("/{username}/unread-notifications")
+  @Path("/unread")
   @Produces(value = { MediaType.APPLICATION_JSON,})
-  public Response getUnreadNotifications(@PathParam("username") String username) {
-    final User u = us.findByName(username);
+  public Response getUnreadNotifications() {
     final User loggedUser = ss.getLoggedUser();
 
-    if(u == null) {
-      return Response.status(Response.Status.NOT_FOUND).build();
-    }
-    if (loggedUser == null || u.getId() != loggedUser.getId()) {
+    if (loggedUser == null) {
       return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     JSONObject object = new JSONObject();
-    object.put("unreadNotifications", u.getUnreadNotifications());
+    object.put("unreadNotifications", loggedUser.getUnreadNotifications());
     return Response.ok(object.toJSONString()).build();
   }
 }

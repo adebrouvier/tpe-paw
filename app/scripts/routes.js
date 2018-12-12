@@ -64,7 +64,7 @@ define([], function() {
                 templateUrl: '/views/404.html',
                 controller: '404Ctrl'
             },
-            '/notifications/:username': {
+            '/notifications': {
                 templateUrl: '/views/notifications.html',
                 controller: 'NotificationsCtrl'
             },

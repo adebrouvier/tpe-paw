@@ -119,5 +119,15 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
           var url = '/users/' + username + '/available';
           return this.get(url);
         };
+
+        this.getNotifications = function(page){
+          var url = '/notifications?page=' + page;
+          return this.get(url);
+        };
+
+        this.getUnreadNotificationsCount = function(){
+          var url = '/notifications/unread';
+          return this.get(url);
+        };
     });
 });

@@ -9,20 +9,16 @@ define(['tpePaw', 'services/apiService', 'services/authService'], function(tpePa
 		$scope.loggedIn = AuthService.loggedIn();
 
     if ($scope.currentUser != null) {
-      if ($window.location.hash == '#/notifications/' + $scope.currentUser.username) {
+      if ($window.location.hash == '#/notifications') {
         $scope.unreadNotifications = 0;
       } else {
-        apiService.get('/notifications/' + $scope.currentUser.username + '/unread-notifications')
+        apiService.getUnreadNotificationsCount()
           .then(function successCallback(response) {
             $scope.unreadNotifications = response.data.unreadNotifications;
           },function errorCallback(response) {});
       }
 
     }
-
-    $scope.goToNotifications = function () {
-      window.location = '/#/notifications/' + $scope.currentUser.username;
-    };
 
     $rootScope.$on('loggedIn', function () {
       $scope.loggedIn = AuthService.loggedIn();

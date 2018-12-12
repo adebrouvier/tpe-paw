@@ -42,11 +42,11 @@
             <a class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" ng-href="#/register" ng-cloak></a>
           </div>
           <div ng-if="loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
-            <a  class="btn btn-light" href ng-click="goToNotifications()">
+            <a  class="btn btn-light" ng-href="#/notifications">
               <span class="oi" data-glyph="bell" title="bell" aria-hidden="true"></span> <span ng-show="unreadNotifications != 0" class="badge badge-danger"> {{unreadNotifications}}</span>
             </a>
             <a class="btn btn-light" ng-href="#/users/{{currentUser.username}}">
-              <span class="oi" data-glyph="person" title="person" aria-hidden="true" ng-bind="currentUser.username"></span>
+              <i class="fas fa-user"></i> {{currentUser.username}}
             </a>
             <a class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
           </div>

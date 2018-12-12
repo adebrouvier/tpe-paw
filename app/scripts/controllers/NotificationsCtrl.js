@@ -6,12 +6,11 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.hasNotificationsData = false;
     $scope.busy = false;
-    $scope.username = $routeParams.username;
     $scope.notificationsPage = 0;
     $scope.notifications = [];
     $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
-    if ($scope.loggedUser != $scope.username) {
+    if ($scope.loggedUser === undefined) {
       window.location = '/#/403/';
     }
 
@@ -35,7 +34,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.loadNotifications = function () {
       $scope.busy = true;
-      apiService.get('/notifications/' + $scope.username + '?page=' + $scope.notificationsPage)
+      apiService.getNotifications($scope.notificationsPage)
         .then(function successCallback(response) {
           if (response.data != null || response.data == {}) {
             var nLength = response.data.length;
