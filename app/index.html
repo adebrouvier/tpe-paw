@@ -37,18 +37,21 @@
               <a class="nav-link" ng-bind="'SEARCH_TITLE' | translate" href="#/search"></a>
             </li>
           </ul>
-          <nav class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak="">
-            <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" href="#/login"></a>
-            <a ng-if="!loggedIn" class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" href="#/register"></a>
-            <a ng-if="loggedIn" class="btn btn-light" href ng-click="goToNotifications()">
+          <div ng-if="!loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
+            <a class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" ng-href="#/login" ng-cloak></a>
+            <a class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" ng-href="#/register" ng-cloak></a>
+          </div>
+          <div ng-if="loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
+            <a  class="btn btn-light" href ng-click="goToNotifications()">
               <span class="oi" data-glyph="bell" title="bell" aria-hidden="true"></span> <span ng-show="unreadNotifications != 0" class="badge badge-danger"> {{unreadNotifications}}</span>
             </a>
-            <a ng-if="loggedIn" class="btn btn-light" href="#/">
+            <a class="btn btn-light" ng-href="#/users/{{currentUser.username}}">
               <span class="oi" data-glyph="person" title="person" aria-hidden="true" ng-bind="currentUser.username"></span>
             </a>
-            <a ng-if="loggedIn" class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
-          </nav>
-      </div>
+            <a class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
+          </div>
+        </div>
+      </nav>
   </header>
 
   <main>
@@ -59,7 +62,7 @@
 
   <footer class="footer">
       <div class="container">
-        <span class="text-muted">Versus - ITBA 2017</span>
+        <span class="text-muted">Versus - ITBA 2017-18</span>
       </div>
     </footer>
 

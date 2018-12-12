@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/apiService', 'services/sessionService'], function(tpePaw) {
 
-    tpePaw.service('AuthService', function($location, apiService, sessionService) {
+    tpePaw.service('AuthService', function($location, $rootScope, apiService, sessionService) {
 
         this.currentUser = sessionService.currentUser;
 
@@ -26,6 +26,8 @@ define(['tpePaw', 'services/apiService', 'services/sessionService'], function(tp
                             }else {
                                 sessionService.setToken(currentUser, false);
                             }
+
+                            $rootScope.$emit('loggedIn');
                             $location.path('/');
                         }
                     });

@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/apiService', 'services/authService'], function(tpePaw) {
 
-	tpePaw.controller('IndexCtrl', function($scope, $window, apiService, AuthService) {
+	tpePaw.controller('IndexCtrl', function($scope, $rootScope, $window, $location, apiService, AuthService) {
 
 		$scope.currentUser = AuthService.currentUser();
     $scope.unreadNotifications = 0;
@@ -20,17 +20,21 @@ define(['tpePaw', 'services/apiService', 'services/authService'], function(tpePa
 
     }
 
-
-
     $scope.goToNotifications = function () {
       window.location = '/#/notifications/' + $scope.currentUser.username;
     };
+
+    $rootScope.$on('loggedIn', function () {
+      $scope.loggedIn = AuthService.loggedIn();
+      $scope.currentUser = AuthService.currentUser();
+    });
 
 		$scope.logout = function() {
 			AuthService.logout();
       $scope.unreadNotifications = 0;
 			$scope.currentUser = null;
 			$scope.loggedIn = false;
+      $location.path('/');
 		};
 	});
 });
