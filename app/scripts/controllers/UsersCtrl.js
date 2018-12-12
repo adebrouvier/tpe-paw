@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
-  tpePaw.controller('UsersCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService) {
+  tpePaw.controller('UsersCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, apiUrl) {
 
     $scope.user = {};
     $scope.participates = [];
@@ -16,6 +16,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.hasCreatesData = true;
     $scope.hasRankingsData = true;
     $scope.busy = false;
+    $scope.profileImageUrl = apiUrl + "/users/profile-image/" + username;
 
     $scope.goConfigPage = function () {
       window.location = '/#/users/' + $scope.username + '/config';

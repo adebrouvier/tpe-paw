@@ -1,9 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/sessionService'], function(tpePaw) {
 
-    tpePaw.service('apiService', function($http, sessionService) {
-
-        var apiUrl = 'http://localhost:8080';
+    tpePaw.service('apiService', function($http, apiUrl, sessionService) {
 
         this.get = function(resource, params) {
 

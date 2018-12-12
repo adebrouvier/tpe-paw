@@ -53,7 +53,8 @@ define(['routes',
 					$translateProvider.preferredLanguage('preferredLanguage');
 
 					cfpLoadingBarProvider.includeSpinner = false;
-				}]);
+				}])
+      .value('apiUrl', 'http://localhost:8080');
 		return tpePaw;
 	}
 );

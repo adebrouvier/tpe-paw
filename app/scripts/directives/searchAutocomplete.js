@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw'], function(tpePaw) {
 
-	tpePaw.directive('searchAutocomplete', function($filter) {
+	tpePaw.directive('searchAutocomplete', function($filter, apiUrl) {
 		return {
 			restrict: 'A',
 			link: function(scope, elem, attrs){                
@@ -10,7 +10,7 @@ define(['tpePaw'], function(tpePaw) {
                     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     remote: {
-                        url: 'http://localhost:8080/search/tournaments?q=%QUERY',
+                        url: apiUrl + '/search/tournaments?q=%QUERY',
                         wildcard: '%QUERY'
                     }
                 });
@@ -19,7 +19,7 @@ define(['tpePaw'], function(tpePaw) {
                     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     remote: {
-                        url: 'http://localhost:8080/search/rankings?q=%QUERY',
+                        url: apiUrl + '/search/rankings?q=%QUERY',
                         wildcard: '%QUERY'
                     }
                 });
