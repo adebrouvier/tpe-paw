@@ -3,7 +3,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService, apiUrl) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -33,7 +33,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
         $scope.imageInvalidSize = true;
       }
       if ($scope.form.$valid && imageLength < $scope.maxImageLength){
-        if ($scope.user.favoriteGame.name == "" || $scope.user.favoriteGame.name == null) {
+        if ($scope.user.favoriteGame == null || $scope.user.favoriteGame.name == null) {
           userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: ""};
 
         } else {
