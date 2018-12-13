@@ -189,7 +189,7 @@ public class RankingRESTController {
   @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
   public Response popularRankings() {
 
-    int amount = 5;
+    int amount = 3;
     List<PopularRankingRESTDTO> popular = rs.findPopularRankings(amount).stream()
                                                                         .map(PopularRankingRESTDTO::new)
                                                                         .collect(Collectors.toList());

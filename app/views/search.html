@@ -38,7 +38,7 @@
                             </thead>
                             <tbody ng-repeat="tournament in tournaments">
                                 <tr>
-                                    <td><a ng-href="#/tournaments/{{tournament.id}}">{{tournament.name}}</a></td>
+                                    <td><a ng-href="#/tournament/{{tournament.id}}">{{tournament.name}}</a></td>
                                     <td>{{tournament.game.name}}</td>
                                     <td>{{tournament.players.length}}</td>
                                 </tr>
@@ -62,7 +62,7 @@
                             </thead>
                             <tbody ng-repeat="ranking in rankings">
                                 <tr ng-if="rankings.length > 0">                
-                                    <td><a ng-href="#/rankings/{{ranking.id}}">{{ranking.name}}</a></td>
+                                    <td><a ng-href="#/ranking/{{ranking.id}}">{{ranking.name}}</a></td>
                                     <td>{{ranking.game.name}}</td>
                                     <td>{{ranking.players.length}}</td>
                                 </tr>                                

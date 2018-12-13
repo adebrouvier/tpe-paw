@@ -5,79 +5,79 @@ define([], function() {
         defaultRoutePath: '/',
         routes: {
             '/': {
-                templateUrl: '/views/home.html',
+                templateUrl: 'views/home.html',
                 controller: 'HomeCtrl'
             },
             '/register': {
-                templateUrl: '/views/register.html',
+                templateUrl: 'views/register.html',
                 controller: 'RegisterCtrl'
             },
             '/login': {
-                templateUrl: '/views/login.html',
+                templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'
             },
             '/tournament': {
-                templateUrl: '/views/tournament/tournament.html',
+                templateUrl: 'views/tournament/tournament.html',
                 controller: 'TournamentCtrl'
             },
             '/tournament/:id': {
-                templateUrl: '/views/tournament/tournament-page.html',
+                templateUrl: 'views/tournament/tournament-page.html',
                 controller: 'TournamentPageCtrl'
             },
             '/tournament/:id/standings': {
-                templateUrl: '/views/tournament/tournament-standings.html',
+                templateUrl: 'views/tournament/tournament-standings.html',
                 controller: 'TournamentStandingsCtrl'
             },
             '/tournament/:id/players': {
-                templateUrl: '/views/tournament/tournament-players.html',
+                templateUrl: 'views/tournament/tournament-players.html',
                 controller: 'TournamentPlayersCtrl'
             },
             '/tournament/:id/comments': {
-                templateUrl: '/views/tournament/tournament-comments.html',
+                templateUrl: 'views/tournament/tournament-comments.html',
                 controller: 'TournamentCommentsCtrl'
             },
             '/tournament/:id/match/:matchId': {
-              templateUrl: '/views/tournament/tournament-match-details.html',
+              templateUrl: 'views/tournament/tournament-match-details.html',
               controller: 'TournamentMatchDetailsCtrl'
             },
             '/users/:username': {
-                templateUrl: '/views/users.html',
+                templateUrl: 'views/users.html',
                 controller: 'UsersCtrl'
             },
             '/users/:username/created': {
-                templateUrl: '/views/userCreated.html',
+                templateUrl: 'views/userCreated.html',
                 controller: 'UsersCtrl'
             },
             '/users/:username/rankings': {
-                templateUrl: '/views/userRankings.html',
+                templateUrl: 'views/userRankings.html',
                 controller: 'UsersCtrl'
             },
             '/users/:username/config': {
-                templateUrl: '/views/userConfig.html',
+                templateUrl: 'views/userConfig.html',
                 controller: 'UserConfigCtrl'
             },
             '/search':{
-                templateUrl: '/views/search.html',
+                templateUrl: 'views/search.html',
                 controller: 'SearchCtrl'
             },
             '/404':{
-                templateUrl: '/views/404.html',
+                templateUrl: 'views/404.html',
                 controller: '404Ctrl'
             },
             '/notifications': {
-                templateUrl: '/views/notifications.html',
+                templateUrl: 'views/notifications.html',
                 controller: 'NotificationsCtrl'
             },
             '/ranking': {
-                templateUrl: '/views/ranking.html',
+                templateUrl: 'views/ranking.html',
                 controller: 'RankingCtrl'
             },
             '/ranking/:id': {
-                templateUrl: '/views/ranking-page.html',
+                templateUrl: 'views/ranking-page.html',
                 controller: 'RankingPageCtrl'
             },
             '/ranking/:id/tournaments': {
-              templateUrl: '/views/ranking-tournaments.html',
+              templateUrl: 'views/ranking-tournaments.html',
               controller: 'RankingTournamentsCtrl'
             },
             /* ===== yeoman hook ===== */
