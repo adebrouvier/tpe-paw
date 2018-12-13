@@ -23,8 +23,6 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'service
         titleService.setTitle($scope.tournament.name + ' - Versus');
         var match = $filter('filter')($scope.tournament.matches, {'id': $scope.matchId});
 
-        console.log(match);
-
         if (match.length === 1){
           match = match[0];
         }else{

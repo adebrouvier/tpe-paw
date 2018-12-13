@@ -25,7 +25,7 @@
                         <p class="card-text">{{comment.comment}}</p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a ng-href="#/users/{{comment.creator.id}}">{{comment.creator.username}}</a> - {{comment.date | date: 'medium' }}
+                        <a ng-href="#/users/{{comment.creator.username}}">{{comment.creator.username}}</a> - {{comment.date | date: 'medium' }}
                         <button ng-hide="loggedUser == undefined" type="button" class="btn btn-link" data-toggle="modal" data-target="#replyModal" data-backdrop="false"
                             ng-click="openReplyModal(comment)">
                             {{'COMMENT_REPLY_SUBMIT' | translate}}
@@ -38,7 +38,7 @@
                             <p class="card-text">{{reply.comment}}</p>
                         </div>
                         <div class="card-footer text-muted">
-                            <a ng-href="#/users/{{reply.creator.id}}">{{reply.creator.username}}</a> - {{reply.date | date: 'medium' }}
+                            <a ng-href="#/users/{{reply.creator.username}}">{{reply.creator.username}}</a> - {{reply.date | date: 'medium' }}
                         </div>
                     </div>
                 </div>

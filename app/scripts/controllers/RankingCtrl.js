@@ -19,10 +19,8 @@ define(['tpePaw', 'services/titleService', 'services/apiService', 'services/auth
         apiService.createRanking($scope.rankingForm)
           .then(function successCallback(response) {
             console.log('Successfully created ranking');
-            console.log(response);
             $location.path('/ranking/' + response.data.id);
           }, function errorCallback(response) {
-            console.log(response);
             console.log('Ranking creation error');
           });
       }
