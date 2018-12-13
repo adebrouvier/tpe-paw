@@ -21,7 +21,8 @@ define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'dir
 
 				if (searchObject.type == 'Tournaments' || searchObject.type == null) {
 					apiService.get('/search/tournaments', {
-						params: $scope.searchForm
+						q: $scope.searchForm.q,
+            game: $scope.searchForm.game
 					})
 						.then(function successCallback(response) {
 
@@ -34,8 +35,9 @@ define(['tpePaw', 'services/titleService', 'directives/searchAutocomplete', 'dir
 				}
 				if (searchObject.type == 'Rankings') {
 					apiService.get('/search/rankings', {
-						params: $scope.searchForm
-					})
+            q: $scope.searchForm.q,
+            game: $scope.searchForm.game
+          })
 						.then(function successCallback(response) {
 
 							$scope.rankings = response.data;
