@@ -2,10 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.webapp.controller.dto.AuthenticationDTO;
-import ar.edu.itba.paw.webapp.controller.dto.UserDTO;
-import ar.edu.itba.paw.webapp.controller.dto.UserPictureDto;
-import ar.edu.itba.paw.webapp.controller.dto.ValidDTO;
+import ar.edu.itba.paw.webapp.controller.dto.*;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import ar.edu.itba.paw.webapp.form.UserUpdateForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
@@ -21,13 +18,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("users")
 @Component
@@ -264,4 +259,29 @@ public class UserRESTController {
       return Response.created(location).build();
 
     }
+
+  @GET
+  @Path("/top")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response topWinners() {
+
+    int amount = 3;
+    List<TopWinnerDTO> topWinners = us.findTopWinners(amount).stream().map(TopWinnerDTO::new).collect(Collectors.toList());
+
+    GenericEntity<List<TopWinnerDTO>> list= new GenericEntity<List<TopWinnerDTO>>(topWinners) { };
+
+    return Response.ok(list).build();
+  }
+
+  @GET
+  @Path("/most_followed")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response mostFollowed() {
+
+    int amount = 3;
+    List<MostFollowedRESTDTO> topWinners = us.findMostFollowed(amount).stream().map(MostFollowedRESTDTO::new).collect(Collectors.toList());;
+
+    GenericEntity<List<MostFollowedRESTDTO>> list= new GenericEntity<List<MostFollowedRESTDTO>>(topWinners) { };
+    return Response.ok(list).build();
+  }
 }

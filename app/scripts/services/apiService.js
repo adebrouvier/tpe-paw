@@ -129,5 +129,30 @@ define(['tpePaw', 'services/sessionService'], function(tpePaw) {
           var url = '/notifications/unread';
           return this.get(url);
         };
+
+        this.getFeaturedTournaments = function() {
+          var url = '/tournaments/featured';
+          return this.get(url);
+        };
+
+        this.getFeaturedRankings = function() {
+          var url = '/rankings/featured';
+          return this.get(url);
+        };
+
+        this.getPopularRankings = function() {
+          var url = '/rankings/popular';
+          return this.get(url);
+        };
+
+        this.getTopWinners = function() {
+          var url = '/users/top';
+          return this.get(url);
+        };
+
+        this.getMostFollowed = function() {
+          var url = '/users/most_followed';
+          return this.get(url);
+        };
     });
 });

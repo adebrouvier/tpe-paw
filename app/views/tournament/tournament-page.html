@@ -24,7 +24,7 @@
                     ng-if="loggedUser == tournament.creator.username && tournament.status == 'STARTED'">
                         <button type="submit" class="btn btn-danger">{{'TOURNAMENT_PAGE_END'|translate}}</button>
                 </form>
-                <button ng-if="tournament.status == 'FINISHED'" class="btn btn-primary">{{'TOURNAMENT_PAGE_FINISHED'|translate}}</button>
+                <button ng-if="tournament.status == 'FINISHED'" class="btn btn-primary mb-2">{{'TOURNAMENT_PAGE_FINISHED'|translate}}</button>
             </div>
             <div id="tournament-container">
                 <div id="match-{{$index}}" class="bracket-container" ng-repeat="match in tournament.matches" on-finish-render="tournamentFormat()">
@@ -53,7 +53,7 @@
                                 && !participates && !signedUp">
                     <button ng-click="joinRequest()" type="submit" class="btn btn-primary">{{'TOURNAMENT_PAGE_JOIN_REQUEST'|translate}}</button>
                 </div>
-                <div ng-if="signedUp">
+                <div ng-if="loggedUser !== undefined && signedUp">
                     <p>{{'TOURNAMENT_PAGE_AWAITING'|translate}}</p>
                 </div>
             </div>

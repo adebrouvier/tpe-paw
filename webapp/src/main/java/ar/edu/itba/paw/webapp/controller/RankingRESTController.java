@@ -168,4 +168,33 @@ public class RankingRESTController {
 
     return Response.ok(new ValidDTO(valid)).build();
   }
+
+
+  @GET
+  @Path("/featured")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response featuredRankings() {
+
+    int amount = 5;
+    List<RankingDTO> featured = rs.findFeaturedRankings(amount).stream()
+      .map(RankingDTO::new)
+      .collect(Collectors.toList());
+
+    GenericEntity<List<RankingDTO>> list= new GenericEntity<List<RankingDTO>>(featured) { };
+    return Response.ok(list).build();
+  }
+
+  @GET
+  @Path("/popular")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response popularRankings() {
+
+    int amount = 5;
+    List<PopularRankingRESTDTO> popular = rs.findPopularRankings(amount).stream()
+                                                                        .map(PopularRankingRESTDTO::new)
+                                                                        .collect(Collectors.toList());
+
+    GenericEntity<List<PopularRankingRESTDTO>> list= new GenericEntity<List<PopularRankingRESTDTO>>(popular) { };
+    return Response.ok(list).build();
+  }
 }

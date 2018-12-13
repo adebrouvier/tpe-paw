@@ -2,9 +2,28 @@
 define([], function () {
 
 	return {
-		INDEX_MESSAGE: 'Create tournaments, rank and play!',
+		INDEX_MESSAGE: 'Create or join tournaments, rank and play!',
 		INDEX_CREATE_TOURNAMENT: 'Create Tournament',
 		INDEX_CREATE_RANKING: 'Create Ranking',
+
+    HOME_MOST_CHAMPIONSHIPS: 'Most championships',
+    HOME_MOST_CHAMPIONSHIPS_POS: 'Pos.',
+    HOME_MOST_CHAMPIONSHIPS_USER: 'Users',
+    HOME_MOST_CHAMPIONSHIPS_WINS: 'Wins',
+    HOME_MOST_FOLLOWED: 'Most followed',
+    HOME_MOST_FOLLOWED_USER: 'User',
+    HOME_MOST_FOLLOWED_FOLLOWERS: 'Followers',
+    HOME_POPULAR_RANKINGS: 'Popular rankings',
+    HOME_POPULAR_RANKING: 'Ranking',
+    HOME_POPULAR_RANKING_USERS: 'Users',
+    HOME_LATEST_TOURNAMENTS: 'Latest tournaments',
+    HOME_LATEST_RANKINGS: 'Latest rankings',
+    HOME_NAME: 'Name',
+    HOME_GAME: 'Game',
+    HOME_MATCHES: 'Matches',
+    HOME_PLAYERS: 'Players',
+    HOME_USERS: 'Users',
+    HOME_TOURNAMENTS: 'Tournaments',
 
 		REGISTER_TITLE: 'Register',
 		REGISTER_USERNAME: 'Username',

@@ -7,4 +7,119 @@
         <a class="btn btn-primary btn-lg" ng-href="#/ranking" role="button">{{'INDEX_CREATE_RANKING' | translate}}</a>
       </p>
   </div>
+  <div class="row mb-4 text-center">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h3>{{'HOME_MOST_CHAMPIONSHIPS' | translate }}</h3>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">{{'HOME_MOST_CHAMPIONSHIPS_POS' | translate }}</th>
+              <th scope="col">{{'HOME_MOST_CHAMPIONSHIPS_USER' | translate }}</th>
+              <th scope="col">{{'HOME_MOST_CHAMPIONSHIPS_WINS' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="winner in topWinners">
+              <td>{{$index + 1}}</td>
+              <td><a ng-href="#/users/{{winner.user.username}}">{{winner.user.username}}</a></td>
+              <td>{{winner.wins}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h3>{{'HOME_MOST_FOLLOWED' | translate }}</h3>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">{{'HOME_MOST_FOLLOWED_USER' | translate }}</th>
+              <th scope="col">{{'HOME_MOST_FOLLOWED_FOLLOWERS' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="mf in mostFollowed">
+              <td><a ng-href="#/users/{{mf.user.username}}">{{mf.user.username}}</a></td>
+              <td>{{mf.followers}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h3>{{'HOME_POPULAR_RANKINGS' | translate }}</h3>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">{{'HOME_POPULAR_RANKING' | translate }}</th>
+              <th scope="col">{{'HOME_POPULAR_RANKING_USERS' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pr in popularRankings">
+              <td><a ng-href="#/ranking/{{pr.ranking.id}}">{{pr.ranking.name}}</a></td>
+              <td>{{pr.rankedUsers}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  <div class="card text-center mb-2 col-12">
+    <div class="card-body">
+      <h3>{{'HOME_LATEST_TOURNAMENTS' | translate }}</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{{'HOME_NAME' | translate}}</th>
+              <th scope="col">{{'HOME_GAME' | translate}}</th>
+              <th scope="col">{{'HOME_PLAYERS' | translate}}</th>
+              <th scope="col">{{'HOME_MATCHES' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="tournament in featuredTournaments">
+              <td><a ng-href="#/tournament/{{tournament.id}}">{{tournament.name}}</a></td>
+              <td>{{tournament.game.name}}</td>
+              <td>{{tournament.players.length}}</td>
+              <td>{{tournament.matches.length}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+  <div class="card text-center col-12">
+    <div class="card-body">
+    <h3>{{'HOME_LATEST_RANKINGS' | translate}}</h3>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">{{'HOME_NAME' | translate}}</th>
+        <th scope="col">{{'HOME_GAME' | translate}}</th>
+        <th scope="col">{{'HOME_TOURNAMENTS' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="ranking in featuredRankings">
+        <td><a ng-href="#/ranking/{{ranking.id}}">{{ranking.name}}</a></td>
+        <td>{{ranking.game.name}}</td>
+        <td>{{ranking.tournamentPoints.length}}</td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  </div>
 </div>

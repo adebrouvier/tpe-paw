@@ -572,4 +572,18 @@ public class TournamentRESTController {
 
     return Response.ok(entity).build();
   }
+
+  @GET
+  @Path("/featured")
+  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  public Response featuredTournaments() {
+
+    int featuredTournaments = 5;
+    List<TournamentDTO> featured = ts.findFeaturedTournaments(featuredTournaments).stream()
+                                                                                  .map(TournamentDTO::new)
+                                                                                  .collect(Collectors.toList());
+
+    GenericEntity<List<TournamentDTO>> list= new GenericEntity<List<TournamentDTO>>(featured) { };
+    return Response.ok(list).build();
+  }
 }
