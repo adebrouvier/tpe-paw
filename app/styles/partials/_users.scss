@@ -27,7 +27,8 @@ body {
   };
 }
 .card-profile {
-  width: 18rem;
+  float: right;
+  width: 24rem;
 }
 
 .card-profile .card-body {
@@ -46,6 +47,12 @@ body {
   top: 0;
   right: 0;
   border-radius: 3px !important;
+}
+
+.card-info {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-top: 20px;
 }
 
 .user-section-profile {
@@ -113,15 +120,6 @@ body {
   word-wrap:break-word;
 }
 
-.nav-participates {
-  margin-right: 50px;
-  margin-left: 150px;
-}
-
-.nav-creates {
-  margin-right: 50px;
-}
-
 .edit-tittle {
   border-radius: 0;
   border-width:0;
@@ -172,9 +170,6 @@ body {
   font-size: 12px !important;
   margin-right:  2px;
 }
-
-
-
 
 
 .follower-section {

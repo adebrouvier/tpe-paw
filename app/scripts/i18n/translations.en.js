@@ -124,7 +124,7 @@ define([], function () {
     USER_FOLLOWERS: 'Followers ',
     USER_PARTICIPATES: 'Participates',
     USER_CREATES: 'Created',
-    USER_RANKINGS: 'Rankings',
+    USER_RANKINGS: 'Ranking',
     USER_BRACKET: 'Bracket',
     USER_STANDING: 'Standing',
     USER_PERSONAL_INFORMATION: 'Personal Information',
