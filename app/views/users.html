@@ -21,7 +21,7 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="card-body">
-          <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
+          <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" class="user-section-title"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
           <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
             <h6>
               <b>{{'USER_EDIT_PROFILE' | translate}}</b>
@@ -122,7 +122,6 @@
                   </div>
                 </div>
               </div>
-              <div ng-show='{{busy}}'></div>
             </div>
           </div>
         </div>
