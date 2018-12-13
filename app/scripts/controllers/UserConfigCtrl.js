@@ -42,7 +42,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
         var image = $scope.imageSrc;
         var formData = new FormData();
 
-        if (image) {
+        if ($scope.hasNewImage) {
           formData.append('image', $scope.dataURItoBlob(image));
         }
         formData.append('user', new Blob([JSON.stringify(userData)], {type: "application/json"}));
@@ -65,6 +65,10 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
           });
       }
 
+    };
+
+    $scope.newImage = function() {
+      $scope.hasNewImage = true;
     };
 
     $scope.dataURItoBlob = function (dataURI) {
