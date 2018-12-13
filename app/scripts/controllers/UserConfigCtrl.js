@@ -1,5 +1,5 @@
 'use strict';
-define(['tpePaw', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
 
 
