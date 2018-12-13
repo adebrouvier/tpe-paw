@@ -251,7 +251,7 @@ public class UserRESTController {
       ufgs.deleteAll(u);
       ufgs.create(u, g);
       us.updateDescription(u, userForm.getDescription(), userForm.getTwitchUrl(), userForm.getTwitterUrl(), userForm.getYoutubeUrl());
-      if(userPictureDto != null) {
+      if(userPictureDto != null && userPictureDto.getImage() != null) {
         uis.updateImage(u, userPictureDto.getImage().getValueAs(byte[].class));
       }
       final URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(u.getId())).build();

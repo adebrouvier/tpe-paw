@@ -15,11 +15,11 @@
       </div>
         <div class="card-body">
 
-        <form name="form" id="userUpdateForm" enctype="multipart/form-data">
+        <form name="form" id="userUpdateForm" enctype="multipart/form-data"  autocomplete="off">
           <div class="edit-image-container" >
             <img id="image-container" ng-src="{{imageSrc}}" class="user-img" />
             <label for="file" class="btn btn-primary light-blue darken-4 fileContainer">{{'USER_ADD_IMAGE' | translate}}
-              <input id="file" type="file" accept="image/*" ng-file-select="onFileSelect($files)" ng-file-read="imageSrc" ng-model="imageSrc">
+              <input id="file" type="file" accept="image/*" ng-file-select="onFileSelect($files)" ng-file-read="imageSrc" onchange="angular.element(this).scope().newImage()" ng-model="imageSrc">
             </label>
           </div>
           <div class="text-center">
@@ -75,10 +75,10 @@
 
           <label for="game"><b>{{'USER_LABEL_GAME' | translate}}</b></label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
+            <span class="input-group-prepend input-game-span">
               <span class="input-group-text" id="game"><i  class="material-icons" >videogame_asset</i></span>
-            </div>
-            <input type="text" name="game" class="form-control" ng-model="user.favoriteGame.name" placeholder="{{'USER_PLACEHOLDER_GAME' | translate}}" ng-maxlength="60">
+              <input ng-style="{'border-top-left-radius': 0, 'border-bottom-left-radius': 0}" type="text" game-autocomplete name="game" class="form-control" ng-model="user.favoriteGame.name" placeholder="{{'USER_PLACEHOLDER_GAME' | translate}}" ng-maxlength="60">
+            </span>
           </div>
           <div>
             <span ng-show="form.game.$error.maxlength" class="help-error" ng-bind="'USER_GAME_SIZE' | translate"></span>

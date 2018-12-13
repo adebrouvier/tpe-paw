@@ -1,9 +1,9 @@
 'use strict';
-define(['tpePaw', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
 
 
-  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService) {
+  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService, apiUrl) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -33,7 +33,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
         $scope.imageInvalidSize = true;
       }
       if ($scope.form.$valid && imageLength < $scope.maxImageLength){
-        if ($scope.user.favoriteGame.name == "" || $scope.user.favoriteGame.name == null) {
+        if ($scope.user.favoriteGame == null || $scope.user.favoriteGame.name == null) {
           userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: ""};
 
         } else {
@@ -42,7 +42,7 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
         var image = $scope.imageSrc;
         var formData = new FormData();
 
-        if (image) {
+        if ($scope.hasNewImage) {
           formData.append('image', $scope.dataURItoBlob(image));
         }
         formData.append('user', new Blob([JSON.stringify(userData)], {type: "application/json"}));
@@ -65,6 +65,10 @@ define(['tpePaw', 'services/sessionService','services/titleService', 'services/a
           });
       }
 
+    };
+
+    $scope.newImage = function() {
+      $scope.hasNewImage = true;
     };
 
     $scope.dataURItoBlob = function (dataURI) {
