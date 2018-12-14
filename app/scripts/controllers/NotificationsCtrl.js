@@ -39,7 +39,6 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
         apiService.getNotifications($scope.notificationsPage)
           .then(function successCallback(response) {
             if (response.data != null && response.data != {} && response.data != "") {
-              console.log(response);
               var nLength = response.data.length;
               for (var i = 0; i < nLength; i++) {
                 $scope.notifications.push(response.data[i]);

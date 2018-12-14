@@ -9,15 +9,17 @@ define(['tpePaw', 'services/apiService', 'services/authService'], function(tpePa
 		$scope.loggedIn = AuthService.loggedIn();
 
     if ($scope.currentUser != null) {
-      if ($window.location.hash == '#/notifications') {
-        $scope.unreadNotifications = 0;
-      } else {
-        apiService.getUnreadNotificationsCount()
-          .then(function successCallback(response) {
-            $scope.unreadNotifications = response.data.unreadNotifications;
-          },function errorCallback(response) {});
-      }
-
+      $rootScope.$on('$locationChangeSuccess', function (event, newUrl) {
+        var page = newUrl.split("/").pop();
+        if (page === 'notifications'){
+          $scope.unreadNotifications = 0;
+        }else {
+          apiService.getUnreadNotificationsCount()
+            .then(function successCallback(response) {
+              $scope.unreadNotifications = response.data.unreadNotifications;
+            });
+        }
+      });
     }
 
     $rootScope.$on('loggedIn', function () {
