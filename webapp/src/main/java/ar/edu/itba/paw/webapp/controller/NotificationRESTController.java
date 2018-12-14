@@ -52,10 +52,13 @@ public class NotificationRESTController {
 
     List<Notification> notifications = ns.getNotifications(loggedUser, page);
     List<NotificationDTO> notificationsDTO = new LinkedList<>();
-    for(Notification n : notifications) {
-      notificationsDTO.add(new NotificationDTO(n));
+    if(notifications != null) {
+      for(Notification n : notifications) {
+        notificationsDTO.add(new NotificationDTO(n));
+      }
+      return Response.ok(new GenericEntity<List<NotificationDTO>>(notificationsDTO) {}).build();
     }
-    return Response.ok(new GenericEntity<List<NotificationDTO>>(notificationsDTO) {}).build();
+    return Response.ok(null).build();
   }
 
   @GET
