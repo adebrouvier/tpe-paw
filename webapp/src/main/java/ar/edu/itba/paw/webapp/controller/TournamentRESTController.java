@@ -118,9 +118,15 @@ public class TournamentRESTController {
     if (username != null) {
       user = us.findByName(playerForm.getUsername());
 
+      if (user == null){
+        return Response.status(Response.Status.BAD_REQUEST).build();
+      }
+
       if (!ts.participatesIn(user.getId(), id)) { // user isn't participating
         p = ps.create(playerForm.getPlayer(), user, tournament);
         ns.createParticipatesInNotifications(user, tournament);
+      }else{
+        return Response.status(Response.Status.BAD_REQUEST).build();
       }
 
     } else { // Player is not linked to user

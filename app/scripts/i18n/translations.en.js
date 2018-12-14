@@ -111,6 +111,8 @@ define([], function () {
 		PLAYER_FORM_NAME_PATTERN: 'Player name can only contain letters or numbers.',
 		PLAYER_FORM_USERNAME_LENGTH: 'Username must be between {{minlength}} and {{maxlength}} characters long.',
 		PLAYER_FORM_USERNAME_PATTERN: 'Username can only contain letters or numbers.',
+    PLAYER_FORM_USERNAME_EXISTS: 'User does not exist.',
+    PLAYER_FORM_USERNAME_CHECKING: 'Checking user...',
 		PLAYER_FORM_ADD_BUTTON: 'Add',
 		PLAYER_FORM_ADD_TITLE: 'Add player',
 		PLAYER_TABLE_EMPTY: 'There are no players registered yet.',

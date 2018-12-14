@@ -32,7 +32,7 @@
                     <tr ng-repeat="player in tournament.players track by $index| orderBy:'+seed'">
                         <td style="cursor: move">{{player.seed}}</td>
                         <td style="cursor: move">{{player.name}}</td>
-                        <td>{{player.username}}</td>
+                        <td><a ng-href="#/users/{{player.user.username}}" ng-bind="player.user.username"></a></td>
                         <td>
                             <form no-validate ng-submit="removePlayer(player.id)">
                                 <button type="submit" class="btn btn-danger">Remove</button>
@@ -76,16 +76,19 @@
                             </div>
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" id="username-input" placeholder="Username"
-                            ng-model="playerForm.username" ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9]+/">
-                            <div ng-messages="playerForm.username.$error" class="invalid-feedback" ng-if="playerForm.username.$touched">
+                            <input type="text" class="form-control" id="username-input" placeholder="Username" name="tusername"
+                            ng-model="playerForm.username" ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9]+/" existing-user
+                             ng-class="{ 'is-invalid': playerForm.tusername.$touched && playerForm.tusername.$invalid }" >
+                            <div ng-messages="playerForm.tusername.$error" class="invalid-feedback" ng-if="playerForm.tusername.$touched">
                                 <p ng-message="minlength">{{'PLAYER_FORM_USERNAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
                                 <p ng-message="maxlength">{{'PLAYER_FORM_USERNAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
                                 <p ng-message="pattern">{{'PLAYER_FORM_USERNAME_PATTERN' | translate}}</p>
+                                <p ng-message="existingUser">{{'PLAYER_FORM_USERNAME_EXISTS' | translate}}</p>
                             </div>
+                            <p ng-if="playerForm.tusername.$pending" class="text-muted">{{'PLAYER_FORM_USERNAME_CHECKING'|translate}}</p>
                         </div>
                         <div class="form-group col-md-2">
-                            <button type="submit" class="btn btn-primary" ng-disabled="playerForm.$invalid">{{'PLAYER_FORM_ADD_BUTTON' | translate}}</button>
+                            <button type="submit" class="btn btn-primary align-bottom" ng-disabled="playerForm.$invalid || playerForm.$pending">{{'PLAYER_FORM_ADD_BUTTON' | translate}}</button>
                         </div>
                     </div>
                 </form>

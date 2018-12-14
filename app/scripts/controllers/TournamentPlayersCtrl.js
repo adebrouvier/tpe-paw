@@ -1,4 +1,4 @@
-define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'directives/tournamentInfo', 'services/apiService', 'services/authService'], function (tpePaw) {
+define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'directives/tournamentInfo', 'services/apiService', 'services/authService', 'directives/existingUser'], function (tpePaw) {
 
     'use strict';
     tpePaw.controller('TournamentPlayersCtrl', function ($scope, $routeParams, $location, titleService, apiService, AuthService) {
@@ -61,8 +61,6 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'direct
                 }, function errorCallback(response) {
                     console.log('Player add ERROR');
                 });
-            }else {
-                console.log('Invalid form');
             }
         };
 

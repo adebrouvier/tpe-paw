@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.webapp.form.validation.ExistingUser;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,7 +13,6 @@ public class PlayerForm {
 
     @Size(min = 6, max = 40)
     @Pattern(regexp = "[a-zA-Z0-9]+")
-    @ExistingUser
     private String username;
 
     public String getPlayer() {
