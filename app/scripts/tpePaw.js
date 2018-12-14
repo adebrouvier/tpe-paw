@@ -54,7 +54,7 @@ define(['routes',
 
 					cfpLoadingBarProvider.includeSpinner = false;
 				}])
-      .value('apiUrl', 'http://localhost:8080/api');
+      .value('apiUrl', 'http://pawserver.it.itba.edu.ar/paw-2017b-2/api');
 		return tpePaw;
 	}
 );
