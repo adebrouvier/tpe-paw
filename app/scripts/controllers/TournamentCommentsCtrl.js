@@ -33,7 +33,8 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage','directi
                         console.log('Added comment');
                         var comment = response.data;
                         $scope.comments.push(comment);
-                        $scope.commentForm = {};
+                        $scope.commentForm.comment = "";
+                        $scope.commentForm.$setUntouched();
                 }, function errorCallback(response) {
                     console.log('Comment ERROR');
                 });
@@ -48,7 +49,8 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage','directi
                         console.log('Added reply');
                         $('#replyModal').modal('hide');
                         $scope.parent.children.push(response.data);
-                        $scope.replyForm = {};
+                        $scope.replyForm.reply = "";
+                        $scope.replyForm.$setUntouched();
                 }, function errorCallback(response) {
                     console.log('Reply error');
                 });
