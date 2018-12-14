@@ -8,7 +8,7 @@ public class UserScoresDTO {
 
   private UserDTO user;
 
-  public UserScoresDTO(){
+  public UserScoresDTO() {
   }
 
   public UserScoresDTO(UserScore userScore) {

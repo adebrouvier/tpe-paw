@@ -5,7 +5,10 @@ import ar.edu.itba.paw.interfaces.service.RankingService;
 import ar.edu.itba.paw.interfaces.service.SecurityService;
 import ar.edu.itba.paw.interfaces.service.TournamentService;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.webapp.controller.dto.*;
+import ar.edu.itba.paw.webapp.controller.dto.PopularRankingRESTDTO;
+import ar.edu.itba.paw.webapp.controller.dto.RankingDTO;
+import ar.edu.itba.paw.webapp.controller.dto.TournamentPointsDTO;
+import ar.edu.itba.paw.webapp.controller.dto.ValidDTO;
 import ar.edu.itba.paw.webapp.form.RankingForm;
 import ar.edu.itba.paw.webapp.form.RankingPageForm;
 import ar.edu.itba.paw.webapp.form.validation.RESTValidator;
@@ -52,7 +55,7 @@ public class RankingRESTController {
 
   @GET
   @Path("/{id}")
-  @Produces(value = { MediaType.APPLICATION_JSON, })
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response getById(@PathParam("id") final long id) {
     final Ranking ranking = rs.findById(id);
     if (ranking != null) {
@@ -63,7 +66,7 @@ public class RankingRESTController {
   }
 
   @POST
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response createRanking(final RankingForm rankingForm) throws ValidationException {
 
     validator.validate(rankingForm, "Failed to validate ranking");
@@ -74,17 +77,17 @@ public class RankingRESTController {
 
     //TODO: constructor without tMap?
     Map<Tournament, Integer> tMap = new HashMap<>();
-    final Ranking ranking	=	rs.create(rankingForm.getName(), tMap, game.getName(), loggedUser.getId());
+    final Ranking ranking = rs.create(rankingForm.getName(), tMap, game.getName(), loggedUser.getId());
 
     LOGGER.info("Created ranking {} with id {}", ranking.getName(), ranking.getId());
 
-    final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(ranking.getId())).build();
-    return	Response.created(uri).entity(new RankingDTO(ranking)).build();
+    final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(ranking.getId())).build();
+    return Response.created(uri).entity(new RankingDTO(ranking)).build();
   }
 
   @POST
   @Path("/{id}/tournaments")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response addTournament(@PathParam("id") final long id, final RankingPageForm form) throws ValidationException {
 
     validator.validate(form, "Failed to validate form");
@@ -128,15 +131,16 @@ public class RankingRESTController {
       .map(TournamentPointsDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) { };
-    return	Response.ok(pointsList).build();
+    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) {
+    };
+    return Response.ok(pointsList).build();
   }
 
   @DELETE
   @Path("/{id}/tournaments/{tournamentId}")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response removeTournament(@PathParam("id") final long id, @PathParam("tournamentId") final long tournamentId,
-                                   final RankingPageForm form){
+                                   final RankingPageForm form) {
 
     final Ranking r = rs.findById(id);
 
@@ -156,13 +160,14 @@ public class RankingRESTController {
       .map(TournamentPointsDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) { };
-    return	Response.ok(pointsList).build();
+    GenericEntity<List<TournamentPointsDTO>> pointsList = new GenericEntity<List<TournamentPointsDTO>>(points) {
+    };
+    return Response.ok(pointsList).build();
   }
 
   @GET
   @Path("{id}/tournament/{tournament}")
-  public Response validTournament(@PathParam("id") final long id, @PathParam("tournament") String name){
+  public Response validTournament(@PathParam("id") final long id, @PathParam("tournament") String name) {
 
     boolean valid = rs.checkValidTournament(id, name);
 
@@ -172,7 +177,7 @@ public class RankingRESTController {
 
   @GET
   @Path("/featured")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response featuredRankings() {
 
     int amount = 5;
@@ -180,21 +185,23 @@ public class RankingRESTController {
       .map(RankingDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<RankingDTO>> list= new GenericEntity<List<RankingDTO>>(featured) { };
+    GenericEntity<List<RankingDTO>> list = new GenericEntity<List<RankingDTO>>(featured) {
+    };
     return Response.ok(list).build();
   }
 
   @GET
   @Path("/popular")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response popularRankings() {
 
     int amount = 3;
     List<PopularRankingRESTDTO> popular = rs.findPopularRankings(amount).stream()
-                                                                        .map(PopularRankingRESTDTO::new)
-                                                                        .collect(Collectors.toList());
+      .map(PopularRankingRESTDTO::new)
+      .collect(Collectors.toList());
 
-    GenericEntity<List<PopularRankingRESTDTO>> list= new GenericEntity<List<PopularRankingRESTDTO>>(popular) { };
+    GenericEntity<List<PopularRankingRESTDTO>> list = new GenericEntity<List<PopularRankingRESTDTO>>(popular) {
+    };
     return Response.ok(list).build();
   }
 }

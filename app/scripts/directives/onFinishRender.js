@@ -1,5 +1,5 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw'], function (tpePaw) {
 
   tpePaw.directive('onFinishRender', ['$timeout', '$parse', function ($timeout, $parse) {
     return {

@@ -6,9 +6,10 @@ public class AutocompleteDTO {
 
   public List<String> results;
 
-  public AutocompleteDTO(){}
+  public AutocompleteDTO() {
+  }
 
-  public AutocompleteDTO(List<String> results){
+  public AutocompleteDTO(List<String> results) {
     this.results = results;
   }
 

@@ -9,16 +9,16 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
-    @Autowired
-    private UserService us;
+  @Autowired
+  private UserService us;
 
-    @Override
-    public void initialize(UniqueUsername constraintAnnotation) {
-    }
+  @Override
+  public void initialize(UniqueUsername constraintAnnotation) {
+  }
 
-    @Override
-    public boolean isValid(String userField, ConstraintValidatorContext context) {
-        final User u = us.findByName(userField);
-        return u == null;
-    }
+  @Override
+  public boolean isValid(String userField, ConstraintValidatorContext context) {
+    final User u = us.findByName(userField);
+    return u == null;
+  }
 }

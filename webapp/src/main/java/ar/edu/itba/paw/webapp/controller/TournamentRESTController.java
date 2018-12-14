@@ -59,7 +59,7 @@ public class TournamentRESTController {
 
   @GET
   @Path("/{id}")
-  @Produces(value = { MediaType.APPLICATION_JSON, })
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response getById(@PathParam("id") final long id) {
     final Tournament tournament = ts.findById(id);
     if (tournament != null) {
@@ -70,43 +70,43 @@ public class TournamentRESTController {
   }
 
   @POST
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
-  public	Response	createTournament(final TournamentForm tournamentForm) throws ValidationException {
+  @Produces(value = {MediaType.APPLICATION_JSON,})
+  public Response createTournament(final TournamentForm tournamentForm) throws ValidationException {
 
     validator.validate(tournamentForm, "Failed to validate tournament");
 
     User loggedUser = ss.getLoggedUser();
 
-    if (loggedUser == null){
+    if (loggedUser == null) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     Game game = pmc.addGameImage(tournamentForm.getGame());
 
-    final Tournament tournament	=	ts.create(tournamentForm.getName(), game.getId(), loggedUser.getId());
+    final Tournament tournament = ts.create(tournamentForm.getName(), game.getId(), loggedUser.getId());
 
     LOGGER.info("Created tournament {} with id {}", tournament.getName(), tournament.getId());
 
-    final URI uri	=	uriInfo.getAbsolutePathBuilder().path(String.valueOf(tournament.getId())).build();
-    return	Response.created(uri).entity(new TournamentDTO(tournament)).build();
+    final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(tournament.getId())).build();
+    return Response.created(uri).entity(new TournamentDTO(tournament)).build();
   }
 
   @POST
   @Path("/{id}/players")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response players(@PathParam("id") final long id, final PlayerForm playerForm) throws ValidationException {
 
     validator.validate(playerForm, "Failed to validate player");
 
     final Tournament tournament = ts.findById(id);
 
-    if (tournament == null){
+    if (tournament == null) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     User loggedUser = ss.getLoggedUser();
 
-    if (!loggedUser.equals(tournament.getCreator())){
+    if (!loggedUser.equals(tournament.getCreator())) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
@@ -118,14 +118,14 @@ public class TournamentRESTController {
     if (username != null) {
       user = us.findByName(playerForm.getUsername());
 
-      if (user == null){
+      if (user == null) {
         return Response.status(Response.Status.BAD_REQUEST).build();
       }
 
       if (!ts.participatesIn(user.getId(), id)) { // user isn't participating
         p = ps.create(playerForm.getPlayer(), user, tournament);
         ns.createParticipatesInNotifications(user, tournament);
-      }else{
+      } else {
         return Response.status(Response.Status.BAD_REQUEST).build();
       }
 
@@ -141,25 +141,26 @@ public class TournamentRESTController {
       .map(PlayerDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
-    return	Response.ok(playerList).build();
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) {
+    };
+    return Response.ok(playerList).build();
   }
 
   /*TODO: change to DELETE */
   @POST
   @Path("/{id}/players/{playerId}")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response removePlayer(@PathParam("id") final long id, @PathParam("playerId") final long playerId) {
 
     final Tournament tournament = ts.findById(id);
 
-    if (tournament == null){
+    if (tournament == null) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     User loggedUser = ss.getLoggedUser();
 
-    if (!loggedUser.equals(tournament.getCreator())){
+    if (!loggedUser.equals(tournament.getCreator())) {
       LOGGER.warn("Unauthorized User {} tried to remove player to tournament {}", loggedUser.getId(), id);
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
@@ -171,11 +172,12 @@ public class TournamentRESTController {
 
     /* TODO: Change for service? */
     List<PlayerDTO> players = ts.findById(id).getPlayers().stream()
-                                .map(PlayerDTO::new)
-                                .collect(Collectors.toList());
+      .map(PlayerDTO::new)
+      .collect(Collectors.toList());
 
-    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
-    return	Response.ok(playerList).build();
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) {
+    };
+    return Response.ok(playerList).build();
   }
 
 
@@ -196,7 +198,7 @@ public class TournamentRESTController {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
-    if(ps.changeSeed(tournamentId, playerOldSeed, playerNewSeed)) {
+    if (ps.changeSeed(tournamentId, playerOldSeed, playerNewSeed)) {
       LOGGER.info("Swapped seed {} with seed {} from tournament {}", playerOldSeed, playerNewSeed, tournamentId);
     }
 
@@ -205,8 +207,9 @@ public class TournamentRESTController {
       .map(PlayerDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) { };
-    return	Response.ok(playerList).build();
+    GenericEntity<List<PlayerDTO>> playerList = new GenericEntity<List<PlayerDTO>>(players) {
+    };
+    return Response.ok(playerList).build();
 
   }
 
@@ -223,7 +226,7 @@ public class TournamentRESTController {
 
     User loggedUser = ss.getLoggedUser();
 
-    if (!loggedUser.equals(tournament.getCreator())){
+    if (!loggedUser.equals(tournament.getCreator())) {
       LOGGER.warn("Unauthorized User {} tried to generate the tournament {}", loggedUser.getId(), id);
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
@@ -232,7 +235,7 @@ public class TournamentRESTController {
     ts.setStatus(id, Tournament.Status.STARTED);
     LOGGER.debug("Generated bracket for tournament {}", id);
 
-    return	Response.ok().build();
+    return Response.ok().build();
   }
 
   @POST
@@ -256,18 +259,19 @@ public class TournamentRESTController {
 
     Match m = ms.updateScore(id, matchId, matchForm.getHomeResult(), matchForm.getAwayResult());
 
-    if (m == null){
+    if (m == null) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     LOGGER.info("Updated score of match {} from tournament {}", matchId, id);
 
     List<MatchDTO> matches = ts.findById(id).getMatches().stream()
-                              .map(MatchDTO::new)
-                              .collect(Collectors.toList());
+      .map(MatchDTO::new)
+      .collect(Collectors.toList());
 
-    GenericEntity<List<MatchDTO>> matchList = new GenericEntity<List<MatchDTO>>(matches) { };
-    return	Response.ok(matchList).build();
+    GenericEntity<List<MatchDTO>> matchList = new GenericEntity<List<MatchDTO>>(matches) {
+    };
+    return Response.ok(matchList).build();
   }
 
   @GET
@@ -284,8 +288,9 @@ public class TournamentRESTController {
       .map(CommentDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<CommentDTO>> commentList = new GenericEntity<List<CommentDTO>>(comments) { };
-    return	Response.ok(commentList).build();
+    GenericEntity<List<CommentDTO>> commentList = new GenericEntity<List<CommentDTO>>(comments) {
+    };
+    return Response.ok(commentList).build();
   }
 
   @POST
@@ -305,7 +310,7 @@ public class TournamentRESTController {
     final Comment comment = cs.create(loggedUser, new Date(), commentForm.getComment());
     ts.addComment(id, comment);
 
-    return	Response.ok(new CommentDTO(comment)).build();
+    return Response.ok(new CommentDTO(comment)).build();
   }
 
   @POST
@@ -331,12 +336,12 @@ public class TournamentRESTController {
       LOGGER.info("New reply on tournament {}", t.getId());
     }
 
-    return	Response.ok(new CommentDTO(reply)).build();
+    return Response.ok(new CommentDTO(reply)).build();
   }
 
   @POST
   @Path("/{id}/end")
-  public Response endTournament(@PathParam("id") final long id){
+  public Response endTournament(@PathParam("id") final long id) {
 
     final Tournament tournament = ts.findById(id);
 
@@ -354,12 +359,12 @@ public class TournamentRESTController {
     ts.setStatus(id, Tournament.Status.FINISHED);
     LOGGER.info("Ended tournament {}", id);
 
-    return	Response.ok().build();
+    return Response.ok().build();
   }
 
   @GET
   @Path("/{id}/inscriptions")
-  public Response inscriptions(@PathParam("id") final long id){
+  public Response inscriptions(@PathParam("id") final long id) {
 
     final Tournament tournament = ts.findById(id);
 
@@ -368,17 +373,18 @@ public class TournamentRESTController {
     }
 
     final List<UserDTO> inscriptions = is.finByTournamentId(id).stream()
-                    .map(Inscription::getUser)
-                    .map(UserDTO::new)
-                    .collect(Collectors.toList());
+      .map(Inscription::getUser)
+      .map(UserDTO::new)
+      .collect(Collectors.toList());
 
-    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
-    return	Response.ok(inscriptionList).build();
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) {
+    };
+    return Response.ok(inscriptionList).build();
   }
 
   @POST
   @Path("/{id}/inscriptions")
-  public Response requestInscription(@PathParam("id") final long id){
+  public Response requestInscription(@PathParam("id") final long id) {
 
     Tournament tournament = ts.findById(id);
 
@@ -388,7 +394,7 @@ public class TournamentRESTController {
 
     User loggedUser = ss.getLoggedUser();
 
-    if (loggedUser.equals(tournament.getCreator())){
+    if (loggedUser.equals(tournament.getCreator())) {
       return Response.status(Response.Status.FORBIDDEN).build();
     }
 
@@ -406,13 +412,14 @@ public class TournamentRESTController {
       .map(UserDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
-    return	Response.ok(inscriptionList).build();
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) {
+    };
+    return Response.ok(inscriptionList).build();
   }
 
   @POST
   @Path("/{id}/inscriptions/{userId}")
-  public Response acceptInscription(@PathParam("id") final long id, @PathParam("userId") final long userId){
+  public Response acceptInscription(@PathParam("id") final long id, @PathParam("userId") final long userId) {
 
     final Tournament t = ts.findById(id);
 
@@ -423,7 +430,7 @@ public class TournamentRESTController {
     }
 
     User loggedUser = ss.getLoggedUser();
-    if (!loggedUser.equals(t.getCreator())){
+    if (!loggedUser.equals(t.getCreator())) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
@@ -435,7 +442,7 @@ public class TournamentRESTController {
     if (!ts.participatesIn(u.getId(), id)) { /* user isn't participating */
       p = ps.create(u.getName(), u, t);
     } else {
-      return	Response.ok().build();
+      return Response.ok().build();
     }
 
     ps.addToTournament(p.getId(), t.getId());
@@ -449,13 +456,14 @@ public class TournamentRESTController {
       .map(UserDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
-    return	Response.ok(inscriptionList).build();
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) {
+    };
+    return Response.ok(inscriptionList).build();
   }
 
   @DELETE
   @Path("/{id}/inscriptions/{userId}")
-  public Response rejectInscription(@PathParam("id") final long id, @PathParam("userId") final long userId){
+  public Response rejectInscription(@PathParam("id") final long id, @PathParam("userId") final long userId) {
 
     final Tournament t = ts.findById(id);
 
@@ -466,7 +474,7 @@ public class TournamentRESTController {
     }
 
     User loggedUser = ss.getLoggedUser();
-    if (!loggedUser.equals(t.getCreator())){
+    if (!loggedUser.equals(t.getCreator())) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
@@ -481,14 +489,15 @@ public class TournamentRESTController {
       .map(UserDTO::new)
       .collect(Collectors.toList());
 
-    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) { };
-    return	Response.ok(inscriptionList).build();
+    GenericEntity<List<UserDTO>> inscriptionList = new GenericEntity<List<UserDTO>>(inscriptions) {
+    };
+    return Response.ok(inscriptionList).build();
   }
 
   @GET
   @Path("/{id}/inscriptions/{userId}")
   @Produces(MediaType.TEXT_PLAIN)
-  public Boolean signedUp(@PathParam("id") final long id, @PathParam("userId") final long userId){
+  public Boolean signedUp(@PathParam("id") final long id, @PathParam("userId") final long userId) {
 
     final Tournament t = ts.findById(id);
 
@@ -504,7 +513,7 @@ public class TournamentRESTController {
   @GET
   @Path("/{id}/participates/{userId}")
   @Produces(MediaType.TEXT_PLAIN)
-  public Boolean participates(@PathParam("id") final long id, @PathParam("userId") final long userId){
+  public Boolean participates(@PathParam("id") final long id, @PathParam("userId") final long userId) {
 
     final Tournament t = ts.findById(id);
 
@@ -530,16 +539,16 @@ public class TournamentRESTController {
 
   @POST
   @Path("/{id}/match/{matchId}/details")
-  public Response updateMatch(@PathParam("id") final long id, @PathParam("matchId") final int matchId, MatchDataForm form){
+  public Response updateMatch(@PathParam("id") final long id, @PathParam("matchId") final int matchId, MatchDataForm form) {
 
     final Match match = ms.findById(matchId, id);
 
-    if (match == null){
+    if (match == null) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     User loggedUser = ss.getLoggedUser();
-    if (!loggedUser.equals(match.getTournament().getCreator())){
+    if (!loggedUser.equals(match.getTournament().getCreator())) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
@@ -552,7 +561,7 @@ public class TournamentRESTController {
 
     LOGGER.info("Update match {} from tournament {} description", matchId, id);
 
-    return	Response.ok().build();
+    return Response.ok().build();
   }
 
   /**
@@ -563,7 +572,7 @@ public class TournamentRESTController {
    */
   @GET
   @Path("/autocomplete")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response tournamentAutocomplete(@QueryParam("q") String query, @QueryParam("game") Long game) {
 
     List<String> names;
@@ -574,22 +583,24 @@ public class TournamentRESTController {
       names = ts.findTournamentNames(query, game);
     }
 
-    GenericEntity<AutocompleteDTO> entity = new GenericEntity<AutocompleteDTO>(new AutocompleteDTO(names)) {};
+    GenericEntity<AutocompleteDTO> entity = new GenericEntity<AutocompleteDTO>(new AutocompleteDTO(names)) {
+    };
 
     return Response.ok(entity).build();
   }
 
   @GET
   @Path("/featured")
-  @Produces(value	=	{	MediaType.APPLICATION_JSON,	})
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response featuredTournaments() {
 
     int featuredTournaments = 5;
     List<TournamentDTO> featured = ts.findFeaturedTournaments(featuredTournaments).stream()
-                                                                                  .map(TournamentDTO::new)
-                                                                                  .collect(Collectors.toList());
+      .map(TournamentDTO::new)
+      .collect(Collectors.toList());
 
-    GenericEntity<List<TournamentDTO>> list= new GenericEntity<List<TournamentDTO>>(featured) { };
+    GenericEntity<List<TournamentDTO>> list = new GenericEntity<List<TournamentDTO>>(featured) {
+    };
     return Response.ok(list).build();
   }
 }

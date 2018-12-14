@@ -17,69 +17,69 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class GameServiceTest {
-    @Mock
-    private GameDao gameDao;
-    @Rule
-    public MockitoRule rule = MockitoJUnit.rule();
-    @InjectMocks
-    private GameServiceImpl gameService;
+  @Mock
+  private GameDao gameDao;
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
+  @InjectMocks
+  private GameServiceImpl gameService;
 
-    @Before
-    public void setUp() {
-        Mockito.when(gameDao.create("Smash", false)).thenReturn(generatedGame("Smash", false));
-        Mockito.when(gameDao.create("Smash", true)).thenReturn(generatedGame("Smash", true));
-        Mockito.when(gameDao.create(null, true)).thenReturn(null);
-        Mockito.when(gameDao.findById(1)).thenReturn(generatedGame("Smash", false));
-        Mockito.when(gameDao.findById(123)).thenReturn(null);
-        Mockito.when(gameDao.findGameNames("Brawl")).thenReturn(generatedGameNames("Brawl", true));
-        Mockito.when(gameDao.findGameNames("asdasdasf")).thenReturn(null);
-    }
+  @Before
+  public void setUp() {
+    Mockito.when(gameDao.create("Smash", false)).thenReturn(generatedGame("Smash", false));
+    Mockito.when(gameDao.create("Smash", true)).thenReturn(generatedGame("Smash", true));
+    Mockito.when(gameDao.create(null, true)).thenReturn(null);
+    Mockito.when(gameDao.findById(1)).thenReturn(generatedGame("Smash", false));
+    Mockito.when(gameDao.findById(123)).thenReturn(null);
+    Mockito.when(gameDao.findGameNames("Brawl")).thenReturn(generatedGameNames("Brawl", true));
+    Mockito.when(gameDao.findGameNames("asdasdasf")).thenReturn(null);
+  }
 
 
-    @Test
-    public void testFindByIdSuccess() {
-        Game game = gameService.findById(1);
-        assertEquals("Smash", game.getName());
-    }
+  @Test
+  public void testFindByIdSuccess() {
+    Game game = gameService.findById(1);
+    assertEquals("Smash", game.getName());
+  }
 
-    @Test
-    public void testFindByIdFailure() {
-        Game game = gameService.findById(123);
-        assertNull(game);
-    }
+  @Test
+  public void testFindByIdFailure() {
+    Game game = gameService.findById(123);
+    assertNull(game);
+  }
 
-    @Test
-    public void testCreateEmptyGame() {
-        Game game = gameService.create(null, true);
-        assertNull(game);
-    }
+  @Test
+  public void testCreateEmptyGame() {
+    Game game = gameService.create(null, true);
+    assertNull(game);
+  }
 
-    @Test
-    public void testFindGameByName() {
-        Game game = gameService.findById(1);
-        assertEquals("Smash", game.getName());
-    }
+  @Test
+  public void testFindGameByName() {
+    Game game = gameService.findById(1);
+    assertEquals("Smash", game.getName());
+  }
 
-    @Test
-    public void testFindGamesByName() {
-        List<String> brawlers = gameService.findGameNames("Brawl");
-        assertEquals("Brawl", brawlers.get(0));
-    }
+  @Test
+  public void testFindGamesByName() {
+    List<String> brawlers = gameService.findGameNames("Brawl");
+    assertEquals("Brawl", brawlers.get(0));
+  }
 
-    @Test
-    public void testFindGamesByNameNoGamesMatch() {
-        List<String> brawlers = gameService.findGameNames("asdasdasf");
-        assertNull(brawlers);
-    }
+  @Test
+  public void testFindGamesByNameNoGamesMatch() {
+    List<String> brawlers = gameService.findGameNames("asdasdasf");
+    assertNull(brawlers);
+  }
 
-    private Game generatedGame(String gameName, Boolean userGenerated) {
-        return new Game(gameName, userGenerated);
-    }
+  private Game generatedGame(String gameName, Boolean userGenerated) {
+    return new Game(gameName, userGenerated);
+  }
 
-    private List<String> generatedGameNames(String gameName, Boolean userGenerated) {
-        List<String> gamesName = new ArrayList<>();
-        gamesName.add(gameName);
-        return gamesName;
-    }
+  private List<String> generatedGameNames(String gameName, Boolean userGenerated) {
+    List<String> gamesName = new ArrayList<>();
+    gamesName.add(gameName);
+    return gamesName;
+  }
 }
 

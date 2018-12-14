@@ -13,68 +13,68 @@ import java.util.List;
 @Repository
 public class UserFollowHibernateDao implements UserFollowDao {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    @Transactional
-    @Override
-    public void create(User follower, User followed) {
-        if (follower == null || followed == null) {
-            return;
-        }
-
-        UserFollow u = findById(follower, followed);
-        if (u == null) {
-            u = new UserFollow(follower.getId(), followed.getId());
-            em.persist(u);
-        }
+  @Transactional
+  @Override
+  public void create(User follower, User followed) {
+    if (follower == null || followed == null) {
+      return;
     }
 
-    @Override
-    public UserFollow findById(User follower, User followed) {
-        if (follower == null || followed == null) {
-            return null;
-        }
-        List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollower.id = :userFollowerId AND u.userFollowed.id = :userFollowedId", UserFollow.class)
-                .setParameter("userFollowerId", follower.getId())
-                .setParameter("userFollowedId", followed.getId())
-                .getResultList();
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
+    UserFollow u = findById(follower, followed);
+    if (u == null) {
+      u = new UserFollow(follower.getId(), followed.getId());
+      em.persist(u);
+    }
+  }
 
-        return list.get(0);
+  @Override
+  public UserFollow findById(User follower, User followed) {
+    if (follower == null || followed == null) {
+      return null;
+    }
+    List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollower.id = :userFollowerId AND u.userFollowed.id = :userFollowedId", UserFollow.class)
+      .setParameter("userFollowerId", follower.getId())
+      .setParameter("userFollowedId", followed.getId())
+      .getResultList();
+    if (list == null || list.isEmpty()) {
+      return null;
     }
 
-    @Transactional
-    @Override
-    public void delete(User follower, User followed) {
-        if (follower == null || followed == null) {
-            return;
-        }
+    return list.get(0);
+  }
 
-        UserFollow u = findById(follower, followed);
-        if (u != null) {
-            em.remove(u);
-        }
+  @Transactional
+  @Override
+  public void delete(User follower, User followed) {
+    if (follower == null || followed == null) {
+      return;
     }
 
-    @Override
-    public boolean isFollow(User follower, User followed) {
-        return findById(follower, followed) != null;
+    UserFollow u = findById(follower, followed);
+    if (u != null) {
+      em.remove(u);
     }
+  }
 
-    @Override
-    public List<UserFollow> getFollowers(User user) {
-        if (user == null) {
-            return null;
-        }
-        List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollowedId = :userId", UserFollow.class)
-                .setParameter("userId", user.getId())
-                .getResultList();
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        return list;
+  @Override
+  public boolean isFollow(User follower, User followed) {
+    return findById(follower, followed) != null;
+  }
+
+  @Override
+  public List<UserFollow> getFollowers(User user) {
+    if (user == null) {
+      return null;
     }
+    List<UserFollow> list = em.createQuery("FROM UserFollow AS u WHERE u.userFollowedId = :userId", UserFollow.class)
+      .setParameter("userId", user.getId())
+      .getResultList();
+    if (list == null || list.isEmpty()) {
+      return null;
+    }
+    return list;
+  }
 }

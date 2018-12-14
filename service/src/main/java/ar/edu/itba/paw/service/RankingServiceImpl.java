@@ -15,66 +15,66 @@ import java.util.Map;
 @Service
 public class RankingServiceImpl implements RankingService {
 
-    @Autowired
-    private RankingDao rankingDao;
+  @Autowired
+  private RankingDao rankingDao;
 
-    @Override
-    public Ranking findById(long rankingId) {
-        return rankingDao.findById(rankingId);
-    }
+  @Override
+  public Ranking findById(long rankingId) {
+    return rankingDao.findById(rankingId);
+  }
 
-    @Transactional
-    @Override
-    public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
-        return rankingDao.create(name, tournaments, game, userId);
-    }
+  @Transactional
+  @Override
+  public Ranking create(String name, Map<Tournament, Integer> tournaments, String game, long userId) {
+    return rankingDao.create(name, tournaments, game, userId);
+  }
 
-    @Override
-    public List<Ranking> findByName(String term, String game) {
-        return rankingDao.findByName(term, game);
-    }
+  @Override
+  public List<Ranking> findByName(String term, String game) {
+    return rankingDao.findByName(term, game);
+  }
 
-    @Override
-    public List<String> findRankingNames(String query) {
-        return rankingDao.findRankingNames(query);
-    }
+  @Override
+  public List<String> findRankingNames(String query) {
+    return rankingDao.findRankingNames(query);
+  }
 
-    @Transactional
-    @Override
-    public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
-        return rankingDao.addTournaments(rankingId, tournaments);
-    }
+  @Transactional
+  @Override
+  public Ranking addTournaments(long rankingId, Map<Tournament, Integer> tournaments) {
+    return rankingDao.addTournaments(rankingId, tournaments);
+  }
 
-    @Override
-    public List<Ranking> findFeaturedRankings(int featured) {
-        return rankingDao.findFeaturedRankings(featured);
-    }
+  @Override
+  public List<Ranking> findFeaturedRankings(int featured) {
+    return rankingDao.findFeaturedRankings(featured);
+  }
 
-    @Override
-    public List<Ranking> findRankingByUser(long userId) {
-        return rankingDao.findRankingByUser(userId);
-    }
+  @Override
+  public List<Ranking> findRankingByUser(long userId) {
+    return rankingDao.findRankingByUser(userId);
+  }
 
-    @Override
-    public List<PopularRankingDTO> findPopularRankings(int rankings) {
-        return rankingDao.findPopularRankings(rankings);
-    }
+  @Override
+  public List<PopularRankingDTO> findPopularRankings(int rankings) {
+    return rankingDao.findPopularRankings(rankings);
+  }
 
-    @Transactional
-    @Override
-    public void delete(long rankingId, long tournamentId) {
-        rankingDao.delete(rankingId, tournamentId);
-    }
+  @Transactional
+  @Override
+  public void delete(long rankingId, long tournamentId) {
+    rankingDao.delete(rankingId, tournamentId);
+  }
 
-    @Transactional
-    @Override
-    public List<Ranking> findRankingByUserPage(long userId, int page) {
-        return rankingDao.findRankingByUserPage(userId, page);
-    }
+  @Transactional
+  @Override
+  public List<Ranking> findRankingByUserPage(long userId, int page) {
+    return rankingDao.findRankingByUserPage(userId, page);
+  }
 
-    @Override
-    public boolean checkValidTournament(long id, String name) {
-      return rankingDao.checkValidTournament(id, name);
-    }
+  @Override
+  public boolean checkValidTournament(long id, String name) {
+    return rankingDao.checkValidTournament(id, name);
+  }
 
 }

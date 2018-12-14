@@ -12,59 +12,59 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-    @Autowired
-    private PlayerDao playerDao;
+  @Autowired
+  private PlayerDao playerDao;
 
-    @Transactional
-    @Override
-    public void delete(long id) {
-        playerDao.delete(id);
-    }
+  @Transactional
+  @Override
+  public void delete(long id) {
+    playerDao.delete(id);
+  }
 
-    @Transactional
-    @Override
-    public boolean removeFromTournament(long tournamentId, long playerId) {
-        return playerDao.removeFromTournament(tournamentId, playerId);
-    }
+  @Transactional
+  @Override
+  public boolean removeFromTournament(long tournamentId, long playerId) {
+    return playerDao.removeFromTournament(tournamentId, playerId);
+  }
 
-    @Transactional
-    @Override
-    public boolean changeSeed(long tournamentId, int playerOldSeed, int playerNewSeed) {
-        return playerDao.changeSeed(tournamentId, playerOldSeed, playerNewSeed);
-    }
+  @Transactional
+  @Override
+  public boolean changeSeed(long tournamentId, int playerOldSeed, int playerNewSeed) {
+    return playerDao.changeSeed(tournamentId, playerOldSeed, playerNewSeed);
+  }
 
-    @Override
-    public Player findById(long id) {
-        return playerDao.findById(id);
-    }
+  @Override
+  public Player findById(long id) {
+    return playerDao.findById(id);
+  }
 
-    @Override
-    public long findBySeed(int seed, long tournamentId) {
-        return playerDao.findBySeed(seed, tournamentId);
-    }
+  @Override
+  public long findBySeed(int seed, long tournamentId) {
+    return playerDao.findBySeed(seed, tournamentId);
+  }
 
-    @Transactional
-    @Override
-    public Player create(String name, Tournament tournament) {
-        return playerDao.create(name, tournament);
-    }
+  @Transactional
+  @Override
+  public Player create(String name, Tournament tournament) {
+    return playerDao.create(name, tournament);
+  }
 
-    @Transactional
-    @Override
-    public Player create(String name, User user, Tournament tournament) {
-        return playerDao.create(name, user, tournament);
-    }
+  @Transactional
+  @Override
+  public Player create(String name, User user, Tournament tournament) {
+    return playerDao.create(name, user, tournament);
+  }
 
-    @Transactional
-    @Override
-    public void setDefaultStanding(int standing, long tournamentId) {
-        playerDao.setDefaultStanding(standing, tournamentId);
-    }
+  @Transactional
+  @Override
+  public void setDefaultStanding(int standing, long tournamentId) {
+    playerDao.setDefaultStanding(standing, tournamentId);
+  }
 
-    @Transactional
-    @Override
-    public void addToTournament(long playerId, long tournamentId) {
-        playerDao.addToTournament(playerId, tournamentId);
-    }
+  @Transactional
+  @Override
+  public void addToTournament(long playerId, long tournamentId) {
+    playerDao.addToTournament(playerId, tournamentId);
+  }
 
 }

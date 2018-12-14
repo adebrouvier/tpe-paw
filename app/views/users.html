@@ -1,13 +1,16 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-4 col-margin">
-      <div class="card card-profile" >
+      <div class="card card-profile">
         <div class="card-body">
           <div class="user-section-profile">
-            <button type="button" ng-show="loggedUser != undefined && loggedUser == user.username" class="btn btn-edit" ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" ng-click="goConfigPage()" ng-cloak><i class="material-icons icon-edit" >edit</i></button>
+            <button type="button" ng-show="loggedUser != undefined && loggedUser == user.username" class="btn btn-edit"
+                    ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl"
+                    ng-click="goConfigPage()" ng-cloak><i class="material-icons icon-edit">edit</i></button>
             <img class="user-img" ng-src="{{profileImageUrl}}">
             <h4>{{user.username}}</h4>
-            <button ng-show="loggedUser != undefined && loggedUser != user.username" type="button" class="btn btn-follow" ng-click="user.follow ? unfollow() : follow()" ng-cloak>
+            <button ng-show="loggedUser != undefined && loggedUser != user.username" type="button"
+                    class="btn btn-follow" ng-click="user.follow ? unfollow() : follow()" ng-cloak>
               <span ng-show="!user.follow">{{'USER_FOLLOW' | translate}}</span>
               <span ng-show="user.follow">{{'USER_UNFOLLOW' | translate}}</span>
             </button>
@@ -16,21 +19,25 @@
         <div class="dropdown-divider"></div>
         <div class="card-body">
 
-          <div class="user-section-follower"><b>{{'USER_FOLLOWERS' | translate}}<span>{{user.followersAmount}}</span></b></div>
+          <div class="user-section-follower"><b>{{'USER_FOLLOWERS' |
+            translate}}<span>{{user.followersAmount}}</span></b></div>
 
         </div>
         <div class="dropdown-divider"></div>
         <div class="card-body">
-          <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" class="user-section-title"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
+          <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl"
+              class="user-section-title"><i class="material-icons section-icons">info_outline</i><b>{{'USER_PERSONAL_INFORMATION'
+            | translate}}</b></h6>
           <div ng-show="loggedUser == user.username" ng-cloak>
-            <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
+            <div class="text-center user-section-edit"
+                 ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
               <h6>
                 <b>{{'USER_EDIT_PROFILE' | translate}}</b>
               </h6>
             </div>
           </div>
 
-          <p  class="user-section-content-text">{{user.description}}</p><br>
+          <p class="user-section-content-text">{{user.description}}</p><br>
 
 
           <a ng-show="user.twitchUrl" ng-href="{{user.twitchUrl}}">
@@ -55,7 +62,7 @@
 
           <a ng-show="user.youtubeUrl" ng-href="{{user.youtubeUrl}}">
             <div class="user-section-content-link">
-              <span >
+              <span>
                 <img class="user-social-icon-youtube" src="images/youtube-icon.png">
               </span>
               <span>Youtube</span>
@@ -66,13 +73,13 @@
 
         <div class="dropdown-divider" ng-show="user.favoriteGame"></div>
         <div class="card-body" ng-show="user.favoriteGame">
-          <h6 class="user-section-title"><i class="material-icons section-icons">games</i><b>{{'USER_FAVORITE_GAME' | translate}}</b></h6>
+          <h6 class="user-section-title"><i class="material-icons section-icons">games</i><b>{{'USER_FAVORITE_GAME' |
+            translate}}</b></h6>
 
           <p class="user-section-content-text">{{user.favoriteGame.name}}</p>
 
         </div>
       </div>
-
 
 
     </div>
@@ -81,22 +88,29 @@
         <div class="card-header">
           <nav>
             <div class="nav nav-tabs card-header-tabs nav-fill" id="nav-tab" role="tablist">
-              <a id="participates" class="nav-item nav-link active" id="pills-participates-tab" ng-href="#/users/{{username}}" role="tab" aria-controls="pills-participates" aria-selected="true">{{'USER_PARTICIPATES' | translate}}</a>
-              <a id="creates" class="nav-item nav-link" id="pills-creates-tab" ng-href="#/users/{{username}}/created"  role="tab" aria-controls="pills-creates" aria-selected="false">{{'USER_CREATES' | translate}}</a>
-              <a id="rankings" class="nav-item nav-link" id="pills-rankings-tab" ng-href="#/users/{{username}}/rankings" role="tab" aria-controls="pills-rankings" aria-selected="false">{{'USER_RANKINGS' | translate}}</a>
+              <a id="participates" class="nav-item nav-link active" id="pills-participates-tab"
+                 ng-href="#/users/{{username}}" role="tab" aria-controls="pills-participates" aria-selected="true">{{'USER_PARTICIPATES'
+                | translate}}</a>
+              <a id="creates" class="nav-item nav-link" id="pills-creates-tab" ng-href="#/users/{{username}}/created"
+                 role="tab" aria-controls="pills-creates" aria-selected="false">{{'USER_CREATES' | translate}}</a>
+              <a id="rankings" class="nav-item nav-link" id="pills-rankings-tab" ng-href="#/users/{{username}}/rankings"
+                 role="tab" aria-controls="pills-rankings" aria-selected="false">{{'USER_RANKINGS' | translate}}</a>
             </div>
           </nav>
         </div>
         <div class="card-body">
           <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-participates" role="tabpanel" aria-labelledby="pills-participates-tab" ng-controller="UsersCtrl">
+            <div class="tab-pane fade show active" id="pills-participates" role="tabpanel"
+                 aria-labelledby="pills-participates-tab" ng-controller="UsersCtrl">
               <div infinite-scroll='loadParticipatedTournaments()' infinite-scroll-distance='1'>
                 <div ng-repeat='participate in participates'>
                   <div class="card col-12 card-info">
                     <div class="card-body">
-                      <div class="card-game" ng-show="participate.game.name != null || participate.game.name != ''" ><b><i class="material-icons" >games</i>{{participate.game.name}}</b></div>
-                      <div class="card-game" ng-show="participate.game.name == null || participate.game.name == ''" ><b><i class="material-icons" >games</i>{{'USER_NO_GAME' | translate}}</b></div>
-                      <h4 class="card-title" ><b>{{participate.name}}  </b></h4>
+                      <div class="card-game" ng-show="participate.game.name != null || participate.game.name != ''">
+                        <b><i class="material-icons">games</i>{{participate.game.name}}</b></div>
+                      <div class="card-game" ng-show="participate.game.name == null || participate.game.name == ''">
+                        <b><i class="material-icons">games</i>{{'USER_NO_GAME' | translate}}</b></div>
+                      <h4 class="card-title"><b>{{participate.name}} </b></h4>
 
                       <h6 class="card-subtitle mb-2 text-muted" ng-hide="participate.status == 'FINISHED'">
                         {{'USER_TOURNAMENT_NOT_END' | translate}}
@@ -110,8 +124,10 @@
                       </h6>
                     </div>
                     <div class="card-footer">
-                      <a ng-href="#/tournament/{{participate.id}}" class="card-link text-warning">{{'USER_BRACKET' | translate}}</a>
-                      <a ng-href="#/tournament/{{participate.id}}/standings" class="card-link text-warning">{{'USER_STANDING' | translate}}</a>
+                      <a ng-href="#/tournament/{{participate.id}}" class="card-link text-warning">{{'USER_BRACKET' |
+                        translate}}</a>
+                      <a ng-href="#/tournament/{{participate.id}}/standings" class="card-link text-warning">{{'USER_STANDING'
+                        | translate}}</a>
                     </div>
 
                   </div>

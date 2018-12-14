@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw'], function (tpePaw) {
 
-	tpePaw.service('SampleService', function() {
+  tpePaw.service('SampleService', function () {
 
-	});
+  });
 });

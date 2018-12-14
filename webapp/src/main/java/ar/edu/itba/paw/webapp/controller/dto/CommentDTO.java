@@ -18,9 +18,10 @@ public class CommentDTO {
 
   private List<CommentDTO> children;
 
-  public CommentDTO(){}
+  public CommentDTO() {
+  }
 
-  public CommentDTO(Comment comment){
+  public CommentDTO(Comment comment) {
     this.id = comment.getId();
     this.creator = new UserDTO(comment.getCreator());
     this.date = comment.getDate();

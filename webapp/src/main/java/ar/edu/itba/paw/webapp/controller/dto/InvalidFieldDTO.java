@@ -7,7 +7,8 @@ public class InvalidFieldDTO {
   private String field;
   private String error;
 
-  public InvalidFieldDTO() {}
+  public InvalidFieldDTO() {
+  }
 
   public InvalidFieldDTO(final ConstraintViolation<?> constraintViolation) {
     this.setField(constraintViolation.getPropertyPath().toString());

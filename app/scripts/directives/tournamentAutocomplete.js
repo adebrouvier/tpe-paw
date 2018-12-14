@@ -1,10 +1,10 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw'], function (tpePaw) {
 
-  tpePaw.directive('tournamentAutocomplete', function($filter, apiUrl) {
+  tpePaw.directive('tournamentAutocomplete', function ($filter, apiUrl) {
     return {
       restrict: 'A',
-      link: function(scope, elem, attrs) {
+      link: function (scope, elem, attrs) {
 
         var tournaments = new Bloodhound({
           datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
@@ -16,7 +16,7 @@ define(['tpePaw'], function(tpePaw) {
               settings.url = settings.url.replace("%GAME", attrs.game);
               return settings;
             },
-            transform: function(response) {
+            transform: function (response) {
               return response.results;
             }
           }

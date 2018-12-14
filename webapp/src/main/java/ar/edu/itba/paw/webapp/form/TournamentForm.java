@@ -9,27 +9,27 @@ import javax.validation.constraints.Size;
  */
 public class TournamentForm {
 
-    @NotNull
-    @Size(min = 4, max = 40)
-    @Pattern(regexp = "[a-zA-Z0-9 ]+")
-    private String name;
+  @NotNull
+  @Size(min = 4, max = 40)
+  @Pattern(regexp = "[a-zA-Z0-9 ]+")
+  private String name;
 
-    @Size(min = 0, max = 60)
-    private String game;
+  @Size(min = 0, max = 60)
+  private String game;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setGame(String game) {
-        this.game = game;
-    }
+  public void setGame(String game) {
+    this.game = game;
+  }
 
-    public String getGame() {
-        return game;
-    }
+  public String getGame() {
+    return game;
+  }
 }

@@ -10,13 +10,13 @@ public class GameDTO {
 
   private String gameUrl;
 
-  public GameDTO(){
+  public GameDTO() {
   }
 
   public GameDTO(Game game) {
     this.id = game.getId();
     this.name = game.getName();
-    if(game.getGameUrlImage() != null) {
+    if (game.getGameUrlImage() != null) {
       this.gameUrl = game.getGameUrlImage().getUrlImage();
     }
   }

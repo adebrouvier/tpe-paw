@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static ar.edu.itba.paw.webapp.config.JwtAuthenticationFilter.HEADER_STRING;
-import static ar.edu.itba.paw.webapp.config.JwtAuthenticationFilter.SECRET;
-import static ar.edu.itba.paw.webapp.config.JwtAuthenticationFilter.TOKEN_PREFIX;
+import static ar.edu.itba.paw.webapp.config.JwtAuthenticationFilter.*;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 

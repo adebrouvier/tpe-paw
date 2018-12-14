@@ -4,9 +4,10 @@ public class ValidDTO {
 
   private boolean valid;
 
-  public ValidDTO(){}
+  public ValidDTO() {
+  }
 
-  public ValidDTO(boolean valid){
+  public ValidDTO(boolean valid) {
     this.valid = valid;
   }
 

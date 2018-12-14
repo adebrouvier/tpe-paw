@@ -10,11 +10,11 @@ import javax.persistence.PersistenceContext;
 @Repository
 public class GameImageHibernateDao implements GameImageDao {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    @Override
-    public GameImage findById(long gameId) {
-        return em.find(GameImage.class, gameId);
-    }
+  @Override
+  public GameImage findById(long gameId) {
+    return em.find(GameImage.class, gameId);
+  }
 }

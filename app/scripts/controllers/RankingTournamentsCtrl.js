@@ -20,7 +20,7 @@ define(['tpePaw', 'services/titleService', 'services/apiService', 'services/auth
 
     $scope.rankingPageForm = {};
 
-    $scope.addTournament = function() {
+    $scope.addTournament = function () {
 
       if ($scope.rankingPageForm.$valid) {
 
@@ -36,14 +36,14 @@ define(['tpePaw', 'services/titleService', 'services/apiService', 'services/auth
       }
     };
 
-    $scope.removeTournament = function(tournamentId) {
+    $scope.removeTournament = function (tournamentId) {
 
-        apiService.removeTournament($scope.rankingId, tournamentId)
-          .then(function successCallback(response) {
-              $scope.ranking.tournamentPoints = response.data;
-          }, function errorCallback(response) {
-              console.log('Remove tournament error');
-          });
+      apiService.removeTournament($scope.rankingId, tournamentId)
+        .then(function successCallback(response) {
+          $scope.ranking.tournamentPoints = response.data;
+        }, function errorCallback(response) {
+          console.log('Remove tournament error');
+        });
     };
 
   });

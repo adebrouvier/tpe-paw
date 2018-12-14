@@ -7,7 +7,8 @@ public class TopWinnerDTO {
   private UserDTO user;
   private Long wins;
 
-  public TopWinnerDTO(){}
+  public TopWinnerDTO() {
+  }
 
   public TopWinnerDTO(TopUserDTO topUserDTO) {
     this.user = new UserDTO(topUserDTO.getUser());

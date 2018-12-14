@@ -21,18 +21,19 @@ public class TournamentDTO {
 
   private UserDTO creator;
 
-  public TournamentDTO(){}
+  public TournamentDTO() {
+  }
 
-  public TournamentDTO(Tournament tournament){
+  public TournamentDTO(Tournament tournament) {
     this.id = tournament.getId();
     this.name = tournament.getName();
     this.status = tournament.getStatus().toString();
     this.players = tournament.getPlayers().stream()
-                        .map(PlayerDTO::new)
-                        .collect(Collectors.toList());
+      .map(PlayerDTO::new)
+      .collect(Collectors.toList());
     this.matches = tournament.getMatches().stream()
-                        .map(MatchDTO::new)
-                        .collect(Collectors.toList());
+      .map(MatchDTO::new)
+      .collect(Collectors.toList());
     if (tournament.getGame() != null) {
       this.game = new GameDTO(tournament.getGame());
     }
@@ -51,7 +52,7 @@ public class TournamentDTO {
     return matches;
   }
 
-  public void addMatch(MatchDTO match){
+  public void addMatch(MatchDTO match) {
     this.matches.add(match);
   }
 
@@ -83,7 +84,7 @@ public class TournamentDTO {
     this.players = players;
   }
 
-  public void addPlayer(PlayerDTO player){
+  public void addPlayer(PlayerDTO player) {
     this.players.add(player);
   }
 

@@ -9,10 +9,13 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" ng-model="matchDataForm.homePlayerCharacter"
                  id="home-char-input" name="thomechar" ng-minlength="0" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
-                 ng-class="{ 'is-invalid': matchDataForm.thomechar.$touched && matchDataForm.thomechar.$invalid }" >
-          <div ng-messages="matchDataForm.thomechar.$error" class="invalid-feedback" ng-if="matchDataForm.thomechar.$touched">
-            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
-            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
+                 ng-class="{ 'is-invalid': matchDataForm.thomechar.$touched && matchDataForm.thomechar.$invalid }">
+          <div ng-messages="matchDataForm.thomechar.$error" class="invalid-feedback"
+               ng-if="matchDataForm.thomechar.$touched">
+            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}'
+              }}</p>
+            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}'
+              }}</p>
             <p ng-message="pattern">{{'MATCH_DATA_FORM_CHAR_PATTERN' | translate}}</p>
           </div>
         </div>
@@ -20,10 +23,13 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" ng-model="matchDataForm.awayPlayerCharacter"
                  id="away-char-input" name="tawaychar" ng-minlength="0" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
-                 ng-class="{ 'is-invalid': matchDataForm.tawaychar.$touched && matchDataForm.tawaychar.$invalid }" >
-          <div ng-messages="matchDataForm.tawaychar.$error" class="invalid-feedback" ng-if="matchDataForm.tawaychar.$touched">
-            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}' }}</p>
-            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}' }}</p>
+                 ng-class="{ 'is-invalid': matchDataForm.tawaychar.$touched && matchDataForm.tawaychar.$invalid }">
+          <div ng-messages="matchDataForm.tawaychar.$error" class="invalid-feedback"
+               ng-if="matchDataForm.tawaychar.$touched">
+            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}'
+              }}</p>
+            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}'
+              }}</p>
             <p ng-message="pattern">{{'MATCH_DATA_FORM_CHAR_PATTERN' | translate}}</p>
           </div>
         </div>
@@ -34,10 +40,12 @@
           </span>
           <input type="text" class="form-control" ng-model="matchDataForm.map"
                  id="map-input" name="tmap" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
-                 ng-class="{ 'is-invalid': matchDataForm.tmap.$touched && matchDataForm.tmap.$invalid }" >
+                 ng-class="{ 'is-invalid': matchDataForm.tmap.$touched && matchDataForm.tmap.$invalid }">
           <div ng-messages="matchDataForm.tmap.$error" class="invalid-feedback" ng-if="matchDataForm.tmap.$touched">
-            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}' }}</p>
-            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}' }}</p>
+            <p ng-message="minlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}'
+              }}</p>
+            <p ng-message="maxlength">{{'MATCH_DATA_FORM_CHAR_LENGTH' | translate: '{ minlength: "0", maxlength: "40"}'
+              }}</p>
             <p ng-message="pattern">{{'MATCH_DATA_FORM_CHAR_PATTERN' | translate}}</p>
           </div>
         </div>
@@ -48,14 +56,18 @@
           </span>
           <input type="url" class="form-control" ng-model="matchDataForm.vodLink"
                  id="vodlink-input" name="tvodlink" ng-maxlength="256"
-                 ng-class="{ 'is-invalid': matchDataForm.tvodlink.$touched && matchDataForm.tvodlink.$invalid }" >
-          <div ng-messages="matchDataForm.tvodlink.$error" class="invalid-feedback" ng-if="matchDataForm.tvodlink.$touched">
+                 ng-class="{ 'is-invalid': matchDataForm.tvodlink.$touched && matchDataForm.tvodlink.$invalid }">
+          <div ng-messages="matchDataForm.tvodlink.$error" class="invalid-feedback"
+               ng-if="matchDataForm.tvodlink.$touched">
             <p ng-message="url">{{'MATCH_DATA_FORM_VOD_URL' | translate}}</p>
-            <p ng-message="maxlength">{{'MATCH_DATA_FORM_VOD_LENGTH' | translate: '{ minlength: "4", maxlength: "256"}' }}</p>
+            <p ng-message="maxlength">{{'MATCH_DATA_FORM_VOD_LENGTH' | translate: '{ minlength: "4", maxlength: "256"}'
+              }}</p>
           </div>
         </div>
         <div class="text-center">
-          <button class="btn btn-primary" type="submit" ng-disabled="matchDataForm.$invalid">{{'MATCH_DATA_SUBMIT' | translate}}</button>
+          <button class="btn btn-primary" type="submit" ng-disabled="matchDataForm.$invalid">{{'MATCH_DATA_SUBMIT' |
+            translate}}
+          </button>
         </div>
       </form>
     </div>

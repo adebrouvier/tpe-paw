@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function (tpePaw) {
 
-  tpePaw.controller('UsersCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, apiUrl) {
+  tpePaw.controller('UsersCtrl', function ($scope, $location, $routeParams, titleService, AuthService, apiService, apiUrl) {
 
     $scope.user = {};
     $scope.participates = [];
@@ -24,8 +24,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.follow = function () {
       $scope.user.follow = true;
-      apiService.post('/users/' + $scope.username + '/follow', '').
-      then(function successCallback(response) {
+      apiService.post('/users/' + $scope.username + '/follow', '').then(function successCallback(response) {
         $scope.user.followersAmount += 1;
       }, function errorCallback(response) {
         $scope.user.follow = false;
@@ -34,8 +33,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.unfollow = function () {
       $scope.user.follow = false;
-      apiService.post('/users/' + $scope.username + '/unfollow', '').
-      then(function successCallback(response) {
+      apiService.post('/users/' + $scope.username + '/unfollow', '').then(function successCallback(response) {
         $scope.user.followersAmount -= 1;
       }, function errorCallback(response) {
         $scope.user.follow = true;

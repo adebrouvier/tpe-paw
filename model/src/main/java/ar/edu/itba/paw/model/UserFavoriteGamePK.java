@@ -4,32 +4,32 @@ import java.io.Serializable;
 
 public class UserFavoriteGamePK implements Serializable {
 
-    protected Long userId;
-    protected Long gameId;
+  protected Long userId;
+  protected Long gameId;
 
-    public UserFavoriteGamePK() {
-    }
+  public UserFavoriteGamePK() {
+  }
 
-    public UserFavoriteGamePK(Long userId, Long gameId) {
-        this.userId = userId;
-        this.gameId = gameId;
-    }
+  public UserFavoriteGamePK(Long userId, Long gameId) {
+    this.userId = userId;
+    this.gameId = gameId;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserFavoriteGamePK)) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof UserFavoriteGamePK)) return false;
 
-        UserFavoriteGamePK that = (UserFavoriteGamePK) o;
+    UserFavoriteGamePK that = (UserFavoriteGamePK) o;
 
-        if (!userId.equals(that.userId)) return false;
-        return gameId.equals(that.gameId);
-    }
+    if (!userId.equals(that.userId)) return false;
+    return gameId.equals(that.gameId);
+  }
 
-    @Override
-    public int hashCode() {
-        int result = userId.hashCode();
-        result = 31 * result + gameId.hashCode();
-        return result;
-    }
+  @Override
+  public int hashCode() {
+    int result = userId.hashCode();
+    result = 31 * result + gameId.hashCode();
+    return result;
+  }
 }

@@ -18,21 +18,21 @@ import static org.junit.Assert.assertNotNull;
 @Sql("classpath:schema.sql")
 public class UserHibernateDaoTest {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    @Autowired
-    private javax.sql.DataSource ds;
-    @Autowired
-    private UserHibernateDao userDao;
+  @Autowired
+  private javax.sql.DataSource ds;
+  @Autowired
+  private UserHibernateDao userDao;
 
-    private static String CREATE_USERNAME = "Jorgito";
+  private static String CREATE_USERNAME = "Jorgito";
 
-    @Test
-    @Transactional
-    public void testCreationSuccessful() {
-        userDao.create(CREATE_USERNAME, "Meconio");
-        assertNotNull(userDao.findByName(CREATE_USERNAME));
-    }
+  @Test
+  @Transactional
+  public void testCreationSuccessful() {
+    userDao.create(CREATE_USERNAME, "Meconio");
+    assertNotNull(userDao.findByName(CREATE_USERNAME));
+  }
 
 }

@@ -9,27 +9,27 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ExistingUserValidator implements ConstraintValidator<ExistingUser, String> {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Override
-    public void initialize(ExistingUser user) {
+  @Override
+  public void initialize(ExistingUser user) {
+  }
+
+  @Override
+  public boolean isValid(String userField,
+                         ConstraintValidatorContext cxt) {
+
+    if (userField == null) {
+      return true;
     }
 
-    @Override
-    public boolean isValid(String userField,
-                           ConstraintValidatorContext cxt) {
-
-        if (userField == null) {
-            return true;
-        }
-
-        if (userField.equals("")) {
-            return true;
-        }
-
-        User u = userService.findByName(userField);
-
-        return u != null;
+    if (userField.equals("")) {
+      return true;
     }
+
+    User u = userService.findByName(userField);
+
+    return u != null;
+  }
 }

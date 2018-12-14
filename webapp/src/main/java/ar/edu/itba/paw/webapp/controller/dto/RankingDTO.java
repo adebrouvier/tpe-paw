@@ -19,10 +19,10 @@ public class RankingDTO {
 
   private List<TournamentPointsDTO> tournamentPoints;
 
-  public RankingDTO(){
+  public RankingDTO() {
   }
 
-  public RankingDTO(Ranking ranking){
+  public RankingDTO(Ranking ranking) {
     this.id = ranking.getId();
     this.name = ranking.getName();
     this.game = new GameDTO(ranking.getGame());

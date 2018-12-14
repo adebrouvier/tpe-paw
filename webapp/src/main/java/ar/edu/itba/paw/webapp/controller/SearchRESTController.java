@@ -32,38 +32,42 @@ public class SearchRESTController {
 
   @GET
   @Path("/tournaments")
-  @Produces(value = { MediaType.APPLICATION_JSON, })
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response searchTournaments(@QueryParam("q") String query, @QueryParam("game") String game) {
     final List<Tournament> tournament = ts.findByName(query, game);
 
     if (tournament != null) {
       final List<TournamentDTO> tournaments = tournament.stream()
-                                                      .map(TournamentDTO::new)
-                                                      .collect(Collectors.toList());
-      GenericEntity<List<TournamentDTO>> list = new GenericEntity<List<TournamentDTO>>(tournaments) { };
+        .map(TournamentDTO::new)
+        .collect(Collectors.toList());
+      GenericEntity<List<TournamentDTO>> list = new GenericEntity<List<TournamentDTO>>(tournaments) {
+      };
       return Response.ok(list).build();
     } else {
       final List<TournamentDTO> tournaments = new ArrayList<>();
-      GenericEntity<List<TournamentDTO>> emptyList = new GenericEntity<List<TournamentDTO>>(tournaments) { };
+      GenericEntity<List<TournamentDTO>> emptyList = new GenericEntity<List<TournamentDTO>>(tournaments) {
+      };
       return Response.ok(emptyList).build();
     }
   }
 
   @GET
   @Path("/rankings")
-  @Produces(value = { MediaType.APPLICATION_JSON, })
+  @Produces(value = {MediaType.APPLICATION_JSON,})
   public Response searchRankings(@QueryParam("q") String query, @QueryParam("game") String game) {
     final List<Ranking> rankings = rs.findByName(query, game);
 
     if (rankings != null) {
       final List<RankingDTO> rankingDTO = rankings.stream()
-                                            .map(RankingDTO::new)
-                                            .collect(Collectors.toList());
-      GenericEntity<List<RankingDTO>> list = new GenericEntity<List<RankingDTO>>(rankingDTO) { };
+        .map(RankingDTO::new)
+        .collect(Collectors.toList());
+      GenericEntity<List<RankingDTO>> list = new GenericEntity<List<RankingDTO>>(rankingDTO) {
+      };
       return Response.ok(list).build();
     } else {
       final List<TournamentDTO> tournaments = new ArrayList<>();
-      GenericEntity<List<TournamentDTO>> emptyList = new GenericEntity<List<TournamentDTO>>(tournaments) { };
+      GenericEntity<List<TournamentDTO>> emptyList = new GenericEntity<List<TournamentDTO>>(tournaments) {
+      };
       return Response.ok(emptyList).build();
     }
   }

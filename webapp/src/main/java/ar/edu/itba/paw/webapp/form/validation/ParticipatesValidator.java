@@ -10,26 +10,26 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ParticipatesValidator implements ConstraintValidator<Participates, String> {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Autowired
-    private TournamentService tournamentService;
+  @Autowired
+  private TournamentService tournamentService;
 
-    @Override
-    public void initialize(Participates constraintAnnotation) {
+  @Override
+  public void initialize(Participates constraintAnnotation) {
+  }
+
+  @Override
+  public boolean isValid(String userField,
+                         ConstraintValidatorContext cxt) {
+
+    User user = userService.findByName(userField);
+
+    if (user == null) {
+      return true;
     }
 
-    @Override
-    public boolean isValid(String userField,
-                           ConstraintValidatorContext cxt) {
-
-        User user = userService.findByName(userField);
-
-        if (user == null) {
-            return true;
-        }
-
-        return true;
-    }
+    return true;
+  }
 }

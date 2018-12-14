@@ -34,7 +34,7 @@ public class NotificationDTO {
     this.isRead = notification.getIsRead();
     this.date = notification.getDate();
     this.description = notification.getDescription();
-    if(notification.getDecodeDescription() == null) {
+    if (notification.getDecodeDescription() == null) {
       this.decodeDescription = new LinkedList<>();
     } else {
       this.decodeDescription = notification.getDecodeDescription();

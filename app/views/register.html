@@ -1,57 +1,67 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 offset-md-3">
-            <div class="text-center"><h2>{{'REGISTER_TITLE' | translate}}</h2></div>
-            <form novalidate ng-submit="processForm()" name="registerForm">
-                <label for="username-input">{{'REGISTER_USERNAME' | translate}}</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="oi input-group-text" data-glyph="person" title="person" aria-hidden="true"></span>
-                    </div>
-                    <input type="text" class="form-control" ng-model="registerForm.username" name="tusername"
-                           ng-pattern="/[a-zA-Z0-9]+/" ng-minlength="6" ng-maxlength="16" available-username
-                           placeholder="{{'REGISTER_USERNAME' | translate}}" id="username-input" required
-                           ng-class="{ 'is-invalid': registerForm.tusername.$touched && registerForm.tusername.$invalid }" >
-                    <div ng-messages="registerForm.tusername.$error" class="invalid-feedback" ng-if="registerForm.tusername.$touched">
-                      <p ng-message="required">{{'REGISTER_USERNAME_REQUIRED' | translate}}</p>
-                      <p ng-message="minlength">{{'REGISTER_USERNAME_LENGTH' | translate: '{ minlength: "6", maxlength: "16"}' }}</p>
-                      <p ng-message="maxlength">{{'REGISTER_USERNAME_LENGTH' | translate: '{ minlength: "6", maxlength: "16"}' }}</p>
-                      <p ng-message="pattern">{{'REGISTER_USERNAME_PATTERN' | translate }}</p>
-                      <p ng-message="availableUsername">{{'REGISTER_USERNAME_AVAILABLE' | translate }}</p>
-                    </div>
-                </div>
-                <label for="password-input">{{'REGISTER_PASSWORD' | translate}}</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
-                    </div>
-                    <input type="password" class="form-control" ng-model="registerForm.password" name="ppassword" placeholder="{{'REGISTER_PASSWORD' | translate}}"
-                           ng-pattern="/[a-zA-Z0-9]+/" ng-minlength="6" ng-maxlength="40" id="password-input" required
-                           ng-class="{ 'is-invalid': registerForm.ppassword.$touched && registerForm.ppassword.$invalid }" >
-                    <div ng-messages="registerForm.ppassword.$error" class="invalid-feedback" ng-if="registerForm.ppassword.$touched">
-                      <p ng-message="required">{{'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
-                      <p ng-message="pattern">{{'REGISTER_PASSWORD_PATTERN' | translate }}</p>
-                      <p ng-message="minlength">{{'REGISTER_PASSWORD_MIN_LENGTH' | translate: '{ minlength: "6"}' }}</p>
-                      <p ng-message="maxlength">{{'REGISTER_PASSWORD_LENGTH' | translate: '{ minlength: "6", maxlength: "40"}' }}</p>
-                    </div>
-                </div>
-                <label for="repeat-password-input">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
-                <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
-                        </div>
-                        <input type="password" class="form-control" ng-model="registerForm.repeatPassword" field-match="registerForm.ppassword"
-                               placeholder="{{'REGISTER_REPEAT_PASSWORD' | translate}}" id="repeat-password-input" required name="repeat"
-                               ng-class="{ 'is-invalid': registerForm.repeat.$touched && registerForm.repeat.$invalid }" >
-                        <div ng-messages="registerForm.repeat.$error" class="invalid-feedback" ng-if="registerForm.repeat.$touched">
-                          <p ng-message="required">{{'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
-                          <p ng-message="fieldMatch">{{'REGISTER_PASSWORD_MATCH' | translate }}</p>
-                        </div>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-primary" type="submit" ng-disabled="registerForm.$invalid || registerForm.$pending">{{'REGISTER_TITLE' | translate}}</button>
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3">
+      <div class="text-center"><h2>{{'REGISTER_TITLE' | translate}}</h2></div>
+      <form novalidate ng-submit="processForm()" name="registerForm">
+        <label for="username-input">{{'REGISTER_USERNAME' | translate}}</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="oi input-group-text" data-glyph="person" title="person" aria-hidden="true"></span>
+          </div>
+          <input type="text" class="form-control" ng-model="registerForm.username" name="tusername"
+                 ng-pattern="/[a-zA-Z0-9]+/" ng-minlength="6" ng-maxlength="16" available-username
+                 placeholder="{{'REGISTER_USERNAME' | translate}}" id="username-input" required
+                 ng-class="{ 'is-invalid': registerForm.tusername.$touched && registerForm.tusername.$invalid }">
+          <div ng-messages="registerForm.tusername.$error" class="invalid-feedback"
+               ng-if="registerForm.tusername.$touched">
+            <p ng-message="required">{{'REGISTER_USERNAME_REQUIRED' | translate}}</p>
+            <p ng-message="minlength">{{'REGISTER_USERNAME_LENGTH' | translate: '{ minlength: "6", maxlength: "16"}'
+              }}</p>
+            <p ng-message="maxlength">{{'REGISTER_USERNAME_LENGTH' | translate: '{ minlength: "6", maxlength: "16"}'
+              }}</p>
+            <p ng-message="pattern">{{'REGISTER_USERNAME_PATTERN' | translate }}</p>
+            <p ng-message="availableUsername">{{'REGISTER_USERNAME_AVAILABLE' | translate }}</p>
+          </div>
         </div>
+        <label for="password-input">{{'REGISTER_PASSWORD' | translate}}</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
+          </div>
+          <input type="password" class="form-control" ng-model="registerForm.password" name="ppassword"
+                 placeholder="{{'REGISTER_PASSWORD' | translate}}"
+                 ng-pattern="/[a-zA-Z0-9]+/" ng-minlength="6" ng-maxlength="40" id="password-input" required
+                 ng-class="{ 'is-invalid': registerForm.ppassword.$touched && registerForm.ppassword.$invalid }">
+          <div ng-messages="registerForm.ppassword.$error" class="invalid-feedback"
+               ng-if="registerForm.ppassword.$touched">
+            <p ng-message="required">{{'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
+            <p ng-message="pattern">{{'REGISTER_PASSWORD_PATTERN' | translate }}</p>
+            <p ng-message="minlength">{{'REGISTER_PASSWORD_MIN_LENGTH' | translate: '{ minlength: "6"}' }}</p>
+            <p ng-message="maxlength">{{'REGISTER_PASSWORD_LENGTH' | translate: '{ minlength: "6", maxlength: "40"}'
+              }}</p>
+          </div>
+        </div>
+        <label for="repeat-password-input">{{'REGISTER_REPEAT_PASSWORD' | translate}}</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="oi input-group-text" data-glyph="lock-locked" title="lock-locked" aria-hidden="true"></span>
+          </div>
+          <input type="password" class="form-control" ng-model="registerForm.repeatPassword"
+                 field-match="registerForm.ppassword"
+                 placeholder="{{'REGISTER_REPEAT_PASSWORD' | translate}}" id="repeat-password-input" required
+                 name="repeat"
+                 ng-class="{ 'is-invalid': registerForm.repeat.$touched && registerForm.repeat.$invalid }">
+          <div ng-messages="registerForm.repeat.$error" class="invalid-feedback" ng-if="registerForm.repeat.$touched">
+            <p ng-message="required">{{'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
+            <p ng-message="fieldMatch">{{'REGISTER_PASSWORD_MATCH' | translate }}</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" type="submit" ng-disabled="registerForm.$invalid || registerForm.$pending">
+            {{'REGISTER_TITLE' | translate}}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

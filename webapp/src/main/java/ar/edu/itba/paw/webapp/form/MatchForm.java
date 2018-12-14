@@ -8,28 +8,28 @@ import javax.validation.constraints.Min;
  */
 public class MatchForm {
 
-    @Min(value = 0L)
-    @Digits(integer = 3, fraction = 0)
-    private int homeResult;
+  @Min(value = 0L)
+  @Digits(integer = 3, fraction = 0)
+  private int homeResult;
 
-    @Min(value = 0L)
-    @Digits(integer = 3, fraction = 0)
-    private int awayResult;
+  @Min(value = 0L)
+  @Digits(integer = 3, fraction = 0)
+  private int awayResult;
 
-    public int getHomeResult() {
-        return homeResult;
-    }
+  public int getHomeResult() {
+    return homeResult;
+  }
 
-    public void setHomeResult(int homeResult) {
-        this.homeResult = homeResult;
-    }
+  public void setHomeResult(int homeResult) {
+    this.homeResult = homeResult;
+  }
 
-    public int getAwayResult() {
-        return awayResult;
-    }
+  public int getAwayResult() {
+    return awayResult;
+  }
 
-    public void setAwayResult(int awayResult) {
-        this.awayResult = awayResult;
-    }
+  public void setAwayResult(int awayResult) {
+    this.awayResult = awayResult;
+  }
 
 }

@@ -11,10 +11,10 @@ public class TournamentPointsDTO {
 
   public String tournamentName;
 
-  public TournamentPointsDTO(){
+  public TournamentPointsDTO() {
   }
 
-  public TournamentPointsDTO(TournamentPoints tournamentPoints){
+  public TournamentPointsDTO(TournamentPoints tournamentPoints) {
     this.awardedPoints = tournamentPoints.getAwardedPoints();
     Tournament t = tournamentPoints.getTournament();
     this.tournamentId = t.getId();

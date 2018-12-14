@@ -7,7 +7,8 @@ public class PopularRankingRESTDTO {
   private RankingDTO ranking;
   private Long rankedUsers;
 
-  public PopularRankingRESTDTO(){}
+  public PopularRankingRESTDTO() {
+  }
 
   public PopularRankingRESTDTO(PopularRankingDTO popularRankingDTO) {
     this.ranking = new RankingDTO(popularRankingDTO.getRanking());

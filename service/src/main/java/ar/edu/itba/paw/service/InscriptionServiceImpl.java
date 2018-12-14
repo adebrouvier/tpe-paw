@@ -14,28 +14,28 @@ import java.util.List;
 @Service
 public class InscriptionServiceImpl implements InscriptionService {
 
-    @Autowired
-    private InscriptionDao inscriptionDao;
+  @Autowired
+  private InscriptionDao inscriptionDao;
 
-    @Override
-    @Transactional
-    public Inscription create(User user, Tournament tournament) {
-        return inscriptionDao.create(user, tournament);
-    }
+  @Override
+  @Transactional
+  public Inscription create(User user, Tournament tournament) {
+    return inscriptionDao.create(user, tournament);
+  }
 
-    @Override
-    public Inscription findByIds(long loggedUserId, long tournamentId) {
-        return inscriptionDao.findByIds(loggedUserId, tournamentId);
-    }
+  @Override
+  public Inscription findByIds(long loggedUserId, long tournamentId) {
+    return inscriptionDao.findByIds(loggedUserId, tournamentId);
+  }
 
-    @Override
-    public List<Inscription> finByTournamentId(long tournamentId) {
-        return inscriptionDao.findByTournamentId(tournamentId);
-    }
+  @Override
+  public List<Inscription> finByTournamentId(long tournamentId) {
+    return inscriptionDao.findByTournamentId(tournamentId);
+  }
 
-    @Override
-    @Transactional
-    public void delete(long tournamentId, long userId) {
-        inscriptionDao.delete(tournamentId, userId);
-    }
+  @Override
+  @Transactional
+  public void delete(long tournamentId, long userId) {
+    inscriptionDao.delete(tournamentId, userId);
+  }
 }

@@ -7,7 +7,8 @@ public class MostFollowedRESTDTO {
   private UserDTO user;
   private Long followers;
 
-  public MostFollowedRESTDTO(){}
+  public MostFollowedRESTDTO() {
+  }
 
   public MostFollowedRESTDTO(MostFollowedDTO mostFollowedDTO) {
     this.user = new UserDTO(mostFollowedDTO.getUser());

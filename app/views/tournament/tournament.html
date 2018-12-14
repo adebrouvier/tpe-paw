@@ -1,35 +1,40 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 offset-md-3">
-            <div class="text-center">
-                <h2>{{'TOURNAMENT_CREATE' | translate}}</h2>
-            </div>
-            <form novalidate ng-submit="processForm()" name="tournamentForm" autocomplete="off">
-                <label for="name-input">{{'TOURNAMENT_CREATE_NAME' | translate}}</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" ng-model="tournamentForm.name" placeholder="{{'TOURNAMENT_CREATE_NAME_PH' | translate}}"
-                        id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
-                        ng-class="{ 'is-invalid': tournamentForm.tname.$touched && tournamentForm.tname.$invalid }" >
-                    <div ng-messages="tournamentForm.tname.$error" class="invalid-feedback" ng-if="tournamentForm.tname.$touched">
-                        <p ng-message="minlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
-                        <p ng-message="maxlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}' }}</p>
-                        <p ng-message="required">{{'TOURNAMENT_FORM_NAME_REQUIRED' | translate}}</p>
-                        <p ng-message="pattern">{{'TOURNAMENT_FORM_NAME_PATTERN' | translate}}</p>
-                    </div>
-                </div>
-                <label for="game-input">{{'TOURNAMENT_CREATE_GAME' | translate}}</label>
-                <div class="input-group mb-3">
-                    <input name='tgame' game-autocomplete type="text" class="form-control" ng-model="tournamentForm.game"
-                    placeholder="{{'TOURNAMENT_CREATE_GAME' | translate}}" id="game-input" ng-maxlength="60"
-                    ng-class="{ 'is-invalid': tournamentForm.tgame.$touched && tournamentForm.tgame.$invalid }" >
-                    <div ng-messages="tournamentForm.tgame.$error" class="invalid-feedback" ng-if="tournamentForm.tgame.$touched">
-                        <p ng-message="maxlength">{{'TOURNAMENT_FORM_GAME_LENGTH' | translate: '{maxlength: "60"}' }}</p>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-primary" type="submit" ng-disabled="tournamentForm.$invalid">{{'TOURNAMENT_CREATE' | translate}}</button>
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3">
+      <div class="text-center">
+        <h2>{{'TOURNAMENT_CREATE' | translate}}</h2>
+      </div>
+      <form novalidate ng-submit="processForm()" name="tournamentForm" autocomplete="off">
+        <label for="name-input">{{'TOURNAMENT_CREATE_NAME' | translate}}</label>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" ng-model="tournamentForm.name"
+                 placeholder="{{'TOURNAMENT_CREATE_NAME_PH' | translate}}"
+                 id="name-input" name="tname" required ng-minlength="4" ng-maxlength="40" ng-pattern="/[a-zA-Z0-9 ]+/"
+                 ng-class="{ 'is-invalid': tournamentForm.tname.$touched && tournamentForm.tname.$invalid }">
+          <div ng-messages="tournamentForm.tname.$error" class="invalid-feedback" ng-if="tournamentForm.tname.$touched">
+            <p ng-message="minlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}'
+              }}</p>
+            <p ng-message="maxlength">{{'TOURNAMENT_FORM_NAME_LENGTH' | translate: '{ minlength: "4", maxlength: "40"}'
+              }}</p>
+            <p ng-message="required">{{'TOURNAMENT_FORM_NAME_REQUIRED' | translate}}</p>
+            <p ng-message="pattern">{{'TOURNAMENT_FORM_NAME_PATTERN' | translate}}</p>
+          </div>
         </div>
+        <label for="game-input">{{'TOURNAMENT_CREATE_GAME' | translate}}</label>
+        <div class="input-group mb-3">
+          <input name='tgame' game-autocomplete type="text" class="form-control" ng-model="tournamentForm.game"
+                 placeholder="{{'TOURNAMENT_CREATE_GAME' | translate}}" id="game-input" ng-maxlength="60"
+                 ng-class="{ 'is-invalid': tournamentForm.tgame.$touched && tournamentForm.tgame.$invalid }">
+          <div ng-messages="tournamentForm.tgame.$error" class="invalid-feedback" ng-if="tournamentForm.tgame.$touched">
+            <p ng-message="maxlength">{{'TOURNAMENT_FORM_GAME_LENGTH' | translate: '{maxlength: "60"}' }}</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" type="submit" ng-disabled="tournamentForm.$invalid">{{'TOURNAMENT_CREATE' |
+            translate}}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

@@ -14,43 +14,43 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+  @Autowired
+  private UserDao userDao;
 
-    @Override
-    public User findById(long id) {
-        return userDao.findById(id);
-    }
+  @Override
+  public User findById(long id) {
+    return userDao.findById(id);
+  }
 
-    @Override
-    public void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl) {
-        userDao.updateDescription(user, description, twitchUrl, twitterUrl, youtubeUrl);
-    }
+  @Override
+  public void updateDescription(User user, String description, String twitchUrl, String twitterUrl, String youtubeUrl) {
+    userDao.updateDescription(user, description, twitchUrl, twitterUrl, youtubeUrl);
+  }
 
-    @Override
-    public User findByName(String name) {
-        return userDao.findByName(name);
-    }
+  @Override
+  public User findByName(String name) {
+    return userDao.findByName(name);
+  }
 
-    @Transactional
-    @Override
-    public User create(String name, String password) {
-        return userDao.create(name, password);
-    }
+  @Transactional
+  @Override
+  public User create(String name, String password) {
+    return userDao.create(name, password);
+  }
 
-    @Override
-    public List<TopUserDTO> findTopWinners(int top) {
-        return userDao.findTopWinners(top);
-    }
+  @Override
+  public List<TopUserDTO> findTopWinners(int top) {
+    return userDao.findTopWinners(top);
+  }
 
-    @Override
-    public List<MostFollowedDTO> findMostFollowed(int userCount) {
-        return userDao.findMostFollowed(userCount);
-    }
+  @Override
+  public List<MostFollowedDTO> findMostFollowed(int userCount) {
+    return userDao.findMostFollowed(userCount);
+  }
 
-    @Override
-    public long getFollowersAmount(long userId) {
-        return userDao.getFollowersAmount(userId);
-    }
+  @Override
+  public long getFollowersAmount(long userId) {
+    return userDao.getFollowersAmount(userId);
+  }
 
 }

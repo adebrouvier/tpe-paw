@@ -1,10 +1,10 @@
 'use strict';
-define(['tpePaw'], function(tpePaw) {
+define(['tpePaw'], function (tpePaw) {
 
-	tpePaw.directive('sample', function() {
-		return {
-			restrict: 'E',
-			template: '<span>Sample</span>'
-		};
-	});
+  tpePaw.directive('sample', function () {
+    return {
+      restrict: 'E',
+      template: '<span>Sample</span>'
+    };
+  });
 });

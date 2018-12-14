@@ -10,17 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameUrlImageServiceImpl implements GameUrlImageService {
 
-    @Autowired
-    private GameUrlImageDao gameUrlImageDao;
+  @Autowired
+  private GameUrlImageDao gameUrlImageDao;
 
-    @Override
-    public String findById(long gameId) {
-        return gameUrlImageDao.findById(gameId);
-    }
+  @Override
+  public String findById(long gameId) {
+    return gameUrlImageDao.findById(gameId);
+  }
 
-    @Transactional
-    @Override
-    public void create(Game game, String url) {
-        gameUrlImageDao.create(game, url);
-    }
+  @Transactional
+  @Override
+  public void create(Game game, String url) {
+    gameUrlImageDao.create(game, url);
+  }
 }

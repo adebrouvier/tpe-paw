@@ -1,20 +1,23 @@
 $white: #ffffff;
 $dark-blue: #01579b;
-$blue-rgba: rgba(0,123,255,0.8);
+$blue-rgba: rgba(0, 123, 255, 0.8);
 $light-grey: #9e9e9e;
 
-.col-margin{
+.col-margin {
   margin-top: 10px !important;
 }
 
 $font: 'Poppins', sans-serif;
 
-::selection { background-color: #C3CFE2; }
+::selection {
+  background-color: #C3CFE2;
+}
 
 body {
 
   background: linear-gradient(to right, #FDFBFB, #EBEDEE 70%);
 }
+
 .text {
   padding-top: 15px;
   text-transform: uppercase;
@@ -24,15 +27,17 @@ body {
   font: {
     size: 3vw;
     family: $font;
-  };
+  }
+;
 }
+
 .card-profile {
   float: right;
   width: 24rem;
 }
 
 .card-profile .card-body {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .user-section-profile {
@@ -117,13 +122,13 @@ body {
 .user-section-content-text {
   @extend %user-section-content;
   color: $light-grey;
-  word-wrap:break-word;
+  word-wrap: break-word;
 }
 
 .edit-tittle {
   border-radius: 0;
-  border-width:0;
-  box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+  border-width: 0;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }
 
 .edit-image-container {
@@ -142,6 +147,7 @@ body {
   width: 20px;
   margin-right: 2px;
 }
+
 .user-social-icon-twitter-twitch {
   @extend %user-social-icon;
   height: 20px;
@@ -172,9 +178,8 @@ body {
 
 .card-game i {
   font-size: 12px !important;
-  margin-right:  2px;
+  margin-right: 2px;
 }
-
 
 .follower-section {
   padding: 10px 0 !important;

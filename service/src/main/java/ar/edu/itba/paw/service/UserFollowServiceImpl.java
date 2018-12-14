@@ -10,26 +10,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserFollowServiceImpl implements UserFollowService {
 
-    @Autowired
-    private UserFollowDao userFollowDao;
+  @Autowired
+  private UserFollowDao userFollowDao;
 
-    @Override
-    public void create(User follower, User followed) {
-        userFollowDao.create(follower, followed);
-    }
+  @Override
+  public void create(User follower, User followed) {
+    userFollowDao.create(follower, followed);
+  }
 
-    @Override
-    public UserFollow findById(User follower, User followed) {
-        return userFollowDao.findById(follower, followed);
-    }
+  @Override
+  public UserFollow findById(User follower, User followed) {
+    return userFollowDao.findById(follower, followed);
+  }
 
-    @Override
-    public void delete(User follower, User followed) {
-        userFollowDao.delete(follower, followed);
-    }
+  @Override
+  public void delete(User follower, User followed) {
+    userFollowDao.delete(follower, followed);
+  }
 
-    @Override
-    public boolean isFollow(User follower, User followed) {
-        return userFollowDao.isFollow(follower, followed);
-    }
+  @Override
+  public boolean isFollow(User follower, User followed) {
+    return userFollowDao.isFollow(follower, followed);
+  }
 }

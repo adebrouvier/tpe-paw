@@ -1,21 +1,21 @@
 'use strict';
-define(['tpePaw', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/apiService'], function (tpePaw) {
 
-  tpePaw.directive('validTournament', function($q, apiService) {
+  tpePaw.directive('validTournament', function ($q, apiService) {
     return {
       require: 'ngModel',
       restrict: 'A',
-      link: function(scope, elem, attrs, ngModel) {
+      link: function (scope, elem, attrs, ngModel) {
 
-        ngModel.$asyncValidators.validTournament = function(modelValue, viewValue) {
+        ngModel.$asyncValidators.validTournament = function (modelValue, viewValue) {
           return apiService.validTournament(attrs.ranking, viewValue)
             .then(
-              function(response) {
+              function (response) {
                 var defer = $q.defer();
 
                 if (response.data.valid) {
                   defer.resolve();
-                }else{
+                } else {
                   defer.reject();
                 }
                 return defer.promise;

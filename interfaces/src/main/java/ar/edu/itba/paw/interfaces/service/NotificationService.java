@@ -6,20 +6,20 @@ import java.util.List;
 
 public interface NotificationService {
 
-    public void createParticipatesInNotifications(User userFollowed, Tournament tournament);
+  public void createParticipatesInNotifications(User userFollowed, Tournament tournament);
 
-    public List<Notification> getRecentNotifications(User owner);
+  public List<Notification> getRecentNotifications(User owner);
 
-    public List<Notification> getNotifications(User owner, int page);
+  public List<Notification> getNotifications(User owner, int page);
 
-    public void createAcceptJoinNotification(User acceptedUser, Tournament tournament);
+  public void createAcceptJoinNotification(User acceptedUser, Tournament tournament);
 
-    public void createRejectJoinNotification(User rejectUser, Tournament tournament);
+  public void createRejectJoinNotification(User rejectUser, Tournament tournament);
 
-    public void createRequestJoinNotification(User userRequesting, Tournament tournament);
+  public void createRequestJoinNotification(User userRequesting, Tournament tournament);
 
-    public void createReplyTournamentCommentsNotification(User userReplied, Comment commentReplied, Tournament tournament);
+  public void createReplyTournamentCommentsNotification(User userReplied, Comment commentReplied, Tournament tournament);
 
-    public void createAddTournamentToRankingNotification(User owner, Tournament tournament, Ranking ranking);
+  public void createAddTournamentToRankingNotification(User owner, Tournament tournament, Ranking ranking);
 }
 

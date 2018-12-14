@@ -12,24 +12,24 @@ import javax.persistence.PersistenceContext;
 @Repository
 public class UserImageHibernateDao implements UserImageDao {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    @Transactional
-    @Override
-    public void updateImage(User user, byte[] image) {
-        UserImage ui = findById(user.getId());
-        if (ui == null) {
-            ui = new UserImage(user.getId(), image);
-            em.persist(ui);
-        } else {
-            ui.setImage(image);
-            em.merge(ui);
-        }
+  @Transactional
+  @Override
+  public void updateImage(User user, byte[] image) {
+    UserImage ui = findById(user.getId());
+    if (ui == null) {
+      ui = new UserImage(user.getId(), image);
+      em.persist(ui);
+    } else {
+      ui.setImage(image);
+      em.merge(ui);
     }
+  }
 
-    @Override
-    public UserImage findById(long id) {
-        return em.find(UserImage.class, id);
-    }
+  @Override
+  public UserImage findById(long id) {
+    return em.find(UserImage.class, id);
+  }
 }

@@ -16,65 +16,68 @@
 
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" type="text/css" href="bower_components/angular-loading-bar/build/loading-bar.min.css" />
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="bower_components/angular-loading-bar/build/loading-bar.min.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
 </head>
 <body ng-controller="IndexCtrl">
-  <!--[if lt IE 7]>
-  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-  <!-- Add your site or application content here -->
-  <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between mb-4">
-        <a class="navbar-brand" href="#/">Versus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" ng-bind="'SEARCH_TITLE' | translate" href="#/search"></a>
-            </li>
-          </ul>
-          <div ng-if="!loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
-            <a class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" ng-href="#/login" ng-cloak></a>
-            <a class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" ng-href="#/register" ng-cloak></a>
-          </div>
-          <div ng-if="loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
-            <a  class="btn btn-light" ng-href="#/notifications">
-              <span class="oi" data-glyph="bell" title="bell" aria-hidden="true"></span> <span ng-show="unreadNotifications != 0" class="badge badge-danger"> {{unreadNotifications}}</span>
-            </a>
-            <a class="btn btn-light" ng-href="#/users/{{currentUser.username}}">
-              <i class="fas fa-user"></i> {{currentUser.username}}
-            </a>
-            <a class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
-          </div>
-        </div>
-      </nav>
-  </header>
-
-  <main>
-    <div>
-      <div ng-view=""></div>
-    </div>
-  </main>
-
-  <footer class="footer">
-      <div class="container">
-        <span class="text-muted">Versus - ITBA 2017-18</span>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- Add your site or application content here -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between mb-4">
+    <a class="navbar-brand" href="#/">Versus</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" ng-bind="'SEARCH_TITLE' | translate" href="#/search"></a>
+        </li>
+      </ul>
+      <div ng-if="!loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
+        <a class="btn btn-light" ng-bind="'NAVBAR_LOGIN' | translate" ng-href="#/login" ng-cloak></a>
+        <a class="btn btn-light" ng-bind="'NAVBAR_SIGNUP' | translate" ng-href="#/register" ng-cloak></a>
       </div>
-    </footer>
+      <div ng-if="loggedIn" class="my-2 my-md-0 mr-md-3 ml-auto" ng-cloak>
+        <a class="btn btn-light" ng-href="#/notifications">
+          <span class="oi" data-glyph="bell" title="bell" aria-hidden="true"></span> <span
+          ng-show="unreadNotifications != 0" class="badge badge-danger"> {{unreadNotifications}}</span>
+        </a>
+        <a class="btn btn-light" ng-href="#/users/{{currentUser.username}}">
+          <i class="fas fa-user"></i> {{currentUser.username}}
+        </a>
+        <a class="btn btn-light" ng-click="logout()" ng-bind="'NAVBAR_LOGOUT' | translate"></a>
+      </div>
+    </div>
+  </nav>
+</header>
 
- <!-- build:js(.) scripts/oldieshim.js -->
-  <!--[if lt IE 9]>
-  <script src="bower_components/es5-shim/es5-shim.js"></script>
-  <script src="bower_components/json3/lib/json3.js"></script>
-  <![endif]-->
-  <!-- endbuild -->
-  <script src="scripts/paths.js"></script>
-  <script src="bower_components/requirejs/require.js" data-main="scripts/build.js"></script>
+<main>
+  <div>
+    <div ng-view=""></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">Versus - ITBA 2017-18</span>
+  </div>
+</footer>
+
+<!-- build:js(.) scripts/oldieshim.js -->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.js"></script>
+<![endif]-->
+<!-- endbuild -->
+<script src="scripts/paths.js"></script>
+<script src="bower_components/requirejs/require.js" data-main="scripts/build.js"></script>
 </body>
 </html>

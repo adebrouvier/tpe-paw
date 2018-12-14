@@ -9,35 +9,35 @@ import javax.persistence.Table;
 @Table(name = "game_url_image")
 public class GameUrlImage {
 
-    @Id
-    @Column(name = "game_id")
-    private Long gameId;
+  @Id
+  @Column(name = "game_id")
+  private Long gameId;
 
-    @Column(name = "url_image")
-    private String urlImage;
+  @Column(name = "url_image")
+  private String urlImage;
 
-    public GameUrlImage() {
-        /* for hibernate */
-    }
+  public GameUrlImage() {
+    /* for hibernate */
+  }
 
-    public GameUrlImage(Long gameId, String ulrImage) {
-        this.gameId = gameId;
-        this.urlImage = ulrImage;
-    }
+  public GameUrlImage(Long gameId, String ulrImage) {
+    this.gameId = gameId;
+    this.urlImage = ulrImage;
+  }
 
-    public Long getGameId() {
-        return gameId;
-    }
+  public Long getGameId() {
+    return gameId;
+  }
 
-    public void setGameId(Long gameId) {
-        this.gameId = gameId;
-    }
+  public void setGameId(Long gameId) {
+    this.gameId = gameId;
+  }
 
-    public String getUrlImage() {
-        return urlImage;
-    }
+  public String getUrlImage() {
+    return urlImage;
+  }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
+  public void setUrlImage(String urlImage) {
+    this.urlImage = urlImage;
+  }
 }

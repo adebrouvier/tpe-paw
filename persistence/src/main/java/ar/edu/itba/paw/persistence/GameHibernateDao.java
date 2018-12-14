@@ -12,37 +12,37 @@ import java.util.List;
 @Repository
 public class GameHibernateDao implements GameDao {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    @Override
-    public Game create(String name, boolean userGenerated) {
-        final Game game = new Game(name, userGenerated);
-        em.persist(game);
-        return game;
-    }
+  @Override
+  public Game create(String name, boolean userGenerated) {
+    final Game game = new Game(name, userGenerated);
+    em.persist(game);
+    return game;
+  }
 
-    @Override
-    public Game findById(long id) {
-        return em.find(Game.class, id);
-    }
+  @Override
+  public Game findById(long id) {
+    return em.find(Game.class, id);
+  }
 
-    @Override
-    public Game findByName(String name) {
-        final TypedQuery<Game> query = em.createQuery("from Game as g where g.name = :name", Game.class);
-        query.setParameter("name", name);
-        final List<Game> list = query.getResultList();
-        return list.isEmpty() ? null : list.get(0);
-    }
+  @Override
+  public Game findByName(String name) {
+    final TypedQuery<Game> query = em.createQuery("from Game as g where g.name = :name", Game.class);
+    query.setParameter("name", name);
+    final List<Game> list = query.getResultList();
+    return list.isEmpty() ? null : list.get(0);
+  }
 
-    @Override
-    public List<String> findGameNames(String term) {
-        final TypedQuery<String> query = em.createQuery("select g.name from Game as g where g.name LIKE :term", String.class);
-        query.setParameter("term", term.concat("%"));
-        return query.getResultList();
-    }
+  @Override
+  public List<String> findGameNames(String term) {
+    final TypedQuery<String> query = em.createQuery("select g.name from Game as g where g.name LIKE :term", String.class);
+    query.setParameter("term", term.concat("%"));
+    return query.getResultList();
+  }
 
-    public EntityManager getEntityManager() {
-        return em;
-    }
+  public EntityManager getEntityManager() {
+    return em;
+  }
 }

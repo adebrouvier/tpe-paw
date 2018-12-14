@@ -16,20 +16,20 @@ import java.util.Collection;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserService us;
+  @Autowired
+  private UserService us;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User user = us.findByName(username);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    final User user = us.findByName(username);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("No Username by the name " + username);
-        }
-        final Collection<? extends GrantedAuthority> authorities = Arrays.asList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
-
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+    if (user == null) {
+      throw new UsernameNotFoundException("No Username by the name " + username);
     }
+    final Collection<? extends GrantedAuthority> authorities = Arrays.asList(
+      new SimpleGrantedAuthority("ROLE_USER")
+    );
+
+    return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+  }
 }

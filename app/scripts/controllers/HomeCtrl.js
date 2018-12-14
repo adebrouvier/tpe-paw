@@ -1,8 +1,8 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/apiService'], function (tpePaw) {
 
-	tpePaw.controller('HomeCtrl', function($scope, titleService, apiService) {
-		titleService.setTitle("Versus");
+  tpePaw.controller('HomeCtrl', function ($scope, titleService, apiService) {
+    titleService.setTitle("Versus");
 
     $scope.featuredTournaments = {};
     $scope.featuredRankings = {};

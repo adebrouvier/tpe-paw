@@ -1,7 +1,7 @@
 'use strict';
-define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function (tpePaw) {
 
-  tpePaw.controller('NotificationsCtrl', function($scope, $routeParams, $filter, $location, titleService, AuthService, apiService) {
+  tpePaw.controller('NotificationsCtrl', function ($scope, $routeParams, $filter, $location, titleService, AuthService, apiService) {
     titleService.setTitle($filter('translate')('NOTIFICATION_TITTLE') + ' - Versus');
 
     $scope.hasNotificationsData = false;
@@ -25,7 +25,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.goToTournamentBrackets = function (tournamentId) {
       $location.path('/tournament/' + tournamentId);
     };
-    $scope.goToTournamentComment = function (tournamentId,commentId) {
+    $scope.goToTournamentComment = function (tournamentId, commentId) {
       $location.path('/tournament/' + tournamentId + '/comments');
     };
     $scope.goToRanking = function (rankingId) {

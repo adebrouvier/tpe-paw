@@ -14,10 +14,10 @@ public class PlayerDTO {
 
   private int standing;
 
-  public PlayerDTO(){
+  public PlayerDTO() {
   }
 
-  public PlayerDTO(Player player){
+  public PlayerDTO(Player player) {
     this.id = player.getId();
     this.name = player.getName();
     if (player.getUser() != null) {

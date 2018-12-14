@@ -12,26 +12,26 @@ import java.util.Date;
 @Repository
 public class CommentHibernateDao implements CommentDao {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    public Comment create(User creator, Date date, String comment) {
-        final Comment c = new Comment(creator, date, comment);
-        em.persist(c);
-        return c;
-    }
+  public Comment create(User creator, Date date, String comment) {
+    final Comment c = new Comment(creator, date, comment);
+    em.persist(c);
+    return c;
+  }
 
-    @Override
-    public Comment findById(long id) {
-        return em.find(Comment.class, id);
-    }
+  @Override
+  public Comment findById(long id) {
+    return em.find(Comment.class, id);
+  }
 
-    @Override
-    public Comment create(User creator, Date date, String comment, Comment parent) {
+  @Override
+  public Comment create(User creator, Date date, String comment, Comment parent) {
 
-        final Comment c = new Comment(creator, date, comment, parent);
-        em.persist(c);
-        return c;
-    }
+    final Comment c = new Comment(creator, date, comment, parent);
+    em.persist(c);
+    return c;
+  }
 
 }

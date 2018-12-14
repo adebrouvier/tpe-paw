@@ -23,9 +23,9 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'service
         titleService.setTitle($scope.tournament.name + ' - Versus');
         var match = $filter('filter')($scope.tournament.matches, {'id': $scope.matchId});
 
-        if (match.length === 1){
+        if (match.length === 1) {
           match = match[0];
-        }else{
+        } else {
           $location.url('/404');
         }
 
@@ -49,7 +49,7 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentInfo', 'service
         $location.url('/404');
       });
 
-    $scope.processForm = function() {
+    $scope.processForm = function () {
       apiService.updateMatchData($scope.tournamentId, $scope.matchId, $scope.matchDataForm)
         .then(function successCallback(response) {
           $location.url('/tournament/' + $scope.tournamentId)

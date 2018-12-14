@@ -1,38 +1,39 @@
 <tournament-image></tournament-image>
 <div class="container">
-    <tournament-info></tournament-info>
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs nav-fill">
-                <li class="nav-item">
-                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_RANK' | translate}}</th>
-                        <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_PLAYER' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="player in tournament.players | orderBy:'+standing'">
-                        <td>{{player.standing}}</td>
-                        <td>{{player.name}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <tournament-info></tournament-info>
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs nav-fill">
+        <li class="nav-item">
+          <a class="nav-link" ng-href="#/tournament/{{tournament.id}}">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+        </li>
+      </ul>
     </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_RANK' | translate}}</th>
+          <th scope="col">{{'TOURNAMENT_PAGE_STANDINGS_TABLE_PLAYER' | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="player in tournament.players | orderBy:'+standing'">
+          <td>{{player.standing}}</td>
+          <td>{{player.name}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

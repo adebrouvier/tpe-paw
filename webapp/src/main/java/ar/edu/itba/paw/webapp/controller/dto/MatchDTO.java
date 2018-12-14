@@ -26,10 +26,10 @@ public class MatchDTO {
 
   private int standing;
 
-  public MatchDTO(){
+  public MatchDTO() {
   }
 
-  public MatchDTO(Match match){
+  public MatchDTO(Match match) {
     this.id = match.getId();
     if (match.getHomePlayer() != null)
       this.homePlayer = new PlayerDTO(match.getHomePlayer());

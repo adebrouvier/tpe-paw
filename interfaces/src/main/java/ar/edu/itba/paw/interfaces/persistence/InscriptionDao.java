@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface InscriptionDao {
 
-    Inscription create(User user, Tournament tournament);
+  Inscription create(User user, Tournament tournament);
 
-    Inscription findByIds(long loggedUserId, long tournamentId);
+  Inscription findByIds(long loggedUserId, long tournamentId);
 
-    List<Inscription> findByTournamentId(long tournamentId);
+  List<Inscription> findByTournamentId(long tournamentId);
 
-    void delete(long tournamentId, long userId);
+  void delete(long tournamentId, long userId);
 }

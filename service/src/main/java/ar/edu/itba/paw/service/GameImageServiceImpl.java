@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameImageServiceImpl implements GameImageService {
 
-    @Autowired
-    private GameImageDao gameImageDao;
+  @Autowired
+  private GameImageDao gameImageDao;
 
 
-    @Override
-    public GameImage findById(long gameId) {
-        return gameImageDao.findById(gameId);
-    }
+  @Override
+  public GameImage findById(long gameId) {
+    return gameImageDao.findById(gameId);
+  }
 }

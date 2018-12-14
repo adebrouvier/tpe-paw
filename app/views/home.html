@@ -1,11 +1,12 @@
 <div class="container">
   <div class="jumbotron text-center">
-      <h1 class="display-4">Ready to Versus?</h1>
-      <p class="lead">{{'INDEX_MESSAGE' | translate}}</p>    
-      <p class="lead">
-        <a class="btn btn-primary btn-lg" ng-href="#/tournament" role="button">{{'INDEX_CREATE_TOURNAMENT' | translate}}</a>
-        <a class="btn btn-primary btn-lg" ng-href="#/ranking" role="button">{{'INDEX_CREATE_RANKING' | translate}}</a>
-      </p>
+    <h1 class="display-4">Ready to Versus?</h1>
+    <p class="lead">{{'INDEX_MESSAGE' | translate}}</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" ng-href="#/tournament" role="button">{{'INDEX_CREATE_TOURNAMENT' |
+        translate}}</a>
+      <a class="btn btn-primary btn-lg" ng-href="#/ranking" role="button">{{'INDEX_CREATE_RANKING' | translate}}</a>
+    </p>
   </div>
   <div class="row mb-4 text-center">
     <div class="col-4">
@@ -75,51 +76,51 @@
     </div>
   </div>
   <div class="row">
-  <div class="card text-center mb-2 col-12">
-    <div class="card-body">
-      <h3>{{'HOME_LATEST_TOURNAMENTS' | translate }}</h3>
+    <div class="card text-center mb-2 col-12">
+      <div class="card-body">
+        <h3>{{'HOME_LATEST_TOURNAMENTS' | translate }}</h3>
         <table class="table">
           <thead>
-            <tr>
-              <th scope="col">{{'HOME_NAME' | translate}}</th>
-              <th scope="col">{{'HOME_GAME' | translate}}</th>
-              <th scope="col">{{'HOME_PLAYERS' | translate}}</th>
-              <th scope="col">{{'HOME_MATCHES' | translate}}</th>
-            </tr>
+          <tr>
+            <th scope="col">{{'HOME_NAME' | translate}}</th>
+            <th scope="col">{{'HOME_GAME' | translate}}</th>
+            <th scope="col">{{'HOME_PLAYERS' | translate}}</th>
+            <th scope="col">{{'HOME_MATCHES' | translate}}</th>
+          </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="tournament in featuredTournaments">
-              <td><a ng-href="#/tournament/{{tournament.id}}">{{tournament.name}}</a></td>
-              <td>{{tournament.game.name}}</td>
-              <td>{{tournament.players.length}}</td>
-              <td>{{tournament.matches.length}}</td>
-            </tr>
+          <tr ng-repeat="tournament in featuredTournaments">
+            <td><a ng-href="#/tournament/{{tournament.id}}">{{tournament.name}}</a></td>
+            <td>{{tournament.game.name}}</td>
+            <td>{{tournament.players.length}}</td>
+            <td>{{tournament.matches.length}}</td>
+          </tr>
           </tbody>
         </table>
+      </div>
     </div>
-  </div>
   </div>
   <div class="row">
-  <div class="card text-center col-12">
-    <div class="card-body">
-    <h3>{{'HOME_LATEST_RANKINGS' | translate}}</h3>
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">{{'HOME_NAME' | translate}}</th>
-        <th scope="col">{{'HOME_GAME' | translate}}</th>
-        <th scope="col">{{'HOME_TOURNAMENTS' | translate}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="ranking in featuredRankings">
-        <td><a ng-href="#/ranking/{{ranking.id}}">{{ranking.name}}</a></td>
-        <td>{{ranking.game.name}}</td>
-        <td>{{ranking.tournamentPoints.length}}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="card text-center col-12">
+      <div class="card-body">
+        <h3>{{'HOME_LATEST_RANKINGS' | translate}}</h3>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">{{'HOME_NAME' | translate}}</th>
+            <th scope="col">{{'HOME_GAME' | translate}}</th>
+            <th scope="col">{{'HOME_TOURNAMENTS' | translate}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="ranking in featuredRankings">
+            <td><a ng-href="#/ranking/{{ranking.id}}">{{ranking.name}}</a></td>
+            <td>{{ranking.game.name}}</td>
+            <td>{{ranking.tournamentPoints.length}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
   </div>
 </div>

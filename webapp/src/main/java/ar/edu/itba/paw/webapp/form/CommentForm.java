@@ -6,15 +6,15 @@ import javax.validation.constraints.Size;
 
 public class CommentForm {
 
-    @Size(max = 200)
-    @NotBlank
-    private String comment;
+  @Size(max = 200)
+  @NotBlank
+  private String comment;
 
-    public String getComment() {
-        return comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
 }

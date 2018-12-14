@@ -1,135 +1,150 @@
 <tournament-image></tournament-image>
 <div class="container" ng-cloak>
-    <tournament-info></tournament-info>
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs nav-fill">
-                <li class="nav-item">
-                    <a class="nav-link active" ng-href="#">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/standings">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
-                </li>
-            </ul>
+  <tournament-info></tournament-info>
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs nav-fill">
+        <li class="nav-item">
+          <a class="nav-link active" ng-href="#">{{'TOURNAMENT_PAGE_BRACKET'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" ng-href="#/tournament/{{tournament.id}}/standings">{{'TOURNAMENT_PAGE_STANDINGS'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             ng-href="#/tournament/{{tournament.id}}/players">{{'TOURNAMENT_PAGE_PLAYERS'|translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             ng-href="#/tournament/{{tournament.id}}/comments">{{'TOURNAMENT_PAGE_COMMENTS'|translate}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div>
+        <form no-validate ng-submit="endTournament()"
+              ng-if="loggedUser == tournament.creator.username && tournament.status == 'STARTED'">
+          <button type="submit" class="btn btn-danger">{{'TOURNAMENT_PAGE_END'|translate}}</button>
+        </form>
+        <div ng-if="tournament.status == 'FINISHED'" class="alert alert-primary" role="alert">
+          {{'TOURNAMENT_PAGE_FINISHED'|translate}}
         </div>
-        <div class="card-body">
-            <div>
-                <form no-validate ng-submit="endTournament()"
-                    ng-if="loggedUser == tournament.creator.username && tournament.status == 'STARTED'">
-                        <button type="submit" class="btn btn-danger">{{'TOURNAMENT_PAGE_END'|translate}}</button>
-                </form>
-                <div ng-if="tournament.status == 'FINISHED'" class="alert alert-primary" role="alert">
-                  {{'TOURNAMENT_PAGE_FINISHED'|translate}}
-                </div>
-            </div>
-            <div id="tournament-container">
-                <div id="match-{{$index}}" class="bracket-container" ng-repeat="match in tournament.matches" on-finish-render="tournamentFormat()">
+      </div>
+      <div id="tournament-container">
+        <div id="match-{{$index}}" class="bracket-container" ng-repeat="match in tournament.matches"
+             on-finish-render="tournamentFormat()">
                     <span class="match-id-container">
                         <span class="match-id">{{match.id}}</span>
                         <span class="triangle"></span>
                     </span>
-                    <a href="#" data-toggle="modal" data-target="#scoreModal" data-backdrop="false"
-                        ng-click="openScoreModal(match)">
-                        <div class="bracket">
-                            <div class="players-name">
-                                <div class="home-player-name">{{match.homePlayer.name}}</div>
-                                <div class="away-player-name">{{match.awayPlayer.name}}</div>
-                            </div>
-                            <div class="players-score">
-                                <div class="home-player-score">{{match.homePlayerScore}}</div>
-                                <div class="away-player-score">{{match.awayPlayerScore}}</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+          <a href="#" data-toggle="modal" data-target="#scoreModal" data-backdrop="false"
+             ng-click="openScoreModal(match)">
+            <div class="bracket">
+              <div class="players-name">
+                <div class="home-player-name">{{match.homePlayer.name}}</div>
+                <div class="away-player-name">{{match.awayPlayer.name}}</div>
+              </div>
+              <div class="players-score">
+                <div class="home-player-score">{{match.homePlayerScore}}</div>
+                <div class="away-player-score">{{match.awayPlayerScore}}</div>
+              </div>
             </div>
-            <div ng-if="tournament.matches.length === 0">{{'TOURNAMENT_PAGE_NOT_STARTED'|translate}}</div>
-            <div ng-if="tournament.status == 'NEW'">
-                <div ng-if="loggedUser !== undefined && loggedUser !== tournament.creator.username
+          </a>
+        </div>
+      </div>
+      <div ng-if="tournament.matches.length === 0">{{'TOURNAMENT_PAGE_NOT_STARTED'|translate}}</div>
+      <div ng-if="tournament.status == 'NEW'">
+        <div ng-if="loggedUser !== undefined && loggedUser !== tournament.creator.username
                                 && !participates && !signedUp">
-                    <button ng-click="joinRequest()" type="submit" class="btn btn-primary">{{'TOURNAMENT_PAGE_JOIN_REQUEST'|translate}}</button>
-                </div>
-                <div ng-if="loggedUser !== undefined && signedUp">
-                    <p>{{'TOURNAMENT_PAGE_AWAITING'|translate}}</p>
-                </div>
-            </div>
+          <button ng-click="joinRequest()" type="submit" class="btn btn-primary">
+            {{'TOURNAMENT_PAGE_JOIN_REQUEST'|translate}}
+          </button>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="scoreModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="scoreModalLabel">{{'TOURNAMENT_PAGE_SCORES'|translate}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" ng-click="clearModal()">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form novalidate ng-submit="updateScore()" name="matchForm">
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">{{'TOURNAMENT_PAGE_SCORE_PLAYER'|translate}}</th>
-                                        <th scope="col">{{'TOURNAMENT_PAGE_SCORE'|translate}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="modal-top-player">
-                                        <td>{{match.homePlayer.name}} <span ng-show="match.homePlayerCharacter">- </span> <span class="text-muted" ng-bind="match.homePlayerCharacter"></span></td>
-                                        <td ng-if='editable(match)' class="modal-player-score">
-                                            <input type="number" class="form-control" id="home-input" name="thome"
-                                            ng-model="matchForm.homeResult" ng-value="match.homePlayerScore" required min="0" ng-maxlength="3"
-                                            ng-class="{ 'is-invalid': matchForm.thome.$touched && matchForm.thome.$invalid }">
-                                        </td>
-                                        <td ng-if="!editable(match)" class="modal-player-score">
-                                            {{match.homePlayerScore}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                      <td>{{match.awayPlayer.name}} <span ng-show="match.awayPlayerCharacter">- </span><span class="text-muted" ng-bind="match.awayPlayerCharacter"></span></td>
-                                        <td ng-if='editable(match)' class="modal-player-score">
-                                            <input type="number" class="form-control" id="away-input"
-                                            ng-value="match.awayPlayerScore"
-                                            ng-model="matchForm.awayResult" name="taway" required min="0" ng-maxlength="3"
-                                            ng-class="{ 'is-invalid': matchForm.taway.$touched && matchForm.taway.$invalid }">
-                                        </td>
-                                        <td ng-if="!editable(match)" class="modal-player-score">
-                                                {{match.awayPlayerScore}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div ng-messages="matchForm.homeResult.$error" class="invalid-feedback" ng-if="matchForm.homeResult.$error.$touched">
-                                <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
-                                <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
-                                <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
-                                <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
-                            </div>
-                            <div ng-messages="matchForm.awayResult.$error" class="invalid-feedback" ng-if="matchForm.awayResult.$error.$touched">
-                              <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
-                              <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
-                              <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength: "3"}' }}</p>
-                              <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
-                            </div>
-                            <div class="card mb-3" ng-show="match.map || match.vodLink">
-                              <div class="card-body text-left">
-                                <span ng-show="match.map"><i class="fas fa-map-marker-alt"></i> Maps: {{match.map}}</span>
-                                <br/>
-                                <span ng-show="match.vodLink"><i class="pull-right fab fa-youtube"></i> VOD: {{match.vodLink}}</span>
-                              </div>
-                            </div>
-                            <a ng-cloak ng-if="editable(match)" ng-href="#/tournament/{{tournament.id}}/match/{{match.id}}" class="card-link btn btn-primary">{{'TOURNAMENT_PAGE_MATCH_FORM_DETAILS' | translate}}</a>
-                            <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary" ng-disabled="matchForm.$invalid">{{'TOURNAMENT_PAGE_MATCH_FORM_UPDATE' | translate}}</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div ng-if="loggedUser !== undefined && signedUp">
+          <p>{{'TOURNAMENT_PAGE_AWAITING'|translate}}</p>
         </div>
+      </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="scoreModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="scoreModalLabel">{{'TOURNAMENT_PAGE_SCORES'|translate}}</h5>
+            <button type="button" class="close" data-dismiss="modal" ng-click="clearModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form novalidate ng-submit="updateScore()" name="matchForm">
+              <table class="table">
+                <thead class="thead-light">
+                <tr>
+                  <th scope="col">{{'TOURNAMENT_PAGE_SCORE_PLAYER'|translate}}</th>
+                  <th scope="col">{{'TOURNAMENT_PAGE_SCORE'|translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="modal-top-player">
+                  <td>{{match.homePlayer.name}} <span ng-show="match.homePlayerCharacter">- </span> <span
+                    class="text-muted" ng-bind="match.homePlayerCharacter"></span></td>
+                  <td ng-if='editable(match)' class="modal-player-score">
+                    <input type="number" class="form-control" id="home-input" name="thome"
+                           ng-model="matchForm.homeResult" ng-value="match.homePlayerScore" required min="0"
+                           ng-maxlength="3"
+                           ng-class="{ 'is-invalid': matchForm.thome.$touched && matchForm.thome.$invalid }">
+                  </td>
+                  <td ng-if="!editable(match)" class="modal-player-score">
+                    {{match.homePlayerScore}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{match.awayPlayer.name}} <span ng-show="match.awayPlayerCharacter">- </span><span
+                    class="text-muted" ng-bind="match.awayPlayerCharacter"></span></td>
+                  <td ng-if='editable(match)' class="modal-player-score">
+                    <input type="number" class="form-control" id="away-input"
+                           ng-value="match.awayPlayerScore"
+                           ng-model="matchForm.awayResult" name="taway" required min="0" ng-maxlength="3"
+                           ng-class="{ 'is-invalid': matchForm.taway.$touched && matchForm.taway.$invalid }">
+                  </td>
+                  <td ng-if="!editable(match)" class="modal-player-score">
+                    {{match.awayPlayerScore}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div ng-messages="matchForm.homeResult.$error" class="invalid-feedback"
+                   ng-if="matchForm.homeResult.$error.$touched">
+                <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
+                <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
+                <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength:
+                  "3"}' }}</p>
+                <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
+              </div>
+              <div ng-messages="matchForm.awayResult.$error" class="invalid-feedback"
+                   ng-if="matchForm.awayResult.$error.$touched">
+                <p ng-message="number">{{'TOURNAMENT_PAGE_MATCH_FORM_NUMBER' | translate }}</p>
+                <p ng-message="min">{{'TOURNAMENT_PAGE_MATCH_FORM_MIN' | translate }}</p>
+                <p ng-message="maxlength">{{'TOURNAMENT_PAGE_FORM_LENGTH' | translate: '{ minlength: "1", maxlength:
+                  "3"}' }}</p>
+                <p ng-message="required">{{'TOURNAMENT_PAGE_MATCH_FORM_REQUIRED' | translate}}</p>
+              </div>
+              <div class="card mb-3" ng-show="match.map || match.vodLink">
+                <div class="card-body text-left">
+                  <span ng-show="match.map"><i class="fas fa-map-marker-alt"></i> Maps: {{match.map}}</span>
+                  <br/>
+                  <span ng-show="match.vodLink"><i class="pull-right fab fa-youtube"></i> VOD: {{match.vodLink}}</span>
+                </div>
+              </div>
+              <a ng-cloak ng-if="editable(match)" ng-href="#/tournament/{{tournament.id}}/match/{{match.id}}"
+                 class="card-link btn btn-primary">{{'TOURNAMENT_PAGE_MATCH_FORM_DETAILS' | translate}}</a>
+              <button ng-cloak ng-if="editable(match)" type="submit" class="card-link btn btn-primary"
+                      ng-disabled="matchForm.$invalid">{{'TOURNAMENT_PAGE_MATCH_FORM_UPDATE' | translate}}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

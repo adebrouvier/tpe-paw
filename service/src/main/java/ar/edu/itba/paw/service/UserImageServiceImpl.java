@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserImageServiceImpl implements UserImageService {
 
-    @Autowired
-    private UserImageDao userImageDao;
+  @Autowired
+  private UserImageDao userImageDao;
 
-    @Override
-    public void updateImage(User user, byte[] image) {
-        userImageDao.updateImage(user, image);
-    }
+  @Override
+  public void updateImage(User user, byte[] image) {
+    userImageDao.updateImage(user, image);
+  }
 
-    @Override
-    public UserImage findById(long id) {
-        return userImageDao.findById(id);
-    }
+  @Override
+  public UserImage findById(long id) {
+    return userImageDao.findById(id);
+  }
 }

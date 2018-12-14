@@ -9,35 +9,35 @@ import javax.persistence.Table;
 @Table(name = "user_image")
 public class UserImage {
 
-    @Id
-    @Column(name = "user_id")
-    private Long user_id;
+  @Id
+  @Column(name = "user_id")
+  private Long user_id;
 
-    @Column(name = "image")
-    private byte[] image;
+  @Column(name = "image")
+  private byte[] image;
 
-    public UserImage() {
-        /* for Hibernate */
-    }
+  public UserImage() {
+    /* for Hibernate */
+  }
 
-    public UserImage(Long user_id, byte[] image) {
-        this.user_id = user_id;
-        this.image = image;
-    }
+  public UserImage(Long user_id, byte[] image) {
+    this.user_id = user_id;
+    this.image = image;
+  }
 
-    public Long getUser_id() {
-        return user_id;
-    }
+  public Long getUser_id() {
+    return user_id;
+  }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
+  public void setUser_id(Long user_id) {
+    this.user_id = user_id;
+  }
 
-    public byte[] getImage() {
-        return image;
-    }
+  public byte[] getImage() {
+    return image;
+  }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+  public void setImage(byte[] image) {
+    this.image = image;
+  }
 }

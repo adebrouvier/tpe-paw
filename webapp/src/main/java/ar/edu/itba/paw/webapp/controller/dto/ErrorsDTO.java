@@ -10,7 +10,8 @@ public class ErrorsDTO {
   private String message;
   private List<InvalidFieldDTO> errors;
 
-  public ErrorsDTO() {}
+  public ErrorsDTO() {
+  }
 
   public ErrorsDTO(final String message) {
     this.setMessage(message);

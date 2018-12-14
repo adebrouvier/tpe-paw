@@ -1,9 +1,8 @@
 'use strict';
-define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
+define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService', 'services/titleService', 'services/authService', 'services/apiService'], function (tpePaw) {
 
 
-
-  tpePaw.controller('UserConfigCtrl', function($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService, apiUrl) {
+  tpePaw.controller('UserConfigCtrl', function ($scope, $location, $routeParams, titleService, AuthService, apiService, sessionService, apiUrl) {
 
 
     $scope.youtubeRegexp = /^(?:https:\/\/)?(?:www\.)?(?:youtube\.com\/)(?:[\w-]+)/i;
@@ -16,7 +15,7 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
     $scope.imageInvalidSize = false;
     $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
-    $scope.$on("fileProgress", function(e, progress) {
+    $scope.$on("fileProgress", function (e, progress) {
       $scope.progress = progress.loaded / progress.total;
     });
 
@@ -26,18 +25,30 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
      *
      **/
 
-    $scope.updateUser = function() {
+    $scope.updateUser = function () {
       var userData;
       var imageLength = ($scope.imageSrc.length) * 3 / 4;
       if (imageLength > $scope.maxImageLength) {
         $scope.imageInvalidSize = true;
       }
-      if ($scope.form.$valid && imageLength < $scope.maxImageLength){
+      if ($scope.form.$valid && imageLength < $scope.maxImageLength) {
         if ($scope.user.favoriteGame == null || $scope.user.favoriteGame.name == null) {
-          userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: ""};
+          userData = {
+            description: $scope.user.description,
+            twitterUrl: $scope.user.twitterUrl,
+            twitchUrl: $scope.user.twitchUrl,
+            youtubeUrl: $scope.user.youtubeUrl,
+            game: ""
+          };
 
         } else {
-          userData = {description: $scope.user.description, twitterUrl: $scope.user.twitterUrl, twitchUrl: $scope.user.twitchUrl, youtubeUrl: $scope.user.youtubeUrl, game: $scope.user.favoriteGame.name};
+          userData = {
+            description: $scope.user.description,
+            twitterUrl: $scope.user.twitterUrl,
+            twitchUrl: $scope.user.twitchUrl,
+            youtubeUrl: $scope.user.youtubeUrl,
+            game: $scope.user.favoriteGame.name
+          };
         }
         var image = $scope.imageSrc;
         var formData = new FormData();
@@ -57,17 +68,17 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
 
 
         return apiService.updateUser($scope.username, formData, metadata)
-          .then(function(response) {
+          .then(function (response) {
             $location.path('/users/' + $scope.username);
           })
-          .catch(function(response) {
+          .catch(function (response) {
             $location.path('/users/' + $scope.username);
           });
       }
 
     };
 
-    $scope.newImage = function() {
+    $scope.newImage = function () {
       $scope.hasNewImage = true;
     };
 
@@ -111,26 +122,22 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
   });
 
 
-
-
-
-
-  tpePaw.directive("ngFileSelect", function(fileReader, $timeout) {
+  tpePaw.directive("ngFileSelect", function (fileReader, $timeout) {
     return {
       scope: {
         ngModel: '='
       },
-      link: function($scope, el) {
+      link: function ($scope, el) {
         function getFile(file) {
           fileReader.readAsDataUrl(file, $scope)
-            .then(function(result) {
-              $timeout(function() {
+            .then(function (result) {
+              $timeout(function () {
                 $scope.ngModel = result;
               });
             });
         }
 
-        el.bind("change", function(e) {
+        el.bind("change", function (e) {
           var file = (e.srcElement || e.target).files[0];
           getFile(file);
         });
@@ -138,25 +145,25 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
     };
   });
 
-  tpePaw.factory("fileReader", function($q, $log) {
-    var onLoad = function(reader, deferred, scope) {
-      return function() {
-        scope.$apply(function() {
+  tpePaw.factory("fileReader", function ($q, $log) {
+    var onLoad = function (reader, deferred, scope) {
+      return function () {
+        scope.$apply(function () {
           deferred.resolve(reader.result);
         });
       };
     };
 
-    var onError = function(reader, deferred, scope) {
-      return function() {
-        scope.$apply(function() {
+    var onError = function (reader, deferred, scope) {
+      return function () {
+        scope.$apply(function () {
           deferred.reject(reader.result);
         });
       };
     };
 
-    var onProgress = function(reader, scope) {
-      return function(event) {
+    var onProgress = function (reader, scope) {
+      return function (event) {
         scope.$broadcast("fileProgress", {
           total: event.total,
           loaded: event.loaded
@@ -164,7 +171,7 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
       };
     };
 
-    var getReader = function(deferred, scope) {
+    var getReader = function (deferred, scope) {
       var reader = new FileReader();
       reader.onload = onLoad(reader, deferred, scope);
       reader.onerror = onError(reader, deferred, scope);
@@ -172,7 +179,7 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
       return reader;
     };
 
-    var readAsDataURL = function(file, scope) {
+    var readAsDataURL = function (file, scope) {
       var deferred = $q.defer();
 
       var reader = getReader(deferred, scope);
@@ -185,8 +192,6 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
       readAsDataUrl: readAsDataURL
     };
   });
-
-
 
 
 });
