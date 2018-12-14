@@ -22,11 +22,12 @@
         <div class="dropdown-divider"></div>
         <div class="card-body">
           <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" class="user-section-title"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
-          <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
-            <h6>
-              <b>{{'USER_EDIT_PROFILE' | translate}}</b>
-            </h6>
-            <button type="button" class="btn btn-follow" ng-click="goConfigPage()" >{{'USER_EDIT_BUTTON' | translate}}</button>
+          <div ng-show="loggedUser == user.username" ng-cloak>
+            <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
+              <h6>
+                <b>{{'USER_EDIT_PROFILE' | translate}}</b>
+              </h6>
+            </div>
           </div>
 
           <p  class="user-section-content-text">{{user.description}}</p><br>
@@ -37,9 +38,7 @@
               <span>
                 <img class="user-social-icon-twitter-twitch" src="images/twitch-icon.png">
               </span>
-              <span>
-                {{"Twitch"}}
-              </span>
+              <span>Twitch</span>
             </div>
           </a>
 
@@ -49,9 +48,7 @@
               <span>
                 <img class="user-social-icon-twitter-twitch" src="images/twitter-icon.png">
               </span>
-              <span>
-                {{"Twitter"}}
-              </span>
+              <span>Twitter</span>
             </div>
           </a>
 
@@ -61,9 +58,7 @@
               <span >
                 <img class="user-social-icon-youtube" src="images/youtube-icon.png">
               </span>
-              <span>
-                  {{"Youtube"}}
-              </span>
+              <span>Youtube</span>
             </div>
           </a>
 
@@ -120,6 +115,9 @@
                     </div>
 
                   </div>
+                </div>
+                <div ng-show="participates.length == 0" ng-cloak>
+                  {{'USER_PARTICIPATES_EMPTY' | translate }}
                 </div>
               </div>
             </div>

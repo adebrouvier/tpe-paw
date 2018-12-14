@@ -22,11 +22,10 @@
         <div class="dropdown-divider"></div>
         <div class="card-body">
           <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" class="user-section-title"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
-          <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
+          <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl || loggedUser != user.username"  ng-cloak>
             <h6>
               <b>{{'USER_EDIT_PROFILE' | translate}}</b>
             </h6>
-            <button type="button" class="btn btn-follow" ng-click="goConfigPage()" >{{'USER_EDIT_BUTTON' | translate}}</button>
           </div>
 
           <p  class="user-section-content-text" >{{user.description}}</p><br>
@@ -34,9 +33,9 @@
 
           <a ng-show="user.twitchUrl" ng-href="{{user.twitchUrl}}">
             <div class="user-section-content-link">
-              <spam>
+              <span>
                 <img class="user-social-icon-twitter-twitch" src="images/twitch-icon.png">
-              </spam>
+              </span>
               <span>
                 {{"Twitch"}}
               </span>
@@ -108,6 +107,9 @@
                       <a ng-href="#/ranking/{{ranking.id}}" class="card-link text-warning">{{'USER_RANKINGS' | translate}}</a>
                     </div>
                   </div>
+                </div>
+                <div ng-show="rankings.length == 0" ng-cloak>
+                  {{'USER_RANKING_EMPTY' | translate }}
                 </div>
               </div>
             </div>

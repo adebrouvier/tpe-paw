@@ -25,7 +25,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
       $location.path('/tournament/' + tournamentId);
     };
     $scope.goToTournamentComment = function (tournamentId,commentId) {
-      $location.path('/tournament/' + tournamentId + '/comments#comment-' + commentId);
+      $location.path('/tournament/' + tournamentId + '/comments');
     };
     $scope.goToRanking = function (rankingId) {
       $location.path('/ranking/' + rankingId);

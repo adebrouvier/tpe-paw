@@ -22,11 +22,10 @@
         <div class="dropdown-divider"></div>
         <div class="card-body">
           <h6 ng-show="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl" class="user-section-title"><i class="material-icons section-icons" >info_outline</i><b>{{'USER_PERSONAL_INFORMATION' | translate}}</b></h6>
-          <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl">
+          <div class="text-center user-section-edit" ng-hide="user.twitchUrl || user.description || user.twitterUrl || user.youtubeUrl || loggedUser != user.username" ng-cloak>
             <h6>
               <b>{{'USER_EDIT_PROFILE' | translate}}</b>
             </h6>
-            <button type="button" class="btn btn-follow" ng-click="goConfigPage()" >{{'USER_EDIT_BUTTON' | translate}}</button>
           </div>
 
           <p  class="user-section-content-text" >{{user.description}}</p><br>
@@ -109,6 +108,9 @@
                       <a ng-href="#/tournament/{{create.id}}/standings" class="card-link text-warning">{{'USER_STANDING' | translate}}</a>
                     </div>
                   </div>
+                </div>
+                <div ng-show="creates.length === 0" ng-cloak>
+                  {{'USER_CREATED_EMPTY' | translate }}
                 </div>
               </div>
             </div>
