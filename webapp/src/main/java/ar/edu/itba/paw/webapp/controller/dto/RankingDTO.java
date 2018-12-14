@@ -27,12 +27,14 @@ public class RankingDTO {
     this.name = ranking.getName();
     this.game = new GameDTO(ranking.getGame());
     this.creator = new UserDTO(ranking.getUser());
-    this.userScores = ranking.getUserScores().stream()
-      .map(UserScoresDTO::new)
-      .collect(Collectors.toList());
-    this.tournamentPoints = ranking.getTournaments().stream()
-      .map(TournamentPointsDTO::new)
-      .collect(Collectors.toList());
+    if (ranking.getUserScores() != null)
+      this.userScores = ranking.getUserScores().stream()
+        .map(UserScoresDTO::new)
+        .collect(Collectors.toList());
+    if (ranking.getTournaments() != null)
+      this.tournamentPoints = ranking.getTournaments().stream()
+        .map(TournamentPointsDTO::new)
+        .collect(Collectors.toList());
   }
 
   public long getId() {
