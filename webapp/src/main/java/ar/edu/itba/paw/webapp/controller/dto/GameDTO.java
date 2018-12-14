@@ -8,12 +8,17 @@ public class GameDTO {
 
   private String name;
 
+  private String gameUrl;
+
   public GameDTO(){
   }
 
   public GameDTO(Game game) {
     this.id = game.getId();
     this.name = game.getName();
+    if(game.getGameUrlImage() != null) {
+      this.gameUrl = game.getGameUrlImage().getUrlImage();
+    }
   }
 
   public long getId() {
@@ -30,5 +35,13 @@ public class GameDTO {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getGameUrl() {
+    return gameUrl;
+  }
+
+  public void setGameUrl(String gameUrl) {
+    this.gameUrl = gameUrl;
   }
 }
