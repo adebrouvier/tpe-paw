@@ -70,75 +70,79 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.loadParticipatedTournaments = function () {
       if (document.getElementById('participates').classList.item(2) === 'active') {
-        $scope.busy = true;
-        apiService.get('/users/' + $scope.username + '/participated-tournaments?page=' + $scope.userParticipatedTournaments, '')
-          .then(function successCallback(response) {
-            if (response.data.hasOwnProperty('participates')) {
-              var pLength = response.data.participates.length;
-              for (var i = 0; i < pLength; i++) {
-                $scope.participates.push(response.data.participates[i]);
-              }
-              $scope.hasParticipatesData = true;
-            } else {
-              $scope.hasParticipatesData = false;
-            }
-            $scope.busy = false;
-          }, function errorCallback(response) {
-            $scope.busy = false;
-          });
         if ($scope.hasParticipatesData) {
-          $scope.userParticipatedTournaments += 1;
+          $scope.busy = true;
+          apiService.get('/users/' + $scope.username + '/participated-tournaments?page=' + $scope.userParticipatedTournaments, '')
+            .then(function successCallback(response) {
+              if (response.data.hasOwnProperty('participates')) {
+                var pLength = response.data.participates.length;
+                for (var i = 0; i < pLength; i++) {
+                  $scope.participates.push(response.data.participates[i]);
+                }
+                $scope.hasParticipatesData = true;
+              } else {
+                $scope.hasParticipatesData = false;
+              }
+              $scope.busy = false;
+            }, function errorCallback(response) {
+              $scope.busy = false;
+            });
+          if ($scope.hasParticipatesData) {
+            $scope.userParticipatedTournaments += 1;
+          }
         }
       }
 
     };
     $scope.loadCreatedTournaments = function () {
       if (document.getElementById('creates').classList.item(2) === 'active') {
-        $scope.busy = true;
-        apiService.get('/users/' + $scope.username + '/created-tournaments?page=' + $scope.userCreatedTournaments, '')
-          .then(function successCallback(response) {
-            if (response.data.hasOwnProperty('creates')) {
-              var pLength = response.data.creates.length;
-              for (var i = 0; i < pLength; i++) {
-                $scope.creates.push(response.data.creates[i]);
-              }
-              $scope.hasCreatesData = true;
-            } else {
-              $scope.hasCreatesData = false;
-            }
-            $scope.busy = false;
-          }, function errorCallback(response) {
-            $scope.busy = false;
-          });
         if ($scope.hasCreatesData) {
-          $scope.userCreatedTournaments += 1;
+          $scope.busy = true;
+          apiService.get('/users/' + $scope.username + '/created-tournaments?page=' + $scope.userCreatedTournaments, '')
+            .then(function successCallback(response) {
+              if (response.data.hasOwnProperty('creates')) {
+                var pLength = response.data.creates.length;
+                for (var i = 0; i < pLength; i++) {
+                  $scope.creates.push(response.data.creates[i]);
+                }
+                $scope.hasCreatesData = true;
+              } else {
+                $scope.hasCreatesData = false;
+              }
+              $scope.busy = false;
+            }, function errorCallback(response) {
+              $scope.busy = false;
+            });
+          if ($scope.hasCreatesData) {
+            $scope.userCreatedTournaments += 1;
+          }
         }
       }
-
     };
     $scope.loadCreatedRankings = function () {
       if (document.getElementById('rankings').classList.item(2) === 'active') {
-        $scope.busy = true;
-        apiService.get('/users/' + $scope.username + '/created-rankings?page=' + $scope.userCreatedRankings, '')
-          .then(function successCallback(response) {
-            if (response.data.hasOwnProperty('rankings')) {
-              var pLength = response.data.rankings.length;
-              for (var i = 0; i < pLength; i++) {
-                $scope.rankings.push(response.data.rankings[i]);
-              }
-              $scope.hasRankingsData = true;
-            } else {
-              $scope.hasRankingsData = false;
-            }
-            $scope.busy = false;
-          }, function errorCallback(response) {
-            $scope.busy = false;
-          });
         if ($scope.hasRankingsData) {
-          $scope.userCreatedRankings += 1;
+          $scope.busy = true;
+          apiService.get('/users/' + $scope.username + '/created-rankings?page=' + $scope.userCreatedRankings, '')
+            .then(function successCallback(response) {
+              if (response.data.hasOwnProperty('rankings')) {
+                var pLength = response.data.rankings.length;
+                for (var i = 0; i < pLength; i++) {
+                  $scope.rankings.push(response.data.rankings[i]);
+                }
+                $scope.hasRankingsData = true;
+              } else {
+                $scope.hasRankingsData = false;
+              }
+              $scope.busy = false;
+            }, function errorCallback(response) {
+              $scope.busy = false;
+            });
+          if ($scope.hasRankingsData) {
+            $scope.userCreatedRankings += 1;
+          }
         }
       }
-
     };
 
   });

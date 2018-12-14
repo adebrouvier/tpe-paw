@@ -6,6 +6,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
     $scope.hasNotificationsData = false;
     $scope.busy = false;
+    $scope.hasNotifications = true;
     $scope.notificationsPage = 0;
     $scope.notifications = [];
     $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
@@ -33,24 +34,29 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
 
 
     $scope.loadNotifications = function () {
-      $scope.busy = true;
-      apiService.getNotifications($scope.notificationsPage)
-        .then(function successCallback(response) {
-          if (response.data != null || response.data == {}) {
-            var nLength = response.data.length;
-            for (var i = 0; i < nLength; i++) {
-              $scope.notifications.push(response.data[i]);
+      if ($scope.hasNotifications) {
+        $scope.busy = true;
+        apiService.getNotifications($scope.notificationsPage)
+          .then(function successCallback(response) {
+            if (response.data != null && response.data != {} && response.data != "") {
+              console.log(response);
+              var nLength = response.data.length;
+              for (var i = 0; i < nLength; i++) {
+                $scope.notifications.push(response.data[i]);
+              }
+              $scope.hasNotificationsData = true;
+            } else {
+              $scope.hasNotificationsData = false;
+              $scope.hasNotifications = false;
             }
-            $scope.hasNotificationsData = true;
-          } else {
-            $scope.hasNotificationsData = false;
-          }
-        }, function errorCallback(response) {
-          $scope.busy = false;
-        });
-      if ($scope.hasNotificationsData) {
-        $scope.notificationsPage += 1;
+          }, function errorCallback(response) {
+            $scope.busy = false;
+          });
+        if ($scope.hasNotificationsData) {
+          $scope.notificationsPage += 1;
+        }
       }
+
 
     };
 
