@@ -27,6 +27,9 @@ define(['tpePaw', 'services/titleService', 'services/apiService', 'services/auth
         apiService.addTournament($scope.rankingId, $scope.rankingPageForm)
           .then(function successCallback(response) {
             $scope.ranking.tournamentPoints = response.data;
+            $scope.rankingPageForm.tournamentName = "";
+            $scope.rankingPageForm.points = "";
+            $scope.rankingPageForm.$setUntouched();
           }, function errorCallback(response) {
             console.log('Add tournament error');
           });

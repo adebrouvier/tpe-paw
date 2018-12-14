@@ -211,6 +211,7 @@ define([], function () {
     RANKING_PAGE_FORM_TOURNAMENT_REQUIRED: 'Tournament name is required',
     RANKING_PAGE_FORM_TOURNAMENT_LENGTH: 'Tournament name must be between {{minlength}} and {{maxlength}} characters long.',
     RANKING_PAGE_FORM_TOURNAMENT_PATTERN: 'Tournament name can only contain letters or numbers.',
+    RANKING_PAGE_FORM_TOURNAMENT_VALID: 'Please add a valid tournament' ,
     RANKING_TOURNAMENT_MIN_POINTS: 'The minimum amount of points that can be awarded is 10.',
     RANKING_TOURNAMENT_FORM_POINTS_REQUIRED: 'You must award points',
     RANKING_PAGE_FORM_POINTS_LENGTH: 'Score must have between {{minlength}} and {{maxlength}} digits.',
