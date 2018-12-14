@@ -139,13 +139,30 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'direct
             apiService.post('/tournaments/' + $scope.tournamentId + '/matches/' + $scope.match.id, $scope.matchForm)
             .then(function successCallback(response) {
                 console.log('score updated');
-                $scope.tournament.matches = response.data;
+                $scope.updateMatches(response.data);
                 $('#scoreModal').modal('hide');
                 $scope.matchForm = {};
             }, function errorCallback(response) {
                 console.log('score error');
             });
         };
+
+      $scope.updateMatches = function (newMatches) {
+        var length = newMatches.length;
+        for (var i = 0; i < length; i++){
+          if (newMatches[i].homePlayer !== undefined) {
+            $scope.tournament.matches[i].homePlayer = newMatches[i].homePlayer;
+          } else {
+          }
+          if (newMatches[i].awayPlayer !== undefined) {
+            $scope.tournament.matches[i].awayPlayer = newMatches[i].awayPlayer;
+          } else {
+            delete $scope.tournament.matches[i].awayPlayer;
+          }
+          $scope.tournament.matches[i].homePlayerScore = newMatches[i].homePlayerScore;
+          $scope.tournament.matches[i].awayPlayerScore = newMatches[i].awayPlayerScore;
+        }
+      };
 
         $scope.editable = function(match) {
 
