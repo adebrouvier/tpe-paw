@@ -1,7 +1,17 @@
 language: java
 jdk:
  - oraclejdk8
+ 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install ruby-dev
+
+install:
+  - gem install compass
 
 cache:
   directories:
   - $HOME/.m2
+  - node
+  - node_modules
+  - bower_components
