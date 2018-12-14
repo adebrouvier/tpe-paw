@@ -84,6 +84,10 @@ public class TournamentHibernateDao implements TournamentDao {
     @Override
     public List<Tournament> findByName(String name, String game) {
 
+        if (name == null){
+          return null;
+        }
+
         StringBuilder sb = new StringBuilder(name.toLowerCase());
         sb.insert(0, "%");
         sb.append("%");

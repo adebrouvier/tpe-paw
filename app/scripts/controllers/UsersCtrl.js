@@ -19,7 +19,7 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.profileImageUrl = apiUrl + "/users/profile-image/" + $scope.username;
 
     $scope.goConfigPage = function () {
-      window.location = '/#/users/' + $scope.username + '/config';
+      $location.path('/users/' + $scope.username + '/config');
     };
 
     $scope.follow = function () {

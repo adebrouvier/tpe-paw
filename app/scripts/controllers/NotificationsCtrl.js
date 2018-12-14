@@ -1,7 +1,7 @@
 'use strict';
 define(['tpePaw', 'services/titleService', 'services/authService', 'services/apiService'], function(tpePaw) {
 
-  tpePaw.controller('NotificationsCtrl', function($scope, $routeParams, $filter, titleService, AuthService, apiService) {
+  tpePaw.controller('NotificationsCtrl', function($scope, $routeParams, $filter, $location, titleService, AuthService, apiService) {
     titleService.setTitle($filter('translate')('NOTIFICATION_TITTLE') + ' - Versus');
 
     $scope.hasNotificationsData = false;
@@ -11,24 +11,24 @@ define(['tpePaw', 'services/titleService', 'services/authService', 'services/api
     $scope.loggedUser = AuthService.currentUser() ? AuthService.currentUser().username : undefined;
 
     if ($scope.loggedUser === undefined) {
-      window.location = '/#/403/';
+      $location.path('/403');
     }
 
     $scope.goToUserPage = function (username) {
-      window.location = '/#/users/' + username;
+      $location.path('/users/' + username);
     };
     $scope.goToTournamentPlayers = function (tournamentId) {
-      window.location = '/#/tournament/' + tournamentId + '/players';
+      $location.path('/tournament/' + tournamentId + '/players');
     };
 
     $scope.goToTournamentBrackets = function (tournamentId) {
-      window.location = '/#/tournament/' + tournamentId;
+      $location.path('/tournament/' + tournamentId);
     };
     $scope.goToTournamentComment = function (tournamentId,commentId) {
-      window.location = '/#/tournament/' + tournamentId + '/comments#comment-' + commentId;
+      $location.path('/tournament/' + tournamentId + '/comments#comment-' + commentId);
     };
     $scope.goToRanking = function (rankingId) {
-      window.location = '/#/ranking/' + rankingId;
+      $location.path('/ranking/' + rankingId);
     };
 
 

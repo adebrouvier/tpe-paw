@@ -58,10 +58,10 @@ define(['tpePaw', 'directives/gameAutocomplete', 'services/sessionService','serv
 
         return apiService.updateUser($scope.username, formData, metadata)
           .then(function(response) {
-            window.location = '/#/users/' + $scope.username;
+            $location.path('/users/' + $scope.username);
           })
           .catch(function(response) {
-            window.location = '/#/users/' + $scope.username;
+            $location.path('/users/' + $scope.username);
           });
       }
 
