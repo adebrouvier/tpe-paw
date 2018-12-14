@@ -28,14 +28,13 @@
                         <th ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'" scope="col">Actions</th>
                     </tr>
                 </thead>
-                <tbody  ui-sortable="sortableOptions" ng-model="tournament.players">
+                <tbody ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'" ui-sortable="sortableOptions" ng-model="tournament.players">
                     <tr ng-repeat="player in tournament.players track by $index| orderBy:'+seed'">
                         <td style="cursor: move">{{player.seed}}</td>
                         <td style="cursor: move">{{player.name}}</td>
                         <td>{{player.username}}</td>
-                        <td ng-if="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
-                            <form no-validate ng-submit="removePlayer(player.id)"
-                            ng-if="loggedUser == tournament.creator.username">
+                        <td>
+                            <form no-validate ng-submit="removePlayer(player.id)">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
                         </td>
@@ -44,6 +43,16 @@
                         <td colspan="3" ng-if="tournament.players.length === 0">{{'PLAYER_TABLE_EMPTY' | translate}}</td>
                     </tr>
                 </tbody>
+              <tbody ng-if="loggedUser != tournament.creator.username || tournament.status != 'NEW'">
+                <tr ng-repeat="player in tournament.players track by $index| orderBy:'+seed'">
+                  <td>{{player.seed}}</td>
+                  <td>{{player.name}}</td>
+                  <td>{{player.username}}</td>
+                </tr>
+                <tr>
+                  <td colspan="3" ng-if="tournament.players.length === 0">{{'PLAYER_TABLE_EMPTY' | translate}}</td>
+                </tr>
+              </tbody>
             </table>
             <form no-validate ng-submit="generateBracket()" class="row" name="bracketForm" method="POST"
                 ng-if="loggedUser == tournament.creator.username && tournament.players.length >= 2 && tournament.status == 'NEW'">
