@@ -4,7 +4,7 @@
             <div class="text-center">
                 <h2>{{'RANKING_TITLE' | translate}}</h2>
             </div>
-            <form novalidate ng-submit="processForm()" name="rankingForm">
+            <form novalidate ng-submit="processForm()" name="rankingForm" autocomplete="off">
                 <label for="name-input">{{'RANKING_NAME' | translate}}</label>
                 <div class="input-group mb-2">
                   <input type="text" class="form-control" ng-model="rankingForm.name" placeholder="{{'RANKING_CREATE_NAME_PH' | translate}}"

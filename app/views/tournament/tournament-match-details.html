@@ -4,7 +4,7 @@
       <div class="text-center">
         <h2>{{'MATCH_DATA_TITLE'|translate}}</h2>
       </div>
-      <form novalidate ng-submit="processForm()" name="matchDataForm">
+      <form novalidate ng-submit="processForm()" name="matchDataForm" autocomplete="off">
         <label for="home-char-input">{{'MATCH_DATA_HOME_CHAR' | translate}}</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" ng-model="matchDataForm.homePlayerCharacter"

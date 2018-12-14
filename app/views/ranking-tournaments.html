@@ -42,7 +42,7 @@
       </table>
       <div class="text-left" ng-show="loggedUser == ranking.creator.username">
         <h3>{{'RANKING_TOURNAMENT_FORM_ADD_TITLE' | translate}}</h3>
-        <form novalidate ng-submit="addTournament()" name="rankingPageForm">
+        <form novalidate ng-submit="addTournament()" name="rankingPageForm" autocomplete="off">
           <div class="form-row">
             <div class="form-group col-md-3">
               <input type="text" class="form-control" id="tournament-input" placeholder="{{'RANKING_PAGE_FORM_TOURNAMENT_PH' | translate}}"

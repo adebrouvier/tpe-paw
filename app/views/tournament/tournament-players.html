@@ -62,7 +62,7 @@
             </form>
             <div ng-show="loggedUser == tournament.creator.username && tournament.status == 'NEW'">
                 <h3>{{'PLAYER_FORM_ADD_TITLE' | translate}}</h3>
-                <form novalidate ng-submit="addPlayer()" name="playerForm">
+                <form novalidate ng-submit="addPlayer()" name="playerForm" autocomplete="off">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <input type="text" class="form-control" id="player-input" placeholder="Display name"
