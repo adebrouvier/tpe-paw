@@ -205,6 +205,7 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'direct
             apiService.requestJoin($scope.tournamentId)
                 .then(function successCallback(response) {
                     console.log('Request submitted');
+                    $scope.signedUp = true;
                 }, function errorCallback(response) {
                     console.log('Request error');
                 });

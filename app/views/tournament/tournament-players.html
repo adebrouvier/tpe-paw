@@ -47,7 +47,7 @@
                 <tr ng-repeat="player in tournament.players track by $index| orderBy:'+seed'">
                   <td>{{player.seed}}</td>
                   <td>{{player.name}}</td>
-                  <td>{{player.username}}</td>
+                  <td><a ng-href="#/users/{{player.user.username}}" ng-bind="player.user.username"></a></td>
                 </tr>
                 <tr>
                   <td colspan="3" ng-if="tournament.players.length === 0">{{'PLAYER_TABLE_EMPTY' | translate}}</td>

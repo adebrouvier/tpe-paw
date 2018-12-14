@@ -92,8 +92,8 @@ define(['tpePaw', 'services/titleService', 'directives/tournamentImage', 'direct
                     $scope.tournament.players.push({
                       id: player.id,
                       name: player.username,
-                      username: player.username,
-                      seed: tournament.players.length + 1
+                      user: {username: player.username},
+                      seed: $scope.tournament.players.length + 1
                     });
                 }, function errorCallback(response) {
                     console.log('Can not accept join request');
